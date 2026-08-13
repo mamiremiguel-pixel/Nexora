@@ -3,2972 +3,3080 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>NEXORA</title>
+<meta name="theme-color" content="#020711">
+<link rel="manifest" href="manifest.json">
+
+<title>NEXORA 1.8</title>
 
 <style>
-*{box-sizing:border-box;margin:0;padding:0}
+:root{
+    --accent:#00aaff;
+    --background:#020711;
+    --panel:#071426;
+    --border:rgba(0,170,255,.25);
+    --text:#eaf8ff;
+    --muted:#7fa8bd;
+    --core-size:220px;
+    --glow:35px;
+}
+
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
 
 body{
     min-height:100vh;
-    overflow:hidden;
-    font-family:Arial,sans-serif;
-    color:#eaffff;
     background:
-    radial-gradient(circle at center,#073c52 0%,#02131e 35%,#01050a 78%);
+        radial-gradient(circle at center,
+        rgba(0,120,255,.15),
+        transparent 35%),
+        var(--background);
+    color:var(--text);
+    font-family:Segoe UI,Arial,sans-serif;
 }
 
-button,input,select{font:inherit}
+/* =========================
+   LOCKED NEXORA CORE LAYOUT
+   ========================= */
 
-button{cursor:pointer}
-
-.hidden{display:none!important}
-
-/* BACKGROUND */
-#stars{
-    position:fixed;
-    inset:0;
-    pointer-events:none;
-}
-
-.star{
-    position:absolute;
-    width:2px;
-    height:2px;
-    border-radius:50%;
-    background:#9df5ff;
-    box-shadow:0 0 8px #19dfff;
-    animation:starMove linear infinite;
-}
-
-@keyframes starMove{
-    from{transform:translateY(110vh);opacity:0}
-    20%{opacity:1}
-    80%{opacity:1}
-    to{transform:translateY(-10vh);opacity:0}
-}
-
-/* LANDING */
-#landing{
-    position:fixed;
-    inset:0;
-    z-index:1000;
+.topbar{
+    height:68px;
     display:flex;
-    justify-content:center;
     align-items:center;
-    text-align:center;
-    background:
-    radial-gradient(circle,#073f57,#020b12 65%,#010408);
-    transition:opacity .7s,visibility .7s;
+    justify-content:space-between;
+    padding:0 22px;
+    background:rgba(2,8,18,.9);
+    border-bottom:1px solid var(--border);
 }
 
-#landing.hide{
-    opacity:0;
-    visibility:hidden;
-    pointer-events:none;
-}
-
-.landingContent{
-    width:min(850px,94vw);
-}
-
-.landingTitle{
-    font-size:clamp(42px,8vw,90px);
-    letter-spacing:15px;
+.logo{
+    font-size:20px;
     font-weight:bold;
-    text-shadow:
-    0 0 15px #19dfff,
-    0 0 50px #19dfff;
-}
-
-.tagline{
-    margin-top:8px;
-    letter-spacing:6px;
-    font-size:12px;
-    color:#7fb8c4;
-}
-
-.demoCore{
-    width:170px;
-    height:170px;
-    margin:45px auto 30px;
-    border-radius:50%;
-    background:
-    radial-gradient(circle,
-    white 0%,
-    #a8f7ff 8%,
-    #22dfff 25%,
-    #07627c 52%,
-    #00131c 72%);
-    box-shadow:
-    0 0 35px #19dfff,
-    0 0 90px #008eb8,
-    0 0 150px #19dfff44;
-    animation:corePulse 2s infinite;
-}
-
-@keyframes corePulse{
-    50%{transform:scale(1.08)}
-}
-
-.primaryBtn{
-    border:1px solid #19dfff;
-    background:#07516d;
-    color:white;
-    padding:14px 28px;
-    border-radius:12px;
-    box-shadow:0 0 20px #19dfff44;
-    transition:.2s;
-}
-
-.primaryBtn:hover{
-    background:#087594;
-    transform:translateY(-2px);
-}
-
-.secondaryBtn{
-    border:1px solid #19dfff55;
-    background:#031722;
-    color:#bcefff;
-    padding:11px 18px;
-    border-radius:10px;
-}
-
-.landingButtons{
-    display:flex;
-    justify-content:center;
-    gap:10px;
-    flex-wrap:wrap;
-}
-
-.demoNote{
-    margin-top:15px;
-    font-size:10px;
-    color:#719ca7;
-    letter-spacing:2px;
-}
-
-/* SHOWCASE */
-.showcase{
-    margin:35px auto 0;
-    max-width:780px;
-    padding:18px;
-    border:1px solid #19dfff33;
-    border-radius:20px;
-    background:#03121ddd;
-    backdrop-filter:blur(10px);
-}
-
-.showcaseTitle{
-    font-size:11px;
     letter-spacing:4px;
-    margin-bottom:12px;
 }
 
-.commandGrid{
+.online{
+    color:#37f5a0;
+}
+
+.layout{
     display:grid;
-    grid-template-columns:repeat(4,1fr);
-    gap:7px;
+    grid-template-columns:245px 1fr 300px;
+    min-height:calc(100vh - 68px);
 }
 
-.commandChip{
-    padding:9px 6px;
-    border:1px solid #17627a;
-    background:#041d2a;
-    color:#bfefff;
-    border-radius:8px;
-    font-size:9px;
+/* LEFT */
+
+.sidebar{
+    padding:18px;
+    background:rgba(2,9,20,.7);
+    border-right:1px solid var(--border);
 }
 
-.commandChip:hover{
-    background:#07516d;
+.title{
+    color:var(--muted);
+    font-size:11px;
+    letter-spacing:2px;
+    margin:15px 0 10px;
 }
 
-@media(max-width:650px){
-    .commandGrid{grid-template-columns:repeat(2,1fr)}
-    .showcase{margin-top:20px}
-    .demoCore{width:120px;height:120px;margin:25px auto}
-}
-
-/* MAIN */
-#app{
-    display:none;
-    position:fixed;
-    inset:0;
-}
-
-#app.active{display:block}
-
-/* CORE */
-.core{
-    position:absolute;
-    top:50%;
-    left:50%;
-    transform:translate(-50%,-50%);
-    width:330px;
-    height:330px;
+.nav{
+    width:100%;
+    padding:11px;
+    margin-bottom:6px;
+    color:white;
+    background:transparent;
+    border:1px solid transparent;
+    border-radius:10px;
+    text-align:left;
     cursor:pointer;
 }
 
-.ring{
-    position:absolute;
-    inset:0;
-    border-radius:50%;
-    border:2px solid #16dfff;
-    box-shadow:0 0 20px #16dfff55,inset 0 0 20px #16dfff22;
-    animation:spin 9s linear infinite;
+.nav:hover{
+    background:rgba(0,150,255,.12);
+    border-color:var(--border);
 }
 
-.ring.two{
-    inset:25px;
-    border-color:#6defff88;
-    animation-direction:reverse;
-    animation-duration:6s;
+/* CENTER */
+
+.main{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    padding:35px 20px;
 }
 
-.ring.three{
-    inset:55px;
-    border-style:dashed;
-    animation-duration:4s;
-}
-
-.energy{
-    position:absolute;
-    width:230px;
-    height:230px;
-    top:50%;
-    left:50%;
-    transform:translate(-50%,-50%);
-    border-radius:50%;
-    border:1px solid #19dfff77;
-    animation:spin 5s linear infinite reverse;
-}
-
-.center{
-    position:absolute;
-    width:125px;
-    height:125px;
-    top:50%;
-    left:50%;
-    transform:translate(-50%,-50%);
-    border-radius:50%;
-    background:
-    radial-gradient(circle,
-    white 0%,
-    #c9fbff 10%,
-    #4de5ff 30%,
-    #087e9f 60%,
-    #00131c 100%);
-    box-shadow:
-    0 0 30px #19dfff,
-    0 0 80px #008eb8,
-    0 0 130px #19dfff55;
-    animation:pulse 2s infinite;
-}
-
-.core.listening .center{animation:listening .45s infinite}
-.core.thinking .center{animation:thinking .65s infinite}
-.core.speaking .center{animation:speaking .3s infinite}
-
-@keyframes spin{to{transform:rotate(360deg)}}
-@keyframes pulse{50%{transform:translate(-50%,-50%) scale(1.08)}}
-@keyframes listening{50%{transform:translate(-50%,-50%) scale(1.25)}}
-@keyframes thinking{50%{transform:translate(-50%,-50%) scale(1.16)}}
-@keyframes speaking{50%{transform:translate(-50%,-50%) scale(1.15)}}
-
-.logo{
-    position:absolute;
-    top:calc(50% + 190px);
-    left:50%;
-    transform:translateX(-50%);
-    font-size:38px;
-    letter-spacing:12px;
-    font-weight:bold;
-    text-shadow:0 0 15px #19dfff,0 0 40px #19dfff;
-}
-
-.mode{
-    position:absolute;
-    top:calc(50% + 235px);
-    left:50%;
-    transform:translateX(-50%);
-    font-size:10px;
-    letter-spacing:3px;
-    color:#79afbc;
-}
-
-.status{
-    position:fixed;
-    top:20px;
-    left:50%;
-    transform:translateX(-50%);
-    font-size:10px;
-    letter-spacing:3px;
-    color:#9cf5ff;
-    z-index:20;
+.welcome{
     text-align:center;
 }
 
-.demoBadge{
-    position:fixed;
-    top:18px;
-    left:18px;
-    padding:7px 10px;
-    border:1px solid #19dfff55;
-    border-radius:20px;
-    font-size:8px;
-    letter-spacing:2px;
-    color:#8eefff;
-    background:#031722dd;
-    z-index:100;
+.welcome h1{
+    letter-spacing:4px;
 }
 
-/* MENU */
-.menu{
-    position:fixed;
-    right:18px;
-    top:18px;
-    width:48px;
-    height:48px;
-    border-radius:50%;
-    border:1px solid #16dfff;
-    background:#031722ee;
-    color:white;
-    z-index:100;
-}
-
-/* PANEL */
-.panel{
-    position:fixed;
-    top:78px;
-    right:18px;
-    width:360px;
-    max-height:calc(100vh - 95px);
-    overflow:auto;
-    padding:18px;
-    border-radius:20px;
-    border:1px solid #16dfff55;
-    background:#03111cf5;
-    box-shadow:0 0 50px #008eb833;
-    backdrop-filter:blur(15px);
-    z-index:90;
-    transform:translateX(400px);
-    transition:.3s;
-}
-
-.panel.open{transform:translateX(0)}
-
-.panel h2{
-    font-size:13px;
-    letter-spacing:3px;
-    margin-bottom:15px;
-}
-
-.section{
-    border-bottom:1px solid #16dfff22;
-    padding-bottom:15px;
-    margin-bottom:15px;
-}
-
-label{
-    display:block;
-    font-size:9px;
-    letter-spacing:2px;
-    color:#79afbc;
-    margin:8px 0 5px;
-}
-
-select,input{
-    width:100%;
-    padding:10px;
-    border-radius:9px;
-    border:1px solid #17627a;
-    background:#061c2a;
-    color:white;
-}
-
-.action{
-    width:100%;
-    padding:10px;
+.welcome p{
+    color:var(--muted);
     margin-top:7px;
-    border-radius:9px;
-    border:1px solid #087fa5;
-    background:#063b54;
+}
+
+/* CORE */
+
+.core-container{
+    width:470px;
+    max-width:90vw;
+    height:390px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+.core{
+    width:var(--core-size);
+    height:var(--core-size);
+    border-radius:50%;
+    position:relative;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    background:
+        radial-gradient(
+            circle,
+            white 0 2%,
+            var(--accent) 5%,
+            rgba(0,120,255,.4) 35%,
+            transparent 70%
+        );
+
+    box-shadow:
+        0 0 var(--glow) var(--accent),
+        0 0 90px rgba(0,150,255,.4);
+
+    animation:pulse 3s infinite;
+}
+
+.core::before{
+    content:"";
+    position:absolute;
+    width:145%;
+    height:145%;
+    border:1px solid var(--accent);
+    border-radius:50%;
+    animation:spin 8s linear infinite;
+}
+
+.core::after{
+    content:"";
+    position:absolute;
+    width:180%;
+    height:180%;
+    border:1px solid var(--accent);
+    border-radius:50%;
+    opacity:.2;
+    animation:spinReverse 12s linear infinite;
+}
+
+.core-label{
+    font-weight:bold;
+    letter-spacing:3px;
+    z-index:2;
+}
+
+@keyframes pulse{
+    0%,100%{transform:scale(1)}
+    50%{transform:scale(1.06)}
+}
+
+@keyframes spin{
+    to{transform:rotate(360deg)}
+}
+
+@keyframes spinReverse{
+    to{transform:rotate(-360deg)}
+}
+
+.speaking{
+    animation:speak .4s infinite alternate;
+}
+
+.listening{
+    animation:listen .7s infinite alternate;
+}
+
+.thinking{
+    animation:think 1s linear infinite;
+}
+
+@keyframes speak{
+    to{transform:scale(1.13)}
+}
+
+@keyframes listen{
+    to{transform:scale(1.15)}
+}
+
+@keyframes think{
+    to{transform:rotate(360deg)}
+}
+
+/* COMMAND BAR */
+
+.command{
+    width:min(780px,95%);
+    display:flex;
+    gap:8px;
+    padding:8px;
+    background:rgba(5,17,31,.9);
+    border:1px solid var(--border);
+    border-radius:16px;
+}
+
+.command input{
+    flex:1;
+    background:transparent;
+    border:none;
+    outline:none;
     color:white;
-}
-
-.action:hover{
-    background:#075d7b;
-}
-
-.row{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:7px;
-}
-
-/* CHAT */
-.chat{
-    position:fixed;
-    left:18px;
-    bottom:18px;
-    width:360px;
-    max-height:250px;
-    overflow:auto;
     padding:13px;
-    border-radius:17px;
-    border:1px solid #16dfff33;
-    background:#020d17dd;
-    z-index:50;
 }
 
-.chatTitle{
-    color:#8eefff;
-    font-size:9px;
+button{
+    cursor:pointer;
+}
+
+.send{
+    background:#0077ff;
+    color:white;
+    border:none;
+    border-radius:10px;
+    padding:12px 18px;
+    font-weight:bold;
+}
+
+.icon{
+    background:rgba(0,130,255,.12);
+    color:white;
+    border:1px solid var(--border);
+    border-radius:10px;
+    padding:10px 14px;
+}
+
+.quick{
+    width:min(780px,95%);
+    display:flex;
+    flex-wrap:wrap;
+    justify-content:center;
+    gap:8px;
+    margin-top:12px;
+}
+
+.quick button{
+    background:rgba(0,120,255,.08);
+    color:#ccefff;
+    border:1px solid var(--border);
+    border-radius:999px;
+    padding:8px 13px;
+}
+
+.response{
+    width:min(780px,95%);
+    min-height:80px;
+    margin-top:15px;
+    padding:15px;
+    border:1px solid var(--border);
+    border-radius:15px;
+    background:rgba(5,17,31,.7);
+}
+
+.response-title{
+    color:var(--accent);
+    font-size:11px;
     letter-spacing:2px;
     margin-bottom:8px;
 }
 
-.message{
-    font-size:10px;
-    line-height:1.5;
-    margin:6px 0;
+.response-text{
+    white-space:pre-wrap;
+    line-height:1.6;
 }
 
-.message b{color:#9df5ff}
+/* RIGHT */
 
-/* HUD */
-.hud{
-    display:none;
-    position:fixed;
-    inset:18px;
-    z-index:40;
-    pointer-events:none;
-    color:#67e4f5;
-    font:10px monospace;
-}
-
-.hud.active{display:block}
-
-.topLeft{position:absolute;top:0;left:0}
-.topRight{position:absolute;top:0;right:0;text-align:right}
-.bottomLeft{position:absolute;bottom:0;left:0}
-.bottomRight{position:absolute;bottom:0;right:0;text-align:right}
-
-/* DASHBOARD */
-.dashboard{
-    display:none;
-    position:fixed;
-    left:18px;
-    bottom:290px;
-    width:320px;
+.right{
     padding:18px;
-    border-radius:18px;
-    border:1px solid #19dfff55;
-    background:#03101cf7;
-    z-index:70;
+    background:rgba(2,9,20,.7);
+    border-left:1px solid var(--border);
 }
 
-.dashboard.active{display:block}
-
-.dashboard h3{
-    font-size:12px;
-    letter-spacing:2px;
-    margin-bottom:15px;
-}
-
-.metric{margin:12px 0}
-
-.metricTop{
-    display:flex;
-    justify-content:space-between;
-    font-size:9px;
-}
-
-.bar{
-    height:6px;
-    margin-top:5px;
-    background:#092331;
-    border-radius:8px;
-    overflow:hidden;
-}
-
-.fill{
-    height:100%;
-    background:#13c8ee;
-    box-shadow:0 0 9px #13c8ee;
-}
-
-/* CAMERA */
-.camera{
-    display:none;
-    position:fixed;
-    inset:0;
-    z-index:500;
-    background:#000;
-    justify-content:center;
-    align-items:center;
-}
-
-.camera.active{display:flex}
-
-.camera video{
-    width:min(850px,90vw);
-    max-height:80vh;
-    border:1px solid #19dfff;
+.panel{
+    padding:15px;
+    margin-bottom:12px;
+    background:rgba(7,18,35,.85);
+    border:1px solid var(--border);
     border-radius:15px;
 }
 
-.closeCamera{
-    position:absolute;
-    right:20px;
-    top:20px;
-    padding:10px 15px;
-    border-radius:9px;
-    border:1px solid #19dfff;
-    background:#063b54;
-    color:white;
+.panel h3{
+    margin-bottom:10px;
+    font-size:14px;
 }
 
-/* LOGIN */
-#loginScreen{
+.stat{
+    display:flex;
+    justify-content:space-between;
+    padding:7px 0;
+    border-bottom:1px solid rgba(255,255,255,.05);
+    font-size:13px;
+}
+
+.muted{
+    color:var(--muted);
+}
+
+/* MODALS */
+
+.modal{
     display:none;
     position:fixed;
     inset:0;
-    z-index:1200;
-    justify-content:center;
+    z-index:100;
     align-items:center;
-    background:radial-gradient(circle,#06445e,#01060b 75%);
+    justify-content:center;
+    padding:20px;
+    background:rgba(0,0,0,.75);
+    backdrop-filter:blur(12px);
 }
 
-.loginBox{
-    width:min(420px,92vw);
-    padding:30px;
-    border-radius:25px;
-    border:1px solid #19dfff;
-    background:#020c15f7;
-    box-shadow:0 0 70px #007fa8;
+.modal.active{
+    display:flex;
 }
 
-.loginCore{
-    width:80px;
-    height:80px;
-    margin:auto;
-    border-radius:50%;
-    background:radial-gradient(circle,white,#8ff5ff 15%,#19d9ff 40%,#00536c 65%,#00121b);
-    box-shadow:0 0 35px #19dfff,0 0 90px #007fa8;
-    animation:corePulse 2s infinite;
+.modal-box{
+    width:min(850px,95vw);
+    max-height:90vh;
+    overflow:auto;
+    padding:22px;
+    background:#061120;
+    border:1px solid var(--border);
+    border-radius:20px;
 }
 
-.loginTitle{
-    text-align:center;
-    font-size:30px;
-    letter-spacing:8px;
-    margin:18px 0 5px;
-}
-
-.loginSub{
-    text-align:center;
-    color:#79afbc;
-    font-size:9px;
-    letter-spacing:3px;
+.modal-header{
+    display:flex;
+    justify-content:space-between;
     margin-bottom:20px;
 }
 
-.tabs{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:6px;
+.close{
+    background:none;
+    border:none;
+    color:white;
+    font-size:25px;
 }
 
-.tabs button{
-    padding:10px;
+.grid{
+    display:grid;
+    grid-template-columns:repeat(
+        auto-fit,
+        minmax(180px,1fr)
+    );
+    gap:10px;
+}
+
+label{
+    display:block;
+    color:var(--muted);
+    font-size:12px;
+    margin:10px 0 5px;
+}
+
+input,select,textarea{
+    width:100%;
+    padding:11px;
+    background:#071a2b;
+    border:1px solid var(--border);
     border-radius:9px;
-    border:1px solid #17627a;
-    background:#061c2a;
     color:white;
 }
 
-.tabs .selected{background:#07516d}
-
-.loginBox input{margin-top:8px}
-
-.loginMessage{
-    text-align:center;
-    color:#8fefff;
-    font-size:11px;
-    min-height:20px;
+.full{
+    width:100%;
     margin-top:10px;
+    padding:12px;
 }
 
-/* NETWORK */
-.network{
+/* UPDATE */
+
+.update{
     position:fixed;
-    left:18px;
-    bottom:18px;
-    width:9px;
-    height:9px;
+    inset:0;
+    z-index:500;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:
+        radial-gradient(circle,
+        rgba(0,120,255,.18),
+        #020711 60%);
+}
+
+.update-box{
+    width:min(650px,95vw);
+    padding:40px;
+    text-align:center;
+    background:rgba(4,14,28,.95);
+    border:1px solid var(--border);
+    border-radius:25px;
+}
+
+.update-core{
+    width:110px;
+    height:110px;
+    margin:auto;
     border-radius:50%;
-    background:#00ff9d;
-    box-shadow:0 0 15px #00ff9d;
+    background:
+        radial-gradient(
+            circle,
+            white,
+            var(--accent) 10%,
+            transparent 70%
+        );
+    box-shadow:0 0 55px var(--accent);
 }
 
-.network.offline{
-    background:#ffb400;
-    box-shadow:0 0 15px #ffb400;
+.update-box h1{
+    margin-top:20px;
+    letter-spacing:7px;
 }
 
-/* MOBILE */
-@media(max-width:650px){
+.update-box h2{
+    color:var(--accent);
+    margin:12px;
+}
 
-    body{overflow:auto}
+.changes{
+    text-align:left;
+    line-height:1.8;
+    margin:20px auto;
+    max-width:500px;
+}
 
-    .core{
-        width:230px;
-        height:230px;
+.version{
+    position:fixed;
+    right:15px;
+    bottom:10px;
+    font-size:11px;
+    color:var(--muted);
+}
+
+.hidden{
+    display:none!important;
+}
+
+/* STARS */
+
+.stars{
+    font-size:35px;
+    color:#50606b;
+    letter-spacing:4px;
+}
+
+.star{
+    cursor:pointer;
+}
+
+.star.active{
+    color:#ffd34d;
+    text-shadow:0 0 15px #ffd34d;
+}
+
+@media(max-width:1050px){
+    .layout{
+        grid-template-columns:190px 1fr;
     }
 
-    .center{
-        width:90px;
-        height:90px;
+    .right{
+        display:none;
+    }
+}
+
+@media(max-width:700px){
+    .layout{
+        grid-template-columns:1fr;
     }
 
-    .energy{
-        width:160px;
-        height:160px;
+    .sidebar{
+        display:none;
     }
 
-    .logo{
-        top:calc(50% + 140px);
-        font-size:26px;
-        letter-spacing:7px;
+    .core-container{
+        height:300px;
     }
-
-    .mode{
-        top:calc(50% + 180px);
-    }
-
-    .panel{
-        width:calc(100vw - 28px);
-        right:14px;
-    }
-
-    .chat{display:none}
 }
 </style>
 </head>
 
 <body>
 
-<div id="stars"></div>
+<!-- =========================
+     UPDATE SCREEN
+     ========================= -->
 
-<!-- ================= LANDING ================= -->
+<div id="updateScreen" class="update">
 
-<section id="landing">
+<div class="update-box">
 
-    <div class="landingContent">
+<div class="update-core"></div>
 
-        <div class="landingTitle">
-            NEXORA
-        </div>
+<h1>NEXORA</h1>
 
-        <div class="tagline">
-            FUTURE. ACTIVATED.
-        </div>
+<h2>
+SYSTEM UPDATE
+<span id="versionTop">1.8</span>
+</h2>
 
-        <div class="demoCore"></div>
+<p id="updateWelcome">
+Welcome, Miguel.
+</p>
 
-        <div class="landingButtons">
+<div class="changes">
 
-            <button
-                class="primaryBtn"
-                id="tryButton">
-                ⚡ TRY NEXORA
-            </button>
+• 🔒 Locked NEXORA Core layout<br>
+• 🧠 Advanced assistant understanding<br>
+• 🎙 Hey NEXORA voice activation<br>
+• 🎭 Advanced assistant modes<br>
+• 💼 Entrepreneur Mode<br>
+• 🛠 Custom commands<br>
+• 🎨 Core customization<br>
+• 🎯 Challenge system<br>
+• ⭐ Review and rating system<br>
+• 📱 App/PWA support
 
-            <button
-                class="secondaryBtn"
-                id="loginOpen">
-                🔐 LOGIN
-            </button>
+</div>
 
-        </div>
+<button
+class="send"
+onclick="startNexora()"
+>
+START NEXORA
+</button>
 
-        <div class="demoNote">
-            PUBLIC DEMO • NO LOGIN REQUIRED
-        </div>
-
-        <div class="showcase">
-
-            <div class="showcaseTitle">
-                ⚡ COMMAND SHOWCASE
-            </div>
-
-            <div class="commandGrid">
-
-                <button class="commandChip"
-                    data-command="What can you do?">
-                    🎙 What can you do?
-                </button>
-
-                <button class="commandChip"
-                    data-command="Switch to JARVIS">
-                    🤖 Switch to JARVIS
-                </button>
-
-                <button class="commandChip"
-                    data-command="Calculate 25 times 18">
-                    🧮 25 × 18
-                </button>
-
-                <button class="commandChip"
-                    data-command="What time is it?">
-                    🕐 Time
-                </button>
-
-                <button class="commandChip"
-                    data-command="Run diagnostics">
-                    🧪 Diagnostics
-                </button>
-
-                <button class="commandChip"
-                    data-command="Activate HUD">
-                    🛰 HUD
-                </button>
-
-                <button class="commandChip"
-                    data-command="Open YouTube">
-                    ▶ YouTube
-                </button>
-
-                <button class="commandChip"
-                    data-command="Switch to NEXORA">
-                    🔵 NEXORA
-                </button>
-
-            </div>
-
-        </div>
-
-    </div>
-
-</section>
-
-
-<!-- ================= LOGIN ================= -->
-
-<div id="loginScreen">
-
-    <div class="loginBox">
-
-        <div class="loginCore"></div>
-
-        <div class="loginTitle">
-            NEXORA
-        </div>
-
-        <div class="loginSub">
-            CORE ACCESS SYSTEM
-        </div>
-
-        <div class="tabs">
-
-            <button
-                id="loginTab"
-                class="selected">
-                LOGIN
-            </button>
-
-            <button
-                id="signupTab">
-                SIGN UP
-            </button>
-
-        </div>
-
-        <input
-            id="username"
-            placeholder="Username">
-
-        <input
-            id="password"
-            type="password"
-            placeholder="Password">
-
-        <input
-            id="confirmPassword"
-            type="password"
-            placeholder="Confirm password"
-            style="display:none">
-
-        <button
-            class="primaryBtn"
-            style="width:100%;margin-top:10px"
-            id="authButton">
-            ENTER NEXORA
-        </button>
-
-        <div
-            id="loginMessage"
-            class="loginMessage">
-        </div>
-
-        <button
-            class="secondaryBtn"
-            style="width:100%;margin-top:10px"
-            id="backDemo">
-            ← BACK TO DEMO
-        </button>
-
-    </div>
+</div>
 
 </div>
 
 
-<!-- ================= APP ================= -->
+<!-- =========================
+     HEADER
+     ========================= -->
 
-<main id="app">
+<header class="topbar">
 
-    <div class="demoBadge">
-        ● PUBLIC DEMO
-    </div>
+<div class="logo">
+🔵 NEXORA
+</div>
 
-    <div
-        class="status"
-        id="status">
-        CORE READY
-    </div>
+<div class="online">
+● ONLINE
+</div>
 
-    <div
-        class="core"
-        id="core">
+<button
+class="icon"
+onclick="openModal('settings')"
+>
+⚙
+</button>
 
-        <div class="ring"></div>
-        <div class="ring two"></div>
-        <div class="ring three"></div>
+</header>
 
-        <div class="energy"></div>
 
-        <div class="center"></div>
+<!-- =========================
+     LOCKED CORE LAYOUT
+     ========================= -->
 
-    </div>
+<div class="layout">
 
-    <div class="logo">
-        NEXORA
-    </div>
+<!-- LEFT -->
 
-    <div
-        class="mode"
-        id="modeText">
-        NEXORA MODE
-    </div>
+<aside class="sidebar">
 
-    <button
-        class="menu"
-        id="menu">
-        ⚙
-    </button>
+<div class="title">
+ASSISTANT
+</div>
 
+<button
+class="nav"
+onclick="openModal('commands')"
+>
+⚡ Command Center
+</button>
 
-    <!-- HUD -->
+<button
+class="nav"
+onclick="openModal('skills')"
+>
+🧩 Skills
+</button>
 
-    <div
-        id="hud"
-        class="hud">
+<button
+class="nav"
+onclick="openModal('custom')"
+>
+🎨 Custom Lab
+</button>
 
-        <div class="topLeft">
-            NEXORA CORE<br>
-            SYSTEM: <span id="hudSystem">READY</span><br>
-            USER: <span id="hudUser">DEMO</span>
-        </div>
+<button
+class="nav"
+onclick="openModal('challenge')"
+>
+🎯 Challenges
+</button>
 
-        <div class="topRight">
-            MODE: <span id="hudMode">NEXORA</span><br>
-            MIC: <span id="hudMic">READY</span>
-        </div>
+<button
+class="nav"
+onclick="openModal('review')"
+>
+⭐ Review NEXORA
+</button>
 
-        <div class="bottomLeft">
-            SPEECH: <span id="hudSpeech">READY</span><br>
-            NETWORK: <span id="hudNetwork">ONLINE</span>
-        </div>
+<button
+class="nav"
+onclick="openModal('profile')"
+>
+👤 Profile
+</button>
 
-        <div class="bottomRight">
-            <span id="hudTime"></span><br>
-            <span id="hudDate"></span>
-        </div>
 
-    </div>
+<div class="title">
+MODES
+</div>
 
+<div id="modes"></div>
 
-    <!-- CHAT -->
 
-    <div class="chat">
+<div class="title">
+SYSTEM
+</div>
 
-        <div class="chatTitle">
-            CONVERSATION
-        </div>
+<button
+class="nav"
+onclick="demoMode()"
+>
+🚀 Demo Mode
+</button>
 
-        <div id="messages"></div>
+</aside>
 
-    </div>
 
+<!-- CENTER -->
 
-    <!-- DASHBOARD -->
+<main class="main">
 
-    <div
-        class="dashboard"
-        id="dashboard">
+<div class="welcome">
 
-        <h3>
-            ACTIVITY DASHBOARD
-        </h3>
+<h1 id="welcome">
+WELCOME, MIGUEL
+</h1>
 
-        <div class="metric">
+<p id="modeText">
+NEXORA is ready.
+</p>
 
-            <div class="metricTop">
-                <span>Movement</span>
-                <span>60%</span>
-            </div>
+</div>
 
-            <div class="bar">
-                <div class="fill" style="width:60%"></div>
-            </div>
 
-        </div>
+<div class="core-container">
 
-        <div class="metric">
+<div
+id="core"
+class="core"
+>
 
-            <div class="metricTop">
-                <span>Hydration reminders</span>
-                <span>65%</span>
-            </div>
+<div
+id="coreLabel"
+class="core-label"
+>
+NEXORA
+</div>
 
-            <div class="bar">
-                <div class="fill" style="width:65%"></div>
-            </div>
+</div>
 
-        </div>
+</div>
 
-        <div class="metric">
 
-            <div class="metricTop">
-                <span>Sleep routine</span>
-                <span>70%</span>
-            </div>
+<!-- COMMAND BAR -->
 
-            <div class="bar">
-                <div class="fill" style="width:70%"></div>
-            </div>
+<div class="command">
 
-        </div>
+<button
+class="icon"
+onclick="toggleListening()"
+>
+🎙️
+</button>
 
-        <div class="metric">
+<input
+id="input"
+placeholder='Say "Hey NEXORA" or type a command...'
+onkeydown="
+if(event.key==='Enter')
+send()
+"
+>
 
-            <div class="metricTop">
-                <span>Activity consistency</span>
-                <span>75%</span>
-            </div>
+<button
+class="send"
+onclick="send()"
+>
+SEND
+</button>
 
-            <div class="bar">
-                <div class="fill" style="width:75%"></div>
-            </div>
+</div>
 
-        </div>
 
-    </div>
+<div class="quick">
 
+<button onclick="quick('What can you do?')">
+What can you do?
+</button>
 
-    <!-- SETTINGS -->
+<button onclick="quick('Give me a challenge')">
+Challenge
+</button>
 
-    <div
-        class="panel"
-        id="panel">
+<button onclick="quick('Activate Entrepreneur Mode')">
+Entrepreneur
+</button>
 
-        <h2>
-            NEXORA CONTROL
-        </h2>
+<button onclick="quick('Show my commands')">
+Commands
+</button>
 
+<button onclick="quick('Tell me about yourself')">
+About NEXORA
+</button>
 
-        <div class="section">
+</div>
 
-            <label>
-                ASSISTANT MODE
-            </label>
 
-            <select id="assistantMode">
+<div class="response">
 
-                <option value="nexora">
-                    🔵 NEXORA
-                </option>
+<div class="response-title">
+NEXORA RESPONSE
+</div>
 
-                <option value="jarvis">
-                    ⚪ JARVIS-INSPIRED
-                </option>
+<div
+id="response"
+class="response-text"
+>
+Welcome back, Miguel.
+NEXORA is online and ready.
+</div>
 
-                <option value="study">
-                    🎓 STUDY
-                </option>
-
-                <option value="gaming">
-                    🎮 GAMING
-                </option>
-
-                <option value="garage">
-                    🚗 GARAGE
-                </option>
-
-                <option value="science">
-                    🔬 SCIENCE
-                </option>
-
-            </select>
-
-        </div>
-
-
-        <div class="section">
-
-            <label>
-                VOICE
-            </label>
-
-            <select id="voiceSelect"></select>
-
-            <label>
-                SPEED
-            </label>
-
-            <input
-                id="speechSpeed"
-                type="range"
-                min=".6"
-                max="1.5"
-                step=".05"
-                value="1">
-
-            <label>
-                PITCH
-            </label>
-
-            <input
-                id="speechPitch"
-                type="range"
-                min=".5"
-                max="1.5"
-                step=".05"
-                value="1">
-
-            <div class="row">
-
-                <button
-                    class="action"
-                    id="testVoice">
-                    🔊 TEST
-                </button>
-
-                <button
-                    class="action"
-                    id="stopButton">
-                    ⏹ STOP
-                </button>
-
-            </div>
-
-        </div>
-
-
-        <div class="section">
-
-            <div class="row">
-
-                <button
-                    class="action"
-                    id="hudButton">
-                    🛰 HUD
-                </button>
-
-                <button
-                    class="action"
-                    id="fullscreenButton">
-                    ⛶ FULLSCREEN
-                </button>
-
-            </div>
-
-            <button
-                class="action"
-                id="diagnosticsButton">
-                🧪 RUN DIAGNOSTICS
-            </button>
-
-        </div>
-
-
-        <div class="section">
-
-            <button
-                class="action"
-                id="searchButton">
-                🌐 SEARCH WEB
-            </button>
-
-            <button
-                class="action"
-                id="youtubeButton">
-                ▶ OPEN YOUTUBE
-            </button>
-
-            <button
-                class="action"
-                id="googleButton">
-                🔎 OPEN GOOGLE
-            </button>
-
-        </div>
-
-
-        <div class="section">
-
-            <div class="row">
-
-                <button
-                    class="action"
-                    id="dashboardButton">
-                    📊 DASHBOARD
-                </button>
-
-                <button
-                    class="action"
-                    id="cameraButton">
-                    📷 CAMERA
-                </button>
-
-            </div>
-
-        </div>
-
-
-        <div class="section">
-
-            <button
-                class="action"
-                id="memoryButton">
-                🧠 MEMORY
-            </button>
-
-            <button
-                class="action"
-                id="clearMemoryButton">
-                🗑 CLEAR MEMORY
-            </button>
-
-        </div>
-
-
-        <div class="section">
-
-            <button
-                class="action"
-                id="shareButton">
-                📤 SHARE NEXORA
-            </button>
-
-            <button
-                class="action"
-                id="loginFromApp">
-                🔐 LOGIN / SIGN UP
-            </button>
-
-        </div>
-
-
-        <button
-            class="action"
-            id="logoutButton">
-            🔒 LOG OUT
-        </button>
-
-    </div>
-
-
-    <!-- CAMERA -->
-
-    <div
-        class="camera"
-        id="camera">
-
-        <video
-            id="cameraVideo"
-            autoplay
-            playsinline>
-        </video>
-
-        <button
-            class="closeCamera"
-            id="closeCamera">
-            CLOSE
-        </button>
-
-    </div>
-
-
-    <div
-        class="network"
-        id="network">
-    </div>
+</div>
 
 </main>
 
 
+<!-- RIGHT -->
+
+<aside class="right">
+
+<div class="panel">
+
+<h3>
+⚡ SYSTEM
+</h3>
+
+<div class="stat">
+<span class="muted">
+Status
+</span>
+
+<span style="color:#37f5a0">
+ONLINE
+</span>
+</div>
+
+<div class="stat">
+<span class="muted">
+Mode
+</span>
+
+<span id="sideMode">
+General
+</span>
+</div>
+
+<div class="stat">
+<span class="muted">
+Voice
+</span>
+
+<span id="voiceStatus">
+READY
+</span>
+</div>
+
+</div>
+
+
+<div class="panel">
+
+<h3>
+🧠 CONTEXT
+</h3>
+
+<div class="stat">
+<span class="muted">
+Topic
+</span>
+
+<span id="topic">
+None
+</span>
+</div>
+
+<div class="stat">
+<span class="muted">
+Subtopic
+</span>
+
+<span id="subtopic">
+None
+</span>
+</div>
+
+<div class="stat">
+<span class="muted">
+Intent
+</span>
+
+<span id="intent">
+Conversation
+</span>
+</div>
+
+</div>
+
+
+<div class="panel">
+
+<h3>
+📜 ACTIVITY
+</h3>
+
+<div id="activity"></div>
+
+</div>
+
+</aside>
+
+</div>
+
+
+<div class="version">
+NEXORA • UPDATE 1.8
+</div>
+
+
+<!-- =========================
+     COMMAND CENTER
+     ========================= -->
+
+<div class="modal" id="commands">
+
+<div class="modal-box">
+
+<div class="modal-header">
+
+<h2>
+⚡ COMMAND CENTER
+</h2>
+
+<button
+class="close"
+onclick="closeModal('commands')"
+>
+×
+</button>
+
+</div>
+
+<p>
+NEXORA can understand natural-language commands.
+</p>
+
+<br>
+
+<textarea
+id="commandSimulator"
+rows="4"
+placeholder="Try: Activate Entrepreneur Mode and explain how to market a new product."
+></textarea>
+
+<button
+class="send full"
+onclick="analyzeCommand()"
+>
+ANALYZE COMMAND
+</button>
+
+<div
+id="analysisResult"
+class="panel"
+style="margin-top:15px"
+>
+Waiting for command...
+</div>
+
+<button
+class="send full"
+onclick="createCommand()"
+>
+🛠 CREATE CUSTOM COMMAND
+</button>
+
+</div>
+
+</div>
+
+
+<!-- =========================
+     SKILLS
+     ========================= -->
+
+<div class="modal" id="skills">
+
+<div class="modal-box">
+
+<div class="modal-header">
+
+<h2>
+🧩 SKILL CENTER
+</h2>
+
+<button
+class="close"
+onclick="closeModal('skills')"
+>
+×
+</button>
+
+</div>
+
+<div class="grid">
+
+<div class="panel">🧮 Maths</div>
+<div class="panel">🔬 Science</div>
+<div class="panel">📚 Study</div>
+<div class="panel">💻 Coding</div>
+<div class="panel">🌍 Geography</div>
+<div class="panel">📖 History</div>
+<div class="panel">🇫🇷 French</div>
+<div class="panel">🎙 Voice</div>
+<div class="panel">🔎 Research</div>
+<div class="panel">🎮 Gaming</div>
+<div class="panel">🚗 Automotive</div>
+<div class="panel">🎨 Creative</div>
+<div class="panel">💼 Business</div>
+<div class="panel">🎯 Challenges</div>
+
+</div>
+
+</div>
+
+</div>
+
+
+<!-- =========================
+     CUSTOM LAB
+     ========================= -->
+
+<div class="modal" id="custom">
+
+<div class="modal-box">
+
+<div class="modal-header">
+
+<h2>
+🎨 CUSTOM LAB
+</h2>
+
+<button
+class="close"
+onclick="closeModal('custom')"
+>
+×
+</button>
+
+</div>
+
+
+<h3>
+Core
+</h3>
+
+<label>
+Core Shape
+</label>
+
+<select
+id="shape"
+onchange="changeShape(this.value)"
+>
+
+<option value="circle">
+Orb
+</option>
+
+<option value="diamond">
+Diamond
+</option>
+
+<option value="hex">
+Hexagon
+</option>
+
+<option value="ring">
+Ring
+</option>
+
+</select>
+
+
+<label>
+Core Size
+</label>
+
+<input
+type="range"
+min="140"
+max="300"
+value="220"
+oninput="changeSize(this.value)"
+>
+
+
+<label>
+LED Glow
+</label>
+
+<input
+type="range"
+min="5"
+max="80"
+value="35"
+oninput="changeGlow(this.value)"
+>
+
+
+<label>
+LED Colour
+</label>
+
+<input
+type="color"
+value="#00aaff"
+onchange="changeColor(this.value)"
+>
+
+
+<h3 style="margin-top:20px">
+Voice
+</h3>
+
+<select id="voices"></select>
+
+<label>
+Voice Speed
+</label>
+
+<input
+id="rate"
+type="range"
+min=".5"
+max="2"
+step=".1"
+value="1"
+>
+
+
+<label>
+Voice Pitch
+</label>
+
+<input
+id="pitch"
+type="range"
+min=".5"
+max="2"
+step=".1"
+value="1"
+>
+
+
+<button
+class="send full"
+onclick="testVoice()"
+>
+▶ TEST VOICE
+</button>
+
+</div>
+
+</div>
+
+
+<!-- =========================
+     CHALLENGES
+     ========================= -->
+
+<div class="modal" id="challenge">
+
+<div class="modal-box">
+
+<div class="modal-header">
+
+<h2>
+🎯 CHALLENGE CENTER
+</h2>
+
+<button
+class="close"
+onclick="closeModal('challenge')"
+>
+×
+</button>
+
+</div>
+
+<button
+class="send full"
+onclick="challenge('math')"
+>
+🧮 Maths
+</button>
+
+<button
+class="send full"
+onclick="challenge('science')"
+>
+🔬 Science
+</button>
+
+<button
+class="send full"
+onclick="challenge('logic')"
+>
+🧠 Logic
+</button>
+
+<div
+id="challengeArea"
+class="panel"
+style="margin-top:15px"
+>
+Choose a challenge.
+</div>
+
+</div>
+
+</div>
+
+
+<!-- =========================
+     REVIEW
+     ========================= -->
+
+<div class="modal" id="review">
+
+<div class="modal-box">
+
+<div class="modal-header">
+
+<h2>
+⭐ REVIEW NEXORA
+</h2>
+
+<button
+class="close"
+onclick="closeModal('review')"
+>
+×
+</button>
+
+</div>
+
+<p>
+Tell us what you think about NEXORA.
+</p>
+
+<br>
+
+<div
+id="stars"
+class="stars"
+>
+<span class="star">★</span>
+<span class="star">★</span>
+<span class="star">★</span>
+<span class="star">★</span>
+<span class="star">★</span>
+</div>
+
+<textarea
+id="reviewText"
+rows="6"
+placeholder="Write your review..."
+></textarea>
+
+<select id="reviewCategory">
+
+<option>AI</option>
+<option>Voice</option>
+<option>Commands</option>
+<option>Customization</option>
+<option>Core Design</option>
+<option>Challenges</option>
+<option>Entrepreneur Mode</option>
+
+</select>
+
+<button
+class="send full"
+onclick="submitReview()"
+>
+⭐ SUBMIT REVIEW
+</button>
+
+<div id="reviewResult"></div>
+
+</div>
+
+</div>
+
+
+<!-- =========================
+     PROFILE
+     ========================= -->
+
+<div class="modal" id="profile">
+
+<div class="modal-box">
+
+<div class="modal-header">
+
+<h2>
+👤 PROFILE
+</h2>
+
+<button
+class="close"
+onclick="closeModal('profile')"
+>
+×
+</button>
+
+</div>
+
+<label>
+Name
+</label>
+
+<input
+id="name"
+value="Miguel"
+>
+
+<button
+class="send full"
+onclick="saveProfile()"
+>
+SAVE PROFILE
+</button>
+
+</div>
+
+</div>
+
+
+<!-- =========================
+     SETTINGS
+     ========================= -->
+
+<div class="modal" id="settings">
+
+<div class="modal-box">
+
+<div class="modal-header">
+
+<h2>
+⚙️ SETTINGS
+</h2>
+
+<button
+class="close"
+onclick="closeModal('settings')"
+>
+×
+</button>
+
+</div>
+
+<button
+class="send full"
+onclick="toggleListening()"
+>
+🎙 MICROPHONE
+</button>
+
+<button
+class="send full"
+onclick="openModal('review')"
+>
+⭐ REVIEW NEXORA
+</button>
+
+<button
+class="send full"
+onclick="createCommand()"
+>
+🛠 CUSTOM COMMAND
+</button>
+
+<button
+class="send full"
+onclick="clearContext()"
+>
+🧠 CLEAR CONTEXT
+</button>
+
+</div>
+
+</div>
+
+
 <script>
 
-/* ==========================================================
-   NEXORA CORE ENGINE
-   ========================================================== */
+/* ==================================================
+   NEXORA 1.8 CORE-LOCK ENGINE
+   ================================================== */
 
-const $ = id => document.getElementById(id);
+const VERSION = "1.8";
 
-let accounts =
-    JSON.parse(
-        localStorage.getItem("NEXORA_ACCOUNTS") || "{}"
-    );
+const CORE_LOCKED = true;
 
-let currentUser =
-    localStorage.getItem("NEXORA_USER") || null;
+const MODES = [
 
-let memory = [];
+"General",
+"Student",
+"Maths",
+"Science",
+"Geography",
+"History",
+"French",
+"Developer",
+"Entrepreneur",
+"Business",
+"Research",
+"Creative",
+"Gaming",
+"Automotive",
+"Tutor",
+"Presentation",
+"System",
+"Challenge",
+"Custom"
 
-let active = false;
-
-let listening = false;
-
-let currentMode = "nexora";
-
-let recognition = null;
-
-let voices = [];
-
-let cameraStream = null;
-
-let lastResponse = "";
-
-let signupMode = false;
+];
 
 
-/* ================= STARS ================= */
+let state = {
 
-for(let i=0;i<90;i++){
+name:
+localStorage.getItem("nexoraName")
+|| "Miguel",
 
-    const s=document.createElement("div");
+mode:
+localStorage.getItem("nexoraMode")
+|| "General",
 
-    s.className="star";
+topic:"",
 
-    s.style.left=Math.random()*100+"%";
+subtopic:"",
 
-    s.style.animationDuration=
-        7+Math.random()*13+"s";
+intent:"Conversation",
 
-    s.style.animationDelay=
-        -Math.random()*15+"s";
+listening:false,
 
-    $("stars").appendChild(s);
+customCommands:
+JSON.parse(
+localStorage.getItem("nexoraCommands")
+|| "{}"
+)
+
+};
+
+
+/* =========================
+   BASIC HELPERS
+   ========================= */
+
+function $(id){
+
+return document.getElementById(id);
 
 }
 
 
-/* ================= PUBLIC DEMO ================= */
+function openModal(id){
 
-function startDemo(){
-
-    $("landing").classList.add("hide");
-
-    $("app").classList.add("active");
-
-    active=false;
-
-    setStatus(
-        "PUBLIC DEMO — PRESS CORE"
-    );
+$(id).classList.add("active");
 
 }
 
 
-$("tryButton").onclick=startDemo;
+function closeModal(id){
 
-
-/* ================= LOGIN ================= */
-
-$("loginOpen").onclick=function(){
-
-    $("landing").classList.add("hide");
-
-    $("loginScreen").style.display="flex";
-
-};
-
-$("loginFromApp").onclick=function(){
-
-    $("loginScreen").style.display="flex";
-
-};
-
-$("backDemo").onclick=function(){
-
-    $("loginScreen").style.display="none";
-
-    $("landing").classList.remove("hide");
-
-};
-
-
-/* ================= LOGIN TABS ================= */
-
-$("loginTab").onclick=function(){
-
-    signupMode=false;
-
-    $("loginTab").classList.add("selected");
-
-    $("signupTab").classList.remove("selected");
-
-    $("confirmPassword").style.display="none";
-
-    $("authButton").textContent=
-        "ENTER NEXORA";
-
-};
-
-
-$("signupTab").onclick=function(){
-
-    signupMode=true;
-
-    $("signupTab").classList.add("selected");
-
-    $("loginTab").classList.remove("selected");
-
-    $("confirmPassword").style.display="block";
-
-    $("authButton").textContent=
-        "CREATE ACCOUNT";
-
-};
-
-
-/* ================= AUTH ================= */
-
-$("authButton").onclick=function(){
-
-    const username=$("username").value.trim();
-
-    const password=$("password").value;
-
-    const confirm=$("confirmPassword").value;
-
-
-    if(!username||!password){
-
-        $("loginMessage").textContent=
-            "Enter your username and password.";
-
-        return;
-
-    }
-
-
-    if(signupMode){
-
-        if(password.length<4){
-
-            $("loginMessage").textContent=
-                "Password must contain at least 4 characters.";
-
-            return;
-
-        }
-
-
-        if(password!==confirm){
-
-            $("loginMessage").textContent=
-                "Passwords do not match.";
-
-            return;
-
-        }
-
-
-        if(accounts[username]){
-
-            $("loginMessage").textContent=
-                "Username already exists.";
-
-            return;
-
-        }
-
-
-        accounts[username]={
-            password,
-            mode:"nexora",
-            memory:[],
-            speed:1,
-            pitch:1
-        };
-
-
-        localStorage.setItem(
-            "NEXORA_ACCOUNTS",
-            JSON.stringify(accounts)
-        );
-
-
-        $("loginMessage").textContent=
-            "Account created. Login now.";
-
-        $("loginTab").click();
-
-        return;
-
-    }
-
-
-    if(
-        !accounts[username] ||
-        accounts[username].password!==password
-    ){
-
-        $("loginMessage").textContent=
-            "Incorrect username or password.";
-
-        return;
-
-    }
-
-
-    login(username);
-
-};
-
-
-function login(username){
-
-    currentUser=username;
-
-    localStorage.setItem(
-        "NEXORA_USER",
-        username
-    );
-
-    const account=accounts[username];
-
-    memory=account.memory||[];
-
-    currentMode=account.mode||"nexora";
-
-    $("speechSpeed").value=
-        account.speed||1;
-
-    $("speechPitch").value=
-        account.pitch||1;
-
-    $("assistantMode").value=
-        currentMode;
-
-    $("hudUser").textContent=username;
-
-    $("loginScreen").style.display="none";
-
-    $("landing").classList.add("hide");
-
-    $("app").classList.add("active");
-
-    changeMode(currentMode,false);
-
-    setStatus(
-        "SIGNED IN — PRESS CORE"
-    );
+$(id).classList.remove("active");
 
 }
 
 
-/* ================= SAVE ================= */
+function log(message){
 
-function saveAccount(){
+let item=document.createElement("div");
 
-    if(!currentUser)return;
+item.style.fontSize="12px";
 
-    accounts[currentUser].mode=currentMode;
+item.style.padding="6px 0";
 
-    accounts[currentUser].memory=memory;
+item.style.borderBottom=
+"1px solid rgba(255,255,255,.05)";
 
-    accounts[currentUser].speed=
-        $("speechSpeed").value;
+item.textContent=message;
 
-    accounts[currentUser].pitch=
-        $("speechPitch").value;
-
-    localStorage.setItem(
-        "NEXORA_ACCOUNTS",
-        JSON.stringify(accounts)
-    );
+$("activity").prepend(item);
 
 }
 
 
-/* ================= VOICES ================= */
+/* =========================
+   CORE STATE
+   ========================= */
+
+function coreState(mode){
+
+let core=$("core");
+
+core.classList.remove(
+"speaking",
+"listening",
+"thinking"
+);
+
+if(mode==="speaking")
+core.classList.add("speaking");
+
+if(mode==="listening")
+core.classList.add("listening");
+
+if(mode==="thinking")
+core.classList.add("thinking");
+
+$("coreLabel").textContent=
+mode==="speaking"
+?"SPEAKING":
+mode==="listening"
+?"LISTENING":
+mode==="thinking"
+?"THINKING":
+"NEXORA";
+
+}
+
+
+/* =========================
+   SPEECH
+   ========================= */
+
+let voices=[];
 
 function loadVoices(){
 
-    voices=speechSynthesis.getVoices();
+voices=speechSynthesis.getVoices();
 
-    $("voiceSelect").innerHTML="";
+$("voices").innerHTML="";
 
-    voices.forEach((voice,i)=>{
+voices.forEach((voice,index)=>{
 
-        const option=
-            document.createElement("option");
+let option=document.createElement("option");
 
-        option.value=i;
+option.value=index;
 
-        option.textContent=
-            voice.name+" — "+voice.lang;
+option.textContent=
+voice.name+
+" — "+
+voice.lang;
 
-        $("voiceSelect").appendChild(option);
+$("voices").appendChild(option);
 
-    });
+});
 
 }
 
-speechSynthesis.onvoiceschanged=loadVoices;
+if("speechSynthesis" in window){
+
+speechSynthesis.onvoiceschanged=
+loadVoices;
 
 loadVoices();
 
-
-/* ================= STATUS ================= */
-
-function setStatus(text){
-
-    $("status").textContent=text;
-
 }
 
-
-/* ================= CHAT ================= */
-
-function addMessage(sender,text){
-
-    const div=document.createElement("div");
-
-    div.className="message";
-
-    const b=document.createElement("b");
-
-    b.textContent=
-        sender==="user"?"YOU: ":"NEXORA: ";
-
-    div.appendChild(b);
-
-    div.appendChild(
-        document.createTextNode(text)
-    );
-
-    $("messages").appendChild(div);
-
-    $("messages").scrollTop=
-        $("messages").scrollHeight;
-
-}
-
-
-/* ================= SPEAK ================= */
 
 function speak(text){
 
-    speechSynthesis.cancel();
+if(!("speechSynthesis" in window))
+return;
 
-    lastResponse=text;
+speechSynthesis.cancel();
 
-    addMessage("ai",text);
+let utterance=
+new SpeechSynthesisUtterance(text);
 
-    $("core").classList.remove(
-        "listening",
-        "thinking"
-    );
+let voiceIndex=
+$("voices").value;
 
-    $("core").classList.add("speaking");
+if(voices[voiceIndex])
+utterance.voice=
+voices[voiceIndex];
 
-    $("hudSpeech").textContent="SPEAKING";
+utterance.rate=
+parseFloat($("rate").value);
 
-    setStatus("SPEAKING");
+utterance.pitch=
+parseFloat($("pitch").value);
 
+coreState("speaking");
 
-    const utterance=
-        new SpeechSynthesisUtterance(text);
+$("voiceStatus").textContent=
+"SPEAKING";
 
+utterance.onend=()=>{
 
-    const selected=
-        voices[
-            Number($("voiceSelect").value)
-        ];
+coreState("ready");
 
+$("voiceStatus").textContent=
+"READY";
 
-    if(selected){
+};
 
-        utterance.voice=selected;
-
-        utterance.lang=selected.lang;
-
-    }
-
-
-    utterance.rate=
-        Number($("speechSpeed").value);
-
-    utterance.pitch=
-        Number($("speechPitch").value);
-
-
-    utterance.onend=function(){
-
-        $("core").classList.remove("speaking");
-
-        $("hudSpeech").textContent="READY";
-
-        setStatus(
-            "SYSTEM READY — PRESS CORE"
-        );
-
-    };
-
-
-    speechSynthesis.speak(utterance);
+speechSynthesis.speak(
+utterance
+);
 
 }
 
 
-/* ================= RECOGNITION ================= */
+/* =========================
+   SPEECH RECOGNITION
+   ========================= */
 
-const SpeechRecognition=
-    window.SpeechRecognition ||
-    window.webkitSpeechRecognition;
+const Recognition=
+window.SpeechRecognition ||
+window.webkitSpeechRecognition;
 
+let recognition=null;
 
-if(SpeechRecognition){
+if(Recognition){
 
-    recognition=
-        new SpeechRecognition();
+recognition=
+new Recognition();
 
-    recognition.lang="en-US";
+recognition.continuous=true;
 
-    recognition.continuous=false;
+recognition.interimResults=false;
 
-    recognition.interimResults=false;
+recognition.lang="en-US";
 
 
-    recognition.onstart=function(){
+recognition.onstart=()=>{
 
-        listening=true;
+state.listening=true;
 
-        $("core").classList.add("listening");
-
-        $("hudMic").textContent="LISTENING";
-
-        setStatus("LISTENING — SPEAK NOW");
-
-    };
-
-
-    recognition.onresult=function(event){
-
-        const text=
-            event.results[0][0]
-            .transcript
-            .trim();
-
-        addMessage("user",text);
-
-        $("core").classList.remove("listening");
-
-        $("core").classList.add("thinking");
-
-        $("hudMic").textContent="PROCESSING";
-
-        processCommand(text);
-
-    };
-
-
-    recognition.onerror=function(event){
-
-        listening=false;
-
-        $("core").classList.remove(
-            "listening",
-            "thinking"
-        );
-
-        $("hudMic").textContent="READY";
-
-
-        if(event.error==="not-allowed"){
-
-            setStatus(
-                "MICROPHONE BLOCKED — ALLOW MICROPHONE"
-            );
-
-        }
-
-        else if(event.error==="no-speech"){
-
-            setStatus(
-                "NO SPEECH DETECTED"
-            );
-
-        }
-
-        else{
-
-            setStatus("VOICE ERROR");
-
-        }
-
-    };
-
-
-    recognition.onend=function(){
-
-        listening=false;
-
-        $("core").classList.remove("listening");
-
-    };
-
-}
-
-
-/* ================= CORE ================= */
-
-function activateCore(){
-
-    active=true;
-
-    $("hudSystem").textContent="BOOTING";
-
-    setStatus("CORE ACTIVATING...");
-
-    $("core").classList.add("thinking");
-
-
-    setTimeout(()=>{
-
-        $("core").classList.remove("thinking");
-
-        $("hudSystem").textContent="ONLINE";
-
-        setStatus("NEXORA ONLINE");
-
-        if(currentMode==="jarvis"){
-
-            speak(
-                "NEXORA online. JARVIS-inspired mode ready."
-            );
-
-        }else{
-
-            speak("NEXORA online.");
-
-        }
-
-
-        setTimeout(
-            startListening,
-            1300
-        );
-
-    },900);
-
-}
-
-
-$("core").onclick=function(){
-
-    if(!active){
-
-        activateCore();
-
-    }else{
-
-        startListening();
-
-    }
+coreState("listening");
 
 };
 
 
-/* ================= LISTEN ================= */
+recognition.onresult=(event)=>{
 
-function startListening(){
+let result=
+event.results[
+event.results.length-1
+][0].transcript;
 
-    if(!active){
-
-        activateCore();
-
-        return;
-
-    }
-
-
-    if(!recognition){
-
-        speak(
-            "Voice recognition is unavailable. Please use Chrome or Microsoft Edge."
-        );
-
-        return;
-
-    }
-
-
-    speechSynthesis.cancel();
-
-
-    try{
-
-        recognition.start();
-
-    }catch(e){
-
-        setTimeout(()=>{
-
-            try{
-                recognition.start();
-            }catch(x){}
-
-        },400);
-
-    }
-
-}
-
-
-/* ==========================================================
-   COMMAND ENGINE
-   ========================================================== */
-
-function processCommand(original){
-
-    const text=
-        original
-        .toLowerCase()
-        .replace(/[?!.,]/g,"")
-        .trim();
-
-
-    /* STOP */
-
-    if(
-        text==="stop" ||
-        text==="stop talking" ||
-        text==="be quiet" ||
-        text==="cancel" ||
-        text==="cancel that" ||
-        text==="never mind"
-    ){
-
-        stopAssistant();
-        return;
-
-    }
-
-
-    /* HELP */
-
-    if(
-        text.includes("what can you do") ||
-        text==="help" ||
-        text.includes("show commands")
-    ){
-
-        speak(
-            "I can change modes, search the web, open websites, calculate numbers, tell you the time and date, remember information, show the HUD, run diagnostics, control my voice, open the camera and dashboard, and respond to many natural commands."
-        );
-
-        return;
-
-    }
-
-
-    /* GREETING */
-
-    if(
-        text.includes("hello") ||
-        text.includes("hi nexora") ||
-        text.includes("hey nexora")
-    ){
-
-        speak(
-            "Hello. NEXORA is online and ready."
-        );
-
-        return;
-
-    }
-
-
-    /* IDENTITY */
-
-    if(
-        text.includes("who are you") ||
-        text.includes("what are you") ||
-        text.includes("your name")
-    ){
-
-        speak(
-            "I am NEXORA, a browser-based voice assistant."
-        );
-
-        return;
-
-    }
-
-
-    /* MODE */
-
-    if(
-        text.includes("switch to nexora") ||
-        text.includes("use nexora") ||
-        text.includes("nexora mode")
-    ){
-
-        changeMode("nexora");
-        return;
-
-    }
-
-
-    if(
-        text.includes("switch to jarvis") ||
-        text.includes("use jarvis") ||
-        text.includes("jarvis mode")
-    ){
-
-        changeMode("jarvis");
-        return;
-
-    }
-
-
-    for(
-        const mode of
-        ["study","gaming","garage","science"]
-    ){
-
-        if(
-            text.includes(mode+" mode") ||
-            text.includes("activate "+mode)
-        ){
-
-            changeMode(mode);
-            return;
-
-        }
-
-    }
-
-
-    /* TIME */
-
-    if(
-        text.includes("time")
-    ){
-
-        speak(
-            "The current time is "+
-            new Date().toLocaleTimeString()
-        );
-
-        return;
-
-    }
-
-
-    /* DATE */
-
-    if(
-        text.includes("date") ||
-        text.includes("what day")
-    ){
-
-        speak(
-            "Today is "+
-            new Date().toLocaleDateString(
-                undefined,
-                {
-                    weekday:"long",
-                    month:"long",
-                    day:"numeric",
-                    year:"numeric"
-                }
-            )
-        );
-
-        return;
-
-    }
-
-
-    /* SEARCH */
-
-    if(
-        text.startsWith("search for ") ||
-        text.startsWith("search ") ||
-        text.startsWith("look up ")
-    ){
-
-        const query=
-            original
-            .replace(
-                /^search for |^search |^look up /i,
-                ""
-            );
-
-
-        speak(
-            "Searching for "+query
-        );
-
-
-        setTimeout(()=>{
-
-            window.open(
-                "https://www.google.com/search?q="+
-                encodeURIComponent(query),
-                "_blank"
-            );
-
-        },500);
-
-        return;
-
-    }
-
-
-    /* YOUTUBE */
-
-    if(
-        text.includes("open youtube") ||
-        text.includes("go to youtube")
-    ){
-
-        speak("Opening YouTube.");
-
-        setTimeout(()=>{
-
-            window.open(
-                "https://www.youtube.com",
-                "_blank"
-            );
-
-        },500);
-
-        return;
-
-    }
-
-
-    /* GOOGLE */
-
-    if(
-        text.includes("open google") ||
-        text.includes("go to google")
-    ){
-
-        speak("Opening Google.");
-
-        setTimeout(()=>{
-
-            window.open(
-                "https://www.google.com",
-                "_blank"
-            );
-
-        },500);
-
-        return;
-
-    }
-
-
-    /* CALCULATOR */
-
-    if(
-        text.startsWith("calculate ") ||
-        text.startsWith("work out ") ||
-        text.startsWith("what is ")
-    ){
-
-        let expression=
-            text
-            .replace(
-                /^calculate |^work out |^what is /,
-                ""
-            )
-            .replace(/plus/g,"+")
-            .replace(/minus/g,"-")
-            .replace(
-                /times|multiplied by/g,
-                "*"
-            )
-            .replace(
-                /divided by/g,
-                "/"
-            );
-
-
-        if(
-            /^[0-9+\-*/().%\s]+$/
-            .test(expression)
-        ){
-
-            try{
-
-                const answer=
-                    Function(
-                        '"use strict";return('+expression+')'
-                    )();
-
-
-                speak(
-                    "The answer is "+answer
-                );
-
-                return;
-
-            }catch(e){}
-
-        }
-
-    }
-
-
-    /* MEMORY */
-
-    if(
-        text.startsWith("remember ")
-    ){
-
-        const info=
-            original.slice(9);
-
-        memory.push(info);
-
-        saveAccount();
-
-        speak(
-            "I'll remember that."
-        );
-
-        return;
-
-    }
-
-
-    if(
-        text.includes("what do you remember")
-    ){
-
-        if(memory.length){
-
-            speak(
-                "I remember: "+
-                memory.join(", ")
-            );
-
-        }else{
-
-            speak(
-                "Your memory is currently empty."
-            );
-
-        }
-
-        return;
-
-    }
-
-
-    if(
-        text.includes("clear memory") ||
-        text.includes("forget everything")
-    ){
-
-        memory=[];
-
-        saveAccount();
-
-        speak("Memory cleared.");
-
-        return;
-
-    }
-
-
-    /* REPEAT */
-
-    if(text.includes("repeat")){
-
-        speak(
-            lastResponse ||
-            "There is nothing to repeat yet."
-        );
-
-        return;
-
-    }
-
-
-    /* HUD */
-
-    if(
-        text.includes("show hud") ||
-        text.includes("activate hud") ||
-        text.includes("turn on hud")
-    ){
-
-        toggleHUD(true);
-
-        return;
-
-    }
-
-
-    if(
-        text.includes("hide hud") ||
-        text.includes("turn off hud")
-    ){
-
-        toggleHUD(false);
-
-        return;
-
-    }
-
-
-    /* DIAGNOSTICS */
-
-    if(
-        text.includes("diagnostics") ||
-        text.includes("system check") ||
-        text.includes("run diagnostics")
-    ){
-
-        diagnostics();
-
-        return;
-
-    }
-
-
-    /* DASHBOARD */
-
-    if(
-        text.includes("dashboard") ||
-        text.includes("activity dashboard")
-    ){
-
-        $("dashboard")
-            .classList
-            .add("active");
-
-        speak(
-            "Activity dashboard opened."
-        );
-
-        return;
-
-    }
-
-
-    /* CAMERA */
-
-    if(
-        text==="camera" ||
-        text.includes("open camera")
-    ){
-
-        openCamera();
-
-        return;
-
-    }
-
-
-    /* SPEED */
-
-    if(text.includes("speak slower")){
-
-        $("speechSpeed").value=
-            Math.max(
-                .6,
-                Number($("speechSpeed").value)-.1
-            );
-
-        saveAccount();
-
-        speak("Speaking slower.");
-
-        return;
-
-    }
-
-
-    if(text.includes("speak faster")){
-
-        $("speechSpeed").value=
-            Math.min(
-                1.5,
-                Number($("speechSpeed").value)+.1
-            );
-
-        saveAccount();
-
-        speak("Speaking faster.");
-
-        return;
-
-    }
-
-
-    /* UNKNOWN */
-
-    speak(
-        "I heard you say \""+
-        original+
-        "\". I don't have an action for that command yet. Say help to see the commands I can run."
-    );
-
-}
-
-
-/* ================= MODES ================= */
-
-function changeMode(mode,announce=true){
-
-    currentMode=mode;
-
-    $("assistantMode").value=mode;
-
-
-    const names={
-
-        nexora:"NEXORA MODE",
-
-        jarvis:"JARVIS-INSPIRED MODE",
-
-        study:"STUDY MODE",
-
-        gaming:"GAMING MODE",
-
-        garage:"GARAGE MODE",
-
-        science:"SCIENCE MODE"
-
-    };
-
-
-    $("modeText").textContent=names[mode];
-
-    $("hudMode").textContent=names[mode];
-
-
-    saveAccount();
-
-
-    if(announce){
-
-        const responses={
-
-            nexora:"NEXORA mode activated.",
-
-            jarvis:"JARVIS-inspired mode activated.",
-
-            study:"Study mode activated. Ready to help.",
-
-            gaming:"Gaming mode activated.",
-
-            garage:"Garage mode activated.",
-
-            science:"Science mode activated."
-
-        };
-
-
-        speak(responses[mode]);
-
-    }
-
-}
-
-
-/* ================= STOP ================= */
-
-function stopAssistant(){
-
-    speechSynthesis.cancel();
-
-    if(recognition){
-
-        try{
-            recognition.stop();
-        }catch(e){}
-
-    }
-
-    listening=false;
-
-    $("core").classList.remove(
-        "listening",
-        "thinking",
-        "speaking"
-    );
-
-    $("hudMic").textContent="READY";
-
-    $("hudSpeech").textContent="READY";
-
-    setStatus(
-        active
-        ?"SYSTEM READY — PRESS CORE"
-        :"CORE READY"
-    );
-
-}
-
-
-/* ================= SETTINGS ================= */
-
-$("menu").onclick=function(){
-
-    $("panel")
-        .classList
-        .toggle("open");
+processVoice(result);
 
 };
 
 
-$("assistantMode").onchange=function(){
+recognition.onend=()=>{
 
-    changeMode(this.value);
+if(state.listening){
 
-};
+try{
 
+recognition.start();
 
-$("speechSpeed").oninput=saveAccount;
+}catch(e){}
 
-$("speechPitch").oninput=saveAccount;
-
-$("voiceSelect").onchange=saveAccount;
-
-
-$("testVoice").onclick=function(){
-
-    speak(
-        "Voice system online. NEXORA is ready."
-    );
+}
 
 };
-
-
-$("stopButton").onclick=stopAssistant;
-
-
-/* ================= HUD ================= */
-
-function toggleHUD(show){
-
-    $("hud")
-        .classList
-        .toggle("active",show);
-
-    if(show){
-
-        speak("HUD activated.");
-
-    }
 
 }
 
 
-$("hudButton").onclick=function(){
+function toggleListening(){
 
-    toggleHUD(
-        !$("hud")
-        .classList
-        .contains("active")
-    );
+if(!recognition){
 
-};
+speak(
+"Voice recognition is not available in this browser."
+);
 
-
-/* ================= FULLSCREEN ================= */
-
-function fullscreen(){
-
-    if(document.documentElement.requestFullscreen){
-
-        document.documentElement.requestFullscreen();
-
-    }
-
-    speak("Fullscreen activated.");
+return;
 
 }
 
 
-$("fullscreenButton").onclick=fullscreen;
+if(state.listening){
 
+state.listening=false;
 
-/* ================= DIAGNOSTICS ================= */
+recognition.stop();
 
-function diagnostics(){
+coreState("ready");
 
-    const voice=
-        "speechSynthesis" in window;
+}else{
 
-    const mic=
-        !!recognition;
+state.listening=true;
 
-    const network=
-        navigator.onLine;
+recognition.start();
 
-
-    speak(
-        "Diagnostics complete. Speech synthesis "+
-        (voice?"available":"unavailable")+
-        ". Voice recognition "+
-        (mic?"available":"unavailable")+
-        ". Network "+
-        (network?"online":"offline")+
-        "."
-    );
+}
 
 }
 
 
-$("diagnosticsButton").onclick=diagnostics;
+function processVoice(text){
+
+let clean=text.trim();
+
+if(!clean)
+return;
+
+let lower=clean.toLowerCase();
 
 
-/* ================= SEARCH ================= */
+if(
+lower.includes("hey nexora")
+){
 
-$("searchButton").onclick=function(){
+speak(
+`Yes, ${state.name}?`
+);
 
-    const query=
-        prompt(
-            "What would you like to search for?"
-        );
+clean=
+clean.replace(
+/hey nexora/ig,
+""
+).trim();
 
-    if(query){
+if(clean){
 
-        speak(
-            "Searching for "+query
-        );
+setTimeout(
+()=>processRequest(clean),
+600
+);
 
-        window.open(
-            "https://www.google.com/search?q="+
-            encodeURIComponent(query),
-            "_blank"
-        );
+}
 
-    }
-
-};
-
-
-$("youtubeButton").onclick=function(){
-
-    speak("Opening YouTube.");
-
-    setTimeout(()=>{
-
-        window.open(
-            "https://www.youtube.com",
-            "_blank"
-        );
-
-    },500);
-
-};
-
-
-$("googleButton").onclick=function(){
-
-    speak("Opening Google.");
-
-    setTimeout(()=>{
-
-        window.open(
-            "https://www.google.com",
-            "_blank"
-        );
-
-    },500);
-
-};
-
-
-/* ================= DASHBOARD ================= */
-
-$("dashboardButton").onclick=function(){
-
-    $("dashboard")
-        .classList
-        .toggle("active");
-
-};
-
-
-/* ================= CAMERA ================= */
-
-async function openCamera(){
-
-    if(
-        !navigator.mediaDevices ||
-        !navigator.mediaDevices.getUserMedia
-    ){
-
-        speak("Camera access is unavailable.");
-
-        return;
-
-    }
-
-
-    try{
-
-        cameraStream=
-            await navigator.mediaDevices
-            .getUserMedia({
-                video:true,
-                audio:false
-            });
-
-
-        $("cameraVideo").srcObject=
-            cameraStream;
-
-        $("camera").classList.add("active");
-
-        speak("Camera preview activated.");
-
-    }
-
-    catch(e){
-
-        speak(
-            "Camera permission was not granted."
-        );
-
-    }
+return;
 
 }
 
 
-function closeCamera(){
-
-    if(cameraStream){
-
-        cameraStream
-        .getTracks()
-        .forEach(track=>track.stop());
-
-    }
-
-    cameraStream=null;
-
-    $("cameraVideo").srcObject=null;
-
-    $("camera").classList.remove("active");
+processRequest(clean);
 
 }
 
 
-$("cameraButton").onclick=openCamera;
+/* =========================
+   MODES
+   ========================= */
 
-$("closeCamera").onclick=closeCamera;
+function createModes(){
+
+let container=
+$("modes");
+
+MODES.forEach(mode=>{
+
+let button=
+document.createElement("button");
+
+button.className="nav";
+
+button.textContent=
+"• "+mode+" Mode";
+
+button.onclick=()=>{
+
+activateMode(mode);
+
+};
+
+container.appendChild(button);
+
+});
+
+}
 
 
-/* ================= MEMORY ================= */
+function activateMode(mode){
 
-$("memoryButton").onclick=function(){
+state.mode=mode;
 
-    if(memory.length){
+localStorage.setItem(
+"nexoraMode",
+mode
+);
 
-        speak(
-            "I remember: "+
-            memory.join(", ")
-        );
+$("sideMode").textContent=
+mode;
 
-    }else{
+$("modeText").textContent=
+`${mode} Mode active.`;
 
-        speak(
-            "Your memory is empty."
-        );
+response(
+`${mode} Mode activated, ${state.name}.`
+);
 
-    }
+}
+
+
+/* =========================
+   INTENT ENGINE
+   ========================= */
+
+function detectIntent(text){
+
+if(
+/^(open|launch|start|activate|switch|set|create|show|change|turn|stop)/i
+.test(text)
+){
+
+return "Command";
+
+}
+
+
+if(
+/^(what|why|how|when|where|who|which|can|is|are|does|do)/i
+.test(text)
+||
+text.includes("?")
+){
+
+return "Question";
+
+}
+
+
+if(
+text.includes("explain")||
+text.includes("teach")
+){
+
+return "Explanation";
+
+}
+
+
+if(
+text.includes("compare")||
+text.includes("difference")
+){
+
+return "Comparison";
+
+}
+
+
+if(
+text.includes("plan")||
+text.includes("strategy")
+){
+
+return "Planning";
+
+}
+
+
+return "Conversation";
+
+}
+
+
+/* =========================
+   TOPIC ENGINE
+   ========================= */
+
+function detectTopic(text){
+
+const topics={
+
+Maths:[
+"math",
+"calculate",
+"equation",
+"algebra",
+"factor",
+"fraction",
+"percentage"
+],
+
+Science:[
+"science",
+"biology",
+"chemistry",
+"physics",
+"dna",
+"cell",
+"energy",
+"force"
+],
+
+History:[
+"history",
+"war",
+"empire"
+],
+
+Geography:[
+"geography",
+"weather",
+"climate",
+"rainfall",
+"population"
+],
+
+French:[
+"french",
+"français",
+"bonjour",
+"traduire"
+],
+
+Developer:[
+"code",
+"coding",
+"html",
+"css",
+"javascript",
+"python",
+"website",
+"programming"
+],
+
+Entrepreneur:[
+"business",
+"entrepreneur",
+"startup",
+"marketing",
+"customer",
+"profit",
+"product",
+"company"
+],
+
+Gaming:[
+"game",
+"gaming",
+"esports",
+"gt7",
+"playstation"
+],
+
+Automotive:[
+"car",
+"cars",
+"engine",
+"tuning",
+"traction",
+"horsepower"
+]
 
 };
 
 
-$("clearMemoryButton").onclick=function(){
+for(
+let topic in topics
+){
 
-    memory=[];
+if(
+topics[topic].some(
+word=>text.includes(word)
+)
+){
 
-    saveAccount();
+state.topic=topic;
 
-    speak("Memory cleared.");
+state.subtopic=topic;
+
+if(topic==="Entrepreneur"){
+
+if(text.includes("marketing"))
+state.subtopic="Marketing";
+
+else if(text.includes("customer"))
+state.subtopic="Customers";
+
+else if(text.includes("price"))
+state.subtopic="Pricing";
+
+else
+state.subtopic=
+"Business Strategy";
+
+}
+
+return;
+
+}
+
+}
+
+}
+
+
+/* =========================
+   CONTEXT
+   ========================= */
+
+function updateContext(){
+
+$("topic").textContent=
+state.topic||"None";
+
+$("subtopic").textContent=
+state.subtopic||"None";
+
+$("intent").textContent=
+state.intent;
+
+}
+
+
+/* =========================
+   MAIN PROCESSOR
+   ========================= */
+
+function processRequest(text){
+
+let lower=text.toLowerCase();
+
+log(
+"YOU: "+text
+);
+
+state.intent=
+detectIntent(lower);
+
+detectTopic(lower);
+
+updateContext();
+
+coreState("thinking");
+
+
+/* CUSTOM COMMAND */
+
+for(
+let command in state.customCommands
+){
+
+if(
+lower.includes(
+command.toLowerCase()
+)
+){
+
+let data=
+state.customCommands[
+command
+];
+
+if(data.response){
+
+response(
+data.response
+);
+
+}
+
+return;
+
+}
+
+}
+
+
+/* MODE COMMAND */
+
+for(
+let mode of MODES
+){
+
+let name=
+mode.toLowerCase();
+
+if(
+lower.includes(
+"activate "+name+" mode"
+)
+||
+lower.includes(
+"switch to "+name+" mode"
+)
+||
+lower.includes(
+"enter "+name+" mode"
+)
+){
+
+activateMode(mode);
+
+return;
+
+}
+
+}
+
+
+/* SYSTEM */
+
+if(
+lower.includes("command center")
+){
+
+openModal("commands");
+
+response(
+"Command Center opened."
+);
+
+return;
+
+}
+
+
+if(
+lower.includes("custom lab")||
+lower.includes("customize")
+){
+
+openModal("custom");
+
+response(
+"Custom Lab opened."
+);
+
+return;
+
+}
+
+
+if(
+lower.includes("review nexora")
+){
+
+openModal("review");
+
+return;
+
+}
+
+
+/* TIMER */
+
+let timer=
+lower.match(
+/(\d+)\s*(second|seconds|minute|minutes)/
+);
+
+if(
+timer &&
+lower.includes("timer")
+){
+
+let amount=
+parseInt(timer[1]);
+
+let unit=
+timer[2];
+
+let milliseconds=
+unit.startsWith("minute")
+?
+amount*60000
+:
+amount*1000;
+
+response(
+`Timer started for ${amount} ${unit}, ${state.name}.`
+);
+
+setTimeout(()=>{
+
+response(
+`Your timer is finished, ${state.name}.`
+);
+
+},milliseconds);
+
+return;
+
+}
+
+
+/* CALCULATOR */
+
+if(
+lower.includes("calculate")
+||
+lower.includes("what is")
+){
+
+let expression=
+lower
+.replace("calculate","")
+.replace("what is","")
+.replace(/times/g,"*")
+.replace(/plus/g,"+")
+.replace(/minus/g,"-")
+.replace(/divided by/g,"/")
+.trim();
+
+if(
+/^[0-9+\-*/().%\s]+$/
+.test(expression)
+){
+
+try{
+
+let answer=
+Function(
+'"use strict";return ('+
+expression+
+')'
+)();
+
+response(
+`The answer is ${answer}, ${state.name}.`
+);
+
+return;
+
+}catch(e){}
+
+}
+
+}
+
+
+/* CHALLENGE */
+
+if(
+lower.includes("challenge")
+){
+
+openModal("challenge");
+
+startChallenge();
+
+return;
+
+}
+
+
+/* DEFAULT AI RESPONSE */
+
+setTimeout(()=>{
+
+let answer=
+generateAnswer(text);
+
+response(answer);
+
+},500);
+
+}
+
+
+/* =========================
+   LOCAL AI RESPONSE ENGINE
+   ========================= */
+
+function generateAnswer(text){
+
+let lower=
+text.toLowerCase();
+
+
+if(
+lower.includes("what can you do")
+){
+
+return `
+I can understand questions and natural-language commands.
+
+I can:
+• Switch modes
+• Understand topics and subtopics
+• Remember conversation context
+• Use voice recognition
+• Speak responses
+• Run commands
+• Create custom commands
+• Give challenges
+• Customize the NEXORA Core
+• Help with study
+• Enter Entrepreneur Mode
+• Assist with coding
+• Handle calculations
+• Manage timers
+• Open supported websites
+
+My Core layout is permanently locked while my capabilities can continue expanding.
+`;
+
+}
+
+
+if(
+lower.includes("who are you")
+){
+
+return `
+I'm NEXORA 1.8.
+
+I'm a customizable AI assistant designed around the NEXORA Core.
+
+My interface stays locked while my intelligence, commands, skills, modes and voice system can keep expanding.
+`;
+
+}
+
+
+/* ENTREPRENEUR */
+
+if(
+state.mode==="Entrepreneur"||
+state.topic==="Entrepreneur"
+){
+
+if(
+state.subtopic==="Marketing"
+){
+
+return `
+Entrepreneur Mode • Marketing
+
+Start by identifying your target customer.
+
+Then consider:
+
+1. What problem does your product solve?
+2. Who needs it most?
+3. Where does that audience spend time?
+4. What makes your product different?
+5. How can you test your idea cheaply?
+
+Then measure what works and improve it.
+`;
+
+}
+
+
+if(
+state.subtopic==="Customers"
+){
+
+return `
+Entrepreneur Mode • Customers
+
+Think about:
+
+• Target customer
+• Customer problem
+• Customer needs
+• Buying motivation
+• Competitors
+• Feedback
+
+A strong business usually starts with solving a real problem.
+`;
+
+}
+
+
+return `
+Entrepreneur Mode is active.
+
+I can help you work through:
+
+• Business ideas
+• Products
+• Customers
+• Marketing
+• Pricing
+• Competition
+• Branding
+• Growth
+• Business strategy
+`;
+
+}
+
+
+/* TUTOR */
+
+if(
+state.mode==="Tutor"
+){
+
+return `
+Tutor Mode is active.
+
+Tell me the subject and topic.
+
+I'll explain it step-by-step, give examples, then give you questions to test your understanding.
+`;
+
+}
+
+
+/* DEFAULT */
+
+return `
+I understand what you're asking, ${state.name}.
+
+Your request appears to be:
+
+Intent: ${state.intent}
+Topic: ${state.topic||"General"}
+Subtopic: ${state.subtopic||"General"}
+
+For full open-ended AI reasoning, connect the NEXORA backend to an AI model through a secure server.
+`;
+
+}
+
+
+/* =========================
+   RESPONSE
+   ========================= */
+
+function response(text){
+
+$("response").textContent=
+text;
+
+log(
+"NEXORA: "+text
+);
+
+speak(text);
+
+}
+
+
+/* =========================
+   QUICK BUTTONS
+   ========================= */
+
+function quick(text){
+
+$("input").value=text;
+
+send();
+
+}
+
+
+function send(){
+
+let text=
+$("input").value.trim();
+
+if(!text)
+return;
+
+$("input").value="";
+
+processRequest(text);
+
+}
+
+
+/* =========================
+   CUSTOM COMMANDS
+   ========================= */
+
+function createCommand(){
+
+let name=
+prompt(
+"Enter the custom command name:"
+);
+
+if(!name)
+return;
+
+let answer=
+prompt(
+"What should NEXORA say when this command is used?"
+);
+
+if(!answer)
+return;
+
+state.customCommands[name]={
+response:answer
+};
+
+localStorage.setItem(
+"nexoraCommands",
+JSON.stringify(
+state.customCommands
+)
+);
+
+response(
+`Custom command "${name}" created, ${state.name}.`
+);
+
+}
+
+
+/* =========================
+   CUSTOMIZATION
+   ========================= */
+
+function changeShape(shape){
+
+let core=$("core");
+
+core.style.clipPath="none";
+
+if(shape==="diamond"){
+
+core.style.borderRadius="15px";
+
+core.style.transform=
+"rotate(45deg)";
+
+}
+
+else if(shape==="hex"){
+
+core.style.clipPath=
+"polygon(25% 5%,75% 5%,100% 50%,75% 95%,25% 95%,0 50%)";
+
+}
+
+else if(shape==="ring"){
+
+core.style.background=
+"transparent";
+
+core.style.border=
+"15px solid var(--accent)";
+
+}
+
+else{
+
+core.style.borderRadius="50%";
+
+core.style.transform=
+"none";
+
+core.style.border="none";
+
+core.style.background=
+"radial-gradient(circle,white 0 2%,var(--accent) 5%,rgba(0,120,255,.4) 35%,transparent 70%)";
+
+}
+
+localStorage.setItem(
+"nexoraShape",
+shape
+);
+
+}
+
+
+function changeSize(value){
+
+document.documentElement.style
+.setProperty(
+"--core-size",
+value+"px"
+);
+
+}
+
+
+function changeGlow(value){
+
+document.documentElement.style
+.setProperty(
+"--glow",
+value+"px"
+);
+
+}
+
+
+function changeColor(value){
+
+document.documentElement.style
+.setProperty(
+"--accent",
+value
+);
+
+localStorage.setItem(
+"nexoraColor",
+value
+);
+
+}
+
+
+/* =========================
+   VOICE TEST
+   ========================= */
+
+function testVoice(){
+
+speak(
+`Voice test successful. Welcome to NEXORA, ${state.name}.`
+);
+
+}
+
+
+/* =========================
+   PROFILE
+   ========================= */
+
+function saveProfile(){
+
+let name=
+$("name").value.trim();
+
+if(!name)
+name="Miguel";
+
+state.name=name;
+
+localStorage.setItem(
+"nexoraName",
+name
+);
+
+$("welcome").textContent=
+"WELCOME, "+
+name.toUpperCase();
+
+$("updateWelcome").textContent=
+"Welcome, "+
+name+".";
+
+response(
+`Profile saved. Welcome, ${name}.`
+);
+
+}
+
+
+/* =========================
+   CHALLENGES
+   ========================= */
+
+const challenges=[
+
+{
+question:
+"What is 12 × 8?",
+
+answers:
+["86","96","108","88"],
+
+correct:"96"
+
+},
+
+{
+question:
+"Which organ pumps blood?",
+
+answers:
+["Lung","Heart","Liver","Kidney"],
+
+correct:"Heart"
+
+},
+
+{
+question:
+"What comes next: 2, 4, 8, 16...?",
+
+answers:
+["20","24","32","30"],
+
+correct:"32"
+
+}
+
+];
+
+
+function startChallenge(){
+
+let q=
+challenges[
+Math.floor(
+Math.random()*
+challenges.length
+)
+];
+
+$("challengeArea").innerHTML=
+"<h3>"+
+q.question+
+"</h3>";
+
+q.answers.forEach(answer=>{
+
+let button=
+document.createElement("button");
+
+button.className=
+"send full";
+
+button.textContent=
+answer;
+
+button.onclick=()=>{
+
+if(answer===q.correct){
+
+$("challengeArea").innerHTML+=
+"<p>✅ Correct! +100 XP</p>";
+
+speak(
+"Correct. Excellent work, "+
+state.name+"."
+);
+
+}
+
+else{
+
+$("challengeArea").innerHTML+=
+"<p>❌ Not quite. The answer was "+
+q.correct+".</p>";
+
+speak(
+"Not quite, "+state.name+"."
+);
+
+}
 
 };
 
+$("challengeArea")
+.appendChild(button);
 
-/* ================= SHARE ================= */
-
-async function shareNexora(){
-
-    const shareData={
-        title:"NEXORA",
-        text:"🚀 Try NEXORA — a futuristic browser voice assistant.",
-        url:window.location.href
-    };
-
-
-    if(navigator.share){
-
-        try{
-
-            await navigator.share(shareData);
-
-            speak("NEXORA shared.");
-
-        }catch(e){}
-
-    }else{
-
-        try{
-
-            await navigator.clipboard.writeText(
-                window.location.href
-            );
-
-            speak(
-                "NEXORA link copied to your clipboard."
-            );
-
-        }catch(e){
-
-            prompt(
-                "Copy the NEXORA link:",
-                window.location.href
-            );
-
-        }
-
-    }
+});
 
 }
 
 
-$("shareButton").onclick=shareNexora;
+/* =========================
+   REVIEWS
+   ========================= */
 
+let rating=0;
 
-/* ================= NETWORK ================= */
+document
+.querySelectorAll(".star")
+.forEach(
+(star,index)=>{
 
-function updateNetwork(){
+star.onclick=()=>{
 
-    const online=navigator.onLine;
+rating=index+1;
 
-    $("network")
-        .classList
-        .toggle("offline",!online);
+document
+.querySelectorAll(".star")
+.forEach(
+(s,i)=>{
 
-    $("hudNetwork").textContent=
-        online?"ONLINE":"OFFLINE";
+s.classList.toggle(
+"active",
+i<rating
+);
 
-}
+});
 
-window.addEventListener("online",updateNetwork);
-
-window.addEventListener("offline",updateNetwork);
-
-updateNetwork();
-
-
-/* ================= CLOCK ================= */
-
-function updateClock(){
-
-    const now=new Date();
-
-    $("hudTime").textContent=
-        now.toLocaleTimeString();
-
-    $("hudDate").textContent=
-        now.toLocaleDateString();
-
-}
-
-setInterval(updateClock,1000);
-
-updateClock();
-
-
-/* ================= COMMAND SHOWCASE ================= */
-
-document.querySelectorAll(
-    ".commandChip"
-).forEach(button=>{
-
-    button.onclick=function(){
-
-        startDemo();
-
-        const command=
-            button.dataset.command;
-
-        setTimeout(()=>{
-
-            if(!active){
-
-                activateCore();
-
-                setTimeout(
-                    ()=>processCommand(command),
-                    1300
-                );
-
-            }else{
-
-                processCommand(command);
-
-            }
-
-        },500);
-
-    };
+};
 
 });
 
 
-/* ================= KEYBOARD ================= */
+function submitReview(){
 
-document.addEventListener(
-    "keydown",
-    function(event){
+if(rating===0){
 
-        if(
-            event.code==="Space" &&
-            !["INPUT","SELECT"].includes(
-                document.activeElement.tagName
-            )
-        ){
+$("reviewResult").textContent=
+"Please select a rating.";
 
-            event.preventDefault();
+return;
 
-            if(active){
+}
 
-                startListening();
-
-            }else{
-
-                activateCore();
-
-            }
-
-        }
-
-
-        if(event.key==="Escape"){
-
-            stopAssistant();
-
-            closeCamera();
-
-        }
-
-
-        if(event.key.toLowerCase()==="m"){
-
-            $("panel")
-                .classList
-                .toggle("open");
-
-        }
-
-
-        if(event.key.toLowerCase()==="h"){
-
-            toggleHUD(
-                !$("hud")
-                .classList
-                .contains("active")
-            );
-
-        }
-
-    }
+let reviews=
+JSON.parse(
+localStorage.getItem(
+"nexoraReviews"
+)||"[]"
 );
 
+reviews.push({
 
-/* ================= LOGOUT ================= */
+name:state.name,
 
-$("logoutButton").onclick=function(){
+rating:rating,
 
-    stopAssistant();
+review:
+$("reviewText").value,
 
-    closeCamera();
+date:
+new Date().toISOString(),
 
-    active=false;
+version:VERSION
 
-    currentUser=null;
+});
 
-    localStorage.removeItem(
-        "NEXORA_USER"
-    );
+localStorage.setItem(
+"nexoraReviews",
+JSON.stringify(reviews)
+);
 
-    $("panel")
-        .classList
-        .remove("open");
+$("reviewResult").textContent=
+"⭐ Thank you for reviewing NEXORA!";
 
-    $("app")
-        .classList
-        .remove("active");
+$("reviewText").value="";
 
-    $("landing")
-        .classList
-        .remove("hide");
+rating=0;
 
-    setStatus("CORE READY");
+document
+.querySelectorAll(".star")
+.forEach(
+s=>s.classList.remove("active")
+);
 
-};
+}
 
 
-/* ================= AUTO LOGIN ================= */
+/* =========================
+   CONTEXT
+   ========================= */
+
+function clearContext(){
+
+state.topic="";
+
+state.subtopic="";
+
+state.intent=
+"Conversation";
+
+updateContext();
+
+response(
+"Conversation context cleared, "+
+state.name+"."
+);
+
+}
+
+
+/* =========================
+   DEMO
+   ========================= */
+
+function demoMode(){
+
+let steps=[
+
+"Booting NEXORA...",
+
+"Loading AI Brain...",
+
+"Loading Context Engine...",
+
+"Loading Voice System...",
+
+"Loading Skills...",
+
+"Loading Command Engine...",
+
+"Loading Customization...",
+
+"All systems online."
+
+];
+
+steps.forEach(
+(step,index)=>{
+
+setTimeout(()=>{
+
+$("response").textContent=
+step;
+
+},
+index*700
+);
+
+});
+
+setTimeout(()=>{
+
+response(
+`NEXORA 1.8 demonstration complete. Welcome, ${state.name}.`
+);
+
+},steps.length*700);
+
+}
+
+
+/* =========================
+   UPDATE SYSTEM
+   ========================= */
+
+function startNexora(){
+
+localStorage.setItem(
+"nexoraSeenVersion",
+VERSION
+);
+
+$("updateScreen")
+.classList.add("hidden");
+
+setTimeout(()=>{
+
+speak(
+`Welcome back, ${state.name}. NEXORA is online and ready.`
+);
+
+},500);
+
+}
+
+
+/* =========================
+   INITIALIZE
+   ========================= */
+
+function init(){
+
+$("welcome").textContent=
+"WELCOME, "+
+state.name.toUpperCase();
+
+$("name").value=
+state.name;
+
+createModes();
+
+$("sideMode").textContent=
+state.mode;
+
+$("modeText").textContent=
+state.mode+
+" Mode active.";
+
+let savedColor=
+localStorage.getItem("nexoraColor");
+
+if(savedColor){
+
+changeColor(savedColor);
+
+}
+
+let savedShape=
+localStorage.getItem("nexoraShape");
+
+if(savedShape){
+
+$("shape").value=
+savedShape;
+
+changeShape(savedShape);
+
+}
+
+$("versionTop").textContent=
+VERSION;
+
+
+/* SHOW UPDATE ONLY ON NEW VERSION */
 
 if(
-    currentUser &&
-    accounts[currentUser]
+localStorage.getItem(
+"nexoraSeenVersion"
+)===VERSION
 ){
 
-    login(currentUser);
+$("updateScreen")
+.classList.add("hidden");
 
-}else{
+}
 
-    $("landing")
-        .classList
-        .remove("hide");
+log(
+`NEXORA ${VERSION} initialized for ${state.name}.`
+);
+
+}
+
+init();
+
+
+/* =========================
+   PWA
+   ========================= */
+
+if(
+"serviceWorker"
+in navigator
+){
+
+window.addEventListener(
+"load",
+()=>{
+
+navigator.serviceWorker
+.register("sw.js")
+.catch(
+error=>
+console.log(
+"Service worker:",
+error
+)
+);
+
+});
 
 }
 
 </script>
+{
+  "name": "NEXORA 1.8",
+  "short_name": "NEXORA",
+  "description": "NEXORA Advanced AI Assistant",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#020711",
+  "theme_color": "#020711",
+  "orientation": "any"
+}
+    const CACHE_NAME = "nexora-1.8";
 
+const FILES = [
+    "./",
+    "./index.html",
+    "./manifest.json"
+];
+
+self.addEventListener("install", event => {
+
+    event.waitUntil(
+
+        caches.open(CACHE_NAME)
+        .then(cache => {
+
+            return cache.addAll(FILES);
+
+        })
+
+    );
+
+});
+
+
+self.addEventListener("activate", event => {
+
+    event.waitUntil(
+
+        caches.keys()
+        .then(keys => {
+
+            return Promise.all(
+
+                keys
+                .filter(key => key !== CACHE_NAME)
+                .map(key => caches.delete(key))
+
+            );
+
+        })
+
+    );
+
+});
+
+
+self.addEventListener("fetch", event => {
+
+    event.respondWith(
+
+        caches.match(event.request)
+        .then(cached => {
+
+            return cached ||
+                   fetch(event.request);
+
+        })
+
+    );
+
+});
+    </script>
 </body>
 </html>
