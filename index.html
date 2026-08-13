@@ -2,84 +2,71 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
 <meta name="theme-color" content="#020711">
 <title>NEXORA 1.8.2</title>
 
 <style>
-:root{
-    --accent:#00aaff;
-    --bg:#020711;
-    --text:#eaf8ff;
-    --muted:#7294a8;
-    --panel:rgba(5,16,30,.94);
-    --border:rgba(0,170,255,.22);
-    --core-size:230px;
-    --glow:45px;
-}
-
 *{
     box-sizing:border-box;
     margin:0;
     padding:0;
 }
 
-body{
-    min-height:100vh;
-    overflow:hidden;
-    background:
-        radial-gradient(
-            circle at center,
-            rgba(0,130,255,.14),
-            transparent 38%
-        ),
-        radial-gradient(
-            circle at 50% 110%,
-            rgba(0,70,180,.12),
-            transparent 40%
-        ),
-        var(--bg);
-    color:var(--text);
-    font-family:"Segoe UI",Arial,sans-serif;
+:root{
+    --blue:#00aaff;
+    --bg:#020711;
 }
 
-/* =================================
-   MAIN NEXORA CORE
-================================= */
+body{
+    width:100%;
+    height:100vh;
+    overflow:hidden;
+    font-family:Segoe UI,Arial,sans-serif;
+    color:white;
+    background:
+        radial-gradient(circle at center,
+        rgba(0,150,255,.15),
+        transparent 35%),
+        #020711;
+}
+
+/* MAIN */
 
 .app{
-    min-height:100vh;
-    position:relative;
+    height:100vh;
+    width:100%;
     display:flex;
-    flex-direction:column;
     align-items:center;
     justify-content:center;
+    position:relative;
 }
+
+/* TOP */
 
 .top{
     position:absolute;
     top:0;
     left:0;
     right:0;
-    height:70px;
+    height:65px;
     display:flex;
     align-items:center;
     justify-content:space-between;
-    padding:0 25px;
-    border-bottom:1px solid rgba(0,170,255,.08);
-    background:rgba(2,7,17,.45);
+    padding:0 22px;
+    border-bottom:1px solid rgba(0,170,255,.12);
+    background:rgba(2,7,17,.7);
     backdrop-filter:blur(15px);
 }
 
 .logo{
-    font-size:18px;
-    font-weight:700;
+    font-weight:bold;
     letter-spacing:5px;
 }
 
-.status{
+.online{
+    color:#3cff9a;
     font-size:11px;
-    color:#38f5a0;
     letter-spacing:2px;
 }
 
@@ -88,140 +75,123 @@ body{
     gap:8px;
 }
 
-.icon{
+.circleBtn{
     width:38px;
     height:38px;
     border-radius:50%;
-    border:1px solid var(--border);
-    background:rgba(0,130,255,.06);
+    border:1px solid rgba(0,170,255,.3);
+    background:rgba(0,150,255,.08);
     color:white;
     cursor:pointer;
-    transition:.2s;
 }
 
-.icon:hover{
-    background:rgba(0,150,255,.16);
-    box-shadow:0 0 20px rgba(0,150,255,.2);
+.circleBtn:hover{
+    background:rgba(0,170,255,.2);
 }
 
-/* =================================
-   WELCOME
-================================= */
+/* WELCOME */
 
 .welcome{
     position:absolute;
-    top:110px;
+    top:95px;
     text-align:center;
 }
 
 .welcome h1{
     font-size:25px;
-    letter-spacing:9px;
     font-weight:400;
+    letter-spacing:8px;
 }
 
 .welcome p{
-    margin-top:8px;
-    color:var(--muted);
+    color:#7391a5;
+    margin-top:7px;
     font-size:12px;
 }
 
-/* =================================
-   CORE
-================================= */
-
-.core-area{
-    position:relative;
-    width:500px;
-    height:420px;
-    max-width:95vw;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-}
+/* CORE */
 
 .core{
-    width:var(--core-size);
-    height:var(--core-size);
-    position:relative;
+    width:220px;
+    height:220px;
     border-radius:50%;
     display:flex;
     align-items:center;
     justify-content:center;
+    position:relative;
+    cursor:pointer;
 
     background:
-        radial-gradient(
-            circle,
-            #ffffff 0%,
-            var(--accent) 4%,
-            rgba(0,160,255,.65) 18%,
-            rgba(0,110,255,.2) 45%,
-            transparent 72%
-        );
+        radial-gradient(circle,
+        white 0%,
+        var(--blue) 5%,
+        rgba(0,170,255,.55) 20%,
+        rgba(0,120,255,.15) 50%,
+        transparent 72%);
 
     box-shadow:
-        0 0 var(--glow) var(--accent),
-        0 0 100px rgba(0,150,255,.3);
+        0 0 45px var(--blue),
+        0 0 110px rgba(0,150,255,.25);
 
-    transition:.4s;
-    animation:corePulse 3s infinite;
+    animation:pulse 3s infinite;
+    transition:.3s;
 }
 
-.core::before{
+.core:before{
     content:"";
     position:absolute;
     width:145%;
     height:145%;
-    border:1px solid var(--accent);
+    border:1px solid rgba(0,170,255,.5);
     border-radius:50%;
-    opacity:.65;
-    animation:orbit 9s linear infinite;
+    animation:rotate 10s linear infinite;
 }
 
-.core::after{
+.core:after{
     content:"";
     position:absolute;
-    width:180%;
-    height:180%;
-    border:1px solid rgba(0,170,255,.22);
+    width:175%;
+    height:175%;
+    border:1px solid rgba(0,170,255,.15);
     border-radius:50%;
-    animation:orbitReverse 14s linear infinite;
+    animation:rotateReverse 15s linear infinite;
 }
 
-.core-label{
+.coreText{
     z-index:5;
     font-size:13px;
-    font-weight:700;
     letter-spacing:4px;
+    font-weight:bold;
 }
 
-@keyframes corePulse{
+@keyframes pulse{
     0%,100%{
         transform:scale(1);
     }
+
     50%{
-        transform:scale(1.045);
+        transform:scale(1.05);
     }
 }
 
-@keyframes orbit{
+@keyframes rotate{
     to{
         transform:rotate(360deg);
     }
 }
 
-@keyframes orbitReverse{
+@keyframes rotateReverse{
     to{
         transform:rotate(-360deg);
     }
 }
 
 .listening{
-    animation:listening .65s infinite alternate;
+    animation:listening .6s infinite alternate;
 }
 
 .thinking{
-    animation:thinking 1.5s linear infinite;
+    animation:thinking 1s infinite linear;
 }
 
 .speaking{
@@ -230,17 +200,11 @@ body{
 
 @keyframes listening{
     from{
-        transform:scale(1);
-        box-shadow:
-            0 0 40px var(--accent),
-            0 0 90px rgba(0,150,255,.3);
+        box-shadow:0 0 40px var(--blue);
     }
-
     to{
-        transform:scale(1.12);
-        box-shadow:
-            0 0 70px var(--accent),
-            0 0 150px rgba(0,150,255,.45);
+        box-shadow:0 0 90px var(--blue),
+                   0 0 160px rgba(0,150,255,.4);
     }
 }
 
@@ -251,163 +215,142 @@ body{
 }
 
 @keyframes speaking{
+    from{
+        transform:scale(1);
+    }
     to{
-        transform:scale(1.13);
+        transform:scale(1.1);
     }
 }
 
-/* =================================
-   RESPONSE
-================================= */
+/* RESPONSE */
 
 .response{
     position:absolute;
-    bottom:130px;
-    width:min(700px,90vw);
-    min-height:45px;
+    bottom:125px;
+    width:90%;
+    max-width:700px;
     text-align:center;
-    padding:10px 18px;
-    color:#dff6ff;
-    font-size:15px;
-    line-height:1.5;
 }
 
-.response-title{
+.responseTitle{
     font-size:9px;
     letter-spacing:3px;
-    color:var(--accent);
-    margin-bottom:5px;
+    color:var(--blue);
+    margin-bottom:7px;
 }
 
-.response-text{
-    white-space:pre-wrap;
+#answer{
+    line-height:1.5;
+    font-size:15px;
 }
 
-/* =================================
-   COMMAND BAR
-================================= */
+/* INPUT */
 
-.command-area{
+.inputBox{
     position:absolute;
-    bottom:45px;
-    width:min(650px,90vw);
-}
-
-.command{
+    bottom:40px;
+    width:min(650px,90%);
     display:flex;
-    align-items:center;
-    gap:8px;
+    gap:7px;
     padding:7px;
-
-    background:rgba(5,15,28,.8);
-    border:1px solid var(--border);
     border-radius:18px;
-
-    backdrop-filter:blur(18px);
-    box-shadow:0 10px 50px rgba(0,0,0,.3);
+    border:1px solid rgba(0,170,255,.25);
+    background:rgba(4,15,28,.9);
+    backdrop-filter:blur(15px);
 }
 
-.command input{
+#input{
     flex:1;
     background:transparent;
-    border:0;
-    outline:0;
+    border:none;
+    outline:none;
     color:white;
     padding:12px;
+    font-size:14px;
 }
 
-.command input::placeholder{
-    color:#58798c;
+#input::placeholder{
+    color:#607b8b;
 }
 
 .send{
-    padding:11px 17px;
-    border:0;
-    border-radius:12px;
+    border:none;
+    background:#008cff;
     color:white;
-    background:linear-gradient(
-        135deg,
-        #008cff,
-        #005ac9
-    );
+    border-radius:12px;
+    padding:0 18px;
     cursor:pointer;
+    font-weight:bold;
 }
 
 .send:hover{
-    filter:brightness(1.15);
+    background:#00aaff;
 }
 
-/* =================================
-   ANALYSIS
-================================= */
+/* ANALYSIS */
 
 .analysis{
     position:absolute;
-    right:25px;
-    bottom:95px;
-    width:260px;
+    right:20px;
+    bottom:100px;
+    width:250px;
     padding:15px;
-
-    background:rgba(4,14,27,.88);
-    border:1px solid var(--border);
     border-radius:15px;
-
-    backdrop-filter:blur(18px);
-
+    border:1px solid rgba(0,170,255,.25);
+    background:rgba(3,13,25,.95);
     opacity:0;
+    transform:translateY(15px);
     pointer-events:none;
-    transform:translateY(10px);
-
     transition:.3s;
 }
 
 .analysis.show{
     opacity:1;
-    pointer-events:auto;
     transform:translateY(0);
 }
 
-.analysis-title{
-    color:var(--accent);
-    font-size:10px;
+.analysisTitle{
+    color:var(--blue);
     letter-spacing:3px;
-    margin-bottom:12px;
+    font-size:10px;
+    margin-bottom:10px;
 }
 
-.analysis-line{
+.analysisRow{
     display:flex;
     justify-content:space-between;
-    gap:10px;
     padding:6px 0;
-    font-size:11px;
     border-bottom:1px solid rgba(255,255,255,.05);
+    font-size:11px;
 }
 
-.analysis-line span:first-child{
-    color:var(--muted);
+.analysisRow span:first-child{
+    color:#6e8999;
 }
 
-.check{
-    color:#38f5a0;
+/* VERSION */
+
+.version{
+    position:absolute;
+    right:12px;
+    bottom:10px;
+    color:#607786;
+    font-size:9px;
+    letter-spacing:2px;
 }
 
-/* =================================
-   POPUP PANELS
-================================= */
+/* PANELS */
 
 .overlay{
+    display:none;
     position:fixed;
     inset:0;
     z-index:100;
-
-    display:none;
     align-items:center;
     justify-content:center;
-
-    padding:20px;
-
-    background:rgba(0,0,0,.7);
-    backdrop-filter:blur(15px);
+    background:rgba(0,0,0,.75);
+    backdrop-filter:blur(12px);
 }
 
 .overlay.show{
@@ -415,39 +358,28 @@ body{
 }
 
 .panel{
-    width:min(850px,95vw);
-    max-height:88vh;
+    width:min(800px,94%);
+    max-height:85vh;
     overflow:auto;
-
     padding:25px;
-
-    background:
-        linear-gradient(
-            145deg,
-            rgba(7,23,42,.98),
-            rgba(2,10,20,.98)
-        );
-
-    border:1px solid var(--border);
     border-radius:20px;
-
-    box-shadow:
-        0 30px 100px rgba(0,0,0,.6);
+    border:1px solid rgba(0,170,255,.3);
+    background:#061321;
 }
 
-.panel-header{
+.panelHead{
     display:flex;
     justify-content:space-between;
     align-items:center;
     margin-bottom:20px;
 }
 
-.panel-header h2{
+.panelHead h2{
     letter-spacing:3px;
 }
 
 .close{
-    border:0;
+    border:none;
     background:none;
     color:white;
     font-size:28px;
@@ -456,250 +388,179 @@ body{
 
 .grid{
     display:grid;
-    grid-template-columns:
-        repeat(auto-fit,minmax(170px,1fr));
+    grid-template-columns:repeat(auto-fit,minmax(160px,1fr));
     gap:10px;
 }
 
 .card{
-    padding:16px;
-    border:1px solid var(--border);
+    padding:17px;
     border-radius:12px;
-    background:rgba(0,130,255,.05);
+    border:1px solid rgba(0,170,255,.2);
+    background:rgba(0,150,255,.05);
+    cursor:pointer;
 }
 
-.card strong{
-    display:block;
-    margin-bottom:5px;
+.card:hover{
+    background:rgba(0,150,255,.12);
 }
 
 .card small{
-    color:var(--muted);
-}
-
-/* =================================
-   FORMS
-================================= */
-
-label{
     display:block;
-    margin:12px 0 5px;
-    color:var(--muted);
-    font-size:12px;
+    color:#7893a3;
+    margin-top:5px;
 }
 
-input,
 select,
-textarea{
+textarea,
+input[type="color"]{
     width:100%;
     padding:11px;
-
+    margin:7px 0 15px;
     color:white;
-    background:#06182a;
-
-    border:1px solid var(--border);
+    background:#071b2d;
+    border:1px solid rgba(0,170,255,.25);
     border-radius:9px;
-    outline:none;
+}
+
+textarea{
+    min-height:100px;
+    resize:vertical;
 }
 
 .full{
     width:100%;
-    margin-top:10px;
+    padding:12px;
+    margin-top:8px;
 }
 
-textarea{
-    resize:vertical;
-}
-
-/* =================================
-   UPDATE
-================================= */
+/* UPDATE */
 
 .update{
     position:fixed;
     inset:0;
     z-index:1000;
-
     display:flex;
     align-items:center;
     justify-content:center;
-
-    padding:20px;
-
     background:
-        radial-gradient(
-            circle at center,
-            rgba(0,130,255,.18),
-            #020711 65%
-        );
+        radial-gradient(circle,
+        rgba(0,150,255,.18),
+        #020711 65%);
 }
 
-.update.hidden{
+.update.hide{
     display:none;
 }
 
-.update-box{
-    width:min(650px,95vw);
-    max-height:90vh;
-    overflow:auto;
-
-    text-align:center;
+.updateBox{
+    width:min(620px,92%);
     padding:35px;
-
-    background:rgba(4,14,28,.97);
-
-    border:1px solid var(--border);
+    text-align:center;
+    border:1px solid rgba(0,170,255,.3);
     border-radius:25px;
-
-    box-shadow:
-        0 30px 120px rgba(0,0,0,.7);
+    background:rgba(4,15,29,.96);
+    box-shadow:0 30px 100px rgba(0,0,0,.7);
 }
 
-.update-core{
-    width:100px;
-    height:100px;
+.updateOrb{
+    width:90px;
+    height:90px;
     margin:auto;
-
     border-radius:50%;
-
-    background:
-        radial-gradient(
-            circle,
-            white,
-            var(--accent) 10%,
-            transparent 70%
-        );
-
-    box-shadow:
-        0 0 60px var(--accent);
+    background:radial-gradient(circle,white,var(--blue),transparent 70%);
+    box-shadow:0 0 70px var(--blue);
 }
 
-.update-box h1{
+.updateBox h1{
     margin-top:20px;
-    letter-spacing:8px;
+    letter-spacing:7px;
 }
 
-.update-box h2{
-    color:var(--accent);
+.updateBox h2{
     margin:10px;
+    color:var(--blue);
 }
 
-.update-box p{
-    color:var(--muted);
+.updateBox p{
+    color:#7993a4;
 }
 
 .changes{
     text-align:left;
-    max-width:480px;
     margin:25px auto;
-    line-height:1.9;
+    max-width:450px;
+    line-height:1.8;
 }
 
-.version{
-    position:fixed;
-    right:16px;
-    bottom:12px;
-
-    padding:6px 10px;
-
-    color:rgba(180,220,240,.55);
-
-    background:rgba(4,12,23,.6);
-    border:1px solid rgba(0,170,255,.15);
-    border-radius:20px;
-
-    font-size:9px;
-    letter-spacing:2px;
+.enter{
+    padding:13px 25px;
+    border:none;
+    border-radius:12px;
+    color:white;
+    background:#008cff;
+    cursor:pointer;
+    font-weight:bold;
 }
-
-/* =================================
-   MOBILE
-================================= */
 
 @media(max-width:700px){
-
-    .welcome{
-        top:95px;
-    }
-
-    .welcome h1{
-        font-size:19px;
-        letter-spacing:6px;
-    }
-
-    .core-area{
-        height:370px;
-    }
 
     .analysis{
         left:15px;
         right:15px;
-        bottom:160px;
         width:auto;
+        bottom:155px;
+    }
+
+    .core{
+        width:180px;
+        height:180px;
+    }
+
+    .welcome h1{
+        font-size:19px;
     }
 
     .response{
-        bottom:120px;
-    }
-
-    .command-area{
-        bottom:35px;
-    }
-
-    .top{
-        padding:0 15px;
+        bottom:115px;
     }
 }
 </style>
 </head>
 
-
 <body>
 
-<!-- ==========================================
-     UPDATE SCREEN
-========================================== -->
+<!-- UPDATE -->
 
 <div id="updateScreen" class="update">
 
-    <div class="update-box">
+    <div class="updateBox">
 
-        <div class="update-core"></div>
+        <div class="updateOrb"></div>
 
         <h1>NEXORA</h1>
 
         <h2>UPDATE 1.8.2</h2>
 
-        <p>ECOSYSTEM FOUNDATION</p>
+        <p>ASSISTANT ECOSYSTEM FOUNDATION</p>
 
         <div class="changes">
 
-            <b>🧠 Advanced AI Foundation</b><br>
-            Natural language understanding and context awareness.
-            <br><br>
-
-            <b>🎙 Voice Intelligence</b><br>
-            Wake phrase and voice interaction.
-            <br><br>
-
-            <b>🧩 Skills System</b><br>
-            Expandable abilities and custom commands.
-            <br><br>
-
-            <b>📱 Device Foundation</b><br>
-            Notification support and future phone integration.
-            <br><br>
-
-            <b>🎨 Core Experience</b><br>
-            The NEXORA Core remains the main screen.
-            Everything else stays hidden until needed.
+            ✓ NEXORA Core remains the main screen<br>
+            ✓ Natural conversation foundation<br>
+            ✓ Question and command understanding<br>
+            ✓ Topic and subtopic analysis<br>
+            ✓ Student Mode<br>
+            ✓ Entrepreneur Mode<br>
+            ✓ Developer Mode<br>
+            ✓ Voice interaction<br>
+            ✓ Customizable Core<br>
+            ✓ Multiple languages<br>
+            ✓ Expandable skills system<br>
+            ✓ NEXORA ecosystem roadmap
 
         </div>
 
-        <button
-            class="send"
-            onclick="startNexora()"
-        >
+        <button class="enter" onclick="enterNexora()">
             ENTER NEXORA
         </button>
 
@@ -708,256 +569,162 @@ textarea{
 </div>
 
 
-<!-- ==========================================
-     NEXORA MAIN
-========================================== -->
+<!-- MAIN -->
 
 <div class="app">
 
-    <header class="top">
+    <div class="top">
 
         <div class="logo">
             🔵 NEXORA
         </div>
 
-        <div class="status">
+        <div class="online">
             ● ONLINE
         </div>
 
         <div class="top-buttons">
 
             <button
-                class="icon"
-                onclick="openPanel('ecosystemPanel')"
-            >
+                class="circleBtn"
+                onclick="openPanel('ecosystem')">
                 ◈
             </button>
 
             <button
-                class="icon"
-                onclick="openPanel('settingsPanel')"
-            >
+                class="circleBtn"
+                onclick="openPanel('settings')">
                 ⚙
             </button>
 
         </div>
 
-    </header>
+    </div>
 
 
-    <section class="welcome">
+    <div class="welcome">
 
         <h1>WELCOME</h1>
 
-        <p id="modeText">
-            NEXORA is ready.
+        <p id="mode">
+            General Mode
         </p>
 
-    </section>
+    </div>
 
 
-    <!-- ======================================
-         CORE
-    ======================================= -->
+    <!-- CORE -->
 
-    <section class="core-area">
+    <div
+        id="core"
+        class="core"
+        onclick="toggleVoice()"
+    >
 
         <div
-            id="core"
-            class="core"
+            id="coreText"
+            class="coreText"
         >
-
-            <div
-                id="coreLabel"
-                class="core-label"
-            >
-                NEXORA
-            </div>
-
-        </div>
-
-    </section>
-
-
-    <!-- ======================================
-         RESPONSE
-    ======================================= -->
-
-    <div class="response">
-
-        <div class="response-title">
             NEXORA
         </div>
 
-        <div
-            id="responseText"
-            class="response-text"
+    </div>
+
+
+    <!-- ANSWER -->
+
+    <div class="response">
+
+        <div class="responseTitle">
+            NEXORA
+        </div>
+
+        <div id="answer">
+            I'm ready. Type something or press the Core to speak.
+        </div>
+
+    </div>
+
+
+    <!-- INPUT -->
+
+    <div class="inputBox">
+
+        <button
+            class="circleBtn"
+            onclick="toggleVoice()">
+            🎙
+        </button>
+
+        <input
+            id="input"
+            placeholder="Talk to NEXORA..."
+            autocomplete="off"
         >
-            I'm ready. Say "Hey NEXORA" or type below.
-        </div>
+
+        <button
+            class="send"
+            onclick="sendMessage()">
+            SEND
+        </button>
 
     </div>
 
 
-    <!-- ======================================
-         COMMAND INPUT
-    ======================================= -->
-
-    <div class="command-area">
-
-        <div class="command">
-
-            <button
-                class="icon"
-                onclick="toggleVoice()"
-                title="Voice"
-            >
-                🎙
-            </button>
-
-            <input
-                id="input"
-                type="text"
-                placeholder="Talk to NEXORA..."
-                autocomplete="off"
-            >
-
-            <button
-                class="send"
-                onclick="send()"
-            >
-                →
-            </button>
-
-        </div>
-
-    </div>
-
-
-    <!-- ======================================
-         ANALYSIS
-    ======================================= -->
+    <!-- ANALYSIS -->
 
     <div
         id="analysis"
         class="analysis"
     >
 
-        <div class="analysis-title">
-            NEXORA ANALYSIS
+        <div class="analysisTitle">
+            ANALYSIS
         </div>
 
-        <div class="analysis-line">
-            <span>Understanding</span>
-            <span class="check">✓</span>
-        </div>
-
-        <div class="analysis-line">
+        <div class="analysisRow">
             <span>Topic</span>
-            <span id="analysisTopic">General</span>
+            <span id="aTopic">General</span>
         </div>
 
-        <div class="analysis-line">
+        <div class="analysisRow">
             <span>Subtopic</span>
-            <span id="analysisSubtopic">General</span>
+            <span id="aSubtopic">General</span>
         </div>
 
-        <div class="analysis-line">
+        <div class="analysisRow">
             <span>Intent</span>
-            <span id="analysisIntent">Conversation</span>
+            <span id="aIntent">Conversation</span>
         </div>
 
-        <div class="analysis-line">
+        <div class="analysisRow">
             <span>Mode</span>
-            <span id="analysisMode">General</span>
+            <span id="aMode">General</span>
         </div>
 
-        <div class="analysis-line">
-            <span>Context</span>
-            <span class="check">✓</span>
-        </div>
+    </div>
 
+
+    <div class="version">
+        NEXORA 1.8.2
     </div>
 
 </div>
 
 
-<!-- ==========================================
-     COMMAND PANEL
-========================================== -->
+<!-- ECOSYSTEM -->
 
-<div
-    id="commandPanel"
-    class="overlay"
->
+<div id="ecosystem" class="overlay">
 
     <div class="panel">
 
-        <div class="panel-header">
+        <div class="panelHead">
 
-            <h2>⚡ COMMAND CENTER</h2>
-
-            <button
-                class="close"
-                onclick="closePanel('commandPanel')"
-            >
-                ×
-            </button>
-
-        </div>
-
-        <textarea
-            id="commandInput"
-            rows="4"
-            placeholder="Create or test a NEXORA command..."
-        ></textarea>
-
-        <button
-            class="send full"
-            onclick="analyzeCommand()"
-        >
-            ANALYZE COMMAND
-        </button>
-
-        <div
-            id="commandResult"
-            class="card"
-            style="margin-top:15px"
-        >
-            NEXORA command engine ready.
-        </div>
-
-        <button
-            class="send full"
-            onclick="createCommand()"
-        >
-            + CREATE CUSTOM COMMAND
-        </button>
-
-    </div>
-
-</div>
-
-
-<!-- ==========================================
-     SKILLS PANEL
-========================================== -->
-
-<div
-    id="skillsPanel"
-    class="overlay"
->
-
-    <div class="panel">
-
-        <div class="panel-header">
-
-            <h2>🧩 NEXORA SKILLS</h2>
+            <h2>🌐 NEXORA ECOSYSTEM</h2>
 
             <button
                 class="close"
-                onclick="closePanel('skillsPanel')"
-            >
+                onclick="closePanel('ecosystem')">
                 ×
             </button>
 
@@ -965,30 +732,54 @@ textarea{
 
         <div class="grid">
 
-            <div class="card">📚 <strong>Study</strong><small>Learning assistance</small></div>
+            <div class="card">
+                🧠
+                <b>AI Brain</b>
+                <small>Core intelligence</small>
+            </div>
 
-            <div class="card">🧮 <strong>Maths</strong><small>Problems and explanations</small></div>
+            <div class="card">
+                🎙
+                <b>Voice</b>
+                <small>Natural voice interaction</small>
+            </div>
 
-            <div class="card">🔬 <strong>Science</strong><small>Science subjects</small></div>
+            <div class="card">
+                🧩
+                <b>Skills</b>
+                <small>Expandable abilities</small>
+            </div>
 
-            <div class="card">🌍 <strong>Geography</strong><small>Geography assistance</small></div>
+            <div class="card">
+                ⚡
+                <b>Commands</b>
+                <small>Custom actions</small>
+            </div>
 
-            <div class="card">📖 <strong>History</strong><small>History assistance</small></div>
+            <div class="card">
+                📱
+                <b>Device</b>
+                <small>Future phone integration</small>
+            </div>
 
-            <div class="card">🇫🇷 <strong>French</strong><small>Language learning</small></div>
+            <div class="card">
+                🔔
+                <b>Notifications</b>
+                <small>Device notifications</small>
+            </div>
 
-            <div class="card">💻 <strong>Developer</strong><small>Programming assistance</small></div>
+        </div>
 
-            <div class="card">💼 <strong>Entrepreneur</strong><small>Business thinking</small></div>
+        <br>
 
-            <div class="card">🔎 <strong>Research</strong><small>Research assistance</small></div>
-
-            <div class="card">🎨 <strong>Creative</strong><small>Creative tools</small></div>
-
-            <div class="card">🎮 <strong>Gaming</strong><small>Gaming topics</small></div>
-
-            <div class="card">🚗 <strong>Automotive</strong><small>Cars and technology</small></div>
-
+        <div class="card">
+            <b>NEXORA ROADMAP</b>
+            <small>
+                1.8 Core → 1.9 Smarter Conversations
+                → 2.0 Advanced AI
+                → 2.5 Advanced Tools
+                → 3.0 Full Assistant Ecosystem
+            </small>
         </div>
 
     </div>
@@ -996,25 +787,19 @@ textarea{
 </div>
 
 
-<!-- ==========================================
-     SETTINGS PANEL
-========================================== -->
+<!-- SETTINGS -->
 
-<div
-    id="settingsPanel"
-    class="overlay"
->
+<div id="settings" class="overlay">
 
     <div class="panel">
 
-        <div class="panel-header">
+        <div class="panelHead">
 
-            <h2>⚙ NEXORA SETTINGS</h2>
+            <h2>⚙ SETTINGS</h2>
 
             <button
                 class="close"
-                onclick="closePanel('settingsPanel')"
-            >
+                onclick="closePanel('settings')">
                 ×
             </button>
 
@@ -1022,10 +807,7 @@ textarea{
 
         <label>Language</label>
 
-        <select
-            id="language"
-            onchange="changeLanguage(this.value)"
-        >
+        <select id="language" onchange="changeLanguage()">
 
             <option value="en-US">English</option>
             <option value="fr-FR">Français</option>
@@ -1033,70 +815,29 @@ textarea{
             <option value="pt-PT">Português</option>
             <option value="de-DE">Deutsch</option>
             <option value="it-IT">Italiano</option>
-            <option value="sw-KE">Kiswahili</option>
-            <option value="sn-ZW">Shona</option>
 
         </select>
-
 
         <label>Voice</label>
 
         <select id="voices"></select>
 
-
-        <label>Voice Speed</label>
-
-        <input
-            id="rate"
-            type="range"
-            min=".5"
-            max="2"
-            step=".1"
-            value="1"
-        >
-
-
-        <label>Voice Pitch</label>
-
-        <input
-            id="pitch"
-            type="range"
-            min=".5"
-            max="2"
-            step=".1"
-            value="1"
-        >
-
-
         <button
             class="send full"
-            onclick="testVoice()"
-        >
+            onclick="testVoice()">
             TEST VOICE
         </button>
 
-
         <button
             class="send full"
-            onclick="openPanel('customPanel')"
-        >
-            🎨 CUSTOMIZE CORE
-        </button>
-
-
-        <button
-            class="send full"
-            onclick="enableNotifications()"
-        >
-            🔔 ENABLE NOTIFICATIONS
-        </button>
-
-
-        <button
-            class="send full"
-            onclick="openPanel('modesPanel')"
-        >
+            onclick="openPanel('modes')">
             🧠 MODES
+        </button>
+
+        <button
+            class="send full"
+            onclick="openPanel('custom')">
+            🎨 CUSTOMIZE CORE
         </button>
 
     </div>
@@ -1104,45 +845,57 @@ textarea{
 </div>
 
 
-<!-- ==========================================
-     CUSTOM PANEL
-========================================== -->
+<!-- MODES -->
 
-<div
-    id="customPanel"
-    class="overlay"
->
+<div id="modes" class="overlay">
 
     <div class="panel">
 
-        <div class="panel-header">
+        <div class="panelHead">
 
-            <h2>🎨 CORE CUSTOMIZATION</h2>
+            <h2>🧠 MODES</h2>
 
             <button
                 class="close"
-                onclick="closePanel('customPanel')"
-            >
+                onclick="closePanel('modes')">
                 ×
             </button>
 
         </div>
 
+        <div class="grid" id="modeGrid"></div>
 
-        <label>Core Shape</label>
+    </div>
 
-        <select
-            id="shape"
-            onchange="changeShape(this.value)"
+</div>
+
+
+<!-- CUSTOM -->
+
+<div id="custom" class="overlay">
+
+    <div class="panel">
+
+        <div class="panelHead">
+
+            <h2>🎨 CUSTOMIZE NEXORA</h2>
+
+            <button
+                class="close"
+                onclick="closePanel('custom')">
+                ×
+            </button>
+
+        </div>
+
+        <label>Core Colour</label>
+
+        <input
+            type="color"
+            id="color"
+            value="#00aaff"
+            onchange="changeColor()"
         >
-
-            <option value="orb">Orb</option>
-            <option value="diamond">Diamond</option>
-            <option value="hex">Hexagon</option>
-            <option value="ring">Ring</option>
-
-        </select>
-
 
         <label>Core Size</label>
 
@@ -1150,319 +903,65 @@ textarea{
             type="range"
             min="150"
             max="300"
-            value="230"
+            value="220"
             oninput="changeSize(this.value)"
         >
 
-
-        <label>LED Glow</label>
-
-        <input
-            type="range"
-            min="10"
-            max="90"
-            value="45"
-            oninput="changeGlow(this.value)"
-        >
-
-
-        <label>LED Colour</label>
-
-        <input
-            type="color"
-            value="#00aaff"
-            onchange="changeColor(this.value)"
-        >
-
-    </div>
-
-</div>
-
-
-<!-- ==========================================
-     MODES PANEL
-========================================== -->
-
-<div
-    id="modesPanel"
-    class="overlay"
->
-
-    <div class="panel">
-
-        <div class="panel-header">
-
-            <h2>🧠 NEXORA MODES</h2>
-
-            <button
-                class="close"
-                onclick="closePanel('modesPanel')"
-            >
-                ×
-            </button>
-
-        </div>
-
-        <div
-            id="modesGrid"
-            class="grid"
-        ></div>
-
-    </div>
-
-</div>
-
-
-<!-- ==========================================
-     ECOSYSTEM PANEL
-========================================== -->
-
-<div
-    id="ecosystemPanel"
-    class="overlay"
->
-
-    <div class="panel">
-
-        <div class="panel-header">
-
-            <h2>🌐 NEXORA ECOSYSTEM</h2>
-
-            <button
-                class="close"
-                onclick="closePanel('ecosystemPanel')"
-            >
-                ×
-            </button>
-
-        </div>
-
-
-        <div class="grid">
-
-            <div class="card">
-                🧠
-                <strong>Brain</strong>
-                <small>AI intelligence</small>
-            </div>
-
-            <div class="card">
-                🎙
-                <strong>Voice</strong>
-                <small>Voice interaction</small>
-            </div>
-
-            <div class="card">
-                🧩
-                <strong>Skills</strong>
-                <small>Expandable abilities</small>
-            </div>
-
-            <div class="card">
-                ⚡
-                <strong>Actions</strong>
-                <small>Supported tasks</small>
-            </div>
-
-            <div class="card">
-                🧠
-                <strong>Memory</strong>
-                <small>User-controlled memory</small>
-            </div>
-
-            <div class="card">
-                📱
-                <strong>Phone</strong>
-                <small>Future mobile integration</small>
-            </div>
-
-            <div class="card">
-                🔗
-                <strong>Connect</strong>
-                <small>Approved services</small>
-            </div>
-
-            <div class="card">
-                💻
-                <strong>Developer</strong>
-                <small>Build NEXORA Skills</small>
-            </div>
-
-        </div>
-
-
-        <div style="margin-top:25px">
-
-            <div class="card">
-
-                <strong>NEXORA 1.8</strong>
-
-                <small>CORE</small>
-
-            </div>
-
-            <div class="card">
-
-                <strong>NEXORA 1.9</strong>
-
-                <small>SMARTER CONVERSATIONS</small>
-
-            </div>
-
-            <div class="card">
-
-                <strong>NEXORA 2.0</strong>
-
-                <small>ADVANCED AI</small>
-
-            </div>
-
-            <div class="card">
-
-                <strong>NEXORA 2.5</strong>
-
-                <small>ADVANCED TOOLS</small>
-
-            </div>
-
-            <div class="card">
-
-                <strong>NEXORA 3.0</strong>
-
-                <small>FULL ASSISTANT ECOSYSTEM</small>
-
-            </div>
-
-        </div>
-
-    </div>
-
-</div>
-
-
-<!-- ==========================================
-     REVIEW PANEL
-========================================== -->
-
-<div
-    id="reviewPanel"
-    class="overlay"
->
-
-    <div class="panel">
-
-        <div class="panel-header">
-
-            <h2>⭐ REVIEW NEXORA</h2>
-
-            <button
-                class="close"
-                onclick="closePanel('reviewPanel')"
-            >
-                ×
-            </button>
-
-        </div>
-
-        <div
-            id="stars"
-            style="
-            display:flex;
-            gap:10px;
-            margin:20px 0;
-            "
-        >
-
-            <span class="star">★</span>
-            <span class="star">★</span>
-            <span class="star">★</span>
-            <span class="star">★</span>
-            <span class="star">★</span>
-
-        </div>
-
-
-        <textarea
-            id="reviewText"
-            rows="5"
-            placeholder="Tell us what you think about NEXORA..."
-        ></textarea>
-
-
         <button
             class="send full"
-            onclick="submitReview()"
-        >
-            SUBMIT REVIEW
-        </button>
-
-
-        <button
-            class="send full"
-            onclick="shareReview()"
-        >
-            📱 SHARE REVIEW
+            onclick="resetCore()">
+            RESET CORE
         </button>
 
     </div>
 
-</div>
-
-
-<div class="version">
-    NEXORA 1.8.2
 </div>
 
 
 <script>
 
-/* ==========================================
-   NEXORA CORE ENGINE
-========================================== */
+/* =========================================
+   NEXORA ENGINE
+========================================= */
 
-const VERSION="1.8.2";
+const VERSION = "1.8.2";
 
-const state={
+let currentMode = "General";
 
-    mode:"General",
+let currentLanguage = "en-US";
 
-    language:
-        localStorage.getItem(
-            "nexoraLanguage"
-        ) || "en-US",
+let voices = [];
 
-    topic:"General",
+let recognition = null;
 
-    subtopic:"General",
-
-    intent:"Conversation",
-
-    lastQuestion:"",
-
-    lastAnswer:"",
-
-    listening:false,
-
-    rating:0,
-
-    customCommands:
-        JSON.parse(
-            localStorage.getItem(
-                "nexoraCommands"
-            ) || "{}"
-        )
-};
+let listening = false;
 
 
-/* ==========================================
+/* =========================================
+   UPDATE
+========================================= */
+
+function enterNexora(){
+
+    document
+        .getElementById("updateScreen")
+        .classList.add("hide");
+
+    speak("NEXORA is ready.");
+
+}
+
+
+/* =========================================
    PANELS
-========================================== */
+========================================= */
 
 function openPanel(id){
 
     document
         .getElementById(id)
         .classList.add("show");
+
 }
 
 function closePanel(id){
@@ -1470,53 +969,30 @@ function closePanel(id){
     document
         .getElementById(id)
         .classList.remove("show");
+
 }
 
 
-/* ==========================================
-   UPDATE
-========================================== */
+/* =========================================
+   ANSWER
+========================================= */
 
-function startNexora(){
-
-    localStorage.setItem(
-        "nexoraSeenVersion",
-        VERSION
-    );
+function showAnswer(text){
 
     document
-        .getElementById("updateScreen")
-        .classList.add("hidden");
+        .getElementById("answer")
+        .textContent = text;
 
-    setTimeout(()=>{
-
-        speak(
-            "NEXORA is online and ready."
-        );
-
-    },500);
 }
 
 
-if(
-    localStorage.getItem(
-        "nexoraSeenVersion"
-    )===VERSION
-){
-
-    document
-        .getElementById("updateScreen")
-        .classList.add("hidden");
-}
-
-
-/* ==========================================
+/* =========================================
    CORE STATE
-========================================== */
+========================================= */
 
-function coreState(stateName){
+function coreState(state){
 
-    const core=
+    const core =
         document.getElementById("core");
 
     core.classList.remove(
@@ -1525,580 +1001,324 @@ function coreState(stateName){
         "speaking"
     );
 
-    if(stateName==="listening")
+    if(state === "listening"){
         core.classList.add("listening");
+        document.getElementById("coreText").textContent =
+            "LISTENING";
+    }
 
-    if(stateName==="thinking")
+    else if(state === "thinking"){
         core.classList.add("thinking");
+        document.getElementById("coreText").textContent =
+            "ANALYSING";
+    }
 
-    if(stateName==="speaking")
+    else if(state === "speaking"){
         core.classList.add("speaking");
+        document.getElementById("coreText").textContent =
+            "SPEAKING";
+    }
 
+    else{
+        document.getElementById("coreText").textContent =
+            "NEXORA";
+    }
 
-    document
-        .getElementById("coreLabel")
-        .textContent=
-
-        stateName==="listening"
-            ? "LISTENING"
-
-        :stateName==="thinking"
-            ? "ANALYSING"
-
-        :stateName==="speaking"
-            ? "RESPONDING"
-
-        :"NEXORA";
 }
 
 
-/* ==========================================
+/* =========================================
    ANALYSIS
-========================================== */
+========================================= */
 
-function showAnalysis(){
+function analyse(text){
+
+    const t = text.toLowerCase();
+
+    let topic = "General";
+    let subtopic = "General";
+    let intent = "Conversation";
+
+    if(
+        t.includes("math") ||
+        t.includes("algebra") ||
+        t.includes("fraction") ||
+        t.includes("factor")
+    ){
+        topic = "Maths";
+        subtopic = "Mathematics";
+    }
+
+    else if(
+        t.includes("science") ||
+        t.includes("biology") ||
+        t.includes("chemistry") ||
+        t.includes("physics")
+    ){
+        topic = "Science";
+        subtopic = "Science";
+    }
+
+    else if(
+        t.includes("business") ||
+        t.includes("entrepreneur") ||
+        t.includes("startup")
+    ){
+        topic = "Entrepreneur";
+        subtopic = "Business";
+    }
+
+    else if(
+        t.includes("code") ||
+        t.includes("html") ||
+        t.includes("javascript") ||
+        t.includes("website")
+    ){
+        topic = "Developer";
+        subtopic = "Programming";
+    }
+
+    else if(
+        t.includes("car") ||
+        t.includes("engine") ||
+        t.includes("tuning")
+    ){
+        topic = "Automotive";
+        subtopic = "Cars";
+    }
+
+
+    if(
+        t.includes("?") ||
+        t.startsWith("what") ||
+        t.startsWith("why") ||
+        t.startsWith("how") ||
+        t.startsWith("when") ||
+        t.startsWith("where") ||
+        t.startsWith("who")
+    ){
+        intent = "Question";
+    }
+
+    else if(
+        t.startsWith("open") ||
+        t.startsWith("show") ||
+        t.startsWith("activate") ||
+        t.startsWith("change") ||
+        t.startsWith("set")
+    ){
+        intent = "Command";
+    }
+
+
+    document.getElementById("aTopic").textContent = topic;
+    document.getElementById("aSubtopic").textContent = subtopic;
+    document.getElementById("aIntent").textContent = intent;
+    document.getElementById("aMode").textContent = currentMode;
 
     document
         .getElementById("analysis")
         .classList.add("show");
 
-    document
-        .getElementById("analysisTopic")
-        .textContent=state.topic;
-
-    document
-        .getElementById("analysisSubtopic")
-        .textContent=state.subtopic;
-
-    document
-        .getElementById("analysisIntent")
-        .textContent=state.intent;
-
-    document
-        .getElementById("analysisMode")
-        .textContent=state.mode;
 }
 
 
-function hideAnalysis(){
+/* =========================================
+   RESPONSE ENGINE
+========================================= */
 
-    setTimeout(()=>{
+function generateResponse(text){
 
-        document
-            .getElementById("analysis")
-            .classList.remove("show");
-
-    },3500);
-}
+    const t = text.toLowerCase().trim();
 
 
-/* ==========================================
-   UNDERSTANDING
-========================================== */
-
-function normalize(text){
-
-    return text
-        .toLowerCase()
-        .replace(/[^\w\s?']/g," ")
-        .replace(/\s+/g," ")
-        .trim();
-}
-
-
-function detectIntent(text){
-
-    const t=normalize(text);
+    /* GREETING */
 
     if(
-        /\b(open|launch|start|activate|switch|change|set|create|show|enable|disable)\b/
-        .test(t)
-    )
-        return "Command";
-
-    if(
-        t.includes("?") ||
-        /\b(what|why|how|when|where|who|which|can|could|is|are|does|do)\b/
-        .test(t)
-    )
-        return "Question";
-
-    if(
-        /\b(explain|teach|help me understand)\b/
-        .test(t)
-    )
-        return "Explanation";
-
-    if(
-        /\b(compare|difference|better)\b/
-        .test(t)
-    )
-        return "Comparison";
-
-    if(
-        /\b(plan|strategy|steps|roadmap)\b/
-        .test(t)
-    )
-        return "Planning";
-
-    return "Conversation";
-}
-
-
-function detectTopic(text){
-
-    const t=normalize(text);
-
-    const topics={
-
-        Maths:[
-            "math",
-            "algebra",
-            "equation",
-            "fraction",
-            "percentage",
-            "factorisation"
-        ],
-
-        Science:[
-            "science",
-            "biology",
-            "chemistry",
-            "physics",
-            "dna",
-            "cell"
-        ],
-
-        Geography:[
-            "geography",
-            "weather",
-            "climate",
-            "rainfall"
-        ],
-
-        History:[
-            "history",
-            "war",
-            "empire"
-        ],
-
-        French:[
-            "french",
-            "français",
-            "bonjour",
-            "translate"
-        ],
-
-        Developer:[
-            "code",
-            "coding",
-            "html",
-            "css",
-            "javascript",
-            "python",
-            "programming",
-            "website"
-        ],
-
-        Entrepreneur:[
-            "business",
-            "entrepreneur",
-            "startup",
-            "customer",
-            "marketing",
-            "pricing",
-            "product",
-            "brand"
-        ],
-
-        Gaming:[
-            "gaming",
-            "game",
-            "esports",
-            "playstation",
-            "gt7"
-        ],
-
-        Automotive:[
-            "car",
-            "cars",
-            "engine",
-            "tuning",
-            "traction",
-            "horsepower"
-        ]
-    };
-
-
-    for(
-        const topic in topics
+        t === "hi" ||
+        t === "hello" ||
+        t.includes("hey nexora")
     ){
-
-        if(
-            topics[topic]
-                .some(
-                    word=>t.includes(word)
-                )
-        ){
-
-            state.topic=topic;
-
-            state.subtopic=topic;
-
-            return;
-        }
-    }
-
-    if(!state.topic)
-        state.topic="General";
-}
-
-
-/* ==========================================
-   RESPONSE
-========================================== */
-
-function response(text){
-
-    document
-        .getElementById("responseText")
-        .textContent=text;
-
-    state.lastAnswer=text;
-
-    speak(text);
-
-    hideAnalysis();
-}
-
-
-/* ==========================================
-   AI RESPONSE FOUNDATION
-========================================== */
-
-function answer(text){
-
-    const t=normalize(text);
-
-    /* Greetings */
-
-    if(
-        /^(hi|hello|hey|yo|sup)\b/
-        .test(t)
-    ){
-
-        return[
-            "Hey. NEXORA is ready.",
-            "Hello. What are we working on?",
-            "Hey. What can I help you with?"
-        ][
-            Math.floor(
-                Math.random()*3
-            )
-        ];
+        return "Hey. NEXORA is ready. What would you like to do?";
     }
 
 
-    /* Identity */
+    /* IDENTITY */
 
     if(
-        /\b(who are you|what are you)\b/
-        .test(t)
+        t.includes("who are you") ||
+        t.includes("what are you")
     ){
-
-        return `
-I'm NEXORA — an expandable AI assistant ecosystem.
-
-My Core is the main interface. My intelligence, skills, voice, commands, tools and future device integrations operate around it.
-`;
+        return "I'm NEXORA — an expandable AI assistant system built around the NEXORA Core.";
     }
 
 
-    /* Capabilities */
+    /* CAPABILITIES */
 
     if(
-        /\b(what can you do|your abilities|your features)\b/
-        .test(t)
+        t.includes("what can you do") ||
+        t.includes("what are your features")
     ){
-
-        return `
-I can understand natural questions and commands, switch modes, analyse topics and subtopics, use voice, create custom commands, run challenges, change languages and provide an expandable assistant architecture.
-
-My deeper AI capabilities can be connected through a secure AI backend.
-`;
+        return "I can understand questions and commands, analyse topics, switch modes, interact through voice, use skills and operate as the foundation of a larger assistant ecosystem.";
     }
 
 
-    /* Context */
+    /* MODE */
 
     if(
-        /\b(it|that|this|them|again|the second|the first|what about)\b/
-        .test(t)
-        &&
-        state.lastQuestion
+        t.includes("entrepreneur mode")
     ){
+        currentMode = "Entrepreneur";
 
-        return `
-I understand you're referring to our previous topic: ${state.topic}.
+        document.getElementById("mode").textContent =
+            "Entrepreneur Mode";
 
-Tell me what you want to know about it and I'll continue from there.
-`;
+        return "Entrepreneur Mode activated. I can help you develop ideas, products, customers, marketing and business strategies.";
     }
 
 
-    /* Entrepreneur */
-
     if(
-        state.mode==="Entrepreneur" ||
-        state.topic==="Entrepreneur"
+        t.includes("student mode") ||
+        t.includes("study mode")
     ){
+        currentMode = "Student";
 
-        return `
-Entrepreneur Mode is active.
+        document.getElementById("mode").textContent =
+            "Student Mode";
 
-Let's work through the idea, target customer, product, competition, pricing, marketing and launch strategy.
-
-Tell me the business idea you're thinking about.
-`;
+        return "Student Mode activated. I can help you learn, practise questions and understand difficult topics.";
     }
 
 
-    /* Developer */
-
     if(
-        state.mode==="Developer" ||
-        state.topic==="Developer"
+        t.includes("developer mode")
     ){
+        currentMode = "Developer";
 
-        return `
-Developer Mode is active.
+        document.getElementById("mode").textContent =
+            "Developer Mode";
 
-I can help you plan the architecture, write code, find bugs and improve the design.
-
-Tell me what you're building.
-`;
+        return "Developer Mode activated. Tell me what you're building.";
     }
 
 
-    /* Tutor */
+    /* OPEN PANELS */
 
     if(
-        state.mode==="Tutor"
+        t.includes("open settings") ||
+        t.includes("show settings")
     ){
-
-        return `
-Tutor Mode is active.
-
-I'll explain the idea clearly, give an example and then I can test you with a question.
-`;
+        openPanel("settings");
+        return "Settings are open.";
     }
 
 
-    /* Challenge */
-
     if(
-        /\b(challenge|quiz me|test me)\b/
-        .test(t)
+        t.includes("show ecosystem") ||
+        t.includes("open ecosystem")
     ){
-
-        openPanel("challengePanel");
-
-        return "I've opened a challenge for you.";
+        openPanel("ecosystem");
+        return "The NEXORA ecosystem is open.";
     }
 
 
-    /* Thanks */
+    if(
+        t.includes("show modes") ||
+        t.includes("open modes")
+    ){
+        openPanel("modes");
+        return "NEXORA modes are open.";
+    }
+
 
     if(
-        /\b(thanks|thank you)\b/
-        .test(t)
+        t.includes("customize") ||
+        t.includes("customise")
     ){
+        openPanel("custom");
+        return "Core customization is open.";
+    }
 
+
+    /* COMMANDS */
+
+    if(
+        t.includes("show commands") ||
+        t.includes("open commands")
+    ){
+        return "The command system is being prepared. NEXORA can be expanded with custom commands.";
+    }
+
+
+    /* HELP */
+
+    if(
+        t === "help" ||
+        t.includes("help me")
+    ){
+        return "You can ask me questions, activate modes, open settings, customize the Core, or simply talk naturally.";
+    }
+
+
+    /* THANKS */
+
+    if(
+        t.includes("thank")
+    ){
         return "You're welcome.";
     }
 
 
-    /* Generic */
+    /* DEFAULT */
 
-    return `
-I understand your request.
-
-Topic: ${state.topic}
-Subtopic: ${state.subtopic}
-Intent: ${state.intent}
-
-For completely open-ended answers, NEXORA can connect to a secure AI backend.
-`;
+    return "I understand what you're asking, but this NEXORA version needs its full AI backend connected for open-ended answers. The interface and assistant engine are ready.";
 }
 
 
-/* ==========================================
-   PROCESS MESSAGE
-========================================== */
+/* =========================================
+   PROCESS
+========================================= */
 
-async function process(text){
+function processMessage(text){
 
-    if(!text.trim())
-        return;
+    if(!text) return;
 
-
-    state.lastQuestion=text;
-
-    state.intent=
-        detectIntent(text);
-
-    detectTopic(text);
-
-    showAnalysis();
+    analyse(text);
 
     coreState("thinking");
 
+    setTimeout(function(){
 
-    /* Mode command */
+        const answer =
+            generateResponse(text);
 
-    const mode=
-        MODES.find(
-            m=>
-            normalize(text)
-            .includes(
-                normalize(m)
-            )
-        );
+        showAnswer(answer);
 
+        speak(answer);
 
-    if(
-        mode &&
-        /\b(mode|switch|activate|enter|use)\b/
-        .test(
-            normalize(text)
-        )
-    ){
+    },500);
 
-        setMode(mode);
-
-        return;
-    }
-
-
-    /* Custom commands */
-
-    for(
-        const command in
-        state.customCommands
-    ){
-
-        if(
-            normalize(text)
-            .includes(
-                normalize(command)
-            )
-        ){
-
-            response(
-                state.customCommands[
-                    command
-                ].response
-            );
-
-            return;
-        }
-    }
-
-
-    /* Open skills */
-
-    if(
-        /\b(show|open)\b.*\bskills\b/
-        .test(normalize(text))
-    ){
-
-        openPanel("skillsPanel");
-
-        response(
-            "I've opened the Skills system."
-        );
-
-        return;
-    }
-
-
-    /* Open commands */
-
-    if(
-        /\b(show|open)\b.*\bcommands\b/
-        .test(normalize(text))
-    ){
-
-        openPanel("commandPanel");
-
-        response(
-            "I've opened the Command Center."
-        );
-
-        return;
-    }
-
-
-    /* Open customization */
-
-    if(
-        /\b(customize|customise)\b/
-        .test(normalize(text))
-    ){
-
-        openPanel("customPanel");
-
-        response(
-            "I've opened Core customization."
-        );
-
-        return;
-    }
-
-
-    /* Notifications */
-
-    if(
-        /\b(enable|turn on)\b.*\bnotifications\b/
-        .test(normalize(text))
-    ){
-
-        enableNotifications();
-
-        response(
-            "I've requested notification permission."
-        );
-
-        return;
-    }
-
-
-    /* Answer */
-
-    response(
-        answer(text)
-    );
 }
 
 
-/* ==========================================
+/* =========================================
    SEND
-========================================== */
+========================================= */
 
-function send(){
+function sendMessage(){
 
-    const input=
+    const input =
         document.getElementById("input");
 
-    const text=
+    const text =
         input.value.trim();
 
-    if(!text)
-        return;
+    if(!text) return;
 
-    input.value="";
+    input.value = "";
 
-    process(text);
+    processMessage(text);
+
 }
 
 
@@ -2106,286 +1326,175 @@ document
     .getElementById("input")
     .addEventListener(
         "keydown",
-        e=>{
-            if(e.key==="Enter")
-                send();
+        function(event){
+
+            if(event.key === "Enter"){
+                sendMessage();
+            }
+
         }
     );
 
 
-/* ==========================================
-   MODES
-========================================== */
-
-const MODES=[
-
-    "General",
-    "Student",
-    "Tutor",
-    "Maths",
-    "Science",
-    "Geography",
-    "History",
-    "French",
-    "Developer",
-    "Entrepreneur",
-    "Business",
-    "Research",
-    "Creative",
-    "Gaming",
-    "Automotive",
-    "Challenge",
-    "System",
-    "Custom"
-
-];
-
-
-function buildModes(){
-
-    const grid=
-        document.getElementById(
-            "modesGrid"
-        );
-
-    MODES.forEach(mode=>{
-
-        const card=
-            document.createElement(
-                "div"
-            );
-
-        card.className="card";
-
-        card.style.cursor="pointer";
-
-        card.innerHTML=
-            `<strong>🔵 ${mode}</strong>
-             <small>Activate ${mode} Mode</small>`;
-
-        card.onclick=()=>{
-            setMode(mode);
-            closePanel("modesPanel");
-        };
-
-        grid.appendChild(card);
-
-    });
-}
-
-
-function setMode(mode){
-
-    state.mode=mode;
-
-    document
-        .getElementById("modeText")
-        .textContent=
-        mode+" Mode active.";
-
-    response(
-        `Alright. ${mode} Mode is now active.`
-    );
-}
-
-
-/* ==========================================
-   VOICE
-========================================== */
-
-let voices=[];
+/* =========================================
+   VOICE SYNTHESIS
+========================================= */
 
 function loadVoices(){
 
     if(!("speechSynthesis" in window))
         return;
 
-    voices=
+    voices =
         speechSynthesis.getVoices();
 
-    const select=
-        document.getElementById(
-            "voices"
-        );
+    const select =
+        document.getElementById("voices");
 
-    select.innerHTML="";
+    select.innerHTML = "";
 
-    voices.forEach(
-        (voice,index)=>{
+    voices.forEach(function(voice,index){
 
-            const option=
-                document.createElement(
-                    "option"
-                );
+        const option =
+            document.createElement("option");
 
-            option.value=index;
+        option.value = index;
 
-            option.textContent=
-                voice.name+
-                " — "+
-                voice.lang;
+        option.textContent =
+            voice.name +
+            " — " +
+            voice.lang;
 
-            select.appendChild(
-                option
-            );
-        }
-    );
+        select.appendChild(option);
+
+    });
+
 }
 
 
-if(
-    "speechSynthesis" in window
-){
+if("speechSynthesis" in window){
 
-    speechSynthesis
-        .onvoiceschanged=
+    speechSynthesis.onvoiceschanged =
         loadVoices;
 
     loadVoices();
+
 }
 
 
 function speak(text){
 
-    if(
-        !("speechSynthesis" in window)
-    )
+    if(!("speechSynthesis" in window))
         return;
 
     speechSynthesis.cancel();
 
-    const utterance=
-        new SpeechSynthesisUtterance(
-            text
-        );
+    const speech =
+        new SpeechSynthesisUtterance(text);
 
-    const voice=
-        voices[
-            document
-            .getElementById("voices")
-            .value
-        ];
+    const selected =
+        document.getElementById("voices");
 
-    if(voice)
-        utterance.voice=voice;
+    if(
+        voices[selected.value]
+    ){
+        speech.voice =
+            voices[selected.value];
+    }
 
-    utterance.lang=
-        state.language;
+    speech.lang =
+        currentLanguage;
 
-    utterance.rate=
-        parseFloat(
-            document
-            .getElementById("rate")
-            .value
-        );
+    speech.rate = 1;
 
-    utterance.pitch=
-        parseFloat(
-            document
-            .getElementById("pitch")
-            .value
-        );
+    speech.pitch = 1;
 
     coreState("speaking");
 
-    utterance.onend=()=>{
+    speech.onend = function(){
+
         coreState("ready");
+
     };
 
-    speechSynthesis.speak(
-        utterance
-    );
+    speechSynthesis.speak(speech);
+
 }
 
 
 function testVoice(){
 
     speak(
-        "Voice test successful. NEXORA is ready."
+        "Voice system operational. NEXORA is ready."
     );
+
 }
 
 
-/* ==========================================
+/* =========================================
    SPEECH RECOGNITION
-========================================== */
+========================================= */
 
-const SpeechRecognition=
+const Recognition =
     window.SpeechRecognition ||
     window.webkitSpeechRecognition;
 
-let recognition=null;
+
+if(Recognition){
+
+    recognition =
+        new Recognition();
+
+    recognition.continuous = false;
+
+    recognition.interimResults = false;
+
+    recognition.lang =
+        currentLanguage;
 
 
-if(SpeechRecognition){
+    recognition.onstart = function(){
 
-    recognition=
-        new SpeechRecognition();
-
-    recognition.continuous=true;
-
-    recognition.interimResults=false;
-
-    recognition.lang=
-        state.language;
-
-
-    recognition.onstart=()=>{
-
-        state.listening=true;
+        listening = true;
 
         coreState("listening");
+
+    };
+
+
+    recognition.onresult = function(event){
+
+        const text =
+            event
+            .results[0][0]
+            .transcript;
+
+        listening = false;
+
+        processMessage(text);
+
     };
 
 
-    recognition.onresult=
-        event=>{
+    recognition.onerror = function(){
 
-            const result=
-                event
-                .results[
-                    event.results.length-1
-                ][0]
-                .transcript;
+        listening = false;
 
-            const lower=
-                result.toLowerCase();
+        coreState("ready");
 
-            if(
-                lower.includes(
-                    "hey nexora"
-                )
-            ){
-
-                const command=
-                    result
-                    .replace(
-                        /hey nexora/ig,
-                        ""
-                    )
-                    .trim();
-
-                if(command)
-                    process(command);
-                else
-                    speak("Yes?");
-
-            }
-
-        };
-
-
-    recognition.onend=()=>{
-
-        if(state.listening){
-
-            try{
-                recognition.start();
-            }catch(e){}
-
-        }
+        showAnswer(
+            "I couldn't hear that clearly. Please try again."
+        );
 
     };
+
+
+    recognition.onend = function(){
+
+        listening = false;
+
+    };
+
 }
 
 
@@ -2393,491 +1502,197 @@ function toggleVoice(){
 
     if(!recognition){
 
-        response(
-            "Voice recognition is not supported by this browser."
+        showAnswer(
+            "Voice recognition isn't supported in this browser. Try Chrome or Edge."
         );
 
         return;
+
     }
 
 
-    if(state.listening){
-
-        state.listening=false;
+    if(listening){
 
         recognition.stop();
 
+        listening = false;
+
         coreState("ready");
 
-    }else{
+        return;
 
-        state.listening=true;
-
-        recognition.lang=
-            state.language;
-
-        recognition.start();
     }
+
+
+    recognition.lang =
+        currentLanguage;
+
+    recognition.start();
+
 }
 
 
-/* ==========================================
+/* =========================================
    LANGUAGE
-========================================== */
+========================================= */
 
-function changeLanguage(language){
+function changeLanguage(){
 
-    state.language=language;
+    currentLanguage =
+        document.getElementById(
+            "language"
+        ).value;
 
-    localStorage.setItem(
-        "nexoraLanguage",
-        language
-    );
+    if(recognition){
 
-    if(recognition)
-        recognition.lang=language;
+        recognition.lang =
+            currentLanguage;
 
-    response(
+    }
+
+    speak(
         "Language changed."
     );
+
 }
 
 
-/* ==========================================
-   CUSTOMIZATION
-========================================== */
+/* =========================================
+   MODES
+========================================= */
 
-function changeSize(value){
+const modes = [
 
-    document.documentElement
-        .style
-        .setProperty(
-            "--core-size",
-            value+"px"
-        );
-}
+    ["General","Normal NEXORA assistance."],
 
+    ["Student","Learning and study assistance."],
 
-function changeGlow(value){
+    ["Tutor","Step-by-step teaching."],
 
-    document.documentElement
-        .style
-        .setProperty(
-            "--glow",
-            value+"px"
-        );
-}
+    ["Entrepreneur","Business and startup thinking."],
 
+    ["Developer","Programming and technology."],
 
-function changeColor(value){
+    ["Research","Research and information analysis."],
 
-    document.documentElement
-        .style
-        .setProperty(
-            "--accent",
-            value
-        );
+    ["Creative","Ideas and creative projects."],
 
-    localStorage.setItem(
-        "nexoraColor",
-        value
-    );
-}
+    ["Gaming","Gaming and esports topics."],
 
+    ["Automotive","Cars and automotive technology."]
 
-function changeShape(shape){
+];
 
-    const core=
-        document.getElementById(
-            "core"
-        );
 
-    core.style.clipPath="none";
+function buildModes(){
 
-    core.style.borderRadius="50%";
+    const grid =
+        document.getElementById("modeGrid");
 
-    if(shape==="diamond"){
+    modes.forEach(function(item){
 
-        core.style.borderRadius="15px";
+        const card =
+            document.createElement("div");
 
-        core.style.transform=
-            "rotate(45deg)";
-    }
+        card.className = "card";
 
-    if(shape==="hex"){
+        card.innerHTML =
+            "<b>🔵 " +
+            item[0] +
+            "</b><small>" +
+            item[1] +
+            "</small>";
 
-        core.style.clipPath=
-            "polygon(25% 5%,75% 5%,100% 50%,75% 95%,25% 95%,0 50%)";
-    }
+        card.onclick = function(){
 
-    if(shape==="ring"){
+            currentMode =
+                item[0];
 
-        core.style.background=
-            "transparent";
+            document.getElementById(
+                "mode"
+            ).textContent =
+                item[0] + " Mode";
 
-        core.style.border=
-            "12px solid var(--accent)";
+            closePanel("modes");
 
-    }else{
-
-        core.style.border=
-            "none";
-
-        core.style.background=
-            `radial-gradient(
-                circle,
-                #ffffff 0%,
-                var(--accent) 4%,
-                rgba(0,160,255,.65) 18%,
-                rgba(0,110,255,.2) 45%,
-                transparent 72%
-            )`;
-    }
-}
-
-
-/* ==========================================
-   CUSTOM COMMANDS
-========================================== */
-
-function createCommand(){
-
-    const name=
-        prompt(
-            "Command name:"
-        );
-
-    if(!name)
-        return;
-
-    const commandResponse=
-        prompt(
-            "What should NEXORA say?"
-        );
-
-    if(!commandResponse)
-        return;
-
-    state.customCommands[name]={
-        response:
-            commandResponse
-    };
-
-    localStorage.setItem(
-        "nexoraCommands",
-        JSON.stringify(
-            state.customCommands
-        )
-    );
-
-    document
-        .getElementById(
-            "commandResult"
-        )
-        .textContent=
-        "Custom command created: "+
-        name;
-}
-
-
-/* ==========================================
-   COMMAND ANALYSIS
-========================================== */
-
-function analyzeCommand(){
-
-    const text=
-        document
-        .getElementById(
-            "commandInput"
-        )
-        .value
-        .trim();
-
-    if(!text)
-        return;
-
-    state.intent=
-        detectIntent(text);
-
-    detectTopic(text);
-
-    document
-        .getElementById(
-            "commandResult"
-        )
-        .innerHTML=`
-
-        <b>NEXORA UNDERSTANDING</b>
-        <br><br>
-
-        Intent:
-        ${state.intent}
-
-        <br>
-
-        Topic:
-        ${state.topic}
-
-        <br>
-
-        Subtopic:
-        ${state.subtopic}
-
-        <br>
-
-        Mode:
-        ${state.mode}
-    `;
-}
-
-
-/* ==========================================
-   NOTIFICATIONS
-========================================== */
-
-async function enableNotifications(){
-
-    if(
-        !("Notification" in window)
-    ){
-
-        response(
-            "Notifications aren't supported here."
-        );
-
-        return;
-    }
-
-    const permission=
-        await Notification
-        .requestPermission();
-
-    if(
-        permission==="granted"
-    ){
-
-        new Notification(
-            "NEXORA",
-            {
-                body:
-                    "NEXORA notifications are enabled."
-            }
-        );
-
-        response(
-            "Notifications are enabled."
-        );
-
-    }else{
-
-        response(
-            "Notification permission was not granted."
-        );
-    }
-}
-
-
-/* ==========================================
-   REVIEWS
-========================================== */
-
-document
-    .querySelectorAll(
-        ".star"
-    )
-    .forEach(
-        (star,index)=>{
-
-            star.style.cursor="pointer";
-
-            star.style.fontSize="35px";
-
-            star.style.color="#30404c";
-
-            star.onclick=()=>{
-
-                state.rating=
-                    index+1;
-
-                document
-                    .querySelectorAll(
-                        ".star"
-                    )
-                    .forEach(
-                        (s,i)=>{
-
-                            s.style.color=
-                                i<
-                                state.rating
-                                    ? "#ffd75a"
-                                    : "#30404c";
-                        }
-                    );
-            };
-        }
-    );
-
-
-function submitReview(){
-
-    const text=
-        document
-        .getElementById(
-            "reviewText"
-        )
-        .value
-        .trim();
-
-    if(!state.rating){
-
-        alert(
-            "Please choose a rating."
-        );
-
-        return;
-    }
-
-    if(!text){
-
-        alert(
-            "Please write a review."
-        );
-
-        return;
-    }
-
-    const review={
-
-        rating:state.rating,
-
-        text,
-
-        version:VERSION,
-
-        date:
-            new Date()
-            .toISOString()
-
-    };
-
-    localStorage.setItem(
-        "nexoraReview",
-        JSON.stringify(review)
-    );
-
-    response(
-        "Thank you for reviewing NEXORA."
-    );
-}
-
-
-async function shareReview(){
-
-    const review=
-        JSON.parse(
-            localStorage.getItem(
-                "nexoraReview"
-            )||"null"
-        );
-
-    if(!review){
-
-        alert(
-            "Submit a review first."
-        );
-
-        return;
-    }
-
-    const text=
-`⭐ NEXORA ${review.rating}/5
-
-${review.text}
-
-#NEXORA #AI`;
-
-    if(
-        navigator.share
-    ){
-
-        try{
-
-            await navigator.share({
-
-                title:
-                    "My NEXORA Review",
-
-                text
-
-            });
-
-        }catch(e){}
-
-    }else{
-
-        try{
-
-            await navigator
-                .clipboard
-                .writeText(text);
-
-            alert(
-                "Review copied. You can paste it into your social platform."
+            showAnswer(
+                item[0] +
+                " Mode activated."
             );
 
-        }catch(e){
+            speak(
+                item[0] +
+                " Mode activated."
+            );
 
-            alert(text);
-        }
-    }
+        };
+
+        grid.appendChild(card);
+
+    });
+
 }
 
 
-/* ==========================================
-   INITIALIZE
-========================================== */
+/* =========================================
+   CUSTOMIZATION
+========================================= */
 
-function init(){
+function changeColor(){
 
-    buildModes();
+    const color =
+        document.getElementById(
+            "color"
+        ).value;
 
-    document
-        .getElementById(
-            "language"
-        )
-        .value=
-        state.language;
-
-
-    const savedColor=
-        localStorage.getItem(
-            "nexoraColor"
+    document.documentElement
+        .style
+        .setProperty(
+            "--blue",
+            color
         );
 
-    if(savedColor)
-        changeColor(savedColor);
-
-
-    const savedMode=
-        localStorage.getItem(
-            "nexoraMode"
-        );
-
-    if(savedMode)
-        state.mode=savedMode;
-
-
-    document
-        .getElementById(
-            "modeText"
-        )
-        .textContent=
-        state.mode+
-        " Mode active.";
 }
 
-init();
+
+function changeSize(size){
+
+    const core =
+        document.getElementById("core");
+
+    core.style.width =
+        size + "px";
+
+    core.style.height =
+        size + "px";
+
+}
+
+
+function resetCore(){
+
+    document.documentElement
+        .style
+        .setProperty(
+            "--blue",
+            "#00aaff"
+        );
+
+    const core =
+        document.getElementById("core");
+
+    core.style.width = "220px";
+
+    core.style.height = "220px";
+
+}
+
+
+/* =========================================
+   START
+========================================= */
+
+buildModes();
 
 </script>
 
