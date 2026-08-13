@@ -6,20 +6,22 @@
 <title>NEXORA</title>
 
 <style>
-*{
-    box-sizing:border-box;
-    margin:0;
-    padding:0;
-}
+*{box-sizing:border-box;margin:0;padding:0}
 
 body{
     min-height:100vh;
     overflow:hidden;
-    font-family:Arial,Helvetica,sans-serif;
+    font-family:Arial,sans-serif;
     color:#eaffff;
     background:
-        radial-gradient(circle at center,#073c52 0%,#02131e 35%,#01050a 75%);
+    radial-gradient(circle at center,#073c52 0%,#02131e 35%,#01050a 78%);
 }
+
+button,input,select{font:inherit}
+
+button{cursor:pointer}
+
+.hidden{display:none!important}
 
 /* BACKGROUND */
 #stars{
@@ -35,21 +37,166 @@ body{
     border-radius:50%;
     background:#9df5ff;
     box-shadow:0 0 8px #19dfff;
-    animation:floatStar linear infinite;
+    animation:starMove linear infinite;
 }
 
-@keyframes floatStar{
-    from{
-        transform:translateY(110vh);
-        opacity:0;
-    }
+@keyframes starMove{
+    from{transform:translateY(110vh);opacity:0}
     20%{opacity:1}
     80%{opacity:1}
-    to{
-        transform:translateY(-10vh);
-        opacity:0;
-    }
+    to{transform:translateY(-10vh);opacity:0}
 }
+
+/* LANDING */
+#landing{
+    position:fixed;
+    inset:0;
+    z-index:1000;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+    background:
+    radial-gradient(circle,#073f57,#020b12 65%,#010408);
+    transition:opacity .7s,visibility .7s;
+}
+
+#landing.hide{
+    opacity:0;
+    visibility:hidden;
+    pointer-events:none;
+}
+
+.landingContent{
+    width:min(850px,94vw);
+}
+
+.landingTitle{
+    font-size:clamp(42px,8vw,90px);
+    letter-spacing:15px;
+    font-weight:bold;
+    text-shadow:
+    0 0 15px #19dfff,
+    0 0 50px #19dfff;
+}
+
+.tagline{
+    margin-top:8px;
+    letter-spacing:6px;
+    font-size:12px;
+    color:#7fb8c4;
+}
+
+.demoCore{
+    width:170px;
+    height:170px;
+    margin:45px auto 30px;
+    border-radius:50%;
+    background:
+    radial-gradient(circle,
+    white 0%,
+    #a8f7ff 8%,
+    #22dfff 25%,
+    #07627c 52%,
+    #00131c 72%);
+    box-shadow:
+    0 0 35px #19dfff,
+    0 0 90px #008eb8,
+    0 0 150px #19dfff44;
+    animation:corePulse 2s infinite;
+}
+
+@keyframes corePulse{
+    50%{transform:scale(1.08)}
+}
+
+.primaryBtn{
+    border:1px solid #19dfff;
+    background:#07516d;
+    color:white;
+    padding:14px 28px;
+    border-radius:12px;
+    box-shadow:0 0 20px #19dfff44;
+    transition:.2s;
+}
+
+.primaryBtn:hover{
+    background:#087594;
+    transform:translateY(-2px);
+}
+
+.secondaryBtn{
+    border:1px solid #19dfff55;
+    background:#031722;
+    color:#bcefff;
+    padding:11px 18px;
+    border-radius:10px;
+}
+
+.landingButtons{
+    display:flex;
+    justify-content:center;
+    gap:10px;
+    flex-wrap:wrap;
+}
+
+.demoNote{
+    margin-top:15px;
+    font-size:10px;
+    color:#719ca7;
+    letter-spacing:2px;
+}
+
+/* SHOWCASE */
+.showcase{
+    margin:35px auto 0;
+    max-width:780px;
+    padding:18px;
+    border:1px solid #19dfff33;
+    border-radius:20px;
+    background:#03121ddd;
+    backdrop-filter:blur(10px);
+}
+
+.showcaseTitle{
+    font-size:11px;
+    letter-spacing:4px;
+    margin-bottom:12px;
+}
+
+.commandGrid{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:7px;
+}
+
+.commandChip{
+    padding:9px 6px;
+    border:1px solid #17627a;
+    background:#041d2a;
+    color:#bfefff;
+    border-radius:8px;
+    font-size:9px;
+}
+
+.commandChip:hover{
+    background:#07516d;
+}
+
+@media(max-width:650px){
+    .commandGrid{grid-template-columns:repeat(2,1fr)}
+    .showcase{margin-top:20px}
+    .demoCore{width:120px;height:120px;margin:25px auto}
+}
+
+/* MAIN */
+#app{
+    display:none;
+    position:fixed;
+    inset:0;
+}
+
+#app.active{display:block}
 
 /* CORE */
 .core{
@@ -67,9 +214,7 @@ body{
     inset:0;
     border-radius:50%;
     border:2px solid #16dfff;
-    box-shadow:
-        0 0 20px #16dfff66,
-        inset 0 0 20px #16dfff33;
+    box-shadow:0 0 20px #16dfff55,inset 0 0 20px #16dfff22;
     animation:spin 9s linear infinite;
 }
 
@@ -106,58 +251,30 @@ body{
     left:50%;
     transform:translate(-50%,-50%);
     border-radius:50%;
-
     background:
-        radial-gradient(
-            circle,
-            white 0%,
-            #c9fbff 10%,
-            #4de5ff 30%,
-            #087e9f 60%,
-            #00131c 100%
-        );
-
+    radial-gradient(circle,
+    white 0%,
+    #c9fbff 10%,
+    #4de5ff 30%,
+    #087e9f 60%,
+    #00131c 100%);
     box-shadow:
-        0 0 30px #19dfff,
-        0 0 80px #008eb8,
-        0 0 130px #19dfff55;
-
+    0 0 30px #19dfff,
+    0 0 80px #008eb8,
+    0 0 130px #19dfff55;
     animation:pulse 2s infinite;
 }
 
-.core.listening .center{
-    animation:listening .45s infinite;
-}
+.core.listening .center{animation:listening .45s infinite}
+.core.thinking .center{animation:thinking .65s infinite}
+.core.speaking .center{animation:speaking .3s infinite}
 
-.core.thinking .center{
-    animation:thinking .65s infinite;
-}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes pulse{50%{transform:translate(-50%,-50%) scale(1.08)}}
+@keyframes listening{50%{transform:translate(-50%,-50%) scale(1.25)}}
+@keyframes thinking{50%{transform:translate(-50%,-50%) scale(1.16)}}
+@keyframes speaking{50%{transform:translate(-50%,-50%) scale(1.15)}}
 
-.core.speaking .center{
-    animation:speaking .3s infinite;
-}
-
-@keyframes spin{
-    to{transform:rotate(360deg)}
-}
-
-@keyframes pulse{
-    50%{transform:translate(-50%,-50%) scale(1.08)}
-}
-
-@keyframes listening{
-    50%{transform:translate(-50%,-50%) scale(1.25)}
-}
-
-@keyframes thinking{
-    50%{transform:translate(-50%,-50%) scale(1.16)}
-}
-
-@keyframes speaking{
-    50%{transform:translate(-50%,-50%) scale(1.15)}
-}
-
-/* NEXORA NAME */
 .logo{
     position:absolute;
     top:calc(50% + 190px);
@@ -166,9 +283,7 @@ body{
     font-size:38px;
     letter-spacing:12px;
     font-weight:bold;
-    text-shadow:
-        0 0 15px #19dfff,
-        0 0 40px #19dfff;
+    text-shadow:0 0 15px #19dfff,0 0 40px #19dfff;
 }
 
 .mode{
@@ -181,17 +296,30 @@ body{
     color:#79afbc;
 }
 
-/* STATUS */
 .status{
     position:fixed;
     top:20px;
     left:50%;
     transform:translateX(-50%);
-    font-size:11px;
+    font-size:10px;
     letter-spacing:3px;
     color:#9cf5ff;
     z-index:20;
     text-align:center;
+}
+
+.demoBadge{
+    position:fixed;
+    top:18px;
+    left:18px;
+    padding:7px 10px;
+    border:1px solid #19dfff55;
+    border-radius:20px;
+    font-size:8px;
+    letter-spacing:2px;
+    color:#8eefff;
+    background:#031722dd;
+    z-index:100;
 }
 
 /* MENU */
@@ -205,9 +333,7 @@ body{
     border:1px solid #16dfff;
     background:#031722ee;
     color:white;
-    cursor:pointer;
     z-index:100;
-    font-size:19px;
 }
 
 /* PANEL */
@@ -218,28 +344,18 @@ body{
     width:360px;
     max-height:calc(100vh - 95px);
     overflow:auto;
-
     padding:18px;
-
     border-radius:20px;
     border:1px solid #16dfff55;
-
     background:#03111cf5;
-
-    box-shadow:
-        0 0 50px #008eb833;
-
+    box-shadow:0 0 50px #008eb833;
     backdrop-filter:blur(15px);
-
     z-index:90;
-
     transform:translateX(400px);
     transition:.3s;
 }
 
-.panel.open{
-    transform:translateX(0);
-}
+.panel.open{transform:translateX(0)}
 
 .panel h2{
     font-size:13px;
@@ -261,8 +377,7 @@ label{
     margin:8px 0 5px;
 }
 
-select,
-input{
+select,input{
     width:100%;
     padding:10px;
     border-radius:9px;
@@ -271,7 +386,7 @@ input{
     color:white;
 }
 
-button.action{
+.action{
     width:100%;
     padding:10px;
     margin-top:7px;
@@ -279,10 +394,9 @@ button.action{
     border:1px solid #087fa5;
     background:#063b54;
     color:white;
-    cursor:pointer;
 }
 
-button.action:hover{
+.action:hover{
     background:#075d7b;
 }
 
@@ -300,14 +414,10 @@ button.action:hover{
     width:360px;
     max-height:250px;
     overflow:auto;
-
     padding:13px;
-
     border-radius:17px;
     border:1px solid #16dfff33;
-
     background:#020d17dd;
-
     z-index:50;
 }
 
@@ -324,9 +434,7 @@ button.action:hover{
     margin:6px 0;
 }
 
-.message b{
-    color:#9df5ff;
-}
+.message b{color:#9df5ff}
 
 /* HUD */
 .hud{
@@ -339,59 +447,106 @@ button.action:hover{
     font:10px monospace;
 }
 
-.hud.active{
-    display:block;
+.hud.active{display:block}
+
+.topLeft{position:absolute;top:0;left:0}
+.topRight{position:absolute;top:0;right:0;text-align:right}
+.bottomLeft{position:absolute;bottom:0;left:0}
+.bottomRight{position:absolute;bottom:0;right:0;text-align:right}
+
+/* DASHBOARD */
+.dashboard{
+    display:none;
+    position:fixed;
+    left:18px;
+    bottom:290px;
+    width:320px;
+    padding:18px;
+    border-radius:18px;
+    border:1px solid #19dfff55;
+    background:#03101cf7;
+    z-index:70;
 }
 
-.hud .topLeft{
-    position:absolute;
-    top:0;
-    left:0;
+.dashboard.active{display:block}
+
+.dashboard h3{
+    font-size:12px;
+    letter-spacing:2px;
+    margin-bottom:15px;
 }
 
-.hud .topRight{
-    position:absolute;
-    top:0;
-    right:0;
-    text-align:right;
+.metric{margin:12px 0}
+
+.metricTop{
+    display:flex;
+    justify-content:space-between;
+    font-size:9px;
 }
 
-.hud .bottomLeft{
-    position:absolute;
-    bottom:0;
-    left:0;
+.bar{
+    height:6px;
+    margin-top:5px;
+    background:#092331;
+    border-radius:8px;
+    overflow:hidden;
 }
 
-.hud .bottomRight{
+.fill{
+    height:100%;
+    background:#13c8ee;
+    box-shadow:0 0 9px #13c8ee;
+}
+
+/* CAMERA */
+.camera{
+    display:none;
+    position:fixed;
+    inset:0;
+    z-index:500;
+    background:#000;
+    justify-content:center;
+    align-items:center;
+}
+
+.camera.active{display:flex}
+
+.camera video{
+    width:min(850px,90vw);
+    max-height:80vh;
+    border:1px solid #19dfff;
+    border-radius:15px;
+}
+
+.closeCamera{
     position:absolute;
-    bottom:0;
-    right:0;
-    text-align:right;
+    right:20px;
+    top:20px;
+    padding:10px 15px;
+    border-radius:9px;
+    border:1px solid #19dfff;
+    background:#063b54;
+    color:white;
 }
 
 /* LOGIN */
 #loginScreen{
+    display:none;
     position:fixed;
     inset:0;
-    display:flex;
+    z-index:1200;
     justify-content:center;
     align-items:center;
-    background:
-        radial-gradient(circle,#06445e,#01060b 75%);
-    z-index:1000;
+    background:radial-gradient(circle,#06445e,#01060b 75%);
 }
 
 .loginBox{
     width:min(420px,92vw);
     padding:30px;
     border-radius:25px;
-
     border:1px solid #19dfff;
-
     background:#020c15f7;
-
-    box-shadow:
-        0 0 70px #007fa8;
+    box-shadow:0 0 70px #007fa8;
 }
 
 .loginCore{
@@ -399,26 +554,9 @@ button.action:hover{
     height:80px;
     margin:auto;
     border-radius:50%;
-
-    background:
-        radial-gradient(
-            circle,
-            white,
-            #8ff5ff 15%,
-            #19d9ff 40%,
-            #00536c 65%,
-            #00121b
-        );
-
-    box-shadow:
-        0 0 35px #19dfff,
-        0 0 90px #007fa8;
-
-    animation:pulseLogin 2s infinite;
-}
-
-@keyframes pulseLogin{
-    50%{transform:scale(1.08)}
+    background:radial-gradient(circle,white,#8ff5ff 15%,#19d9ff 40%,#00536c 65%,#00121b);
+    box-shadow:0 0 35px #19dfff,0 0 90px #007fa8;
+    animation:corePulse 2s infinite;
 }
 
 .loginTitle{
@@ -450,23 +588,9 @@ button.action:hover{
     color:white;
 }
 
-.tabs .selected{
-    background:#07516d;
-}
+.tabs .selected{background:#07516d}
 
-.loginBox input{
-    margin-top:8px;
-}
-
-.primary{
-    width:100%;
-    margin-top:10px;
-    padding:11px;
-    border-radius:9px;
-    border:1px solid #19dfff;
-    background:#07516d;
-    color:white;
-}
+.loginBox input{margin-top:8px}
 
 .loginMessage{
     text-align:center;
@@ -474,98 +598,6 @@ button.action:hover{
     font-size:11px;
     min-height:20px;
     margin-top:10px;
-}
-
-/* CAMERA */
-.camera{
-    display:none;
-    position:fixed;
-    inset:0;
-    z-index:500;
-    background:#000;
-    justify-content:center;
-    align-items:center;
-}
-
-.camera.active{
-    display:flex;
-}
-
-.camera video{
-    width:min(850px,90vw);
-    max-height:80vh;
-    border:1px solid #19dfff;
-    border-radius:15px;
-}
-
-.closeCamera{
-    position:absolute;
-    right:20px;
-    top:20px;
-    padding:10px 15px;
-    border-radius:9px;
-    border:1px solid #19dfff;
-    background:#063b54;
-    color:white;
-}
-
-/* DASHBOARD */
-.dashboard{
-    display:none;
-    position:fixed;
-    left:18px;
-    bottom:290px;
-    width:320px;
-    padding:18px;
-
-    border-radius:18px;
-    border:1px solid #19dfff55;
-
-    background:#03101cf7;
-
-    z-index:70;
-}
-
-.dashboard.active{
-    display:block;
-}
-
-.dashboard h3{
-    font-size:12px;
-    letter-spacing:2px;
-    margin-bottom:15px;
-}
-
-.metric{
-    margin:12px 0;
-}
-
-.metricTop{
-    display:flex;
-    justify-content:space-between;
-    font-size:9px;
-    color:#a1d5df;
-}
-
-.bar{
-    height:6px;
-    margin-top:5px;
-    background:#092331;
-    border-radius:8px;
-    overflow:hidden;
-}
-
-.fill{
-    height:100%;
-    background:#13c8ee;
-    box-shadow:0 0 9px #13c8ee;
-}
-
-.warning{
-    font-size:9px;
-    color:#729fac;
-    line-height:1.5;
-    margin-top:12px;
 }
 
 /* NETWORK */
@@ -587,6 +619,8 @@ button.action:hover{
 
 /* MOBILE */
 @media(max-width:650px){
+
+    body{overflow:auto}
 
     .core{
         width:230px;
@@ -618,9 +652,7 @@ button.action:hover{
         right:14px;
     }
 
-    .chat{
-        display:none;
-    }
+    .chat{display:none}
 }
 </style>
 </head>
@@ -629,7 +661,101 @@ button.action:hover{
 
 <div id="stars"></div>
 
-<!-- LOGIN -->
+<!-- ================= LANDING ================= -->
+
+<section id="landing">
+
+    <div class="landingContent">
+
+        <div class="landingTitle">
+            NEXORA
+        </div>
+
+        <div class="tagline">
+            FUTURE. ACTIVATED.
+        </div>
+
+        <div class="demoCore"></div>
+
+        <div class="landingButtons">
+
+            <button
+                class="primaryBtn"
+                id="tryButton">
+                ⚡ TRY NEXORA
+            </button>
+
+            <button
+                class="secondaryBtn"
+                id="loginOpen">
+                🔐 LOGIN
+            </button>
+
+        </div>
+
+        <div class="demoNote">
+            PUBLIC DEMO • NO LOGIN REQUIRED
+        </div>
+
+        <div class="showcase">
+
+            <div class="showcaseTitle">
+                ⚡ COMMAND SHOWCASE
+            </div>
+
+            <div class="commandGrid">
+
+                <button class="commandChip"
+                    data-command="What can you do?">
+                    🎙 What can you do?
+                </button>
+
+                <button class="commandChip"
+                    data-command="Switch to JARVIS">
+                    🤖 Switch to JARVIS
+                </button>
+
+                <button class="commandChip"
+                    data-command="Calculate 25 times 18">
+                    🧮 25 × 18
+                </button>
+
+                <button class="commandChip"
+                    data-command="What time is it?">
+                    🕐 Time
+                </button>
+
+                <button class="commandChip"
+                    data-command="Run diagnostics">
+                    🧪 Diagnostics
+                </button>
+
+                <button class="commandChip"
+                    data-command="Activate HUD">
+                    🛰 HUD
+                </button>
+
+                <button class="commandChip"
+                    data-command="Open YouTube">
+                    ▶ YouTube
+                </button>
+
+                <button class="commandChip"
+                    data-command="Switch to NEXORA">
+                    🔵 NEXORA
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= LOGIN ================= -->
+
 <div id="loginScreen">
 
     <div class="loginBox">
@@ -645,474 +771,461 @@ button.action:hover{
         </div>
 
         <div class="tabs">
-            <button id="loginTab" class="selected">
+
+            <button
+                id="loginTab"
+                class="selected">
                 LOGIN
             </button>
 
-            <button id="signupTab">
+            <button
+                id="signupTab">
                 SIGN UP
             </button>
+
         </div>
 
         <input
             id="username"
-            placeholder="Username"
-        >
+            placeholder="Username">
 
         <input
             id="password"
             type="password"
-            placeholder="Password"
-        >
+            placeholder="Password">
 
         <input
             id="confirmPassword"
             type="password"
             placeholder="Confirm password"
-            style="display:none"
-        >
+            style="display:none">
 
         <button
-            id="authButton"
-            class="primary"
-        >
+            class="primaryBtn"
+            style="width:100%;margin-top:10px"
+            id="authButton">
             ENTER NEXORA
         </button>
 
         <div
             id="loginMessage"
-            class="loginMessage"
-        ></div>
-
-    </div>
-
-</div>
-
-
-<!-- HUD -->
-<div id="hud" class="hud">
-
-    <div class="topLeft">
-        NEXORA CORE<br>
-        USER: <span id="hudUser"></span><br>
-        SYSTEM: <span id="hudSystem">READY</span>
-    </div>
-
-    <div class="topRight">
-        MODE: <span id="hudMode">NEXORA</span><br>
-        MIC: <span id="hudMic">READY</span>
-    </div>
-
-    <div class="bottomLeft">
-        SPEECH: <span id="hudSpeech">READY</span><br>
-        NETWORK: <span id="hudNetwork">ONLINE</span>
-    </div>
-
-    <div class="bottomRight">
-        <span id="hudTime"></span><br>
-        <span id="hudDate"></span>
-    </div>
-
-</div>
-
-
-<!-- MAIN CORE -->
-<div class="core" id="core">
-
-    <div class="ring"></div>
-    <div class="ring two"></div>
-    <div class="ring three"></div>
-
-    <div class="energy"></div>
-
-    <div class="center"></div>
-
-</div>
-
-<div class="logo">
-    NEXORA
-</div>
-
-<div
-    class="mode"
-    id="modeText"
->
-    NEXORA MODE
-</div>
-
-<div
-    class="status"
-    id="status"
->
-    CORE LOCKED
-</div>
-
-
-<!-- SETTINGS BUTTON -->
-<button
-    class="menu"
-    id="menu"
->
-    ⚙
-</button>
-
-
-<!-- SETTINGS -->
-<div
-    class="panel"
-    id="panel"
->
-
-    <h2>
-        NEXORA CONTROL
-    </h2>
-
-
-    <!-- MODES -->
-    <div class="section">
-
-        <label>
-            ASSISTANT MODE
-        </label>
-
-        <select id="assistantMode">
-
-            <option value="nexora">
-                🔵 NEXORA
-            </option>
-
-            <option value="jarvis">
-                ⚪ JARVIS-INSPIRED
-            </option>
-
-            <option value="study">
-                🎓 STUDY
-            </option>
-
-            <option value="gaming">
-                🎮 GAMING
-            </option>
-
-            <option value="garage">
-                🚗 GARAGE
-            </option>
-
-            <option value="science">
-                🔬 SCIENCE
-            </option>
-
-        </select>
-
-    </div>
-
-
-    <!-- VOICE -->
-    <div class="section">
-
-        <label>
-            VOICE
-        </label>
-
-        <select id="voiceSelect"></select>
-
-        <label>
-            SPEECH SPEED
-        </label>
-
-        <input
-            id="speechSpeed"
-            type="range"
-            min=".6"
-            max="1.5"
-            step=".05"
-            value="1"
-        >
-
-        <label>
-            PITCH
-        </label>
-
-        <input
-            id="speechPitch"
-            type="range"
-            min=".5"
-            max="1.5"
-            step=".05"
-            value="1"
-        >
-
-        <div class="row">
-
-            <button
-                class="action"
-                id="testVoice"
-            >
-                🔊 TEST
-            </button>
-
-            <button
-                class="action"
-                id="stopButton"
-            >
-                ⏹ STOP
-            </button>
-
-        </div>
-
-    </div>
-
-
-    <!-- SYSTEM -->
-    <div class="section">
-
-        <div class="row">
-
-            <button
-                class="action"
-                id="hudButton"
-            >
-                🛰 HUD
-            </button>
-
-            <button
-                class="action"
-                id="fullscreenButton"
-            >
-                ⛶ FULLSCREEN
-            </button>
-
+            class="loginMessage">
         </div>
 
         <button
-            class="action"
-            id="diagnosticsButton"
-        >
-            🧪 DIAGNOSTICS
+            class="secondaryBtn"
+            style="width:100%;margin-top:10px"
+            id="backDemo">
+            ← BACK TO DEMO
         </button>
 
     </div>
 
-
-    <!-- WEB -->
-    <div class="section">
-
-        <button
-            class="action"
-            id="searchButton"
-        >
-            🌐 SEARCH WEB
-        </button>
-
-        <button
-            class="action"
-            id="youtubeButton"
-        >
-            ▶ OPEN YOUTUBE
-        </button>
-
-        <button
-            class="action"
-            id="googleButton"
-        >
-            🔎 OPEN GOOGLE
-        </button>
-
-    </div>
-
-
-    <!-- OTHER -->
-    <div class="section">
-
-        <div class="row">
-
-            <button
-                class="action"
-                id="dashboardButton"
-            >
-                📊 DASHBOARD
-            </button>
-
-            <button
-                class="action"
-                id="cameraButton"
-            >
-                📷 CAMERA
-            </button>
-
-        </div>
-
-    </div>
-
-
-    <!-- MEMORY -->
-    <div class="section">
-
-        <button
-            class="action"
-            id="memoryButton"
-        >
-            🧠 MEMORY
-        </button>
-
-        <button
-            class="action"
-            id="clearMemoryButton"
-        >
-            🗑 CLEAR MEMORY
-        </button>
-
-    </div>
-
-
-    <!-- LOGOUT -->
-    <button
-        class="action"
-        id="logoutButton"
-    >
-        🔐 LOG OUT
-    </button>
-
 </div>
 
 
-<!-- CHAT -->
-<div class="chat">
+<!-- ================= APP ================= -->
 
-    <div class="chatTitle">
-        CONVERSATION
+<main id="app">
+
+    <div class="demoBadge">
+        ● PUBLIC DEMO
     </div>
 
-    <div id="messages"></div>
+    <div
+        class="status"
+        id="status">
+        CORE READY
+    </div>
 
-</div>
+    <div
+        class="core"
+        id="core">
 
+        <div class="ring"></div>
+        <div class="ring two"></div>
+        <div class="ring three"></div>
 
-<!-- DASHBOARD -->
-<div
-    class="dashboard"
-    id="dashboard"
->
+        <div class="energy"></div>
 
-    <h3>
-        ACTIVITY DASHBOARD
-    </h3>
-
-    <div class="metric">
-
-        <div class="metricTop">
-            <span>Movement</span>
-            <span>60%</span>
-        </div>
-
-        <div class="bar">
-            <div
-                class="fill"
-                style="width:60%"
-            ></div>
-        </div>
+        <div class="center"></div>
 
     </div>
 
-
-    <div class="metric">
-
-        <div class="metricTop">
-            <span>Hydration reminders</span>
-            <span>65%</span>
-        </div>
-
-        <div class="bar">
-            <div
-                class="fill"
-                style="width:65%"
-            ></div>
-        </div>
-
+    <div class="logo">
+        NEXORA
     </div>
 
-
-    <div class="metric">
-
-        <div class="metricTop">
-            <span>Sleep routine</span>
-            <span>70%</span>
-        </div>
-
-        <div class="bar">
-            <div
-                class="fill"
-                style="width:70%"
-            ></div>
-        </div>
-
+    <div
+        class="mode"
+        id="modeText">
+        NEXORA MODE
     </div>
-
-
-    <div class="metric">
-
-        <div class="metricTop">
-            <span>Activity consistency</span>
-            <span>75%</span>
-        </div>
-
-        <div class="bar">
-            <div
-                class="fill"
-                style="width:75%"
-            ></div>
-        </div>
-
-    </div>
-
-    <div class="warning">
-
-        This dashboard is for general activity tracking.
-        Camera access does not diagnose growth,
-        nutrient deficiencies, medical conditions,
-        or body composition.
-
-    </div>
-
-</div>
-
-
-<!-- CAMERA -->
-<div
-    class="camera"
-    id="camera"
->
-
-    <video
-        id="cameraVideo"
-        autoplay
-        playsinline
-    ></video>
 
     <button
-        class="closeCamera"
-        id="closeCamera"
-    >
-        CLOSE
+        class="menu"
+        id="menu">
+        ⚙
     </button>
 
-</div>
+
+    <!-- HUD -->
+
+    <div
+        id="hud"
+        class="hud">
+
+        <div class="topLeft">
+            NEXORA CORE<br>
+            SYSTEM: <span id="hudSystem">READY</span><br>
+            USER: <span id="hudUser">DEMO</span>
+        </div>
+
+        <div class="topRight">
+            MODE: <span id="hudMode">NEXORA</span><br>
+            MIC: <span id="hudMic">READY</span>
+        </div>
+
+        <div class="bottomLeft">
+            SPEECH: <span id="hudSpeech">READY</span><br>
+            NETWORK: <span id="hudNetwork">ONLINE</span>
+        </div>
+
+        <div class="bottomRight">
+            <span id="hudTime"></span><br>
+            <span id="hudDate"></span>
+        </div>
+
+    </div>
 
 
-<div
-    class="network"
-    id="network"
-></div>
+    <!-- CHAT -->
+
+    <div class="chat">
+
+        <div class="chatTitle">
+            CONVERSATION
+        </div>
+
+        <div id="messages"></div>
+
+    </div>
+
+
+    <!-- DASHBOARD -->
+
+    <div
+        class="dashboard"
+        id="dashboard">
+
+        <h3>
+            ACTIVITY DASHBOARD
+        </h3>
+
+        <div class="metric">
+
+            <div class="metricTop">
+                <span>Movement</span>
+                <span>60%</span>
+            </div>
+
+            <div class="bar">
+                <div class="fill" style="width:60%"></div>
+            </div>
+
+        </div>
+
+        <div class="metric">
+
+            <div class="metricTop">
+                <span>Hydration reminders</span>
+                <span>65%</span>
+            </div>
+
+            <div class="bar">
+                <div class="fill" style="width:65%"></div>
+            </div>
+
+        </div>
+
+        <div class="metric">
+
+            <div class="metricTop">
+                <span>Sleep routine</span>
+                <span>70%</span>
+            </div>
+
+            <div class="bar">
+                <div class="fill" style="width:70%"></div>
+            </div>
+
+        </div>
+
+        <div class="metric">
+
+            <div class="metricTop">
+                <span>Activity consistency</span>
+                <span>75%</span>
+            </div>
+
+            <div class="bar">
+                <div class="fill" style="width:75%"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- SETTINGS -->
+
+    <div
+        class="panel"
+        id="panel">
+
+        <h2>
+            NEXORA CONTROL
+        </h2>
+
+
+        <div class="section">
+
+            <label>
+                ASSISTANT MODE
+            </label>
+
+            <select id="assistantMode">
+
+                <option value="nexora">
+                    🔵 NEXORA
+                </option>
+
+                <option value="jarvis">
+                    ⚪ JARVIS-INSPIRED
+                </option>
+
+                <option value="study">
+                    🎓 STUDY
+                </option>
+
+                <option value="gaming">
+                    🎮 GAMING
+                </option>
+
+                <option value="garage">
+                    🚗 GARAGE
+                </option>
+
+                <option value="science">
+                    🔬 SCIENCE
+                </option>
+
+            </select>
+
+        </div>
+
+
+        <div class="section">
+
+            <label>
+                VOICE
+            </label>
+
+            <select id="voiceSelect"></select>
+
+            <label>
+                SPEED
+            </label>
+
+            <input
+                id="speechSpeed"
+                type="range"
+                min=".6"
+                max="1.5"
+                step=".05"
+                value="1">
+
+            <label>
+                PITCH
+            </label>
+
+            <input
+                id="speechPitch"
+                type="range"
+                min=".5"
+                max="1.5"
+                step=".05"
+                value="1">
+
+            <div class="row">
+
+                <button
+                    class="action"
+                    id="testVoice">
+                    🔊 TEST
+                </button>
+
+                <button
+                    class="action"
+                    id="stopButton">
+                    ⏹ STOP
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <div class="section">
+
+            <div class="row">
+
+                <button
+                    class="action"
+                    id="hudButton">
+                    🛰 HUD
+                </button>
+
+                <button
+                    class="action"
+                    id="fullscreenButton">
+                    ⛶ FULLSCREEN
+                </button>
+
+            </div>
+
+            <button
+                class="action"
+                id="diagnosticsButton">
+                🧪 RUN DIAGNOSTICS
+            </button>
+
+        </div>
+
+
+        <div class="section">
+
+            <button
+                class="action"
+                id="searchButton">
+                🌐 SEARCH WEB
+            </button>
+
+            <button
+                class="action"
+                id="youtubeButton">
+                ▶ OPEN YOUTUBE
+            </button>
+
+            <button
+                class="action"
+                id="googleButton">
+                🔎 OPEN GOOGLE
+            </button>
+
+        </div>
+
+
+        <div class="section">
+
+            <div class="row">
+
+                <button
+                    class="action"
+                    id="dashboardButton">
+                    📊 DASHBOARD
+                </button>
+
+                <button
+                    class="action"
+                    id="cameraButton">
+                    📷 CAMERA
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <div class="section">
+
+            <button
+                class="action"
+                id="memoryButton">
+                🧠 MEMORY
+            </button>
+
+            <button
+                class="action"
+                id="clearMemoryButton">
+                🗑 CLEAR MEMORY
+            </button>
+
+        </div>
+
+
+        <div class="section">
+
+            <button
+                class="action"
+                id="shareButton">
+                📤 SHARE NEXORA
+            </button>
+
+            <button
+                class="action"
+                id="loginFromApp">
+                🔐 LOGIN / SIGN UP
+            </button>
+
+        </div>
+
+
+        <button
+            class="action"
+            id="logoutButton">
+            🔒 LOG OUT
+        </button>
+
+    </div>
+
+
+    <!-- CAMERA -->
+
+    <div
+        class="camera"
+        id="camera">
+
+        <video
+            id="cameraVideo"
+            autoplay
+            playsinline>
+        </video>
+
+        <button
+            class="closeCamera"
+            id="closeCamera">
+            CLOSE
+        </button>
+
+    </div>
+
+
+    <div
+        class="network"
+        id="network">
+    </div>
+
+</main>
 
 
 <script>
 
-/* =========================================================
-   NEXORA
-   MAIN JAVASCRIPT
-   ========================================================= */
+/* ==========================================================
+   NEXORA CORE ENGINE
+   ========================================================== */
 
-
-/* ---------- STORAGE ---------- */
+const $ = id => document.getElementById(id);
 
 let accounts =
     JSON.parse(
@@ -1138,91 +1251,124 @@ let cameraStream = null;
 
 let lastResponse = "";
 
-
-/* ---------- ELEMENT HELPER ---------- */
-
-function $(id){
-    return document.getElementById(id);
-}
-
-
-/* ---------- STAR FIELD ---------- */
-
-for(let i=0;i<80;i++){
-
-    const star =
-        document.createElement("div");
-
-    star.className = "star";
-
-    star.style.left =
-        Math.random()*100 + "%";
-
-    star.style.animationDuration =
-        (7 + Math.random()*13) + "s";
-
-    star.style.animationDelay =
-        (-Math.random()*15) + "s";
-
-    $("stars").appendChild(star);
-}
-
-
-/* ---------- LOGIN SYSTEM ---------- */
-
 let signupMode = false;
 
 
-$("loginTab").onclick = function(){
+/* ================= STARS ================= */
 
-    signupMode = false;
+for(let i=0;i<90;i++){
+
+    const s=document.createElement("div");
+
+    s.className="star";
+
+    s.style.left=Math.random()*100+"%";
+
+    s.style.animationDuration=
+        7+Math.random()*13+"s";
+
+    s.style.animationDelay=
+        -Math.random()*15+"s";
+
+    $("stars").appendChild(s);
+
+}
+
+
+/* ================= PUBLIC DEMO ================= */
+
+function startDemo(){
+
+    $("landing").classList.add("hide");
+
+    $("app").classList.add("active");
+
+    active=false;
+
+    setStatus(
+        "PUBLIC DEMO — PRESS CORE"
+    );
+
+}
+
+
+$("tryButton").onclick=startDemo;
+
+
+/* ================= LOGIN ================= */
+
+$("loginOpen").onclick=function(){
+
+    $("landing").classList.add("hide");
+
+    $("loginScreen").style.display="flex";
+
+};
+
+$("loginFromApp").onclick=function(){
+
+    $("loginScreen").style.display="flex";
+
+};
+
+$("backDemo").onclick=function(){
+
+    $("loginScreen").style.display="none";
+
+    $("landing").classList.remove("hide");
+
+};
+
+
+/* ================= LOGIN TABS ================= */
+
+$("loginTab").onclick=function(){
+
+    signupMode=false;
 
     $("loginTab").classList.add("selected");
 
     $("signupTab").classList.remove("selected");
 
-    $("confirmPassword").style.display =
-        "none";
+    $("confirmPassword").style.display="none";
 
-    $("authButton").textContent =
+    $("authButton").textContent=
         "ENTER NEXORA";
 
 };
 
 
-$("signupTab").onclick = function(){
+$("signupTab").onclick=function(){
 
-    signupMode = true;
+    signupMode=true;
 
     $("signupTab").classList.add("selected");
 
     $("loginTab").classList.remove("selected");
 
-    $("confirmPassword").style.display =
-        "block";
+    $("confirmPassword").style.display="block";
 
-    $("authButton").textContent =
+    $("authButton").textContent=
         "CREATE ACCOUNT";
 
 };
 
 
-$("authButton").onclick = function(){
+/* ================= AUTH ================= */
 
-    const username =
-        $("username").value.trim();
+$("authButton").onclick=function(){
 
-    const password =
-        $("password").value;
+    const username=$("username").value.trim();
 
-    const confirm =
-        $("confirmPassword").value;
+    const password=$("password").value;
+
+    const confirm=$("confirmPassword").value;
 
 
-    if(!username || !password){
+    if(!username||!password){
 
-        $("loginMessage").textContent =
-            "Please enter your username and password.";
+        $("loginMessage").textContent=
+            "Enter your username and password.";
 
         return;
 
@@ -1231,19 +1377,19 @@ $("authButton").onclick = function(){
 
     if(signupMode){
 
-        if(password.length < 4){
+        if(password.length<4){
 
-            $("loginMessage").textContent =
-                "Password must be at least 4 characters.";
+            $("loginMessage").textContent=
+                "Password must contain at least 4 characters.";
 
             return;
 
         }
 
 
-        if(password !== confirm){
+        if(password!==confirm){
 
-            $("loginMessage").textContent =
+            $("loginMessage").textContent=
                 "Passwords do not match.";
 
             return;
@@ -1253,26 +1399,20 @@ $("authButton").onclick = function(){
 
         if(accounts[username]){
 
-            $("loginMessage").textContent =
-                "That username already exists.";
+            $("loginMessage").textContent=
+                "Username already exists.";
 
             return;
 
         }
 
 
-        accounts[username] = {
-
-            password:password,
-
+        accounts[username]={
+            password,
             mode:"nexora",
-
             memory:[],
-
             speed:1,
-
             pitch:1
-
         };
 
 
@@ -1282,7 +1422,7 @@ $("authButton").onclick = function(){
         );
 
 
-        $("loginMessage").textContent =
+        $("loginMessage").textContent=
             "Account created. Login now.";
 
         $("loginTab").click();
@@ -1294,10 +1434,10 @@ $("authButton").onclick = function(){
 
     if(
         !accounts[username] ||
-        accounts[username].password !== password
+        accounts[username].password!==password
     ){
 
-        $("loginMessage").textContent =
+        $("loginMessage").textContent=
             "Incorrect username or password.";
 
         return;
@@ -1312,64 +1452,60 @@ $("authButton").onclick = function(){
 
 function login(username){
 
-    currentUser = username;
+    currentUser=username;
 
     localStorage.setItem(
         "NEXORA_USER",
         username
     );
 
-    const account =
-        accounts[username];
+    const account=accounts[username];
 
-    memory =
-        account.memory || [];
+    memory=account.memory||[];
 
-    currentMode =
-        account.mode || "nexora";
+    currentMode=account.mode||"nexora";
 
-    $("speechSpeed").value =
-        account.speed || 1;
+    $("speechSpeed").value=
+        account.speed||1;
 
-    $("speechPitch").value =
-        account.pitch || 1;
+    $("speechPitch").value=
+        account.pitch||1;
 
-    $("assistantMode").value =
+    $("assistantMode").value=
         currentMode;
 
-    $("hudUser").textContent =
-        username;
+    $("hudUser").textContent=username;
 
-    $("loginScreen").style.display =
-        "none";
+    $("loginScreen").style.display="none";
+
+    $("landing").classList.add("hide");
+
+    $("app").classList.add("active");
 
     changeMode(currentMode,false);
 
     setStatus(
-        "CORE READY — PRESS THE CORE"
+        "SIGNED IN — PRESS CORE"
     );
 
 }
 
 
-/* ---------- SAVE ---------- */
+/* ================= SAVE ================= */
 
 function saveAccount(){
 
-    if(!currentUser) return;
+    if(!currentUser)return;
 
-    accounts[currentUser].mode =
-        currentMode;
+    accounts[currentUser].mode=currentMode;
 
-    accounts[currentUser].memory =
-        memory;
+    accounts[currentUser].memory=memory;
 
-    accounts[currentUser].speed =
+    accounts[currentUser].speed=
         $("speechSpeed").value;
 
-    accounts[currentUser].pitch =
+    accounts[currentUser].pitch=
         $("speechPitch").value;
-
 
     localStorage.setItem(
         "NEXORA_ACCOUNTS",
@@ -1379,309 +1515,297 @@ function saveAccount(){
 }
 
 
-/* ---------- VOICES ---------- */
+/* ================= VOICES ================= */
 
 function loadVoices(){
 
-    voices =
-        speechSynthesis.getVoices();
+    voices=speechSynthesis.getVoices();
 
-    $("voiceSelect").innerHTML = "";
+    $("voiceSelect").innerHTML="";
 
-    voices.forEach(
-        (voice,index)=>{
+    voices.forEach((voice,i)=>{
 
-            const option =
-                document.createElement("option");
+        const option=
+            document.createElement("option");
 
-            option.value = index;
+        option.value=i;
 
-            option.textContent =
-                voice.name +
-                " — " +
-                voice.lang;
+        option.textContent=
+            voice.name+" — "+voice.lang;
 
-            $("voiceSelect")
-                .appendChild(option);
+        $("voiceSelect").appendChild(option);
 
-        }
-    );
+    });
 
 }
 
-
-speechSynthesis.onvoiceschanged =
-    loadVoices;
+speechSynthesis.onvoiceschanged=loadVoices;
 
 loadVoices();
 
 
-/* ---------- STATUS ---------- */
+/* ================= STATUS ================= */
 
 function setStatus(text){
 
-    $("status").textContent =
-        text;
+    $("status").textContent=text;
 
 }
 
 
-/* ---------- CHAT ---------- */
+/* ================= CHAT ================= */
 
 function addMessage(sender,text){
 
-    const message =
-        document.createElement("div");
+    const div=document.createElement("div");
 
-    message.className =
-        "message";
+    div.className="message";
 
-    const label =
-        document.createElement("b");
+    const b=document.createElement("b");
 
-    label.textContent =
-        sender === "user"
-        ? "YOU: "
-        : "NEXORA: ";
+    b.textContent=
+        sender==="user"?"YOU: ":"NEXORA: ";
 
-    message.appendChild(label);
+    div.appendChild(b);
 
-    message.appendChild(
+    div.appendChild(
         document.createTextNode(text)
     );
 
-    $("messages")
-        .appendChild(message);
+    $("messages").appendChild(div);
 
-    $("messages").scrollTop =
+    $("messages").scrollTop=
         $("messages").scrollHeight;
 
 }
 
 
-/* ---------- SPEECH ---------- */
+/* ================= SPEAK ================= */
 
 function speak(text){
 
     speechSynthesis.cancel();
 
-    lastResponse = text;
+    lastResponse=text;
 
     addMessage("ai",text);
 
-    $("core")
-        .classList
-        .remove("listening","thinking");
+    $("core").classList.remove(
+        "listening",
+        "thinking"
+    );
 
-    $("core")
-        .classList
-        .add("speaking");
+    $("core").classList.add("speaking");
 
-    $("hudSpeech").textContent =
-        "SPEAKING";
+    $("hudSpeech").textContent="SPEAKING";
 
     setStatus("SPEAKING");
 
 
-    const utterance =
+    const utterance=
         new SpeechSynthesisUtterance(text);
 
 
-    const selectedVoice =
+    const selected=
         voices[
             Number($("voiceSelect").value)
         ];
 
 
-    if(selectedVoice){
+    if(selected){
 
-        utterance.voice =
-            selectedVoice;
+        utterance.voice=selected;
 
-        utterance.lang =
-            selectedVoice.lang;
+        utterance.lang=selected.lang;
 
     }
 
 
-    utterance.rate =
+    utterance.rate=
         Number($("speechSpeed").value);
 
-    utterance.pitch =
+    utterance.pitch=
         Number($("speechPitch").value);
 
 
-    utterance.onend =
-        function(){
+    utterance.onend=function(){
 
-            $("core")
-                .classList
-                .remove("speaking");
+        $("core").classList.remove("speaking");
 
-            $("hudSpeech").textContent =
-                "READY";
+        $("hudSpeech").textContent="READY";
 
-            setStatus(
-                "SYSTEM READY — PRESS THE CORE"
-            );
+        setStatus(
+            "SYSTEM READY — PRESS CORE"
+        );
 
-        };
+    };
 
 
-    utterance.onerror =
-        function(){
-
-            $("core")
-                .classList
-                .remove("speaking");
-
-        };
-
-
-    speechSynthesis.speak(
-        utterance
-    );
+    speechSynthesis.speak(utterance);
 
 }
 
 
-/* ---------- VOICE RECOGNITION ---------- */
+/* ================= RECOGNITION ================= */
 
-const SpeechRecognition =
+const SpeechRecognition=
     window.SpeechRecognition ||
     window.webkitSpeechRecognition;
 
 
 if(SpeechRecognition){
 
-    recognition =
+    recognition=
         new SpeechRecognition();
 
-    recognition.lang =
-        "en-US";
+    recognition.lang="en-US";
 
-    recognition.continuous =
-        false;
+    recognition.continuous=false;
 
-    recognition.interimResults =
-        false;
+    recognition.interimResults=false;
 
 
-    recognition.onstart =
-        function(){
+    recognition.onstart=function(){
 
-            listening = true;
+        listening=true;
 
-            $("core")
-                .classList
-                .add("listening");
+        $("core").classList.add("listening");
 
-            $("hudMic").textContent =
-                "LISTENING";
+        $("hudMic").textContent="LISTENING";
+
+        setStatus("LISTENING — SPEAK NOW");
+
+    };
+
+
+    recognition.onresult=function(event){
+
+        const text=
+            event.results[0][0]
+            .transcript
+            .trim();
+
+        addMessage("user",text);
+
+        $("core").classList.remove("listening");
+
+        $("core").classList.add("thinking");
+
+        $("hudMic").textContent="PROCESSING";
+
+        processCommand(text);
+
+    };
+
+
+    recognition.onerror=function(event){
+
+        listening=false;
+
+        $("core").classList.remove(
+            "listening",
+            "thinking"
+        );
+
+        $("hudMic").textContent="READY";
+
+
+        if(event.error==="not-allowed"){
 
             setStatus(
-                "LISTENING — SPEAK NOW"
+                "MICROPHONE BLOCKED — ALLOW MICROPHONE"
             );
 
-        };
+        }
 
+        else if(event.error==="no-speech"){
 
-    recognition.onresult =
-        function(event){
-
-            const text =
-                event.results[0][0]
-                    .transcript
-                    .trim();
-
-
-            addMessage(
-                "user",
-                text
+            setStatus(
+                "NO SPEECH DETECTED"
             );
 
+        }
 
-            $("core")
-                .classList
-                .remove("listening");
+        else{
 
-            $("core")
-                .classList
-                .add("thinking");
+            setStatus("VOICE ERROR");
 
-            $("hudMic").textContent =
-                "PROCESSING";
+        }
+
+    };
 
 
-            processCommand(text);
+    recognition.onend=function(){
 
-        };
+        listening=false;
 
+        $("core").classList.remove("listening");
 
-    recognition.onerror =
-        function(event){
-
-            listening = false;
-
-            $("core")
-                .classList
-                .remove(
-                    "listening",
-                    "thinking"
-                );
-
-            $("hudMic").textContent =
-                "READY";
-
-
-            if(
-                event.error ===
-                "not-allowed"
-            ){
-
-                setStatus(
-                    "MICROPHONE BLOCKED — ALLOW MICROPHONE ACCESS"
-                );
-
-            }
-
-            else if(
-                event.error ===
-                "no-speech"
-            ){
-
-                setStatus(
-                    "NO SPEECH DETECTED — TRY AGAIN"
-                );
-
-            }
-
-            else{
-
-                setStatus(
-                    "VOICE ERROR"
-                );
-
-            }
-
-        };
-
-
-    recognition.onend =
-        function(){
-
-            listening = false;
-
-            $("core")
-                .classList
-                .remove("listening");
-
-        };
+    };
 
 }
 
 
-/* ---------- START LISTENING ---------- */
+/* ================= CORE ================= */
+
+function activateCore(){
+
+    active=true;
+
+    $("hudSystem").textContent="BOOTING";
+
+    setStatus("CORE ACTIVATING...");
+
+    $("core").classList.add("thinking");
+
+
+    setTimeout(()=>{
+
+        $("core").classList.remove("thinking");
+
+        $("hudSystem").textContent="ONLINE";
+
+        setStatus("NEXORA ONLINE");
+
+        if(currentMode==="jarvis"){
+
+            speak(
+                "NEXORA online. JARVIS-inspired mode ready."
+            );
+
+        }else{
+
+            speak("NEXORA online.");
+
+        }
+
+
+        setTimeout(
+            startListening,
+            1300
+        );
+
+    },900);
+
+}
+
+
+$("core").onclick=function(){
+
+    if(!active){
+
+        activateCore();
+
+    }else{
+
+        startListening();
+
+    }
+
+};
+
+
+/* ================= LISTEN ================= */
 
 function startListening(){
 
@@ -1697,7 +1821,7 @@ function startListening(){
     if(!recognition){
 
         speak(
-            "Voice recognition is not supported in this browser. Please use Chrome or Microsoft Edge."
+            "Voice recognition is unavailable. Please use Chrome or Microsoft Edge."
         );
 
         return;
@@ -1712,120 +1836,28 @@ function startListening(){
 
         recognition.start();
 
-    }
+    }catch(e){
 
-    catch(error){
+        setTimeout(()=>{
 
-        setTimeout(
-            ()=>{
+            try{
+                recognition.start();
+            }catch(x){}
 
-                try{
-                    recognition.start();
-                }
-                catch(e){}
-
-            },
-            400
-        );
+        },400);
 
     }
 
 }
 
 
-/* ---------- CORE ACTIVATION ---------- */
-
-function activateCore(){
-
-    active = true;
-
-    $("hudSystem").textContent =
-        "BOOTING";
-
-    setStatus(
-        "CORE ACTIVATING..."
-    );
-
-
-    $("core")
-        .classList
-        .add("thinking");
-
-
-    setTimeout(
-        function(){
-
-            $("core")
-                .classList
-                .remove("thinking");
-
-            $("hudSystem").textContent =
-                "ONLINE";
-
-            setStatus(
-                "NEXORA ONLINE"
-            );
-
-
-            if(currentMode === "jarvis"){
-
-                speak(
-                    "NEXORA online. JARVIS-inspired mode ready."
-                );
-
-            }
-
-            else{
-
-                speak(
-                    "NEXORA online."
-                );
-
-            }
-
-
-            setTimeout(
-                startListening,
-                1200
-            );
-
-        },
-        900
-    );
-
-}
-
-
-/* ---------- CORE CLICK ---------- */
-
-$("core").onclick =
-    function(){
-
-        if(active){
-
-            startListening();
-
-        }
-
-        else{
-
-            activateCore();
-
-        }
-
-    };
-
-
-/* =========================================================
+/* ==========================================================
    COMMAND ENGINE
-   ========================================================= */
+   ========================================================== */
 
-function processCommand(command){
+function processCommand(original){
 
-    const original =
-        command.trim();
-
-    const text =
+    const text=
         original
         .toLowerCase()
         .replace(/[?!.,]/g,"")
@@ -1835,16 +1867,15 @@ function processCommand(command){
     /* STOP */
 
     if(
-        text === "stop" ||
-        text === "stop talking" ||
-        text === "be quiet" ||
-        text === "cancel" ||
-        text === "cancel that" ||
-        text === "never mind"
+        text==="stop" ||
+        text==="stop talking" ||
+        text==="be quiet" ||
+        text==="cancel" ||
+        text==="cancel that" ||
+        text==="never mind"
     ){
 
         stopAssistant();
-
         return;
 
     }
@@ -1853,75 +1884,16 @@ function processCommand(command){
     /* HELP */
 
     if(
-        text.includes("help") ||
         text.includes("what can you do") ||
-        text.includes("commands")
+        text==="help" ||
+        text.includes("show commands")
     ){
 
         speak(
-            "I can change modes, search the web, open websites, calculate numbers, tell you the time and date, remember information, show the HUD, run diagnostics, control my voice, open the camera and dashboard, and respond to natural follow-up commands."
+            "I can change modes, search the web, open websites, calculate numbers, tell you the time and date, remember information, show the HUD, run diagnostics, control my voice, open the camera and dashboard, and respond to many natural commands."
         );
 
         return;
-
-    }
-
-
-    /* MODES */
-
-    if(
-        text.includes("switch to nexora") ||
-        text.includes("nexora mode") ||
-        text.includes("use nexora")
-    ){
-
-        changeMode("nexora");
-
-        return;
-
-    }
-
-
-    if(
-        text.includes("switch to jarvis") ||
-        text.includes("jarvis mode") ||
-        text.includes("use jarvis")
-    ){
-
-        changeMode("jarvis");
-
-        return;
-
-    }
-
-
-    const modes =
-        [
-            "study",
-            "gaming",
-            "garage",
-            "science"
-        ];
-
-
-    for(
-        const selectedMode of modes
-    ){
-
-        if(
-            text.includes(
-                selectedMode +
-                " mode"
-            )
-        ){
-
-            changeMode(
-                selectedMode
-            );
-
-            return;
-
-        }
 
     }
 
@@ -1952,10 +1924,54 @@ function processCommand(command){
     ){
 
         speak(
-            "I am NEXORA, your browser voice assistant."
+            "I am NEXORA, a browser-based voice assistant."
         );
 
         return;
+
+    }
+
+
+    /* MODE */
+
+    if(
+        text.includes("switch to nexora") ||
+        text.includes("use nexora") ||
+        text.includes("nexora mode")
+    ){
+
+        changeMode("nexora");
+        return;
+
+    }
+
+
+    if(
+        text.includes("switch to jarvis") ||
+        text.includes("use jarvis") ||
+        text.includes("jarvis mode")
+    ){
+
+        changeMode("jarvis");
+        return;
+
+    }
+
+
+    for(
+        const mode of
+        ["study","gaming","garage","science"]
+    ){
+
+        if(
+            text.includes(mode+" mode") ||
+            text.includes("activate "+mode)
+        ){
+
+            changeMode(mode);
+            return;
+
+        }
 
     }
 
@@ -1967,9 +1983,8 @@ function processCommand(command){
     ){
 
         speak(
-            "The current time is " +
-            new Date()
-                .toLocaleTimeString()
+            "The current time is "+
+            new Date().toLocaleTimeString()
         );
 
         return;
@@ -1985,17 +2000,16 @@ function processCommand(command){
     ){
 
         speak(
-            "Today is " +
-            new Date()
-                .toLocaleDateString(
-                    undefined,
-                    {
-                        weekday:"long",
-                        month:"long",
-                        day:"numeric",
-                        year:"numeric"
-                    }
-                )
+            "Today is "+
+            new Date().toLocaleDateString(
+                undefined,
+                {
+                    weekday:"long",
+                    month:"long",
+                    day:"numeric",
+                    year:"numeric"
+                }
+            )
         );
 
         return;
@@ -2011,32 +2025,28 @@ function processCommand(command){
         text.startsWith("look up ")
     ){
 
-        const query =
-            text
+        const query=
+            original
             .replace(
-                /^search for |^search |^look up /,
+                /^search for |^search |^look up /i,
                 ""
             );
 
 
         speak(
-            "Searching for " +
-            query
+            "Searching for "+query
         );
 
 
-        setTimeout(
-            function(){
+        setTimeout(()=>{
 
-                window.open(
-                    "https://www.google.com/search?q=" +
-                    encodeURIComponent(query),
-                    "_blank"
-                );
+            window.open(
+                "https://www.google.com/search?q="+
+                encodeURIComponent(query),
+                "_blank"
+            );
 
-            },
-            500
-        );
+        },500);
 
         return;
 
@@ -2050,22 +2060,16 @@ function processCommand(command){
         text.includes("go to youtube")
     ){
 
-        speak(
-            "Opening YouTube."
-        );
+        speak("Opening YouTube.");
 
+        setTimeout(()=>{
 
-        setTimeout(
-            function(){
+            window.open(
+                "https://www.youtube.com",
+                "_blank"
+            );
 
-                window.open(
-                    "https://www.youtube.com",
-                    "_blank"
-                );
-
-            },
-            500
-        );
+        },500);
 
         return;
 
@@ -2079,22 +2083,16 @@ function processCommand(command){
         text.includes("go to google")
     ){
 
-        speak(
-            "Opening Google."
-        );
+        speak("Opening Google.");
 
+        setTimeout(()=>{
 
-        setTimeout(
-            function(){
+            window.open(
+                "https://www.google.com",
+                "_blank"
+            );
 
-                window.open(
-                    "https://www.google.com",
-                    "_blank"
-                );
-
-            },
-            500
-        );
+        },500);
 
         return;
 
@@ -2109,16 +2107,12 @@ function processCommand(command){
         text.startsWith("what is ")
     ){
 
-        let expression =
+        let expression=
             text
             .replace(
                 /^calculate |^work out |^what is /,
                 ""
-            );
-
-
-        expression =
-            expression
+            )
             .replace(/plus/g,"+")
             .replace(/minus/g,"-")
             .replace(
@@ -2133,29 +2127,24 @@ function processCommand(command){
 
         if(
             /^[0-9+\-*/().%\s]+$/
-                .test(expression)
+            .test(expression)
         ){
 
             try{
 
-                const answer =
+                const answer=
                     Function(
-                        '"use strict";return(' +
-                        expression +
-                        ')'
+                        '"use strict";return('+expression+')'
                     )();
 
 
                 speak(
-                    "The answer is " +
-                    answer
+                    "The answer is "+answer
                 );
 
                 return;
 
-            }
-
-            catch(error){}
+            }catch(e){}
 
         }
 
@@ -2168,12 +2157,10 @@ function processCommand(command){
         text.startsWith("remember ")
     ){
 
-        const information =
+        const info=
             original.slice(9);
 
-        memory.push(
-            information
-        );
+        memory.push(info);
 
         saveAccount();
 
@@ -2187,21 +2174,17 @@ function processCommand(command){
 
 
     if(
-        text.includes(
-            "what do you remember"
-        )
+        text.includes("what do you remember")
     ){
 
         if(memory.length){
 
             speak(
-                "I remember: " +
+                "I remember: "+
                 memory.join(", ")
             );
 
-        }
-
-        else{
+        }else{
 
             speak(
                 "Your memory is currently empty."
@@ -2215,21 +2198,15 @@ function processCommand(command){
 
 
     if(
-        text.includes(
-            "clear memory"
-        ) ||
-        text.includes(
-            "forget everything"
-        )
+        text.includes("clear memory") ||
+        text.includes("forget everything")
     ){
 
-        memory = [];
+        memory=[];
 
         saveAccount();
 
-        speak(
-            "Memory cleared."
-        );
+        speak("Memory cleared.");
 
         return;
 
@@ -2238,9 +2215,7 @@ function processCommand(command){
 
     /* REPEAT */
 
-    if(
-        text.includes("repeat")
-    ){
+    if(text.includes("repeat")){
 
         speak(
             lastResponse ||
@@ -2256,6 +2231,7 @@ function processCommand(command){
 
     if(
         text.includes("show hud") ||
+        text.includes("activate hud") ||
         text.includes("turn on hud")
     ){
 
@@ -2272,20 +2248,6 @@ function processCommand(command){
     ){
 
         toggleHUD(false);
-
-        return;
-
-    }
-
-
-    /* FULLSCREEN */
-
-    if(
-        text.includes("fullscreen") ||
-        text.includes("full screen")
-    ){
-
-        fullscreen();
 
         return;
 
@@ -2311,7 +2273,7 @@ function processCommand(command){
 
     if(
         text.includes("dashboard") ||
-        text.includes("activity")
+        text.includes("activity dashboard")
     ){
 
         $("dashboard")
@@ -2330,8 +2292,8 @@ function processCommand(command){
     /* CAMERA */
 
     if(
-        text.includes("open camera") ||
-        text === "camera"
+        text==="camera" ||
+        text.includes("open camera")
     ){
 
         openCamera();
@@ -2341,80 +2303,63 @@ function processCommand(command){
     }
 
 
-    /* VOICE SPEED */
+    /* SPEED */
 
-    if(
-        text.includes("speak slower")
-    ){
+    if(text.includes("speak slower")){
 
-        $("speechSpeed").value =
+        $("speechSpeed").value=
             Math.max(
                 .6,
-                Number(
-                    $("speechSpeed").value
-                )-.1
+                Number($("speechSpeed").value)-.1
             );
 
         saveAccount();
 
-        speak(
-            "Speaking slower."
-        );
+        speak("Speaking slower.");
 
         return;
 
     }
 
 
-    if(
-        text.includes("speak faster")
-    ){
+    if(text.includes("speak faster")){
 
-        $("speechSpeed").value =
+        $("speechSpeed").value=
             Math.min(
                 1.5,
-                Number(
-                    $("speechSpeed").value
-                )+.1
+                Number($("speechSpeed").value)+.1
             );
 
         saveAccount();
 
-        speak(
-            "Speaking faster."
-        );
+        speak("Speaking faster.");
 
         return;
 
     }
 
 
-    /* UNKNOWN COMMAND */
+    /* UNKNOWN */
 
     speak(
-        "I understood you, but I don't have an action for that command yet. Say help to hear what I can do."
+        "I heard you say \""+
+        original+
+        "\". I don't have an action for that command yet. Say help to see the commands I can run."
     );
 
 }
 
 
-/* =========================================================
-   MODE SYSTEM
-   ========================================================= */
+/* ================= MODES ================= */
 
-function changeMode(
-    selectedMode,
-    announce=true
-){
+function changeMode(mode,announce=true){
 
-    currentMode =
-        selectedMode;
+    currentMode=mode;
 
-    $("assistantMode").value =
-        selectedMode;
+    $("assistantMode").value=mode;
 
 
-    const names = {
+    const names={
 
         nexora:"NEXORA MODE",
 
@@ -2431,12 +2376,9 @@ function changeMode(
     };
 
 
-    $("modeText").textContent =
-        names[selectedMode];
+    $("modeText").textContent=names[mode];
 
-
-    $("hudMode").textContent =
-        names[selectedMode];
+    $("hudMode").textContent=names[mode];
 
 
     saveAccount();
@@ -2444,170 +2386,248 @@ function changeMode(
 
     if(announce){
 
-        const replies = {
+        const responses={
 
-            nexora:
-                "NEXORA mode activated.",
+            nexora:"NEXORA mode activated.",
 
-            jarvis:
-                "JARVIS-inspired mode activated.",
+            jarvis:"JARVIS-inspired mode activated.",
 
-            study:
-                "Study mode activated. Ready to help.",
+            study:"Study mode activated. Ready to help.",
 
-            gaming:
-                "Gaming mode activated.",
+            gaming:"Gaming mode activated.",
 
-            garage:
-                "Garage mode activated.",
+            garage:"Garage mode activated.",
 
-            science:
-                "Science mode activated."
+            science:"Science mode activated."
 
         };
 
 
-        speak(
-            replies[selectedMode]
-        );
+        speak(responses[mode]);
 
     }
 
 }
 
 
-/* =========================================================
-   STOP
-   ========================================================= */
+/* ================= STOP ================= */
 
 function stopAssistant(){
 
     speechSynthesis.cancel();
 
-
     if(recognition){
 
         try{
             recognition.stop();
-        }
-        catch(error){}
+        }catch(e){}
 
     }
 
+    listening=false;
 
-    listening = false;
+    $("core").classList.remove(
+        "listening",
+        "thinking",
+        "speaking"
+    );
 
+    $("hudMic").textContent="READY";
 
-    $("core")
-        .classList
-        .remove(
-            "listening",
-            "thinking",
-            "speaking"
-        );
-
-
-    $("hudMic").textContent =
-        "READY";
-
-    $("hudSpeech").textContent =
-        "READY";
-
+    $("hudSpeech").textContent="READY";
 
     setStatus(
         active
-        ? "SYSTEM READY — PRESS THE CORE"
-        : "CORE LOCKED"
+        ?"SYSTEM READY — PRESS CORE"
+        :"CORE READY"
     );
 
 }
 
 
-/* =========================================================
-   HUD
-   ========================================================= */
+/* ================= SETTINGS ================= */
+
+$("menu").onclick=function(){
+
+    $("panel")
+        .classList
+        .toggle("open");
+
+};
+
+
+$("assistantMode").onchange=function(){
+
+    changeMode(this.value);
+
+};
+
+
+$("speechSpeed").oninput=saveAccount;
+
+$("speechPitch").oninput=saveAccount;
+
+$("voiceSelect").onchange=saveAccount;
+
+
+$("testVoice").onclick=function(){
+
+    speak(
+        "Voice system online. NEXORA is ready."
+    );
+
+};
+
+
+$("stopButton").onclick=stopAssistant;
+
+
+/* ================= HUD ================= */
 
 function toggleHUD(show){
 
     $("hud")
         .classList
-        .toggle(
-            "active",
-            show
-        );
-
+        .toggle("active",show);
 
     if(show){
 
-        speak(
-            "HUD activated."
-        );
+        speak("HUD activated.");
 
     }
 
 }
 
 
-/* =========================================================
-   FULLSCREEN
-   ========================================================= */
+$("hudButton").onclick=function(){
+
+    toggleHUD(
+        !$("hud")
+        .classList
+        .contains("active")
+    );
+
+};
+
+
+/* ================= FULLSCREEN ================= */
 
 function fullscreen(){
 
-    if(
-        document.documentElement
-            .requestFullscreen
-    ){
+    if(document.documentElement.requestFullscreen){
 
-        document.documentElement
-            .requestFullscreen();
+        document.documentElement.requestFullscreen();
 
     }
 
-
-    speak(
-        "Fullscreen activated."
-    );
+    speak("Fullscreen activated.");
 
 }
 
 
-/* =========================================================
-   DIAGNOSTICS
-   ========================================================= */
+$("fullscreenButton").onclick=fullscreen;
+
+
+/* ================= DIAGNOSTICS ================= */
 
 function diagnostics(){
 
-    const voice =
+    const voice=
         "speechSynthesis" in window;
 
-    const mic =
+    const mic=
         !!recognition;
 
-    const network =
+    const network=
         navigator.onLine;
 
 
     speak(
-        "Diagnostics complete. " +
-
-        "Speech synthesis " +
-        (voice?"available":"unavailable") +
-
-        ". Voice recognition " +
-        (mic?"available":"unavailable") +
-
-        ". Network " +
-        (network?"online":"offline") +
+        "Diagnostics complete. Speech synthesis "+
+        (voice?"available":"unavailable")+
+        ". Voice recognition "+
+        (mic?"available":"unavailable")+
+        ". Network "+
+        (network?"online":"offline")+
         "."
     );
 
 }
 
 
-/* =========================================================
-   CAMERA
-   ========================================================= */
+$("diagnosticsButton").onclick=diagnostics;
+
+
+/* ================= SEARCH ================= */
+
+$("searchButton").onclick=function(){
+
+    const query=
+        prompt(
+            "What would you like to search for?"
+        );
+
+    if(query){
+
+        speak(
+            "Searching for "+query
+        );
+
+        window.open(
+            "https://www.google.com/search?q="+
+            encodeURIComponent(query),
+            "_blank"
+        );
+
+    }
+
+};
+
+
+$("youtubeButton").onclick=function(){
+
+    speak("Opening YouTube.");
+
+    setTimeout(()=>{
+
+        window.open(
+            "https://www.youtube.com",
+            "_blank"
+        );
+
+    },500);
+
+};
+
+
+$("googleButton").onclick=function(){
+
+    speak("Opening Google.");
+
+    setTimeout(()=>{
+
+        window.open(
+            "https://www.google.com",
+            "_blank"
+        );
+
+    },500);
+
+};
+
+
+/* ================= DASHBOARD ================= */
+
+$("dashboardButton").onclick=function(){
+
+    $("dashboard")
+        .classList
+        .toggle("active");
+
+};
+
+
+/* ================= CAMERA ================= */
 
 async function openCamera(){
 
@@ -2616,9 +2636,7 @@ async function openCamera(){
         !navigator.mediaDevices.getUserMedia
     ){
 
-        speak(
-            "Camera access is unavailable."
-        );
+        speak("Camera access is unavailable.");
 
         return;
 
@@ -2627,31 +2645,24 @@ async function openCamera(){
 
     try{
 
-        cameraStream =
+        cameraStream=
             await navigator.mediaDevices
-                .getUserMedia({
-                    video:true,
-                    audio:false
-                });
+            .getUserMedia({
+                video:true,
+                audio:false
+            });
 
 
-        $("cameraVideo")
-            .srcObject =
+        $("cameraVideo").srcObject=
             cameraStream;
 
+        $("camera").classList.add("active");
 
-        $("camera")
-            .classList
-            .add("active");
-
-
-        speak(
-            "Camera preview activated."
-        );
+        speak("Camera preview activated.");
 
     }
 
-    catch(error){
+    catch(e){
 
         speak(
             "Camera permission was not granted."
@@ -2667,361 +2678,194 @@ function closeCamera(){
     if(cameraStream){
 
         cameraStream
-            .getTracks()
-            .forEach(
-                track=>track.stop()
-            );
+        .getTracks()
+        .forEach(track=>track.stop());
 
     }
 
+    cameraStream=null;
 
-    cameraStream = null;
+    $("cameraVideo").srcObject=null;
 
-    $("cameraVideo")
-        .srcObject = null;
-
-    $("camera")
-        .classList
-        .remove("active");
+    $("camera").classList.remove("active");
 
 }
 
 
-/* =========================================================
-   SETTINGS BUTTON
-   ========================================================= */
+$("cameraButton").onclick=openCamera;
 
-$("menu").onclick =
-    function(){
-
-        $("panel")
-            .classList
-            .toggle("open");
-
-    };
+$("closeCamera").onclick=closeCamera;
 
 
-/* MODE */
+/* ================= MEMORY ================= */
 
-$("assistantMode").onchange =
-    function(){
+$("memoryButton").onclick=function(){
 
-        changeMode(
-            this.value
-        );
-
-    };
-
-
-/* VOICE */
-
-$("voiceSelect").onchange =
-    saveAccount;
-
-$("speechSpeed").oninput =
-    saveAccount;
-
-$("speechPitch").oninput =
-    saveAccount;
-
-
-/* TEST VOICE */
-
-$("testVoice").onclick =
-    function(){
+    if(memory.length){
 
         speak(
-            "Voice system online. NEXORA is ready."
+            "I remember: "+
+            memory.join(", ")
         );
 
+    }else{
+
+        speak(
+            "Your memory is empty."
+        );
+
+    }
+
+};
+
+
+$("clearMemoryButton").onclick=function(){
+
+    memory=[];
+
+    saveAccount();
+
+    speak("Memory cleared.");
+
+};
+
+
+/* ================= SHARE ================= */
+
+async function shareNexora(){
+
+    const shareData={
+        title:"NEXORA",
+        text:"🚀 Try NEXORA — a futuristic browser voice assistant.",
+        url:window.location.href
     };
 
 
-/* STOP */
+    if(navigator.share){
 
-$("stopButton").onclick =
-    stopAssistant;
+        try{
 
+            await navigator.share(shareData);
 
-/* HUD */
+            speak("NEXORA shared.");
 
-$("hudButton").onclick =
-    function(){
+        }catch(e){}
 
-        toggleHUD(
-            !$("hud")
-                .classList
-                .contains("active")
-        );
+    }else{
 
-    };
+        try{
 
+            await navigator.clipboard.writeText(
+                window.location.href
+            );
 
-/* FULLSCREEN */
+            speak(
+                "NEXORA link copied to your clipboard."
+            );
 
-$("fullscreenButton").onclick =
-    fullscreen;
+        }catch(e){
 
-
-/* DIAGNOSTICS */
-
-$("diagnosticsButton").onclick =
-    diagnostics;
-
-
-/* SEARCH */
-
-$("searchButton").onclick =
-    function(){
-
-        const query =
             prompt(
-                "What would you like me to search for?"
-            );
-
-
-        if(query){
-
-            speak(
-                "Searching for " +
-                query
-            );
-
-
-            window.open(
-                "https://www.google.com/search?q=" +
-                encodeURIComponent(query),
-                "_blank"
+                "Copy the NEXORA link:",
+                window.location.href
             );
 
         }
 
-    };
+    }
+
+}
 
 
-/* YOUTUBE */
-
-$("youtubeButton").onclick =
-    function(){
-
-        speak(
-            "Opening YouTube."
-        );
+$("shareButton").onclick=shareNexora;
 
 
-        setTimeout(
-            ()=>{
-                window.open(
-                    "https://www.youtube.com",
-                    "_blank"
-                );
-            },
-            500
-        );
-
-    };
-
-
-/* GOOGLE */
-
-$("googleButton").onclick =
-    function(){
-
-        speak(
-            "Opening Google."
-        );
-
-
-        setTimeout(
-            ()=>{
-                window.open(
-                    "https://www.google.com",
-                    "_blank"
-                );
-            },
-            500
-        );
-
-    };
-
-
-/* DASHBOARD */
-
-$("dashboardButton").onclick =
-    function(){
-
-        $("dashboard")
-            .classList
-            .toggle("active");
-
-    };
-
-
-/* CAMERA */
-
-$("cameraButton").onclick =
-    openCamera;
-
-
-$("closeCamera").onclick =
-    closeCamera;
-
-
-/* MEMORY */
-
-$("memoryButton").onclick =
-    function(){
-
-        if(memory.length){
-
-            speak(
-                "I remember: " +
-                memory.join(", ")
-            );
-
-        }
-
-        else{
-
-            speak(
-                "Your memory is empty."
-            );
-
-        }
-
-    };
-
-
-/* CLEAR MEMORY */
-
-$("clearMemoryButton").onclick =
-    function(){
-
-        memory = [];
-
-        saveAccount();
-
-        speak(
-            "Memory cleared."
-        );
-
-    };
-
-
-/* LOGOUT */
-
-$("logoutButton").onclick =
-    function(){
-
-        stopAssistant();
-
-        closeCamera();
-
-        active = false;
-
-        currentUser = null;
-
-        localStorage.removeItem(
-            "NEXORA_USER"
-        );
-
-        $("loginScreen")
-            .style
-            .display = "flex";
-
-        $("panel")
-            .classList
-            .remove("open");
-
-        setStatus(
-            "CORE LOCKED"
-        );
-
-    };
-
-
-/* =========================================================
-   NETWORK
-   ========================================================= */
+/* ================= NETWORK ================= */
 
 function updateNetwork(){
 
-    const online =
-        navigator.onLine;
-
+    const online=navigator.onLine;
 
     $("network")
         .classList
-        .toggle(
-            "offline",
-            !online
-        );
+        .toggle("offline",!online);
 
-
-    $("hudNetwork")
-        .textContent =
-        online
-        ? "ONLINE"
-        : "OFFLINE";
+    $("hudNetwork").textContent=
+        online?"ONLINE":"OFFLINE";
 
 }
 
+window.addEventListener("online",updateNetwork);
 
-window.addEventListener(
-    "online",
-    updateNetwork
-);
-
-window.addEventListener(
-    "offline",
-    updateNetwork
-);
+window.addEventListener("offline",updateNetwork);
 
 updateNetwork();
 
 
-/* =========================================================
-   CLOCK
-   ========================================================= */
+/* ================= CLOCK ================= */
 
 function updateClock(){
 
-    const now =
-        new Date();
+    const now=new Date();
 
-
-    $("hudTime")
-        .textContent =
+    $("hudTime").textContent=
         now.toLocaleTimeString();
 
-
-    $("hudDate")
-        .textContent =
+    $("hudDate").textContent=
         now.toLocaleDateString();
 
 }
 
-
-setInterval(
-    updateClock,
-    1000
-);
+setInterval(updateClock,1000);
 
 updateClock();
 
 
-/* =========================================================
-   KEYBOARD COMMANDS
-   ========================================================= */
+/* ================= COMMAND SHOWCASE ================= */
+
+document.querySelectorAll(
+    ".commandChip"
+).forEach(button=>{
+
+    button.onclick=function(){
+
+        startDemo();
+
+        const command=
+            button.dataset.command;
+
+        setTimeout(()=>{
+
+            if(!active){
+
+                activateCore();
+
+                setTimeout(
+                    ()=>processCommand(command),
+                    1300
+                );
+
+            }else{
+
+                processCommand(command);
+
+            }
+
+        },500);
+
+    };
+
+});
+
+
+/* ================= KEYBOARD ================= */
 
 document.addEventListener(
     "keydown",
     function(event){
 
-        /* SPACE = VOICE */
-
         if(
-            event.code === "Space" &&
+            event.code==="Space" &&
             !["INPUT","SELECT"].includes(
                 document.activeElement.tagName
             )
@@ -3033,9 +2877,7 @@ document.addEventListener(
 
                 startListening();
 
-            }
-
-            else{
+            }else{
 
                 activateCore();
 
@@ -3044,9 +2886,7 @@ document.addEventListener(
         }
 
 
-        /* ESC = STOP */
-
-        if(event.key === "Escape"){
+        if(event.key==="Escape"){
 
             stopAssistant();
 
@@ -3055,11 +2895,7 @@ document.addEventListener(
         }
 
 
-        /* M = MENU */
-
-        if(
-            event.key.toLowerCase() === "m"
-        ){
+        if(event.key.toLowerCase()==="m"){
 
             $("panel")
                 .classList
@@ -3068,16 +2904,12 @@ document.addEventListener(
         }
 
 
-        /* H = HUD */
-
-        if(
-            event.key.toLowerCase() === "h"
-        ){
+        if(event.key.toLowerCase()==="h"){
 
             toggleHUD(
                 !$("hud")
-                    .classList
-                    .contains("active")
+                .classList
+                .contains("active")
             );
 
         }
@@ -3086,13 +2918,53 @@ document.addEventListener(
 );
 
 
-/* =========================================================
-   AUTO LOGIN
-   ========================================================= */
+/* ================= LOGOUT ================= */
 
-if(currentUser && accounts[currentUser]){
+$("logoutButton").onclick=function(){
+
+    stopAssistant();
+
+    closeCamera();
+
+    active=false;
+
+    currentUser=null;
+
+    localStorage.removeItem(
+        "NEXORA_USER"
+    );
+
+    $("panel")
+        .classList
+        .remove("open");
+
+    $("app")
+        .classList
+        .remove("active");
+
+    $("landing")
+        .classList
+        .remove("hide");
+
+    setStatus("CORE READY");
+
+};
+
+
+/* ================= AUTO LOGIN ================= */
+
+if(
+    currentUser &&
+    accounts[currentUser]
+){
 
     login(currentUser);
+
+}else{
+
+    $("landing")
+        .classList
+        .remove("hide");
 
 }
 
