@@ -1,32 +1,3102 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>NEXORA CORE</title><style>
-:root{--c:#18dcff;--bg:#02080e;--p:rgba(3,18,30,.96);--muted:#79b9c9}*{box-sizing:border-box}html,body{margin:0;height:100%;overflow:hidden}body{font-family:Arial,sans-serif;color:#eaffff;background:radial-gradient(circle at 50% 48%,#06415d,#020b13 35%,#010409 75%)}button,input,select{font:inherit}button{cursor:pointer}.hidden{display:none!important}.stars{position:fixed;inset:0;pointer-events:none}.star{position:absolute;width:2px;height:2px;border-radius:50%;background:var(--c);box-shadow:0 0 8px var(--c);animation:float linear infinite}.grid{position:fixed;inset:0;opacity:.13;background-image:linear-gradient(#18dcff0d 1px,transparent 1px),linear-gradient(90deg,#18dcff0d 1px,transparent 1px);background-size:44px 44px;pointer-events:none}
-#auth{position:fixed;inset:0;z-index:1000;display:grid;place-items:center;background:radial-gradient(circle,#06405a,#01070d 70%)}.auth{width:min(420px,92vw);padding:30px;border:1px solid #18dcff55;border-radius:24px;background:#020d16f5;box-shadow:0 0 80px #18dcff22}.orb{width:85px;height:85px;margin:auto;border-radius:50%;background:radial-gradient(circle,#fff,#78efff 20%,#078aaa 50%,#001722 75%);box-shadow:0 0 35px var(--c),0 0 90px #18dcff44;animation:pulse 2s infinite}.title{text-align:center;font-size:28px;letter-spacing:9px;margin-top:15px;text-shadow:0 0 25px var(--c)}.sub{text-align:center;color:var(--muted);font-size:9px;letter-spacing:3px;margin:7px 0 20px}.tabs{display:flex;gap:7px}.tabs button,.primary,.auth input{width:100%;padding:11px;border-radius:9px;border:1px solid #17647b;background:#061d2b;color:white}.tabs button.on,.primary{background:#07536e}.auth input{margin:5px 0;outline:none}.msg{text-align:center;min-height:20px;color:#86e6f7;font-size:11px;margin-top:8px}
-.main{height:100%;display:grid;place-items:center;position:relative}.core{width:310px;height:310px;position:relative;display:grid;place-items:center;cursor:pointer}.ring{position:absolute;inset:0;border:2px solid #18dcff88;border-radius:50%;box-shadow:0 0 20px #18dcff33,inset 0 0 20px #18dcff22;animation:spin 9s linear infinite}.r2{inset:22px;animation:spin 6s linear reverse;border-color:#73efff66}.r3{inset:48px;border-style:dashed;animation:spin 4s linear infinite}.energy{position:absolute;width:215px;height:215px;border:1px solid #18dcff66;border-radius:50%;animation:spin 5s linear reverse}.center{width:120px;height:120px;border-radius:50%;background:radial-gradient(circle,#fff,#c8fbff 10%,#40e5ff 30%,#0786aa 58%,#00151f);box-shadow:0 0 30px var(--c),0 0 90px #009dcc88,inset 0 0 25px white;animation:pulse 2s infinite}.core.listen .center{animation:listen .45s infinite}.core.think .center{animation:think .6s infinite}.core.speak .center{animation:speak .25s infinite}.core.boot .center{animation:boot .8s infinite}.brand{position:absolute;top:calc(50% + 185px);left:50%;transform:translateX(-50%);font-size:38px;font-weight:bold;letter-spacing:11px;text-shadow:0 0 15px var(--c),0 0 35px var(--c);white-space:nowrap}.modeText{position:absolute;top:calc(50% + 232px);left:50%;transform:translateX(-50%);font-size:10px;letter-spacing:3px;color:var(--muted);white-space:nowrap}.state{position:fixed;top:18px;left:50%;transform:translateX(-50%);font-size:10px;letter-spacing:3px;color:#8be4f4;text-align:center;z-index:30}.net{position:fixed;left:18px;bottom:18px;width:9px;height:9px;border-radius:50%;background:#00ff9d;box-shadow:0 0 14px #00ff9d;z-index:30}.net.off{background:#ffb000;box-shadow:0 0 14px #ffb000}
-.menu{position:fixed;right:17px;top:17px;width:48px;height:48px;border-radius:50%;border:1px solid #18dcff88;background:#031421e8;color:#fff;z-index:100}.panel{position:fixed;right:16px;top:76px;width:350px;max-height:calc(100vh - 92px);overflow:auto;padding:18px;border:1px solid #18dcff55;border-radius:20px;background:var(--p);box-shadow:0 0 60px #00b4ff22;transform:translateX(390px);transition:.3s;z-index:90;backdrop-filter:blur(16px)}.panel.open{transform:none}.panel h2{font-size:14px;letter-spacing:3px;margin:0 0 14px}.sec{border-bottom:1px solid #18dcff18;padding-bottom:14px;margin-bottom:14px}.sec:last-child{border:0}.sec label{display:block;color:var(--muted);font-size:9px;letter-spacing:2px;margin:8px 0 5px}select,.panel input[type=range]{width:100%}select{padding:10px;border-radius:8px;border:1px solid #17647b;background:#061d2b;color:#fff}.action{width:100%;padding:10px;margin-top:7px;border-radius:8px;border:1px solid #087fa5;background:#063a53;color:#fff}.action:hover{background:#075a77}.row{display:grid;grid-template-columns:1fr 1fr;gap:7px}.danger{background:#421923;border-color:#a34855}
-.chat{position:fixed;left:18px;bottom:18px;width:min(350px,calc(100vw - 36px));max-height:260px;overflow:auto;padding:13px;border:1px solid #18dcff33;border-radius:17px;background:#020d17d9;z-index:50}.chat h3{font-size:10px;letter-spacing:2px;color:#83dff0;margin:0 0 8px}.line{font-size:10px;line-height:1.5;margin:6px 0}.line b{color:#9df1ff}.hud{display:none;position:fixed;inset:18px;z-index:40;pointer-events:none;color:#63d9ef;font:10px monospace}.hud.on{display:block}.tl{position:absolute;top:0;left:0}.tr{position:absolute;top:0;right:0;text-align:right}.bl{position:absolute;bottom:0;left:0}.br{position:absolute;bottom:0;right:0;text-align:right}.dash{display:none;position:fixed;left:18px;bottom:300px;width:310px;padding:17px;border:1px solid #18dcff55;border-radius:18px;background:var(--p);z-index:70}.dash.open{display:block}.bar{height:6px;background:#092331;border-radius:9px;margin:5px 0 10px;overflow:hidden}.fill{height:100%;background:#13c8ee;box-shadow:0 0 8px #13c8ee}.metric{font-size:9px;color:#9dcbd6}.camera{display:none;position:fixed;inset:0;background:#000;z-index:500;place-items:center}.camera.open{display:grid}video{width:min(850px,90vw);max-height:80vh;border:1px solid var(--c);border-radius:14px}.close{position:absolute;top:20px;right:20px;padding:10px;border:1px solid #18dcff88;border-radius:8px;background:#063a53;color:white}
-@keyframes spin{to{transform:rotate(360deg)}}@keyframes pulse{50%{transform:scale(1.08)}}@keyframes listen{50%{transform:scale(1.22)}}@keyframes think{50%{transform:scale(1.15)}}@keyframes speak{50%{transform:scale(1.13)}}@keyframes boot{0%{transform:scale(.4);opacity:.2}50%{transform:scale(1.25)}100%{transform:scale(1)}}@keyframes float{from{transform:translateY(105vh);opacity:0}20%{opacity:.8}80%{opacity:.8}to{transform:translateY(-10vh);opacity:0}}@media(max-width:650px){.core{width:225px;height:225px}.center{width:88px;height:88px}.energy{width:155px;height:155px}.brand{top:calc(50% + 145px);font-size:27px;letter-spacing:7px}.modeText{top:calc(50% + 182px)}.panel{width:calc(100vw - 28px);right:14px}.chat{display:none}}
-</style></head><body><div class="stars" id="stars"></div><div class="grid"></div>
-<section id="auth"><div class="auth"><div class="orb"></div><div class="title">NEXORA</div><div class="sub">CORE ACCESS SYSTEM</div><div class="tabs"><button id="loginTab" class="on">LOGIN</button><button id="signupTab">SIGN UP</button></div><input id="user" placeholder="Username"><input id="pass" type="password" placeholder="Password"><input id="confirm" class="hidden" type="password" placeholder="Confirm password"><button id="authBtn" class="primary">ENTER NEXORA</button><div class="msg" id="authMsg"></div></div></section>
-<div class="hud" id="hud"><div class="tl">NEXORA CORE<br>USER: <span id="hu">—</span><br>SYSTEM: <span id="hs">READY</span></div><div class="tr">MODE: <span id="hm">NEXORA</span><br>VOICE: <span id="hv">READY</span></div><div class="bl">MIC: <span id="hmi">READY</span><br>SPEECH: <span id="hsp">READY</span><br>NETWORK: <span id="hn">ONLINE</span></div><div class="br"><span id="ht"></span><br><span id="hd"></span></div></div>
-<main class="main"><div class="core" id="core"><div class="ring"></div><div class="ring r2"></div><div class="ring r3"></div><div class="energy"></div><div class="center"></div></div><div class="brand">NEXORA</div><div class="modeText" id="modeText">NEXORA MODE</div></main><div class="state" id="state">CORE LOCKED</div><div class="net" id="net"></div><button class="menu" id="menu">⚙</button>
-<aside class="panel" id="panel"><h2>NEXORA CONTROL</h2><div class="sec"><label>ASSISTANT MODE</label><select id="mode"><option value="nexora">🔵 NEXORA</option><option value="jarvis">⚪ JARVIS-INSPIRED</option><option value="study">🎓 STUDY</option><option value="gaming">🎮 GAMING</option><option value="garage">🚗 GARAGE</option><option value="science">🔬 SCIENCE</option></select></div><div class="sec"><label>VOICE</label><select id="voice"></select><label>SPEED</label><input id="speed" type="range" min=".6" max="1.5" step=".05" value="1"><label>PITCH</label><input id="pitch" type="range" min=".5" max="1.5" step=".05" value="1"><div class="row"><button class="action" id="test">🔊 TEST</button><button class="action" id="stop">⏹ STOP</button></div></div><div class="sec"><div class="row"><button class="action" id="hudBtn">🛰 HUD</button><button class="action" id="full">⛶ FULLSCREEN</button></div><button class="action" id="diag">🧪 DIAGNOSTICS</button></div><div class="sec"><button class="action" id="search">🌐 SEARCH</button><button class="action" id="qr">📱 QR ACCESS</button><div id="qrbox" class="hidden" style="background:white;padding:7px;margin-top:7px;text-align:center;border-radius:8px"></div></div><div class="sec"><div class="row"><button class="action" id="dashBtn">📊 DASHBOARD</button><button class="action" id="camBtn">📷 CAMERA</button></div></div><div class="sec"><button class="action" id="mem">🧠 MEMORY</button><button class="action" id="clear">🗑 CLEAR MEMORY</button><button class="action danger" id="logout">🔐 LOG OUT</button></div></aside>
-<div class="chat" id="chat"><h3>CONVERSATION</h3><div id="messages"></div></div><div class="dash" id="dash"><b style="font-size:12px;letter-spacing:2px">ACTIVITY DASHBOARD</b><div class="metric">Movement — 60%<div class="bar"><div class="fill" style="width:60%"></div></div></div><div class="metric">Hydration reminders — 65%<div class="bar"><div class="fill" style="width:65%"></div></div></div><div class="metric">Sleep routine — 70%<div class="bar"><div class="fill" style="width:70%"></div></div></div><div class="metric">Activity consistency — 75%<div class="bar"><div class="fill" style="width:75%"></div></div></div><p style="font-size:9px;color:#729fac">General activity tracking only. Camera mode cannot reliably diagnose growth, nutrient deficiencies, medical conditions, or body composition.</p></div><div class="camera" id="camera"><video id="video" autoplay playsinline></video><button class="close" id="close">CLOSE</button></div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NEXORA</title>
+
+<style>
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
+
+body{
+    min-height:100vh;
+    overflow:hidden;
+    font-family:Arial,Helvetica,sans-serif;
+    color:#eaffff;
+    background:
+        radial-gradient(circle at center,#073c52 0%,#02131e 35%,#01050a 75%);
+}
+
+/* BACKGROUND */
+#stars{
+    position:fixed;
+    inset:0;
+    pointer-events:none;
+}
+
+.star{
+    position:absolute;
+    width:2px;
+    height:2px;
+    border-radius:50%;
+    background:#9df5ff;
+    box-shadow:0 0 8px #19dfff;
+    animation:floatStar linear infinite;
+}
+
+@keyframes floatStar{
+    from{
+        transform:translateY(110vh);
+        opacity:0;
+    }
+    20%{opacity:1}
+    80%{opacity:1}
+    to{
+        transform:translateY(-10vh);
+        opacity:0;
+    }
+}
+
+/* CORE */
+.core{
+    position:absolute;
+    top:50%;
+    left:50%;
+    transform:translate(-50%,-50%);
+    width:330px;
+    height:330px;
+    cursor:pointer;
+}
+
+.ring{
+    position:absolute;
+    inset:0;
+    border-radius:50%;
+    border:2px solid #16dfff;
+    box-shadow:
+        0 0 20px #16dfff66,
+        inset 0 0 20px #16dfff33;
+    animation:spin 9s linear infinite;
+}
+
+.ring.two{
+    inset:25px;
+    border-color:#6defff88;
+    animation-direction:reverse;
+    animation-duration:6s;
+}
+
+.ring.three{
+    inset:55px;
+    border-style:dashed;
+    animation-duration:4s;
+}
+
+.energy{
+    position:absolute;
+    width:230px;
+    height:230px;
+    top:50%;
+    left:50%;
+    transform:translate(-50%,-50%);
+    border-radius:50%;
+    border:1px solid #19dfff77;
+    animation:spin 5s linear infinite reverse;
+}
+
+.center{
+    position:absolute;
+    width:125px;
+    height:125px;
+    top:50%;
+    left:50%;
+    transform:translate(-50%,-50%);
+    border-radius:50%;
+
+    background:
+        radial-gradient(
+            circle,
+            white 0%,
+            #c9fbff 10%,
+            #4de5ff 30%,
+            #087e9f 60%,
+            #00131c 100%
+        );
+
+    box-shadow:
+        0 0 30px #19dfff,
+        0 0 80px #008eb8,
+        0 0 130px #19dfff55;
+
+    animation:pulse 2s infinite;
+}
+
+.core.listening .center{
+    animation:listening .45s infinite;
+}
+
+.core.thinking .center{
+    animation:thinking .65s infinite;
+}
+
+.core.speaking .center{
+    animation:speaking .3s infinite;
+}
+
+@keyframes spin{
+    to{transform:rotate(360deg)}
+}
+
+@keyframes pulse{
+    50%{transform:translate(-50%,-50%) scale(1.08)}
+}
+
+@keyframes listening{
+    50%{transform:translate(-50%,-50%) scale(1.25)}
+}
+
+@keyframes thinking{
+    50%{transform:translate(-50%,-50%) scale(1.16)}
+}
+
+@keyframes speaking{
+    50%{transform:translate(-50%,-50%) scale(1.15)}
+}
+
+/* NEXORA NAME */
+.logo{
+    position:absolute;
+    top:calc(50% + 190px);
+    left:50%;
+    transform:translateX(-50%);
+    font-size:38px;
+    letter-spacing:12px;
+    font-weight:bold;
+    text-shadow:
+        0 0 15px #19dfff,
+        0 0 40px #19dfff;
+}
+
+.mode{
+    position:absolute;
+    top:calc(50% + 235px);
+    left:50%;
+    transform:translateX(-50%);
+    font-size:10px;
+    letter-spacing:3px;
+    color:#79afbc;
+}
+
+/* STATUS */
+.status{
+    position:fixed;
+    top:20px;
+    left:50%;
+    transform:translateX(-50%);
+    font-size:11px;
+    letter-spacing:3px;
+    color:#9cf5ff;
+    z-index:20;
+    text-align:center;
+}
+
+/* MENU */
+.menu{
+    position:fixed;
+    right:18px;
+    top:18px;
+    width:48px;
+    height:48px;
+    border-radius:50%;
+    border:1px solid #16dfff;
+    background:#031722ee;
+    color:white;
+    cursor:pointer;
+    z-index:100;
+    font-size:19px;
+}
+
+/* PANEL */
+.panel{
+    position:fixed;
+    top:78px;
+    right:18px;
+    width:360px;
+    max-height:calc(100vh - 95px);
+    overflow:auto;
+
+    padding:18px;
+
+    border-radius:20px;
+    border:1px solid #16dfff55;
+
+    background:#03111cf5;
+
+    box-shadow:
+        0 0 50px #008eb833;
+
+    backdrop-filter:blur(15px);
+
+    z-index:90;
+
+    transform:translateX(400px);
+    transition:.3s;
+}
+
+.panel.open{
+    transform:translateX(0);
+}
+
+.panel h2{
+    font-size:13px;
+    letter-spacing:3px;
+    margin-bottom:15px;
+}
+
+.section{
+    border-bottom:1px solid #16dfff22;
+    padding-bottom:15px;
+    margin-bottom:15px;
+}
+
+label{
+    display:block;
+    font-size:9px;
+    letter-spacing:2px;
+    color:#79afbc;
+    margin:8px 0 5px;
+}
+
+select,
+input{
+    width:100%;
+    padding:10px;
+    border-radius:9px;
+    border:1px solid #17627a;
+    background:#061c2a;
+    color:white;
+}
+
+button.action{
+    width:100%;
+    padding:10px;
+    margin-top:7px;
+    border-radius:9px;
+    border:1px solid #087fa5;
+    background:#063b54;
+    color:white;
+    cursor:pointer;
+}
+
+button.action:hover{
+    background:#075d7b;
+}
+
+.row{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:7px;
+}
+
+/* CHAT */
+.chat{
+    position:fixed;
+    left:18px;
+    bottom:18px;
+    width:360px;
+    max-height:250px;
+    overflow:auto;
+
+    padding:13px;
+
+    border-radius:17px;
+    border:1px solid #16dfff33;
+
+    background:#020d17dd;
+
+    z-index:50;
+}
+
+.chatTitle{
+    color:#8eefff;
+    font-size:9px;
+    letter-spacing:2px;
+    margin-bottom:8px;
+}
+
+.message{
+    font-size:10px;
+    line-height:1.5;
+    margin:6px 0;
+}
+
+.message b{
+    color:#9df5ff;
+}
+
+/* HUD */
+.hud{
+    display:none;
+    position:fixed;
+    inset:18px;
+    z-index:40;
+    pointer-events:none;
+    color:#67e4f5;
+    font:10px monospace;
+}
+
+.hud.active{
+    display:block;
+}
+
+.hud .topLeft{
+    position:absolute;
+    top:0;
+    left:0;
+}
+
+.hud .topRight{
+    position:absolute;
+    top:0;
+    right:0;
+    text-align:right;
+}
+
+.hud .bottomLeft{
+    position:absolute;
+    bottom:0;
+    left:0;
+}
+
+.hud .bottomRight{
+    position:absolute;
+    bottom:0;
+    right:0;
+    text-align:right;
+}
+
+/* LOGIN */
+#loginScreen{
+    position:fixed;
+    inset:0;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background:
+        radial-gradient(circle,#06445e,#01060b 75%);
+    z-index:1000;
+}
+
+.loginBox{
+    width:min(420px,92vw);
+    padding:30px;
+    border-radius:25px;
+
+    border:1px solid #19dfff;
+
+    background:#020c15f7;
+
+    box-shadow:
+        0 0 70px #007fa8;
+}
+
+.loginCore{
+    width:80px;
+    height:80px;
+    margin:auto;
+    border-radius:50%;
+
+    background:
+        radial-gradient(
+            circle,
+            white,
+            #8ff5ff 15%,
+            #19d9ff 40%,
+            #00536c 65%,
+            #00121b
+        );
+
+    box-shadow:
+        0 0 35px #19dfff,
+        0 0 90px #007fa8;
+
+    animation:pulseLogin 2s infinite;
+}
+
+@keyframes pulseLogin{
+    50%{transform:scale(1.08)}
+}
+
+.loginTitle{
+    text-align:center;
+    font-size:30px;
+    letter-spacing:8px;
+    margin:18px 0 5px;
+}
+
+.loginSub{
+    text-align:center;
+    color:#79afbc;
+    font-size:9px;
+    letter-spacing:3px;
+    margin-bottom:20px;
+}
+
+.tabs{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:6px;
+}
+
+.tabs button{
+    padding:10px;
+    border-radius:9px;
+    border:1px solid #17627a;
+    background:#061c2a;
+    color:white;
+}
+
+.tabs .selected{
+    background:#07516d;
+}
+
+.loginBox input{
+    margin-top:8px;
+}
+
+.primary{
+    width:100%;
+    margin-top:10px;
+    padding:11px;
+    border-radius:9px;
+    border:1px solid #19dfff;
+    background:#07516d;
+    color:white;
+}
+
+.loginMessage{
+    text-align:center;
+    color:#8fefff;
+    font-size:11px;
+    min-height:20px;
+    margin-top:10px;
+}
+
+/* CAMERA */
+.camera{
+    display:none;
+    position:fixed;
+    inset:0;
+    z-index:500;
+    background:#000;
+    justify-content:center;
+    align-items:center;
+}
+
+.camera.active{
+    display:flex;
+}
+
+.camera video{
+    width:min(850px,90vw);
+    max-height:80vh;
+    border:1px solid #19dfff;
+    border-radius:15px;
+}
+
+.closeCamera{
+    position:absolute;
+    right:20px;
+    top:20px;
+    padding:10px 15px;
+    border-radius:9px;
+    border:1px solid #19dfff;
+    background:#063b54;
+    color:white;
+}
+
+/* DASHBOARD */
+.dashboard{
+    display:none;
+    position:fixed;
+    left:18px;
+    bottom:290px;
+    width:320px;
+    padding:18px;
+
+    border-radius:18px;
+    border:1px solid #19dfff55;
+
+    background:#03101cf7;
+
+    z-index:70;
+}
+
+.dashboard.active{
+    display:block;
+}
+
+.dashboard h3{
+    font-size:12px;
+    letter-spacing:2px;
+    margin-bottom:15px;
+}
+
+.metric{
+    margin:12px 0;
+}
+
+.metricTop{
+    display:flex;
+    justify-content:space-between;
+    font-size:9px;
+    color:#a1d5df;
+}
+
+.bar{
+    height:6px;
+    margin-top:5px;
+    background:#092331;
+    border-radius:8px;
+    overflow:hidden;
+}
+
+.fill{
+    height:100%;
+    background:#13c8ee;
+    box-shadow:0 0 9px #13c8ee;
+}
+
+.warning{
+    font-size:9px;
+    color:#729fac;
+    line-height:1.5;
+    margin-top:12px;
+}
+
+/* NETWORK */
+.network{
+    position:fixed;
+    left:18px;
+    bottom:18px;
+    width:9px;
+    height:9px;
+    border-radius:50%;
+    background:#00ff9d;
+    box-shadow:0 0 15px #00ff9d;
+}
+
+.network.offline{
+    background:#ffb400;
+    box-shadow:0 0 15px #ffb400;
+}
+
+/* MOBILE */
+@media(max-width:650px){
+
+    .core{
+        width:230px;
+        height:230px;
+    }
+
+    .center{
+        width:90px;
+        height:90px;
+    }
+
+    .energy{
+        width:160px;
+        height:160px;
+    }
+
+    .logo{
+        top:calc(50% + 140px);
+        font-size:26px;
+        letter-spacing:7px;
+    }
+
+    .mode{
+        top:calc(50% + 180px);
+    }
+
+    .panel{
+        width:calc(100vw - 28px);
+        right:14px;
+    }
+
+    .chat{
+        display:none;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div id="stars"></div>
+
+<!-- LOGIN -->
+<div id="loginScreen">
+
+    <div class="loginBox">
+
+        <div class="loginCore"></div>
+
+        <div class="loginTitle">
+            NEXORA
+        </div>
+
+        <div class="loginSub">
+            CORE ACCESS SYSTEM
+        </div>
+
+        <div class="tabs">
+            <button id="loginTab" class="selected">
+                LOGIN
+            </button>
+
+            <button id="signupTab">
+                SIGN UP
+            </button>
+        </div>
+
+        <input
+            id="username"
+            placeholder="Username"
+        >
+
+        <input
+            id="password"
+            type="password"
+            placeholder="Password"
+        >
+
+        <input
+            id="confirmPassword"
+            type="password"
+            placeholder="Confirm password"
+            style="display:none"
+        >
+
+        <button
+            id="authButton"
+            class="primary"
+        >
+            ENTER NEXORA
+        </button>
+
+        <div
+            id="loginMessage"
+            class="loginMessage"
+        ></div>
+
+    </div>
+
+</div>
+
+
+<!-- HUD -->
+<div id="hud" class="hud">
+
+    <div class="topLeft">
+        NEXORA CORE<br>
+        USER: <span id="hudUser"></span><br>
+        SYSTEM: <span id="hudSystem">READY</span>
+    </div>
+
+    <div class="topRight">
+        MODE: <span id="hudMode">NEXORA</span><br>
+        MIC: <span id="hudMic">READY</span>
+    </div>
+
+    <div class="bottomLeft">
+        SPEECH: <span id="hudSpeech">READY</span><br>
+        NETWORK: <span id="hudNetwork">ONLINE</span>
+    </div>
+
+    <div class="bottomRight">
+        <span id="hudTime"></span><br>
+        <span id="hudDate"></span>
+    </div>
+
+</div>
+
+
+<!-- MAIN CORE -->
+<div class="core" id="core">
+
+    <div class="ring"></div>
+    <div class="ring two"></div>
+    <div class="ring three"></div>
+
+    <div class="energy"></div>
+
+    <div class="center"></div>
+
+</div>
+
+<div class="logo">
+    NEXORA
+</div>
+
+<div
+    class="mode"
+    id="modeText"
+>
+    NEXORA MODE
+</div>
+
+<div
+    class="status"
+    id="status"
+>
+    CORE LOCKED
+</div>
+
+
+<!-- SETTINGS BUTTON -->
+<button
+    class="menu"
+    id="menu"
+>
+    ⚙
+</button>
+
+
+<!-- SETTINGS -->
+<div
+    class="panel"
+    id="panel"
+>
+
+    <h2>
+        NEXORA CONTROL
+    </h2>
+
+
+    <!-- MODES -->
+    <div class="section">
+
+        <label>
+            ASSISTANT MODE
+        </label>
+
+        <select id="assistantMode">
+
+            <option value="nexora">
+                🔵 NEXORA
+            </option>
+
+            <option value="jarvis">
+                ⚪ JARVIS-INSPIRED
+            </option>
+
+            <option value="study">
+                🎓 STUDY
+            </option>
+
+            <option value="gaming">
+                🎮 GAMING
+            </option>
+
+            <option value="garage">
+                🚗 GARAGE
+            </option>
+
+            <option value="science">
+                🔬 SCIENCE
+            </option>
+
+        </select>
+
+    </div>
+
+
+    <!-- VOICE -->
+    <div class="section">
+
+        <label>
+            VOICE
+        </label>
+
+        <select id="voiceSelect"></select>
+
+        <label>
+            SPEECH SPEED
+        </label>
+
+        <input
+            id="speechSpeed"
+            type="range"
+            min=".6"
+            max="1.5"
+            step=".05"
+            value="1"
+        >
+
+        <label>
+            PITCH
+        </label>
+
+        <input
+            id="speechPitch"
+            type="range"
+            min=".5"
+            max="1.5"
+            step=".05"
+            value="1"
+        >
+
+        <div class="row">
+
+            <button
+                class="action"
+                id="testVoice"
+            >
+                🔊 TEST
+            </button>
+
+            <button
+                class="action"
+                id="stopButton"
+            >
+                ⏹ STOP
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <!-- SYSTEM -->
+    <div class="section">
+
+        <div class="row">
+
+            <button
+                class="action"
+                id="hudButton"
+            >
+                🛰 HUD
+            </button>
+
+            <button
+                class="action"
+                id="fullscreenButton"
+            >
+                ⛶ FULLSCREEN
+            </button>
+
+        </div>
+
+        <button
+            class="action"
+            id="diagnosticsButton"
+        >
+            🧪 DIAGNOSTICS
+        </button>
+
+    </div>
+
+
+    <!-- WEB -->
+    <div class="section">
+
+        <button
+            class="action"
+            id="searchButton"
+        >
+            🌐 SEARCH WEB
+        </button>
+
+        <button
+            class="action"
+            id="youtubeButton"
+        >
+            ▶ OPEN YOUTUBE
+        </button>
+
+        <button
+            class="action"
+            id="googleButton"
+        >
+            🔎 OPEN GOOGLE
+        </button>
+
+    </div>
+
+
+    <!-- OTHER -->
+    <div class="section">
+
+        <div class="row">
+
+            <button
+                class="action"
+                id="dashboardButton"
+            >
+                📊 DASHBOARD
+            </button>
+
+            <button
+                class="action"
+                id="cameraButton"
+            >
+                📷 CAMERA
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <!-- MEMORY -->
+    <div class="section">
+
+        <button
+            class="action"
+            id="memoryButton"
+        >
+            🧠 MEMORY
+        </button>
+
+        <button
+            class="action"
+            id="clearMemoryButton"
+        >
+            🗑 CLEAR MEMORY
+        </button>
+
+    </div>
+
+
+    <!-- LOGOUT -->
+    <button
+        class="action"
+        id="logoutButton"
+    >
+        🔐 LOG OUT
+    </button>
+
+</div>
+
+
+<!-- CHAT -->
+<div class="chat">
+
+    <div class="chatTitle">
+        CONVERSATION
+    </div>
+
+    <div id="messages"></div>
+
+</div>
+
+
+<!-- DASHBOARD -->
+<div
+    class="dashboard"
+    id="dashboard"
+>
+
+    <h3>
+        ACTIVITY DASHBOARD
+    </h3>
+
+    <div class="metric">
+
+        <div class="metricTop">
+            <span>Movement</span>
+            <span>60%</span>
+        </div>
+
+        <div class="bar">
+            <div
+                class="fill"
+                style="width:60%"
+            ></div>
+        </div>
+
+    </div>
+
+
+    <div class="metric">
+
+        <div class="metricTop">
+            <span>Hydration reminders</span>
+            <span>65%</span>
+        </div>
+
+        <div class="bar">
+            <div
+                class="fill"
+                style="width:65%"
+            ></div>
+        </div>
+
+    </div>
+
+
+    <div class="metric">
+
+        <div class="metricTop">
+            <span>Sleep routine</span>
+            <span>70%</span>
+        </div>
+
+        <div class="bar">
+            <div
+                class="fill"
+                style="width:70%"
+            ></div>
+        </div>
+
+    </div>
+
+
+    <div class="metric">
+
+        <div class="metricTop">
+            <span>Activity consistency</span>
+            <span>75%</span>
+        </div>
+
+        <div class="bar">
+            <div
+                class="fill"
+                style="width:75%"
+            ></div>
+        </div>
+
+    </div>
+
+    <div class="warning">
+
+        This dashboard is for general activity tracking.
+        Camera access does not diagnose growth,
+        nutrient deficiencies, medical conditions,
+        or body composition.
+
+    </div>
+
+</div>
+
+
+<!-- CAMERA -->
+<div
+    class="camera"
+    id="camera"
+>
+
+    <video
+        id="cameraVideo"
+        autoplay
+        playsinline
+    ></video>
+
+    <button
+        class="closeCamera"
+        id="closeCamera"
+    >
+        CLOSE
+    </button>
+
+</div>
+
+
+<div
+    class="network"
+    id="network"
+></div>
+
+
 <script>
-const $=x=>document.getElementById(x);let profiles={},current=null,mode='nexora',memory=[],voices=[],rec=null,active=false,stream=null,last='';try{profiles=JSON.parse(localStorage.getItem('NEXORA_PROFILES')||'{}')}catch{}
-for(let i=0;i<65;i++){let s=document.createElement('i');s.className='star';s.style.left=Math.random()*100+'%';s.style.animationDuration=7+Math.random()*13+'s';s.style.animationDelay=-Math.random()*15+'s';$('stars').appendChild(s)}
-function save(){if(!current)return;profiles[current].memory=memory;profiles[current].mode=mode;profiles[current].speed=+$('speed').value;profiles[current].pitch=+$('pitch').value;localStorage.setItem('NEXORA_PROFILES',JSON.stringify(profiles))}function state(x){$('state').textContent=x}function add(w,t){let d=document.createElement('div');d.className='line';let b=document.createElement('b');b.textContent=w==='u'?'YOU: ':'NEXORA: ';let s=document.createElement('span');s.textContent=t;d.append(b,s);$('messages').appendChild(d);$('chat').scrollTop=$('chat').scrollHeight}
-let authMode='login';$('loginTab').onclick=()=>{authMode='login';$('loginTab').classList.add('on');$('signupTab').classList.remove('on');$('confirm').classList.add('hidden');$('authBtn').textContent='ENTER NEXORA'};$('signupTab').onclick=()=>{authMode='signup';$('signupTab').classList.add('on');$('loginTab').classList.remove('on');$('confirm').classList.remove('hidden');$('authBtn').textContent='CREATE ACCOUNT'};
-$('authBtn').onclick=()=>{let u=$('user').value.trim(),p=$('pass').value;if(!u||!p){$('authMsg').textContent='Enter your username and password.';return}if(authMode==='signup'){if(p.length<4||p!==$('confirm').value){$('authMsg').textContent=p.length<4?'Use at least 4 characters.':'Passwords do not match.';return}if(profiles[u]){$('authMsg').textContent='Username already exists.';return}profiles[u]={password:p,memory:[],mode:'nexora',speed:1,pitch:1};localStorage.setItem('NEXORA_PROFILES',JSON.stringify(profiles));$('authMsg').textContent='Account created — log in now.';$('loginTab').click();return}if(!profiles[u]||profiles[u].password!==p){$('authMsg').textContent='Incorrect login.';return}login(u)};
-function login(u){current=u;let p=profiles[u];memory=p.memory||[];mode=p.mode||'nexora';$('speed').value=p.speed||1;$('pitch').value=p.pitch||1;$('mode').value=mode;$('hu').textContent=u;$('auth').classList.add('hidden');localStorage.setItem('NEXORA_CURRENT',u);updateMode();active=false;state('CORE READY — PRESS TO ACTIVATE')}
-let saved=localStorage.getItem('NEXORA_CURRENT');if(saved&&profiles[saved])login(saved);
-function loadVoices(){voices=speechSynthesis.getVoices();$('voice').innerHTML='';voices.forEach((v,i)=>{let o=document.createElement('option');o.value=i;o.textContent=v.name+' — '+v.lang;$('voice').appendChild(o)});pickVoice()}speechSynthesis.onvoiceschanged=loadVoices;loadVoices();function pickVoice(){if(!voices.length)return;let q=mode==='jarvis'?/Daniel|George|David|UK/i:/English|Natural|Google|Microsoft/i,i=voices.findIndex(v=>q.test(v.name));if(i>=0)$('voice').value=i}
-function speak(t){speechSynthesis.cancel();last=t;add('a',t);$('core').classList.remove('listen','think');$('core').classList.add('speak');$('hsp').textContent='SPEAKING';state('NEXORA SPEAKING');let u=new SpeechSynthesisUtterance(t),v=voices[+$('voice').value];if(v){u.voice=v;u.lang=v.lang}u.rate=+$('speed').value;u.pitch=+$('pitch').value;u.onend=()=>{$('core').classList.remove('speak');$('hsp').textContent='READY';state('SYSTEM READY — PRESS CORE TO SPEAK')};speechSynthesis.speak(u)}function stop(){speechSynthesis.cancel();if(rec)try{rec.stop()}catch{};$('core').classList.remove('listen','think','speak','boot');$('hmi').textContent='READY';$('hsp').textContent='READY';state('SYSTEM READY — PRESS CORE TO SPEAK')}
-const R=window.SpeechRecognition||window.webkitSpeechRecognition;if(R){rec=new R;rec.lang='en-US';rec.continuous=false;rec.interimResults=false;rec.onstart=()=>{$('core').classList.add('listen');$('hmi').textContent='LISTENING';state('LISTENING — SPEAK NOW')};rec.onresult=e=>{let t=e.results[0][0].transcript.trim();add('u',t);$('core').classList.remove('listen');$('core').classList.add('think');$('hmi').textContent='PROCESSING';command(t)};rec.onerror=e=>{state(e.error==='not-allowed'?'MICROPHONE BLOCKED — ALLOW ACCESS':'VOICE ERROR — TRY AGAIN');$('core').classList.remove('listen','think');$('hmi').textContent='READY'};rec.onend=()=>{$('core').classList.remove('listen');$('hmi').textContent='READY'}}function listen(){if(!rec){speak('Voice recognition is unavailable in this browser. Try Chrome or Edge.');return}speechSynthesis.cancel();try{rec.start()}catch{}}
-function activate(){if(active){listen();return}active=true;$('core').classList.add('boot');$('hs').textContent='BOOTING';state('CORE ACTIVATING...');setTimeout(()=>{ $('core').classList.remove('boot');$('hs').textContent='ONLINE';state('NEXORA ONLINE');speak(mode==='jarvis'?'NEXORA online. JARVIS-inspired mode ready.':'NEXORA online.')},800)}$('core').onclick=()=>active?listen():activate();
-function updateMode(){let n={nexora:'NEXORA MODE',jarvis:'JARVIS-INSPIRED MODE',study:'STUDY MODE',gaming:'GAMING MODE',garage:'GARAGE MODE',science:'SCIENCE MODE'};$('modeText').textContent=n[mode];$('hm').textContent=n[mode];pickVoice();save()}function changeMode(m){mode=m;updateMode();let r={nexora:'NEXORA mode activated.',jarvis:'JARVIS-inspired mode activated.',study:'Study mode activated. Ready to learn.',gaming:'Gaming mode activated. Systems ready.',garage:'Garage mode activated.',science:'Science mode activated.'};speak(r[m])}
-function cmd(x){let t=x.toLowerCase().replace(/[?!.,]/g,'').trim();if(/\b(stop|be quiet|cancel that|never mind)\b/.test(t)){stop();return}if(/help|what can you do|commands/.test(t)){speak('I can switch modes, search, calculate, tell time and date, open websites, control HUD and fullscreen, run diagnostics, manage memory, change voice speed, open the dashboard and camera, and log you out.');return}let modes={nexora:/switch to nexora|activate nexora|nexora mode/,jarvis:/switch to jarvis|activate jarvis|jarvis mode/,study:/study mode|activate study/,gaming:/gaming mode|activate gaming/,garage:/garage mode|activate garage/,science:/science mode|activate science/};for(let k in modes)if(modes[k].test(t)){changeMode(k);return}if(/time|what time/.test(t)){speak('The time is '+new Date().toLocaleTimeString());return}if(/date|what day/.test(t)){speak('Today is '+new Date().toLocaleDateString(undefined,{weekday:'long',month:'long',day:'numeric',year:'numeric'}));return}if(/who are you|what are you|your name/.test(t)){speak(mode==='jarvis'?'I am NEXORA operating in JARVIS-inspired mode.':'I am NEXORA, your browser voice assistant.');return}if(/^(hello|hi|hey)/.test(t)){speak('Hello. NEXORA is ready.');return}if(/repeat/.test(t)){speak(last||'Nothing to repeat yet.');return}if(/show hud|activate hud|turn on hud/.test(t)){toggleHud(true);return}if(/hide hud|turn off hud/.test(t)){toggleHud(false);return}if(/fullscreen|full screen/.test(t)){full();return}if(/open youtube/.test(t)){speak('Opening YouTube.');setTimeout(()=>open('https://youtube.com'),400);return}if(/open google/.test(t)){speak('Opening Google.');setTimeout(()=>open('https://google.com'),400);return}if(/^(search|look up|find)/.test(t)){let q=t.replace(/^(search for|search|look up|find) /,'');if(q){speak('Searching for '+q);setTimeout(()=>open('https://www.google.com/search?q='+encodeURIComponent(q)),400);return}}if(/^(calculate|work out|what is) /.test(t)){let e=t.replace(/^(calculate|work out|what is) /,'').replace(/multiplied by|times/g,'*').replace(/divided by/g,'/').replace(/plus/g,'+').replace(/minus/g,'-');if(/^[0-9+\-*/().%\s]+$/.test(e)){try{speak('The answer is '+Function('return '+e)());return}catch{}}}if(t.startsWith('remember ')){memory.push(t.slice(9));save();speak('I will remember that.');return}if(/what do you remember|show memory/.test(t)){speak(memory.length?'I remember: '+memory.join(', '):'Your memory is empty.');return}if(/forget that|clear memory/.test(t)){memory=[];save();speak('Memory cleared.');return}if(/diagnostics|system check|system status/.test(t)){diagnostics();return}if(/open camera|activate camera|physical interaction/.test(t)){openCamera();return}if(/dashboard|show activity/.test(t)){toggleDash(true);return}if(/speak slower|talk slower/.test(t)){$('speed').value=Math.max(.6,+$('speed').value-.1);save();speak('Speaking slower.');return}if(/speak faster|talk faster/.test(t)){$('speed').value=Math.min(1.5,+$('speed').value+.1);save();speak('Speaking faster.');return}speak('I heard you say '+x+'. I do not have an action assigned to that command yet.')}
-function open(u){window.open(u,'_blank','noopener')}function toggleHud(on){$('hud').classList.toggle('on',on);speak(on?'HUD activated.':'HUD deactivated.')}function full(){document.documentElement.requestFullscreen?.();speak('Fullscreen activated.')}function diagnostics(){speak('Diagnostics complete. Core online. Microphone '+(rec?'ready':'unavailable')+'. Speech '+('speechSynthesis'in window?'ready':'unavailable')+'. Network '+(navigator.onLine?'online':'offline')+'.')}function toggleDash(x){$('dash').classList.toggle('open',x);if(x)speak('Activity dashboard opened.')}
-$('menu').onclick=()=>$('panel').classList.toggle('open');$('mode').onchange=()=>changeMode($('mode').value);$('voice').onchange=save;$('speed').oninput=save;$('pitch').oninput=save;$('test').onclick=()=>speak('Voice system online. NEXORA ready.');$('stop').onclick=stop;$('hudBtn').onclick=()=>toggleHud(!$('hud').classList.contains('on'));$('full').onclick=full;$('diag').onclick=diagnostics;$('search').onclick=()=>{let q=prompt('What should NEXORA search for?');if(q){speak('Searching for '+q);open('https://www.google.com/search?q='+encodeURIComponent(q))}};$('qr').onclick=()=>{let b=$('qrbox');b.classList.toggle('hidden');if(!b.innerHTML)b.innerHTML='<img width="180" height="180" src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data='+encodeURIComponent(location.href)+'">'};$('dashBtn').onclick=()=>toggleDash(!$('dash').classList.contains('open'));$('mem').onclick=()=>speak(memory.length?'I remember: '+memory.join(', '):'Your memory is empty.');$('clear').onclick=()=>{memory=[];save();speak('Memory cleared.')};
-async function openCamera(){try{stream=await navigator.mediaDevices.getUserMedia({video:true,audio:false});$('video').srcObject=stream;$('camera').classList.add('open');speak('Camera activated. This is a visual preview only and cannot diagnose health conditions.')}catch{speak('Camera permission was not granted.')}}function closeCam(){stream?.getTracks().forEach(t=>t.stop());stream=null;$('video').srcObject=null;$('camera').classList.remove('open')}$('camBtn').onclick=openCamera;$('close').onclick=closeCam;$('logout').onclick=()=>{stop();closeCam();localStorage.removeItem('NEXORA_CURRENT');current=null;active=false;$('auth').classList.remove('hidden');$('panel').classList.remove('open');state('CORE LOCKED')};
-function clock(){let d=new Date;$('ht').textContent=d.toLocaleTimeString();$('hd').textContent=d.toLocaleDateString()}setInterval(clock,1000);clock();function network(){let on=navigator.onLine;$('net').classList.toggle('off',!on);$('hn').textContent=on?'ONLINE':'OFFLINE'}addEventListener('online',network);addEventListener('offline',network);network();document.addEventListener('keydown',e=>{if(e.key==='Escape'){stop();closeCam()}if(e.code==='Space'&&!/INPUT|SELECT/.test(document.activeElement.tagName)){e.preventDefault();active?listen():activate()}if(e.key.toLowerCase()==='m')$('panel').classList.toggle('open');if(e.key.toLowerCase()==='h')$('hud').classList.toggle('on')});
-</script></body></html>
+
+/* =========================================================
+   NEXORA
+   MAIN JAVASCRIPT
+   ========================================================= */
+
+
+/* ---------- STORAGE ---------- */
+
+let accounts =
+    JSON.parse(
+        localStorage.getItem("NEXORA_ACCOUNTS") || "{}"
+    );
+
+let currentUser =
+    localStorage.getItem("NEXORA_USER") || null;
+
+let memory = [];
+
+let active = false;
+
+let listening = false;
+
+let currentMode = "nexora";
+
+let recognition = null;
+
+let voices = [];
+
+let cameraStream = null;
+
+let lastResponse = "";
+
+
+/* ---------- ELEMENT HELPER ---------- */
+
+function $(id){
+    return document.getElementById(id);
+}
+
+
+/* ---------- STAR FIELD ---------- */
+
+for(let i=0;i<80;i++){
+
+    const star =
+        document.createElement("div");
+
+    star.className = "star";
+
+    star.style.left =
+        Math.random()*100 + "%";
+
+    star.style.animationDuration =
+        (7 + Math.random()*13) + "s";
+
+    star.style.animationDelay =
+        (-Math.random()*15) + "s";
+
+    $("stars").appendChild(star);
+}
+
+
+/* ---------- LOGIN SYSTEM ---------- */
+
+let signupMode = false;
+
+
+$("loginTab").onclick = function(){
+
+    signupMode = false;
+
+    $("loginTab").classList.add("selected");
+
+    $("signupTab").classList.remove("selected");
+
+    $("confirmPassword").style.display =
+        "none";
+
+    $("authButton").textContent =
+        "ENTER NEXORA";
+
+};
+
+
+$("signupTab").onclick = function(){
+
+    signupMode = true;
+
+    $("signupTab").classList.add("selected");
+
+    $("loginTab").classList.remove("selected");
+
+    $("confirmPassword").style.display =
+        "block";
+
+    $("authButton").textContent =
+        "CREATE ACCOUNT";
+
+};
+
+
+$("authButton").onclick = function(){
+
+    const username =
+        $("username").value.trim();
+
+    const password =
+        $("password").value;
+
+    const confirm =
+        $("confirmPassword").value;
+
+
+    if(!username || !password){
+
+        $("loginMessage").textContent =
+            "Please enter your username and password.";
+
+        return;
+
+    }
+
+
+    if(signupMode){
+
+        if(password.length < 4){
+
+            $("loginMessage").textContent =
+                "Password must be at least 4 characters.";
+
+            return;
+
+        }
+
+
+        if(password !== confirm){
+
+            $("loginMessage").textContent =
+                "Passwords do not match.";
+
+            return;
+
+        }
+
+
+        if(accounts[username]){
+
+            $("loginMessage").textContent =
+                "That username already exists.";
+
+            return;
+
+        }
+
+
+        accounts[username] = {
+
+            password:password,
+
+            mode:"nexora",
+
+            memory:[],
+
+            speed:1,
+
+            pitch:1
+
+        };
+
+
+        localStorage.setItem(
+            "NEXORA_ACCOUNTS",
+            JSON.stringify(accounts)
+        );
+
+
+        $("loginMessage").textContent =
+            "Account created. Login now.";
+
+        $("loginTab").click();
+
+        return;
+
+    }
+
+
+    if(
+        !accounts[username] ||
+        accounts[username].password !== password
+    ){
+
+        $("loginMessage").textContent =
+            "Incorrect username or password.";
+
+        return;
+
+    }
+
+
+    login(username);
+
+};
+
+
+function login(username){
+
+    currentUser = username;
+
+    localStorage.setItem(
+        "NEXORA_USER",
+        username
+    );
+
+    const account =
+        accounts[username];
+
+    memory =
+        account.memory || [];
+
+    currentMode =
+        account.mode || "nexora";
+
+    $("speechSpeed").value =
+        account.speed || 1;
+
+    $("speechPitch").value =
+        account.pitch || 1;
+
+    $("assistantMode").value =
+        currentMode;
+
+    $("hudUser").textContent =
+        username;
+
+    $("loginScreen").style.display =
+        "none";
+
+    changeMode(currentMode,false);
+
+    setStatus(
+        "CORE READY — PRESS THE CORE"
+    );
+
+}
+
+
+/* ---------- SAVE ---------- */
+
+function saveAccount(){
+
+    if(!currentUser) return;
+
+    accounts[currentUser].mode =
+        currentMode;
+
+    accounts[currentUser].memory =
+        memory;
+
+    accounts[currentUser].speed =
+        $("speechSpeed").value;
+
+    accounts[currentUser].pitch =
+        $("speechPitch").value;
+
+
+    localStorage.setItem(
+        "NEXORA_ACCOUNTS",
+        JSON.stringify(accounts)
+    );
+
+}
+
+
+/* ---------- VOICES ---------- */
+
+function loadVoices(){
+
+    voices =
+        speechSynthesis.getVoices();
+
+    $("voiceSelect").innerHTML = "";
+
+    voices.forEach(
+        (voice,index)=>{
+
+            const option =
+                document.createElement("option");
+
+            option.value = index;
+
+            option.textContent =
+                voice.name +
+                " — " +
+                voice.lang;
+
+            $("voiceSelect")
+                .appendChild(option);
+
+        }
+    );
+
+}
+
+
+speechSynthesis.onvoiceschanged =
+    loadVoices;
+
+loadVoices();
+
+
+/* ---------- STATUS ---------- */
+
+function setStatus(text){
+
+    $("status").textContent =
+        text;
+
+}
+
+
+/* ---------- CHAT ---------- */
+
+function addMessage(sender,text){
+
+    const message =
+        document.createElement("div");
+
+    message.className =
+        "message";
+
+    const label =
+        document.createElement("b");
+
+    label.textContent =
+        sender === "user"
+        ? "YOU: "
+        : "NEXORA: ";
+
+    message.appendChild(label);
+
+    message.appendChild(
+        document.createTextNode(text)
+    );
+
+    $("messages")
+        .appendChild(message);
+
+    $("messages").scrollTop =
+        $("messages").scrollHeight;
+
+}
+
+
+/* ---------- SPEECH ---------- */
+
+function speak(text){
+
+    speechSynthesis.cancel();
+
+    lastResponse = text;
+
+    addMessage("ai",text);
+
+    $("core")
+        .classList
+        .remove("listening","thinking");
+
+    $("core")
+        .classList
+        .add("speaking");
+
+    $("hudSpeech").textContent =
+        "SPEAKING";
+
+    setStatus("SPEAKING");
+
+
+    const utterance =
+        new SpeechSynthesisUtterance(text);
+
+
+    const selectedVoice =
+        voices[
+            Number($("voiceSelect").value)
+        ];
+
+
+    if(selectedVoice){
+
+        utterance.voice =
+            selectedVoice;
+
+        utterance.lang =
+            selectedVoice.lang;
+
+    }
+
+
+    utterance.rate =
+        Number($("speechSpeed").value);
+
+    utterance.pitch =
+        Number($("speechPitch").value);
+
+
+    utterance.onend =
+        function(){
+
+            $("core")
+                .classList
+                .remove("speaking");
+
+            $("hudSpeech").textContent =
+                "READY";
+
+            setStatus(
+                "SYSTEM READY — PRESS THE CORE"
+            );
+
+        };
+
+
+    utterance.onerror =
+        function(){
+
+            $("core")
+                .classList
+                .remove("speaking");
+
+        };
+
+
+    speechSynthesis.speak(
+        utterance
+    );
+
+}
+
+
+/* ---------- VOICE RECOGNITION ---------- */
+
+const SpeechRecognition =
+    window.SpeechRecognition ||
+    window.webkitSpeechRecognition;
+
+
+if(SpeechRecognition){
+
+    recognition =
+        new SpeechRecognition();
+
+    recognition.lang =
+        "en-US";
+
+    recognition.continuous =
+        false;
+
+    recognition.interimResults =
+        false;
+
+
+    recognition.onstart =
+        function(){
+
+            listening = true;
+
+            $("core")
+                .classList
+                .add("listening");
+
+            $("hudMic").textContent =
+                "LISTENING";
+
+            setStatus(
+                "LISTENING — SPEAK NOW"
+            );
+
+        };
+
+
+    recognition.onresult =
+        function(event){
+
+            const text =
+                event.results[0][0]
+                    .transcript
+                    .trim();
+
+
+            addMessage(
+                "user",
+                text
+            );
+
+
+            $("core")
+                .classList
+                .remove("listening");
+
+            $("core")
+                .classList
+                .add("thinking");
+
+            $("hudMic").textContent =
+                "PROCESSING";
+
+
+            processCommand(text);
+
+        };
+
+
+    recognition.onerror =
+        function(event){
+
+            listening = false;
+
+            $("core")
+                .classList
+                .remove(
+                    "listening",
+                    "thinking"
+                );
+
+            $("hudMic").textContent =
+                "READY";
+
+
+            if(
+                event.error ===
+                "not-allowed"
+            ){
+
+                setStatus(
+                    "MICROPHONE BLOCKED — ALLOW MICROPHONE ACCESS"
+                );
+
+            }
+
+            else if(
+                event.error ===
+                "no-speech"
+            ){
+
+                setStatus(
+                    "NO SPEECH DETECTED — TRY AGAIN"
+                );
+
+            }
+
+            else{
+
+                setStatus(
+                    "VOICE ERROR"
+                );
+
+            }
+
+        };
+
+
+    recognition.onend =
+        function(){
+
+            listening = false;
+
+            $("core")
+                .classList
+                .remove("listening");
+
+        };
+
+}
+
+
+/* ---------- START LISTENING ---------- */
+
+function startListening(){
+
+    if(!active){
+
+        activateCore();
+
+        return;
+
+    }
+
+
+    if(!recognition){
+
+        speak(
+            "Voice recognition is not supported in this browser. Please use Chrome or Microsoft Edge."
+        );
+
+        return;
+
+    }
+
+
+    speechSynthesis.cancel();
+
+
+    try{
+
+        recognition.start();
+
+    }
+
+    catch(error){
+
+        setTimeout(
+            ()=>{
+
+                try{
+                    recognition.start();
+                }
+                catch(e){}
+
+            },
+            400
+        );
+
+    }
+
+}
+
+
+/* ---------- CORE ACTIVATION ---------- */
+
+function activateCore(){
+
+    active = true;
+
+    $("hudSystem").textContent =
+        "BOOTING";
+
+    setStatus(
+        "CORE ACTIVATING..."
+    );
+
+
+    $("core")
+        .classList
+        .add("thinking");
+
+
+    setTimeout(
+        function(){
+
+            $("core")
+                .classList
+                .remove("thinking");
+
+            $("hudSystem").textContent =
+                "ONLINE";
+
+            setStatus(
+                "NEXORA ONLINE"
+            );
+
+
+            if(currentMode === "jarvis"){
+
+                speak(
+                    "NEXORA online. JARVIS-inspired mode ready."
+                );
+
+            }
+
+            else{
+
+                speak(
+                    "NEXORA online."
+                );
+
+            }
+
+
+            setTimeout(
+                startListening,
+                1200
+            );
+
+        },
+        900
+    );
+
+}
+
+
+/* ---------- CORE CLICK ---------- */
+
+$("core").onclick =
+    function(){
+
+        if(active){
+
+            startListening();
+
+        }
+
+        else{
+
+            activateCore();
+
+        }
+
+    };
+
+
+/* =========================================================
+   COMMAND ENGINE
+   ========================================================= */
+
+function processCommand(command){
+
+    const original =
+        command.trim();
+
+    const text =
+        original
+        .toLowerCase()
+        .replace(/[?!.,]/g,"")
+        .trim();
+
+
+    /* STOP */
+
+    if(
+        text === "stop" ||
+        text === "stop talking" ||
+        text === "be quiet" ||
+        text === "cancel" ||
+        text === "cancel that" ||
+        text === "never mind"
+    ){
+
+        stopAssistant();
+
+        return;
+
+    }
+
+
+    /* HELP */
+
+    if(
+        text.includes("help") ||
+        text.includes("what can you do") ||
+        text.includes("commands")
+    ){
+
+        speak(
+            "I can change modes, search the web, open websites, calculate numbers, tell you the time and date, remember information, show the HUD, run diagnostics, control my voice, open the camera and dashboard, and respond to natural follow-up commands."
+        );
+
+        return;
+
+    }
+
+
+    /* MODES */
+
+    if(
+        text.includes("switch to nexora") ||
+        text.includes("nexora mode") ||
+        text.includes("use nexora")
+    ){
+
+        changeMode("nexora");
+
+        return;
+
+    }
+
+
+    if(
+        text.includes("switch to jarvis") ||
+        text.includes("jarvis mode") ||
+        text.includes("use jarvis")
+    ){
+
+        changeMode("jarvis");
+
+        return;
+
+    }
+
+
+    const modes =
+        [
+            "study",
+            "gaming",
+            "garage",
+            "science"
+        ];
+
+
+    for(
+        const selectedMode of modes
+    ){
+
+        if(
+            text.includes(
+                selectedMode +
+                " mode"
+            )
+        ){
+
+            changeMode(
+                selectedMode
+            );
+
+            return;
+
+        }
+
+    }
+
+
+    /* GREETING */
+
+    if(
+        text.includes("hello") ||
+        text.includes("hi nexora") ||
+        text.includes("hey nexora")
+    ){
+
+        speak(
+            "Hello. NEXORA is online and ready."
+        );
+
+        return;
+
+    }
+
+
+    /* IDENTITY */
+
+    if(
+        text.includes("who are you") ||
+        text.includes("what are you") ||
+        text.includes("your name")
+    ){
+
+        speak(
+            "I am NEXORA, your browser voice assistant."
+        );
+
+        return;
+
+    }
+
+
+    /* TIME */
+
+    if(
+        text.includes("time")
+    ){
+
+        speak(
+            "The current time is " +
+            new Date()
+                .toLocaleTimeString()
+        );
+
+        return;
+
+    }
+
+
+    /* DATE */
+
+    if(
+        text.includes("date") ||
+        text.includes("what day")
+    ){
+
+        speak(
+            "Today is " +
+            new Date()
+                .toLocaleDateString(
+                    undefined,
+                    {
+                        weekday:"long",
+                        month:"long",
+                        day:"numeric",
+                        year:"numeric"
+                    }
+                )
+        );
+
+        return;
+
+    }
+
+
+    /* SEARCH */
+
+    if(
+        text.startsWith("search for ") ||
+        text.startsWith("search ") ||
+        text.startsWith("look up ")
+    ){
+
+        const query =
+            text
+            .replace(
+                /^search for |^search |^look up /,
+                ""
+            );
+
+
+        speak(
+            "Searching for " +
+            query
+        );
+
+
+        setTimeout(
+            function(){
+
+                window.open(
+                    "https://www.google.com/search?q=" +
+                    encodeURIComponent(query),
+                    "_blank"
+                );
+
+            },
+            500
+        );
+
+        return;
+
+    }
+
+
+    /* YOUTUBE */
+
+    if(
+        text.includes("open youtube") ||
+        text.includes("go to youtube")
+    ){
+
+        speak(
+            "Opening YouTube."
+        );
+
+
+        setTimeout(
+            function(){
+
+                window.open(
+                    "https://www.youtube.com",
+                    "_blank"
+                );
+
+            },
+            500
+        );
+
+        return;
+
+    }
+
+
+    /* GOOGLE */
+
+    if(
+        text.includes("open google") ||
+        text.includes("go to google")
+    ){
+
+        speak(
+            "Opening Google."
+        );
+
+
+        setTimeout(
+            function(){
+
+                window.open(
+                    "https://www.google.com",
+                    "_blank"
+                );
+
+            },
+            500
+        );
+
+        return;
+
+    }
+
+
+    /* CALCULATOR */
+
+    if(
+        text.startsWith("calculate ") ||
+        text.startsWith("work out ") ||
+        text.startsWith("what is ")
+    ){
+
+        let expression =
+            text
+            .replace(
+                /^calculate |^work out |^what is /,
+                ""
+            );
+
+
+        expression =
+            expression
+            .replace(/plus/g,"+")
+            .replace(/minus/g,"-")
+            .replace(
+                /times|multiplied by/g,
+                "*"
+            )
+            .replace(
+                /divided by/g,
+                "/"
+            );
+
+
+        if(
+            /^[0-9+\-*/().%\s]+$/
+                .test(expression)
+        ){
+
+            try{
+
+                const answer =
+                    Function(
+                        '"use strict";return(' +
+                        expression +
+                        ')'
+                    )();
+
+
+                speak(
+                    "The answer is " +
+                    answer
+                );
+
+                return;
+
+            }
+
+            catch(error){}
+
+        }
+
+    }
+
+
+    /* MEMORY */
+
+    if(
+        text.startsWith("remember ")
+    ){
+
+        const information =
+            original.slice(9);
+
+        memory.push(
+            information
+        );
+
+        saveAccount();
+
+        speak(
+            "I'll remember that."
+        );
+
+        return;
+
+    }
+
+
+    if(
+        text.includes(
+            "what do you remember"
+        )
+    ){
+
+        if(memory.length){
+
+            speak(
+                "I remember: " +
+                memory.join(", ")
+            );
+
+        }
+
+        else{
+
+            speak(
+                "Your memory is currently empty."
+            );
+
+        }
+
+        return;
+
+    }
+
+
+    if(
+        text.includes(
+            "clear memory"
+        ) ||
+        text.includes(
+            "forget everything"
+        )
+    ){
+
+        memory = [];
+
+        saveAccount();
+
+        speak(
+            "Memory cleared."
+        );
+
+        return;
+
+    }
+
+
+    /* REPEAT */
+
+    if(
+        text.includes("repeat")
+    ){
+
+        speak(
+            lastResponse ||
+            "There is nothing to repeat yet."
+        );
+
+        return;
+
+    }
+
+
+    /* HUD */
+
+    if(
+        text.includes("show hud") ||
+        text.includes("turn on hud")
+    ){
+
+        toggleHUD(true);
+
+        return;
+
+    }
+
+
+    if(
+        text.includes("hide hud") ||
+        text.includes("turn off hud")
+    ){
+
+        toggleHUD(false);
+
+        return;
+
+    }
+
+
+    /* FULLSCREEN */
+
+    if(
+        text.includes("fullscreen") ||
+        text.includes("full screen")
+    ){
+
+        fullscreen();
+
+        return;
+
+    }
+
+
+    /* DIAGNOSTICS */
+
+    if(
+        text.includes("diagnostics") ||
+        text.includes("system check") ||
+        text.includes("run diagnostics")
+    ){
+
+        diagnostics();
+
+        return;
+
+    }
+
+
+    /* DASHBOARD */
+
+    if(
+        text.includes("dashboard") ||
+        text.includes("activity")
+    ){
+
+        $("dashboard")
+            .classList
+            .add("active");
+
+        speak(
+            "Activity dashboard opened."
+        );
+
+        return;
+
+    }
+
+
+    /* CAMERA */
+
+    if(
+        text.includes("open camera") ||
+        text === "camera"
+    ){
+
+        openCamera();
+
+        return;
+
+    }
+
+
+    /* VOICE SPEED */
+
+    if(
+        text.includes("speak slower")
+    ){
+
+        $("speechSpeed").value =
+            Math.max(
+                .6,
+                Number(
+                    $("speechSpeed").value
+                )-.1
+            );
+
+        saveAccount();
+
+        speak(
+            "Speaking slower."
+        );
+
+        return;
+
+    }
+
+
+    if(
+        text.includes("speak faster")
+    ){
+
+        $("speechSpeed").value =
+            Math.min(
+                1.5,
+                Number(
+                    $("speechSpeed").value
+                )+.1
+            );
+
+        saveAccount();
+
+        speak(
+            "Speaking faster."
+        );
+
+        return;
+
+    }
+
+
+    /* UNKNOWN COMMAND */
+
+    speak(
+        "I understood you, but I don't have an action for that command yet. Say help to hear what I can do."
+    );
+
+}
+
+
+/* =========================================================
+   MODE SYSTEM
+   ========================================================= */
+
+function changeMode(
+    selectedMode,
+    announce=true
+){
+
+    currentMode =
+        selectedMode;
+
+    $("assistantMode").value =
+        selectedMode;
+
+
+    const names = {
+
+        nexora:"NEXORA MODE",
+
+        jarvis:"JARVIS-INSPIRED MODE",
+
+        study:"STUDY MODE",
+
+        gaming:"GAMING MODE",
+
+        garage:"GARAGE MODE",
+
+        science:"SCIENCE MODE"
+
+    };
+
+
+    $("modeText").textContent =
+        names[selectedMode];
+
+
+    $("hudMode").textContent =
+        names[selectedMode];
+
+
+    saveAccount();
+
+
+    if(announce){
+
+        const replies = {
+
+            nexora:
+                "NEXORA mode activated.",
+
+            jarvis:
+                "JARVIS-inspired mode activated.",
+
+            study:
+                "Study mode activated. Ready to help.",
+
+            gaming:
+                "Gaming mode activated.",
+
+            garage:
+                "Garage mode activated.",
+
+            science:
+                "Science mode activated."
+
+        };
+
+
+        speak(
+            replies[selectedMode]
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   STOP
+   ========================================================= */
+
+function stopAssistant(){
+
+    speechSynthesis.cancel();
+
+
+    if(recognition){
+
+        try{
+            recognition.stop();
+        }
+        catch(error){}
+
+    }
+
+
+    listening = false;
+
+
+    $("core")
+        .classList
+        .remove(
+            "listening",
+            "thinking",
+            "speaking"
+        );
+
+
+    $("hudMic").textContent =
+        "READY";
+
+    $("hudSpeech").textContent =
+        "READY";
+
+
+    setStatus(
+        active
+        ? "SYSTEM READY — PRESS THE CORE"
+        : "CORE LOCKED"
+    );
+
+}
+
+
+/* =========================================================
+   HUD
+   ========================================================= */
+
+function toggleHUD(show){
+
+    $("hud")
+        .classList
+        .toggle(
+            "active",
+            show
+        );
+
+
+    if(show){
+
+        speak(
+            "HUD activated."
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   FULLSCREEN
+   ========================================================= */
+
+function fullscreen(){
+
+    if(
+        document.documentElement
+            .requestFullscreen
+    ){
+
+        document.documentElement
+            .requestFullscreen();
+
+    }
+
+
+    speak(
+        "Fullscreen activated."
+    );
+
+}
+
+
+/* =========================================================
+   DIAGNOSTICS
+   ========================================================= */
+
+function diagnostics(){
+
+    const voice =
+        "speechSynthesis" in window;
+
+    const mic =
+        !!recognition;
+
+    const network =
+        navigator.onLine;
+
+
+    speak(
+        "Diagnostics complete. " +
+
+        "Speech synthesis " +
+        (voice?"available":"unavailable") +
+
+        ". Voice recognition " +
+        (mic?"available":"unavailable") +
+
+        ". Network " +
+        (network?"online":"offline") +
+        "."
+    );
+
+}
+
+
+/* =========================================================
+   CAMERA
+   ========================================================= */
+
+async function openCamera(){
+
+    if(
+        !navigator.mediaDevices ||
+        !navigator.mediaDevices.getUserMedia
+    ){
+
+        speak(
+            "Camera access is unavailable."
+        );
+
+        return;
+
+    }
+
+
+    try{
+
+        cameraStream =
+            await navigator.mediaDevices
+                .getUserMedia({
+                    video:true,
+                    audio:false
+                });
+
+
+        $("cameraVideo")
+            .srcObject =
+            cameraStream;
+
+
+        $("camera")
+            .classList
+            .add("active");
+
+
+        speak(
+            "Camera preview activated."
+        );
+
+    }
+
+    catch(error){
+
+        speak(
+            "Camera permission was not granted."
+        );
+
+    }
+
+}
+
+
+function closeCamera(){
+
+    if(cameraStream){
+
+        cameraStream
+            .getTracks()
+            .forEach(
+                track=>track.stop()
+            );
+
+    }
+
+
+    cameraStream = null;
+
+    $("cameraVideo")
+        .srcObject = null;
+
+    $("camera")
+        .classList
+        .remove("active");
+
+}
+
+
+/* =========================================================
+   SETTINGS BUTTON
+   ========================================================= */
+
+$("menu").onclick =
+    function(){
+
+        $("panel")
+            .classList
+            .toggle("open");
+
+    };
+
+
+/* MODE */
+
+$("assistantMode").onchange =
+    function(){
+
+        changeMode(
+            this.value
+        );
+
+    };
+
+
+/* VOICE */
+
+$("voiceSelect").onchange =
+    saveAccount;
+
+$("speechSpeed").oninput =
+    saveAccount;
+
+$("speechPitch").oninput =
+    saveAccount;
+
+
+/* TEST VOICE */
+
+$("testVoice").onclick =
+    function(){
+
+        speak(
+            "Voice system online. NEXORA is ready."
+        );
+
+    };
+
+
+/* STOP */
+
+$("stopButton").onclick =
+    stopAssistant;
+
+
+/* HUD */
+
+$("hudButton").onclick =
+    function(){
+
+        toggleHUD(
+            !$("hud")
+                .classList
+                .contains("active")
+        );
+
+    };
+
+
+/* FULLSCREEN */
+
+$("fullscreenButton").onclick =
+    fullscreen;
+
+
+/* DIAGNOSTICS */
+
+$("diagnosticsButton").onclick =
+    diagnostics;
+
+
+/* SEARCH */
+
+$("searchButton").onclick =
+    function(){
+
+        const query =
+            prompt(
+                "What would you like me to search for?"
+            );
+
+
+        if(query){
+
+            speak(
+                "Searching for " +
+                query
+            );
+
+
+            window.open(
+                "https://www.google.com/search?q=" +
+                encodeURIComponent(query),
+                "_blank"
+            );
+
+        }
+
+    };
+
+
+/* YOUTUBE */
+
+$("youtubeButton").onclick =
+    function(){
+
+        speak(
+            "Opening YouTube."
+        );
+
+
+        setTimeout(
+            ()=>{
+                window.open(
+                    "https://www.youtube.com",
+                    "_blank"
+                );
+            },
+            500
+        );
+
+    };
+
+
+/* GOOGLE */
+
+$("googleButton").onclick =
+    function(){
+
+        speak(
+            "Opening Google."
+        );
+
+
+        setTimeout(
+            ()=>{
+                window.open(
+                    "https://www.google.com",
+                    "_blank"
+                );
+            },
+            500
+        );
+
+    };
+
+
+/* DASHBOARD */
+
+$("dashboardButton").onclick =
+    function(){
+
+        $("dashboard")
+            .classList
+            .toggle("active");
+
+    };
+
+
+/* CAMERA */
+
+$("cameraButton").onclick =
+    openCamera;
+
+
+$("closeCamera").onclick =
+    closeCamera;
+
+
+/* MEMORY */
+
+$("memoryButton").onclick =
+    function(){
+
+        if(memory.length){
+
+            speak(
+                "I remember: " +
+                memory.join(", ")
+            );
+
+        }
+
+        else{
+
+            speak(
+                "Your memory is empty."
+            );
+
+        }
+
+    };
+
+
+/* CLEAR MEMORY */
+
+$("clearMemoryButton").onclick =
+    function(){
+
+        memory = [];
+
+        saveAccount();
+
+        speak(
+            "Memory cleared."
+        );
+
+    };
+
+
+/* LOGOUT */
+
+$("logoutButton").onclick =
+    function(){
+
+        stopAssistant();
+
+        closeCamera();
+
+        active = false;
+
+        currentUser = null;
+
+        localStorage.removeItem(
+            "NEXORA_USER"
+        );
+
+        $("loginScreen")
+            .style
+            .display = "flex";
+
+        $("panel")
+            .classList
+            .remove("open");
+
+        setStatus(
+            "CORE LOCKED"
+        );
+
+    };
+
+
+/* =========================================================
+   NETWORK
+   ========================================================= */
+
+function updateNetwork(){
+
+    const online =
+        navigator.onLine;
+
+
+    $("network")
+        .classList
+        .toggle(
+            "offline",
+            !online
+        );
+
+
+    $("hudNetwork")
+        .textContent =
+        online
+        ? "ONLINE"
+        : "OFFLINE";
+
+}
+
+
+window.addEventListener(
+    "online",
+    updateNetwork
+);
+
+window.addEventListener(
+    "offline",
+    updateNetwork
+);
+
+updateNetwork();
+
+
+/* =========================================================
+   CLOCK
+   ========================================================= */
+
+function updateClock(){
+
+    const now =
+        new Date();
+
+
+    $("hudTime")
+        .textContent =
+        now.toLocaleTimeString();
+
+
+    $("hudDate")
+        .textContent =
+        now.toLocaleDateString();
+
+}
+
+
+setInterval(
+    updateClock,
+    1000
+);
+
+updateClock();
+
+
+/* =========================================================
+   KEYBOARD COMMANDS
+   ========================================================= */
+
+document.addEventListener(
+    "keydown",
+    function(event){
+
+        /* SPACE = VOICE */
+
+        if(
+            event.code === "Space" &&
+            !["INPUT","SELECT"].includes(
+                document.activeElement.tagName
+            )
+        ){
+
+            event.preventDefault();
+
+            if(active){
+
+                startListening();
+
+            }
+
+            else{
+
+                activateCore();
+
+            }
+
+        }
+
+
+        /* ESC = STOP */
+
+        if(event.key === "Escape"){
+
+            stopAssistant();
+
+            closeCamera();
+
+        }
+
+
+        /* M = MENU */
+
+        if(
+            event.key.toLowerCase() === "m"
+        ){
+
+            $("panel")
+                .classList
+                .toggle("open");
+
+        }
+
+
+        /* H = HUD */
+
+        if(
+            event.key.toLowerCase() === "h"
+        ){
+
+            toggleHUD(
+                !$("hud")
+                    .classList
+                    .contains("active")
+            );
+
+        }
+
+    }
+);
+
+
+/* =========================================================
+   AUTO LOGIN
+   ========================================================= */
+
+if(currentUser && accounts[currentUser]){
+
+    login(currentUser);
+
+}
+
+</script>
+
+</body>
+</html>
