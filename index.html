@@ -3,7 +3,6 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<meta name="theme-color" content="#020812">
 <title>NEXORA CORE</title>
 
 <style>
@@ -17,20 +16,21 @@ html,body{
 
 body{
     font-family:Arial,Helvetica,sans-serif;
-    color:#e9fbff;
+    color:#e8fbff;
     background:
-      radial-gradient(circle at center,#0a496d 0%,#05283e 27%,#020d18 58%,#010409 100%);
+      radial-gradient(circle at center,#073b59 0%,#031522 35%,#01060c 75%);
 }
 
-/* BACKGROUND */
-body:before{
-    content:"";
+button,input,select{font:inherit}
+
+.grid{
     position:fixed;
     inset:0;
     pointer-events:none;
+    opacity:.2;
     background:
-      linear-gradient(rgba(0,210,255,.035) 1px,transparent 1px),
-      linear-gradient(90deg,rgba(0,210,255,.035) 1px,transparent 1px);
+      linear-gradient(rgba(0,210,255,.05) 1px,transparent 1px),
+      linear-gradient(90deg,rgba(0,210,255,.05) 1px,transparent 1px);
     background-size:45px 45px;
 }
 
@@ -45,156 +45,251 @@ body:before{
     position:absolute;
     width:2px;
     height:2px;
+    background:#38dcff;
     border-radius:50%;
-    background:#62eaff;
-    box-shadow:0 0 8px #00cfff;
-    animation:float linear infinite;
+    box-shadow:0 0 10px #00cfff;
+    animation:float 10s linear infinite;
 }
 
 @keyframes float{
     from{transform:translateY(110vh);opacity:0}
-    20%{opacity:.7}
-    80%{opacity:.7}
+    20%{opacity:.8}
+    80%{opacity:.8}
     to{transform:translateY(-10vh);opacity:0}
 }
 
-/* MAIN */
+/* ================= LOGIN ================= */
+
+.loginScreen{
+    position:fixed;
+    inset:0;
+    z-index:1000;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background:
+      radial-gradient(circle,#063c59,#01070d 70%);
+}
+
+.loginScreen.hidden{display:none}
+
+.authBox{
+    width:min(410px,92%);
+    padding:32px;
+    border-radius:25px;
+    text-align:center;
+    background:rgba(2,13,24,.98);
+    border:1px solid rgba(0,210,255,.45);
+    box-shadow:
+      0 0 50px rgba(0,190,255,.25),
+      inset 0 0 25px rgba(0,180,255,.04);
+}
+
+.authLogo{
+    width:105px;
+    height:105px;
+    margin:0 auto 18px;
+    border-radius:50%;
+    background:
+      radial-gradient(circle,#fff,#4de5ff 25%,#006a8e 55%,#00131d);
+    box-shadow:0 0 35px #00cfff,0 0 80px rgba(0,180,255,.4);
+    animation:pulse 2s infinite;
+}
+
+.authTitle{
+    font-size:30px;
+    letter-spacing:8px;
+    text-shadow:0 0 20px #00cfff;
+}
+
+.authSub{
+    margin:8px 0 24px;
+    font-size:9px;
+    letter-spacing:3px;
+    color:#6db9ca;
+}
+
+.authTabs{
+    display:flex;
+    gap:7px;
+    margin-bottom:15px;
+}
+
+.authTab{
+    flex:1;
+    padding:10px;
+    border:1px solid #126d8d;
+    border-radius:9px;
+    background:#061b2a;
+    color:#9dddea;
+    cursor:pointer;
+}
+
+.authTab.active{
+    background:#075474;
+    color:white;
+    box-shadow:0 0 15px rgba(0,210,255,.2);
+}
+
+.authBox input{
+    width:100%;
+    padding:12px;
+    margin:5px 0;
+    border-radius:9px;
+    border:1px solid #126d8d;
+    outline:none;
+    background:#061b2a;
+    color:white;
+}
+
+.authAction{
+    width:100%;
+    padding:12px;
+    margin-top:9px;
+    border:1px solid #00a9d8;
+    border-radius:10px;
+    background:#06425f;
+    color:white;
+    cursor:pointer;
+}
+
+.authAction:hover{
+    background:#086382;
+    box-shadow:0 0 18px rgba(0,210,255,.3);
+}
+
+.authMessage{
+    min-height:22px;
+    margin-top:12px;
+    color:#7fd7ea;
+    font-size:11px;
+}
+
+/* ================= CORE ================= */
+
 .main{
+    position:relative;
     width:100%;
     height:100vh;
     display:flex;
     justify-content:center;
     align-items:center;
-    position:relative;
 }
 
-/* CORE */
 .core{
-    width:290px;
-    height:290px;
     position:relative;
+    width:300px;
+    height:300px;
+    cursor:pointer;
     display:flex;
     justify-content:center;
     align-items:center;
-    cursor:pointer;
-    transition:.3s;
+    user-select:none;
+    transition:transform .2s;
 }
 
-.core:hover{transform:scale(1.04)}
+.core:hover{transform:scale(1.03)}
 .core:active{transform:scale(.97)}
 
 .ring{
     position:absolute;
     inset:0;
     border-radius:50%;
-    border:2px solid rgba(0,220,255,.6);
-    box-shadow:0 0 20px rgba(0,210,255,.5);
-    animation:rotate 10s linear infinite;
+    border:2px solid rgba(0,210,255,.65);
+    box-shadow:
+      0 0 15px rgba(0,210,255,.4),
+      inset 0 0 15px rgba(0,210,255,.2);
+    animation:spin 9s linear infinite;
 }
 
 .ring:nth-child(2){
-    inset:18px;
-    border-color:rgba(120,235,255,.4);
+    inset:20px;
+    border-color:rgba(100,230,255,.45);
     animation-direction:reverse;
-    animation-duration:7s;
+    animation-duration:6s;
 }
 
 .ring:nth-child(3){
-    inset:38px;
+    inset:42px;
     border-style:dashed;
-    animation-duration:5s;
+    animation-duration:4s;
 }
 
 .energy{
     position:absolute;
-    width:205px;
-    height:205px;
+    width:215px;
+    height:215px;
     border-radius:50%;
-    border:1px solid rgba(0,240,255,.55);
-    box-shadow:0 0 30px rgba(0,210,255,.2);
-    animation:rotateReverse 4s linear infinite;
+    border:1px solid rgba(0,235,255,.45);
+    animation:spinReverse 5s linear infinite;
 }
 
 .center{
-    width:112px;
-    height:112px;
+    width:115px;
+    height:115px;
     border-radius:50%;
     background:
-      radial-gradient(circle,#fff 0%,#b8f7ff 14%,#35d6ff 35%,#087da9 60%,#001723 100%);
+      radial-gradient(
+        circle,
+        #fff 0%,
+        #b7f8ff 12%,
+        #31d8ff 34%,
+        #0783aa 58%,
+        #001b28 100%
+      );
     box-shadow:
-      0 0 30px #00ddff,
-      0 0 70px rgba(0,205,255,.8),
-      0 0 120px rgba(0,170,255,.3),
+      0 0 25px #00e5ff,
+      0 0 60px #00bfff,
+      0 0 110px rgba(0,190,255,.55),
       inset 0 0 25px white;
-    animation:pulse 2.2s infinite;
+    animation:pulse 2s infinite;
 }
 
 .core.listening .center{
-    animation:listen .55s infinite;
-    box-shadow:
-      0 0 50px #00ffff,
-      0 0 110px #00cfff,
-      0 0 170px rgba(0,200,255,.5);
+    animation:listening .45s infinite;
 }
 
-.core.thinking .ring{animation-duration:1.2s}
+.core.thinking .center{
+    animation:thinking .7s infinite;
+}
 
 .core.speaking .center{
-    animation:speakPulse .35s infinite;
+    animation:speaking .3s infinite;
 }
 
-.orbit{
-    position:absolute;
-    border:1px solid rgba(0,220,255,.22);
-    border-radius:50%;
+.core.activating .center{
+    animation:activation .8s infinite;
 }
 
-.orbit.one{
-    width:370px;
-    height:190px;
-    transform:rotate(25deg);
-    animation:orbit1 8s linear infinite;
-}
-
-.orbit.two{
-    width:190px;
-    height:370px;
-    transform:rotate(-25deg);
-    animation:orbit2 10s linear infinite;
-}
-
-@keyframes rotate{
-    to{transform:rotate(360deg)}
-}
-
-@keyframes rotateReverse{
-    to{transform:rotate(-360deg)}
-}
-
-@keyframes orbit1{
-    to{transform:rotate(385deg)}
-}
-
-@keyframes orbit2{
-    to{transform:rotate(-385deg)}
-}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes spinReverse{to{transform:rotate(-360deg)}}
 
 @keyframes pulse{
     0%,100%{transform:scale(1)}
     50%{transform:scale(1.08)}
 }
 
-@keyframes listen{
+@keyframes listening{
     0%,100%{transform:scale(1)}
-    50%{transform:scale(1.2)}
+    50%{transform:scale(1.22)}
 }
 
-@keyframes speakPulse{
-    0%,100%{transform:scale(1)}
-    50%{transform:scale(1.14)}
+@keyframes thinking{
+    0%,100%{transform:scale(.95)}
+    50%{transform:scale(1.15)}
 }
 
-/* TITLE */
+@keyframes speaking{
+    0%,100%{transform:scale(1)}
+    50%{transform:scale(1.13)}
+}
+
+@keyframes activation{
+    0%{transform:scale(.5);opacity:.2}
+    50%{transform:scale(1.25);opacity:1}
+    100%{transform:scale(1);opacity:1}
+}
+
 .title{
     position:absolute;
     top:calc(50% + 185px);
@@ -203,21 +298,21 @@ body:before{
     font-size:36px;
     font-weight:bold;
     letter-spacing:11px;
-    color:#c2f7ff;
+    color:#d4faff;
     text-shadow:
-      0 0 10px #00bfff,
-      0 0 25px #00bfff,
-      0 0 50px rgba(0,170,255,.4);
+      0 0 10px #00cfff,
+      0 0 25px #00cfff,
+      0 0 50px rgba(0,180,255,.5);
 }
 
-.mode-display{
+.modeText{
     position:absolute;
     top:calc(50% + 232px);
     left:50%;
     transform:translateX(-50%);
     font-size:10px;
     letter-spacing:3px;
-    color:#69bdd5;
+    color:#6cbfd5;
     white-space:nowrap;
 }
 
@@ -226,73 +321,62 @@ body:before{
     top:22px;
     left:50%;
     transform:translateX(-50%);
+    z-index:20;
     font-size:10px;
     letter-spacing:3px;
-    color:#64b8d1;
-    z-index:20;
+    color:#72cde5;
+    text-align:center;
 }
 
-/* CONTROL */
-.control{
+.statusDot{
     position:fixed;
-    top:18px;
-    right:18px;
-    width:52px;
-    height:52px;
-    border-radius:50%;
-    border:1px solid #0797c4;
-    background:rgba(3,24,38,.9);
-    color:white;
-    cursor:pointer;
-    font-size:20px;
-    z-index:100;
-    box-shadow:0 0 20px rgba(0,190,255,.3);
-}
-
-.control:hover{
-    box-shadow:0 0 30px #00d9ff;
-}
-
-/* STATUS */
-.status{
-    position:fixed;
-    bottom:20px;
     left:20px;
+    bottom:20px;
     width:9px;
     height:9px;
     border-radius:50%;
     background:#00ff9d;
     box-shadow:0 0 15px #00ff9d;
-    z-index:30;
 }
 
-.status.offline{
+.statusDot.offline{
     background:#ffb000;
     box-shadow:0 0 15px #ffb000;
 }
 
-.status.listen{
-    background:#00d9ff;
-    box-shadow:0 0 20px #00d9ff;
+/* ================= MENU ================= */
+
+.menuButton{
+    position:fixed;
+    top:18px;
+    right:18px;
+    width:50px;
+    height:50px;
+    border-radius:50%;
+    border:1px solid #079aca;
+    background:rgba(2,20,32,.9);
+    color:white;
+    font-size:20px;
+    cursor:pointer;
+    z-index:100;
 }
 
-/* PANEL */
 .panel{
     position:fixed;
-    top:82px;
+    top:80px;
     right:18px;
-    width:330px;
+    width:340px;
     max-height:calc(100vh - 100px);
     overflow-y:auto;
     padding:20px;
     border-radius:20px;
-    background:rgba(2,12,22,.97);
-    border:1px solid rgba(0,205,255,.4);
-    box-shadow:0 0 40px rgba(0,170,255,.2);
+    background:rgba(2,12,22,.98);
+    border:1px solid rgba(0,210,255,.4);
+    box-shadow:0 0 50px rgba(0,180,255,.25);
     backdrop-filter:blur(20px);
+    transform:translateX(380px);
+    transition:.3s;
     z-index:90;
-    transform:translateX(360px);
-    transition:.35s;
 }
 
 .panel.open{transform:translateX(0)}
@@ -300,13 +384,13 @@ body:before{
 .panel h2{
     font-size:15px;
     letter-spacing:3px;
-    color:#8deaff;
     margin-bottom:18px;
+    color:#8eeaff;
 }
 
 .section{
-    margin-bottom:20px;
-    padding-bottom:15px;
+    padding-bottom:16px;
+    margin-bottom:16px;
     border-bottom:1px solid rgba(0,190,255,.12);
 }
 
@@ -316,23 +400,16 @@ label{
     display:block;
     font-size:9px;
     letter-spacing:2px;
-    color:#69abc0;
-    margin:10px 0 7px;
+    color:#66aabd;
+    margin:9px 0 6px;
 }
 
-select,
-input,
-button{
-    font-family:inherit;
-}
-
-select,
-.textInput{
+select{
     width:100%;
     padding:10px;
     border-radius:9px;
-    border:1px solid #106c8e;
-    background:#061b2b;
+    border:1px solid #126d8d;
+    background:#061b2a;
     color:white;
     outline:none;
 }
@@ -351,91 +428,18 @@ input[type=range]{width:100%}
 }
 
 .action:hover{
-    background:#075b79;
-    box-shadow:0 0 15px rgba(0,210,255,.25);
+    background:#075a78;
 }
 
-/* LOGIN */
-.login{
-    position:fixed;
-    inset:0;
-    z-index:500;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    background:
-      radial-gradient(circle,#063b58,#01070d 70%);
-}
+/* ================= HUD ================= */
 
-.login.hidden{display:none}
-
-.loginBox{
-    width:min(390px,90%);
-    padding:30px;
-    border-radius:24px;
-    background:rgba(2,14,25,.96);
-    border:1px solid rgba(0,215,255,.45);
-    box-shadow:0 0 60px rgba(0,190,255,.2);
-    text-align:center;
-}
-
-.loginLogo{
-    font-size:28px;
-    letter-spacing:8px;
-    font-weight:bold;
-    color:#c4f8ff;
-    text-shadow:0 0 20px #00cfff;
-    margin-bottom:8px;
-}
-
-.loginSub{
-    font-size:9px;
-    letter-spacing:3px;
-    color:#62aabd;
-    margin-bottom:25px;
-}
-
-.loginBox input{
-    width:100%;
-    margin:6px 0;
-    padding:12px;
-    border-radius:10px;
-    border:1px solid #126d8e;
-    background:#061b2b;
-    color:white;
-    outline:none;
-}
-
-.loginButton{
-    width:100%;
-    padding:12px;
-    margin-top:10px;
-    border-radius:10px;
-    border:1px solid #00a9d8;
-    background:#064361;
-    color:white;
-    cursor:pointer;
-}
-
-.loginButton:hover{
-    box-shadow:0 0 20px #00bfff;
-}
-
-.loginMessage{
-    min-height:20px;
-    margin-top:12px;
-    color:#7fd9ec;
-    font-size:11px;
-}
-
-/* HUD */
 .hud{
     display:none;
     position:fixed;
     inset:20px;
     pointer-events:none;
     z-index:40;
-    color:#50cee9;
+    color:#52cbe7;
     font-family:monospace;
     font-size:10px;
     letter-spacing:1px;
@@ -448,30 +452,19 @@ input[type=range]{width:100%}
 .hudBL{position:absolute;bottom:0;left:0}
 .hudBR{position:absolute;bottom:0;right:0;text-align:right}
 
-/* QR */
-.qr{
-    display:none;
-    margin-top:10px;
-    padding:10px;
-    justify-content:center;
-    background:white;
-    border-radius:10px;
-}
+/* ================= DASHBOARD ================= */
 
-.qr img{display:block}
-
-/* DASHBOARD */
 .dashboard{
     display:none;
     position:fixed;
-    left:20px;
-    bottom:45px;
-    width:300px;
+    left:18px;
+    bottom:40px;
+    width:310px;
     max-height:70vh;
     overflow:auto;
     padding:18px;
     border-radius:18px;
-    background:rgba(2,13,23,.95);
+    background:rgba(2,13,23,.97);
     border:1px solid rgba(0,205,255,.3);
     z-index:70;
 }
@@ -480,76 +473,101 @@ input[type=range]{width:100%}
 
 .dashboard h3{
     color:#91edff;
-    letter-spacing:2px;
     font-size:13px;
+    letter-spacing:2px;
     margin-bottom:15px;
 }
 
-.metric{
-    margin:10px 0;
-}
+.metric{margin:12px 0}
 
-.metricTitle{
+.metricTop{
     display:flex;
     justify-content:space-between;
-    color:#9ed8e7;
     font-size:10px;
+    color:#a3dce9;
 }
 
 .bar{
     height:6px;
     margin-top:5px;
     border-radius:10px;
-    background:#082435;
+    background:#082536;
     overflow:hidden;
 }
 
 .fill{
     height:100%;
-    background:#09b9e8;
+    background:#09bce9;
     box-shadow:0 0 10px #00bfff;
 }
 
-/* CAMERA */
-.cameraBox{
+.note{
+    margin-top:15px;
+    font-size:9px;
+    line-height:1.6;
+    color:#70aebe;
+}
+
+/* ================= CAMERA ================= */
+
+.camera{
     display:none;
     position:fixed;
     inset:0;
-    background:#000;
     z-index:400;
+    background:#000;
     justify-content:center;
     align-items:center;
 }
 
-.cameraBox.open{display:flex}
+.camera.open{display:flex}
 
-#camera{
-    width:min(800px,90%);
+#video{
+    width:min(850px,90%);
     max-height:80%;
     border:1px solid #00bfff;
     border-radius:15px;
 }
 
-.cameraClose{
+.closeCamera{
     position:absolute;
     top:20px;
     right:20px;
     padding:10px 15px;
+    border-radius:10px;
+    border:1px solid #00a9d8;
     background:#06354d;
     color:white;
-    border:1px solid #00a9d8;
-    border-radius:10px;
     cursor:pointer;
 }
 
-/* RESPONSIVE */
-@media(max-width:600px){
-    .core{width:220px;height:220px}
-    .center{width:85px;height:85px}
-    .energy{width:155px;height:155px}
+#qr{
+    display:none;
+    margin-top:10px;
+    text-align:center;
+    background:white;
+    padding:10px;
+    border-radius:10px;
+}
 
-    .orbit.one{width:285px;height:145px}
-    .orbit.two{width:145px;height:285px}
+/* ================= MOBILE ================= */
+
+@media(max-width:600px){
+
+    .core{
+        width:220px;
+        height:220px;
+    }
+
+    .center{
+        width:85px;
+        height:85px;
+    }
+
+    .energy{
+        width:155px;
+        height:155px;
+    }
 
     .title{
         top:calc(50% + 145px);
@@ -557,7 +575,7 @@ input[type=range]{width:100%}
         letter-spacing:7px;
     }
 
-    .mode-display{
+    .modeText{
         top:calc(50% + 184px);
     }
 
@@ -576,50 +594,71 @@ input[type=range]{width:100%}
 
 <body>
 
+<div class="grid"></div>
 <div class="particles" id="particles"></div>
 
-<!-- LOGIN -->
-<div class="login" id="login">
+<!-- ================= LOGIN / SIGN UP ================= -->
 
-    <div class="loginBox">
+<div class="loginScreen" id="loginScreen">
 
-        <div class="loginLogo">NEXORA</div>
+    <div class="authBox">
 
-        <div class="loginSub">
+        <div class="authLogo"></div>
+
+        <div class="authTitle">NEXORA</div>
+
+        <div class="authSub">
             CORE ACCESS SYSTEM
         </div>
 
-        <input
-            id="loginUser"
-            placeholder="Username">
+        <div class="authTabs">
+
+            <button class="authTab active" id="loginTab">
+                LOGIN
+            </button>
+
+            <button class="authTab" id="signupTab">
+                SIGN UP
+            </button>
+
+        </div>
 
         <input
-            id="loginPass"
+            id="username"
+            type="text"
+            placeholder="Username"
+            autocomplete="username">
+
+        <input
+            id="password"
             type="password"
-            placeholder="Password">
+            placeholder="Password"
+            autocomplete="current-password">
+
+        <input
+            id="confirmPassword"
+            type="password"
+            placeholder="Confirm password"
+            style="display:none">
 
         <button
-            class="loginButton"
-            id="loginButton">
+            class="authAction"
+            id="authButton">
             ENTER NEXORA
         </button>
 
-        <button
-            class="loginButton"
-            id="createButton">
-            CREATE LOCAL PROFILE
-        </button>
-
         <div
-            class="loginMessage"
-            id="loginMessage">
+            class="authMessage"
+            id="authMessage">
         </div>
 
     </div>
+
 </div>
 
 
-<!-- HUD -->
+<!-- ================= HUD ================= -->
+
 <div class="hud" id="hud">
 
     <div class="hudTL">
@@ -634,7 +673,7 @@ input[type=range]{width:100%}
     </div>
 
     <div class="hudBL">
-        MIC: <span id="hudMic">READY</span><br>
+        MICROPHONE: <span id="hudMic">READY</span><br>
         SPEECH: <span id="hudSpeech">READY</span><br>
         NETWORK: <span id="hudNetwork">ONLINE</span>
     </div>
@@ -647,7 +686,8 @@ input[type=range]{width:100%}
 </div>
 
 
-<!-- MAIN -->
+<!-- ================= MAIN ================= -->
+
 <div class="main">
 
     <div class="core" id="core">
@@ -658,18 +698,15 @@ input[type=range]{width:100%}
 
         <div class="energy"></div>
 
-        <div class="orbit one"></div>
-        <div class="orbit two"></div>
-
         <div class="center"></div>
 
     </div>
 
-    <div class="title">NEXORA</div>
+    <div class="title">
+        NEXORA
+    </div>
 
-    <div
-        class="mode-display"
-        id="modeDisplay">
+    <div class="modeText" id="modeText">
         NEXORA MODE
     </div>
 
@@ -677,21 +714,18 @@ input[type=range]{width:100%}
 
 
 <div class="state" id="state">
-    SYSTEM READY
+    CORE LOCKED
 </div>
 
+<div class="statusDot" id="statusDot"></div>
 
-<div class="status" id="status"></div>
-
-
-<button
-    class="control"
-    id="control">
+<button class="menuButton" id="menuButton">
     ⚙️
 </button>
 
 
-<!-- CONTROL PANEL -->
+<!-- ================= CONTROL PANEL ================= -->
+
 <div class="panel" id="panel">
 
     <h2>NEXORA CONTROL</h2>
@@ -700,7 +734,7 @@ input[type=range]{width:100%}
 
         <label>ASSISTANT MODE</label>
 
-        <select id="mode">
+        <select id="modeSelect">
 
             <option value="nexora">🔵 NEXORA</option>
             <option value="jarvis">⚪ JARVIS-INSPIRED</option>
@@ -718,9 +752,10 @@ input[type=range]{width:100%}
 
         <label>VOICE</label>
 
-        <select id="voice"></select>
+        <select id="voiceSelect"></select>
 
         <label>SPEECH SPEED</label>
+
         <input
             type="range"
             id="speed"
@@ -730,6 +765,7 @@ input[type=range]{width:100%}
             value="1">
 
         <label>VOICE PITCH</label>
+
         <input
             type="range"
             id="pitch"
@@ -742,8 +778,8 @@ input[type=range]{width:100%}
             🔊 TEST VOICE
         </button>
 
-        <button class="action" id="stopSpeech">
-            ⏹ STOP SPEAKING
+        <button class="action" id="stopBtn">
+            ⏹ STOP
         </button>
 
     </div>
@@ -751,34 +787,43 @@ input[type=range]{width:100%}
 
     <div class="section">
 
-        <button class="action" id="hudButton">
-            🛰️ TOGGLE HUD
+        <button class="action" id="hudBtn">
+            🛰️ HUD
         </button>
 
-        <button class="action" id="fullscreenButton">
+        <button class="action" id="fullscreenBtn">
             ⛶ FULLSCREEN
         </button>
 
-        <button class="action" id="diagnosticButton">
+        <button class="action" id="diagnosticsBtn">
             🧪 DIAGNOSTICS
         </button>
-
-        <button class="action" id="qrButton">
-            📱 QR CODE
-        </button>
-
-        <div class="qr" id="qr"></div>
 
     </div>
 
 
     <div class="section">
 
-        <button class="action" id="dashboardButton">
+        <button class="action" id="searchBtn">
+            🌐 SEARCH
+        </button>
+
+        <button class="action" id="qrBtn">
+            📱 QR CODE
+        </button>
+
+        <div id="qr"></div>
+
+    </div>
+
+
+    <div class="section">
+
+        <button class="action" id="dashboardBtn">
             📊 ACTIVITY DASHBOARD
         </button>
 
-        <button class="action" id="cameraButton">
+        <button class="action" id="cameraBtn">
             📷 PHYSICAL INTERACTION
         </button>
 
@@ -787,15 +832,15 @@ input[type=range]{width:100%}
 
     <div class="section">
 
-        <button class="action" id="memoryButton">
-            🧠 SHOW MEMORY
+        <button class="action" id="memoryBtn">
+            🧠 MEMORY
         </button>
 
-        <button class="action" id="clearMemory">
+        <button class="action" id="clearMemoryBtn">
             🗑️ CLEAR MEMORY
         </button>
 
-        <button class="action" id="logout">
+        <button class="action" id="logoutBtn">
             🔐 LOG OUT
         </button>
 
@@ -804,93 +849,80 @@ input[type=range]{width:100%}
 </div>
 
 
-<!-- ACTIVITY / WELLNESS DASHBOARD -->
+<!-- ================= DASHBOARD ================= -->
+
 <div class="dashboard" id="dashboard">
 
-    <h3>ACTIVITY & WELLNESS</h3>
+    <h3>ACTIVITY & WELLBEING</h3>
 
     <div class="metric">
-        <div class="metricTitle">
+
+        <div class="metricTop">
             <span>Movement</span>
-            <span id="movementValue">60%</span>
+            <span>60%</span>
         </div>
+
         <div class="bar">
-            <div
-                class="fill"
-                id="movementFill"
-                style="width:60%">
-            </div>
+            <div class="fill" style="width:60%"></div>
         </div>
+
     </div>
 
     <div class="metric">
-        <div class="metricTitle">
+
+        <div class="metricTop">
             <span>Sleep tracking</span>
-            <span id="sleepValue">70%</span>
+            <span>70%</span>
         </div>
+
         <div class="bar">
-            <div
-                class="fill"
-                id="sleepFill"
-                style="width:70%">
-            </div>
+            <div class="fill" style="width:70%"></div>
         </div>
+
     </div>
 
     <div class="metric">
-        <div class="metricTitle">
+
+        <div class="metricTop">
             <span>Hydration tracking</span>
-            <span id="waterValue">65%</span>
+            <span>65%</span>
         </div>
+
         <div class="bar">
-            <div
-                class="fill"
-                id="waterFill"
-                style="width:65%">
-            </div>
+            <div class="fill" style="width:65%"></div>
         </div>
+
     </div>
 
     <div class="metric">
-        <div class="metricTitle">
+
+        <div class="metricTop">
             <span>Food variety</span>
-            <span id="foodValue">75%</span>
+            <span>75%</span>
         </div>
+
         <div class="bar">
-            <div
-                class="fill"
-                id="foodFill"
-                style="width:75%">
-            </div>
+            <div class="fill" style="width:75%"></div>
         </div>
+
     </div>
 
-    <p style="
-        margin-top:15px;
-        font-size:9px;
-        line-height:1.6;
-        color:#6caabd;">
-        This dashboard is for general activity and
-        wellbeing tracking. It does not diagnose
-        nutrient deficiencies or determine physical
-        development from camera images.
-    </p>
+    <div class="note">
+        This dashboard is for general activity tracking.
+        Camera data cannot reliably determine growth,
+        nutrient deficiencies or medical conditions.
+    </div>
 
 </div>
 
 
-<!-- CAMERA -->
-<div class="cameraBox" id="cameraBox">
+<!-- ================= CAMERA ================= -->
 
-    <video
-        id="camera"
-        autoplay
-        playsinline>
-    </video>
+<div class="camera" id="camera">
 
-    <button
-        class="cameraClose"
-        id="cameraClose">
+    <video id="video" autoplay playsinline></video>
+
+    <button class="closeCamera" id="closeCamera">
         CLOSE
     </button>
 
@@ -900,18 +932,25 @@ input[type=range]{width:100%}
 <script>
 
 /* =====================================================
-   NEXORA CORE
+   NEXORA CORE ENGINE
 ===================================================== */
 
 const $ = id => document.getElementById(id);
 
 let currentUser = null;
 let currentMode = "nexora";
-let voices = [];
+
+let memory = [];
+
 let recognition = null;
 let listening = false;
+let nexoraActivated = false;
+
+let voices = [];
+
 let lastCommand = "";
-let memory = [];
+let lastResponse = "";
+
 let cameraStream = null;
 
 
@@ -919,264 +958,288 @@ let cameraStream = null;
    PARTICLES
 ===================================================== */
 
-for(let i=0;i<55;i++){
+for(let i=0;i<65;i++){
 
-    const p = document.createElement("div");
+    const p=document.createElement("div");
 
-    p.className = "particle";
+    p.className="particle";
 
     p.style.left =
-        Math.random()*100 + "%";
+        Math.random()*100+"%";
 
     p.style.animationDuration =
-        (6 + Math.random()*12) + "s";
+        (7+Math.random()*13)+"s";
 
     p.style.animationDelay =
-        (-Math.random()*15) + "s";
+        (-Math.random()*15)+"s";
 
     $("particles").appendChild(p);
 }
 
 
 /* =====================================================
-   LOGIN SYSTEM
+   PROFILE STORAGE
 ===================================================== */
 
 function getProfiles(){
 
     try{
+
         return JSON.parse(
-            localStorage.getItem("nexoraProfiles")
+            localStorage.getItem(
+                "NEXORA_PROFILES"
+            )
         ) || {};
+
     }catch{
+
         return {};
     }
 }
 
-function saveProfiles(profiles){
+
+function saveProfiles(data){
 
     localStorage.setItem(
-        "nexoraProfiles",
-        JSON.stringify(profiles)
+        "NEXORA_PROFILES",
+        JSON.stringify(data)
     );
-}
-
-$("createButton").onclick = () => {
-
-    const username =
-        $("loginUser").value.trim();
-
-    const password =
-        $("loginPass").value;
-
-    if(!username || !password){
-
-        $("loginMessage").textContent =
-            "Enter a username and password.";
-
-        return;
-    }
-
-    const profiles = getProfiles();
-
-    if(profiles[username]){
-
-        $("loginMessage").textContent =
-            "That local profile already exists.";
-
-        return;
-    }
-
-    profiles[username] = {
-        password: password,
-        memory: [],
-        settings:{
-            mode:"nexora",
-            speed:1,
-            pitch:1
-        }
-    };
-
-    saveProfiles(profiles);
-
-    $("loginMessage").textContent =
-        "Profile created. You can now enter NEXORA.";
-};
-
-
-$("loginButton").onclick = () => {
-
-    const username =
-        $("loginUser").value.trim();
-
-    const password =
-        $("loginPass").value;
-
-    const profiles = getProfiles();
-
-    if(
-        profiles[username] &&
-        profiles[username].password === password
-    ){
-
-        currentUser = username;
-
-        localStorage.setItem(
-            "nexoraCurrentUser",
-            username
-        );
-
-        memory =
-            profiles[username].memory || [];
-
-        $("hudUser").textContent =
-            username;
-
-        $("login").classList.add("hidden");
-
-        loadProfileSettings();
-
-        speak(
-            "NEXORA online. Welcome, " +
-            username + "."
-        );
-
-    }else{
-
-        $("loginMessage").textContent =
-            "Incorrect username or password.";
-    }
-};
-
-
-function loadProfileSettings(){
-
-    const profiles = getProfiles();
-    const profile = profiles[currentUser];
-
-    if(!profile) return;
-
-    if(profile.settings){
-
-        currentMode =
-            profile.settings.mode || "nexora";
-
-        $("mode").value =
-            currentMode;
-
-        $("speed").value =
-            profile.settings.speed || 1;
-
-        $("pitch").value =
-            profile.settings.pitch || 1;
-
-        updateModeDisplay();
-    }
 }
 
 
 function saveProfile(){
 
-    if(!currentUser) return;
+    if(!currentUser)
+        return;
 
-    const profiles = getProfiles();
+    const profiles=getProfiles();
 
-    if(!profiles[currentUser]) return;
+    if(!profiles[currentUser])
+        return;
 
-    profiles[currentUser].memory =
-        memory;
-
-    profiles[currentUser].settings = {
-
-        mode:currentMode,
-
-        speed:Number(
-            $("speed").value
-        ),
-
-        pitch:Number(
-            $("pitch").value
-        )
-    };
+    profiles[currentUser].memory=memory;
+    profiles[currentUser].mode=currentMode;
+    profiles[currentUser].speed=
+        Number($("speed").value);
+    profiles[currentUser].pitch=
+        Number($("pitch").value);
 
     saveProfiles(profiles);
 }
 
 
-$("logout").onclick = () => {
+/* =====================================================
+   LOGIN / SIGN UP
+===================================================== */
 
-    speechSynthesis.cancel();
+let authMode="login";
 
-    currentUser = null;
+$("loginTab").onclick=()=>{
 
-    localStorage.removeItem(
-        "nexoraCurrentUser"
-    );
+    authMode="login";
 
-    $("login").classList.remove("hidden");
+    $("loginTab").classList.add("active");
+    $("signupTab").classList.remove("active");
 
-    $("loginUser").value = "";
-    $("loginPass").value = "";
+    $("confirmPassword").style.display="none";
 
-    closePanel();
+    $("authButton").textContent=
+        "ENTER NEXORA";
 
-    setState("LOCKED");
+    $("authMessage").textContent="";
 };
 
 
-/* =====================================================
-   AUTO LOGIN SESSION
-===================================================== */
+$("signupTab").onclick=()=>{
 
-const savedUser =
-    localStorage.getItem(
-        "nexoraCurrentUser"
+    authMode="signup";
+
+    $("signupTab").classList.add("active");
+    $("loginTab").classList.remove("active");
+
+    $("confirmPassword").style.display="block";
+
+    $("authButton").textContent=
+        "CREATE ACCOUNT";
+
+    $("authMessage").textContent="";
+};
+
+
+$("authButton").onclick=()=>{
+
+    const user=
+        $("username").value.trim();
+
+    const pass=
+        $("password").value;
+
+    const confirm=
+        $("confirmPassword").value;
+
+    if(!user || !pass){
+
+        $("authMessage").textContent=
+            "Enter a username and password.";
+
+        return;
+    }
+
+
+    const profiles=getProfiles();
+
+
+    if(authMode==="signup"){
+
+        if(pass.length<4){
+
+            $("authMessage").textContent=
+                "Password must contain at least 4 characters.";
+
+            return;
+        }
+
+        if(pass!==confirm){
+
+            $("authMessage").textContent=
+                "Passwords do not match.";
+
+            return;
+        }
+
+        if(profiles[user]){
+
+            $("authMessage").textContent=
+                "That username already exists.";
+
+            return;
+        }
+
+        profiles[user]={
+
+            password:pass,
+            memory:[],
+            mode:"nexora",
+            speed:1,
+            pitch:1
+        };
+
+        saveProfiles(profiles);
+
+        $("authMessage").textContent=
+            "Account created. You can now log in.";
+
+        $("password").value="";
+        $("confirmPassword").value="";
+
+        authMode="login";
+
+        $("loginTab").click();
+
+        return;
+    }
+
+
+    if(!profiles[user] ||
+       profiles[user].password!==pass){
+
+        $("authMessage").textContent=
+            "Incorrect username or password.";
+
+        return;
+    }
+
+
+    loginUser(user,profiles[user]);
+};
+
+
+function loginUser(user,profile){
+
+    currentUser=user;
+
+    memory=profile.memory||[];
+
+    currentMode=profile.mode||"nexora";
+
+    $("hudUser").textContent=user;
+
+    $("modeSelect").value=currentMode;
+
+    $("speed").value=profile.speed||1;
+
+    $("pitch").value=profile.pitch||1;
+
+    localStorage.setItem(
+        "NEXORA_CURRENT_USER",
+        user
     );
 
-if(savedUser && getProfiles()[savedUser]){
+    $("loginScreen").classList.add("hidden");
 
-    currentUser = savedUser;
+    nexoraActivated=false;
 
-    memory =
-        getProfiles()[savedUser].memory || [];
+    $("state").textContent=
+        "CORE READY — PRESS TO ACTIVATE";
 
-    $("hudUser").textContent =
-        savedUser;
-
-    $("login").classList.add("hidden");
-
-    loadProfileSettings();
+    updateMode();
 }
 
 
 /* =====================================================
-   VOICES
+   AUTO LOGIN
+===================================================== */
+
+const savedUser=
+    localStorage.getItem(
+        "NEXORA_CURRENT_USER"
+    );
+
+if(savedUser){
+
+    const profiles=getProfiles();
+
+    if(profiles[savedUser]){
+
+        loginUser(
+            savedUser,
+            profiles[savedUser]
+        );
+    }
+}
+
+
+/* =====================================================
+   SPEECH VOICES
 ===================================================== */
 
 function loadVoices(){
 
-    voices =
-        speechSynthesis.getVoices();
+    voices=speechSynthesis.getVoices();
 
-    $("voice").innerHTML = "";
+    $("voiceSelect").innerHTML="";
 
-    voices.forEach((v,i)=>{
+    voices.forEach((voice,index)=>{
 
-        const option =
+        const option=
             document.createElement("option");
 
-        option.value = i;
+        option.value=index;
 
-        option.textContent =
-            v.name + " — " + v.lang;
+        option.textContent=
+            voice.name+
+            " — "+
+            voice.lang;
 
-        $("voice").appendChild(option);
+        $("voiceSelect")
+            .appendChild(option);
     });
 
     chooseVoice();
 }
 
-speechSynthesis.onvoiceschanged =
+
+speechSynthesis.onvoiceschanged=
     loadVoices;
 
 loadVoices();
@@ -1184,156 +1247,210 @@ loadVoices();
 
 function chooseVoice(){
 
-    if(!voices.length) return;
+    if(!voices.length)
+        return;
 
-    let preferred;
+    let index=-1;
 
-    if(currentMode === "jarvis"){
+    if(currentMode==="jarvis"){
 
-        preferred =
-            voices.findIndex(
-                v =>
-                /Daniel|George|David|UK/i
-                .test(v.name)
-            );
-
-    }else{
-
-        preferred =
-            voices.findIndex(
-                v =>
-                /Google|Microsoft|Natural|English/i
-                .test(v.name)
-            );
+        index=voices.findIndex(
+            v=>
+            /Daniel|George|David|UK/i
+            .test(v.name)
+        );
     }
 
-    if(preferred >= 0)
-        $("voice").value = preferred;
+    if(index<0){
+
+        index=voices.findIndex(
+            v=>
+            /English|Natural|Google|Microsoft/i
+            .test(v.name)
+        );
+    }
+
+    if(index>=0)
+        $("voiceSelect").value=index;
 }
 
 
 /* =====================================================
-   SPEECH
+   SPEAK
 ===================================================== */
 
 function speak(text){
 
-    if(!("speechSynthesis" in window))
+    if(!("speechSynthesis" in window)){
+
+        setState(
+            "BROWSER SPEECH NOT AVAILABLE"
+        );
+
         return;
+    }
 
     speechSynthesis.cancel();
 
+    lastResponse=text;
+
     $("core").classList.remove(
+        "listening",
         "thinking"
     );
 
-    $("core").classList.add(
-        "speaking"
-    );
+    $("core").classList.add("speaking");
 
-    setState("SPEAKING");
+    $("hudSpeech").textContent=
+        "SPEAKING";
 
-    const u =
+    setState("NEXORA SPEAKING");
+
+    const utterance=
         new SpeechSynthesisUtterance(text);
 
-    const selected =
-        voices[Number($("voice").value)];
+    const selected=
+        voices[
+            Number(
+                $("voiceSelect").value
+            )
+        ];
 
     if(selected){
 
-        u.voice = selected;
-        u.lang = selected.lang;
+        utterance.voice=selected;
+        utterance.lang=selected.lang;
     }
 
-    u.rate =
+    utterance.rate=
         Number($("speed").value);
 
-    u.pitch =
+    utterance.pitch=
         Number($("pitch").value);
 
-    u.onend = () => {
+
+    utterance.onend=()=>{
 
         $("core").classList.remove(
             "speaking"
         );
 
+        $("hudSpeech").textContent=
+            "READY";
+
+        setState(
+            "SYSTEM READY — PRESS CORE TO SPEAK"
+        );
+    };
+
+
+    utterance.onerror=()=>{
+
+        $("core").classList.remove(
+            "speaking"
+        );
+
+        $("hudSpeech").textContent=
+            "READY";
+
         setState("SYSTEM READY");
     };
 
-    speechSynthesis.speak(u);
+
+    speechSynthesis.speak(
+        utterance
+    );
 }
 
 
-function stopAll(){
+/* =====================================================
+   STOP
+===================================================== */
+
+function stopAssistant(){
 
     speechSynthesis.cancel();
 
-    if(recognition && listening){
+    if(recognition){
 
         try{
             recognition.stop();
         }catch{}
     }
 
-    listening = false;
+    listening=false;
 
     $("core").classList.remove(
         "listening",
         "thinking",
-        "speaking"
+        "speaking",
+        "activating"
     );
 
-    $("status").classList.remove(
-        "listen"
-    );
+    $("hudMic").textContent="READY";
+    $("hudSpeech").textContent="READY";
 
-    setState("SYSTEM READY");
+    setState(
+        "SYSTEM READY — PRESS CORE TO SPEAK"
+    );
 }
+
+$("stopBtn").onclick=
+    stopAssistant;
 
 
 /* =====================================================
-   SPEECH RECOGNITION
+   VOICE RECOGNITION
 ===================================================== */
 
-const SpeechRecognition =
+const Recognition=
     window.SpeechRecognition ||
     window.webkitSpeechRecognition;
 
-if(SpeechRecognition){
 
-    recognition =
-        new SpeechRecognition();
+if(Recognition){
 
-    recognition.continuous = false;
-    recognition.interimResults = false;
-    recognition.lang = "en-US";
+    recognition=new Recognition();
 
-    recognition.onstart = () => {
+    recognition.lang="en-US";
 
-        listening = true;
+    recognition.continuous=false;
+
+    recognition.interimResults=false;
+
+    recognition.maxAlternatives=1;
+
+
+    recognition.onstart=()=>{
+
+        listening=true;
 
         $("core").classList.add(
             "listening"
         );
 
-        $("status").classList.add(
-            "listen"
+        $("core").classList.remove(
+            "speaking",
+            "thinking"
         );
 
-        $("hudMic").textContent =
+        $("hudMic").textContent=
             "LISTENING";
 
-        setState("LISTENING");
+        setState(
+            "LISTENING — SPEAK NOW"
+        );
     };
 
-    recognition.onresult = event => {
 
-        const text =
+    recognition.onresult=event=>{
+
+        const transcript=
             event.results[0][0]
             .transcript
             .trim();
 
-        lastCommand = text;
+        lastCommand=transcript;
 
         $("core").classList.remove(
             "listening"
@@ -1343,464 +1460,325 @@ if(SpeechRecognition){
             "thinking"
         );
 
-        setState("THINKING");
+        $("hudMic").textContent=
+            "PROCESSING";
+
+        setState(
+            "UNDERSTANDING: "+
+            transcript
+        );
 
         setTimeout(
-            ()=>processCommand(text),
-            250
+            ()=>{
+                processCommand(
+                    transcript
+                );
+            },
+            300
         );
     };
 
-    recognition.onerror = event => {
 
-        console.log(event.error);
+    recognition.onerror=event=>{
 
-        listening = false;
+        listening=false;
 
         $("core").classList.remove(
             "listening",
             "thinking"
         );
 
-        $("status").classList.remove(
-            "listen"
-        );
-
-        $("hudMic").textContent =
+        $("hudMic").textContent=
             "READY";
 
-        setState("SYSTEM READY");
+
+        if(event.error==="not-allowed"){
+
+            setState(
+                "MICROPHONE BLOCKED — ALLOW ACCESS"
+            );
+
+        }else if(
+            event.error==="no-speech"
+        ){
+
+            setState(
+                "NO SPEECH DETECTED — PRESS CORE AGAIN"
+            );
+
+        }else{
+
+            setState(
+                "VOICE ERROR — PRESS CORE AGAIN"
+            );
+        }
     };
 
-    recognition.onend = () => {
 
-        listening = false;
+    recognition.onend=()=>{
+
+        listening=false;
 
         $("core").classList.remove(
             "listening"
         );
 
-        $("status").classList.remove(
-            "listen"
-        );
-
-        $("hudMic").textContent =
+        $("hudMic").textContent=
             "READY";
     };
+
+}else{
+
+    setState(
+        "VOICE RECOGNITION UNAVAILABLE"
+    );
 }
 
 
-function listen(){
+/* =====================================================
+   START LISTENING
+===================================================== */
+
+function startListening(){
 
     if(!recognition){
 
         speak(
-            "Voice recognition is not supported in this browser."
+            "Voice recognition is not available in this browser. Please use Chrome or Edge."
         );
 
         return;
     }
 
-    if(listening) return;
+    if(listening)
+        return;
+
+    speechSynthesis.cancel();
 
     try{
+
         recognition.start();
-    }catch{}
+
+    }catch{
+
+        setTimeout(()=>{
+
+            try{
+                recognition.start();
+            }catch{}
+
+        },300);
+    }
 }
 
 
-$("core").onclick = () => {
+/* =====================================================
+   NEXORA ACTIVATION
+===================================================== */
 
-    if(listening){
+function activateNexora(){
 
-        try{
-            recognition.stop();
-        }catch{}
+    if(nexoraActivated){
 
-    }else{
+        startListening();
 
-        listen();
+        return;
     }
-};
+
+    nexoraActivated=true;
+
+    $("core").classList.add(
+        "activating"
+    );
+
+    setState(
+        "CORE ACTIVATING..."
+    );
+
+    setTimeout(()=>{
+
+        $("core").classList.remove(
+            "activating"
+        );
+
+        setState(
+            "NEXORA ONLINE"
+        );
+
+        speak(
+            currentMode==="jarvis"
+            ? "NEXORA online. JARVIS-inspired mode ready."
+            : "NEXORA online."
+        );
+
+    },800);
+}
+
+
+/* =====================================================
+   CORE CLICK
+===================================================== */
+
+$("core").addEventListener(
+    "click",
+    ()=>{
+
+        if(!nexoraActivated){
+
+            activateNexora();
+
+            return;
+        }
+
+        if(listening){
+
+            try{
+                recognition.stop();
+            }catch{}
+
+        }else{
+
+            startListening();
+        }
+    }
+);
 
 
 /* =====================================================
    COMMAND ENGINE
 ===================================================== */
 
-const commands = {
+function has(text,words){
 
-    STOP:[
+    return words.some(
+        word=>text.includes(word)
+    );
+}
+
+
+function processCommand(command){
+
+    const text=
+        command
+        .toLowerCase()
+        .replace(/[?!.,]/g,"")
+        .trim();
+
+
+    /* STOP */
+
+    if(has(text,[
         "stop",
         "stop talking",
         "be quiet",
         "cancel",
         "cancel that",
-        "never mind",
-        "go idle"
-    ],
+        "never mind"
+    ])){
 
-    HELP:[
-        "help",
-        "what can you do",
-        "what are your commands"
-    ],
-
-    NEXORA:[
-        "switch to nexora",
-        "activate nexora",
-        "use nexora",
-        "nexora mode"
-    ],
-
-    JARVIS:[
-        "switch to jarvis",
-        "activate jarvis",
-        "use jarvis",
-        "jarvis mode"
-    ],
-
-    STUDY:[
-        "study mode",
-        "activate study mode",
-        "start study mode"
-    ],
-
-    GAMING:[
-        "gaming mode",
-        "activate gaming mode",
-        "start gaming mode"
-    ],
-
-    GARAGE:[
-        "garage mode",
-        "activate garage mode",
-        "start garage mode"
-    ],
-
-    SCIENCE:[
-        "science mode",
-        "activate science mode",
-        "start science mode"
-    ],
-
-    YOUTUBE:[
-        "open youtube",
-        "launch youtube",
-        "go to youtube",
-        "take me to youtube",
-        "i want to watch youtube"
-    ],
-
-    GOOGLE:[
-        "open google",
-        "launch google",
-        "go to google"
-    ],
-
-    GMAIL:[
-        "open gmail",
-        "launch gmail"
-    ],
-
-    TIME:[
-        "what time is it",
-        "what's the time",
-        "tell me the time"
-    ],
-
-    DATE:[
-        "what date is it",
-        "what's today's date",
-        "what day is it",
-        "tell me the date"
-    ],
-
-    REPEAT:[
-        "repeat",
-        "repeat that",
-        "say that again"
-    ],
-
-    HUD:[
-        "show hud",
-        "activate hud",
-        "turn on hud"
-    ],
-
-    NOHUD:[
-        "hide hud",
-        "turn off hud",
-        "deactivate hud"
-    ],
-
-    FULLSCREEN:[
-        "fullscreen",
-        "full screen",
-        "go fullscreen"
-    ],
-
-    DIAGNOSTICS:[
-        "run diagnostics",
-        "run diagnostic",
-        "check the system",
-        "system check",
-        "system status"
-    ],
-
-    QR:[
-        "show qr",
-        "show qr code",
-        "display qr"
-    ],
-
-    CAMERA:[
-        "open camera",
-        "activate camera",
-        "physical interaction",
-        "start physical interaction"
-    ],
-
-    DASHBOARD:[
-        "open activity dashboard",
-        "show activity dashboard",
-        "show wellness dashboard",
-        "activity dashboard"
-    ],
-
-    SLOWER:[
-        "speak slower",
-        "talk slower",
-        "slow down"
-    ],
-
-    FASTER:[
-        "speak faster",
-        "talk faster",
-        "speed up"
-    ],
-
-    VOICE:[
-        "show voices",
-        "change voice",
-        "voice settings"
-    ],
-
-    MEMORY:[
-        "what do you remember",
-        "show memory"
-    ],
-
-    FORGET:[
-        "forget that",
-        "clear memory",
-        "forget everything"
-    ]
-};
-
-
-function detectIntent(text){
-
-    const t =
-        text.toLowerCase()
-        .replace(/[?!.,]/g,"")
-        .trim();
-
-    for(const intent in commands){
-
-        for(const phrase of commands[intent]){
-
-            if(t.includes(phrase))
-                return intent;
-        }
-    }
-
-    return "UNKNOWN";
-}
-
-
-/* =====================================================
-   MODE
-===================================================== */
-
-const modeNames = {
-
-    nexora:"NEXORA MODE",
-    jarvis:"JARVIS-INSPIRED MODE",
-    study:"STUDY MODE",
-    gaming:"GAMING MODE",
-    garage:"GARAGE MODE",
-    science:"SCIENCE MODE"
-};
-
-
-function updateModeDisplay(){
-
-    $("modeDisplay").textContent =
-        modeNames[currentMode];
-
-    $("hudMode").textContent =
-        modeNames[currentMode];
-
-    chooseVoice();
-
-    saveProfile();
-}
-
-
-function changeMode(mode){
-
-    currentMode = mode;
-
-    $("mode").value = mode;
-
-    updateModeDisplay();
-
-    const responses = {
-
-        nexora:"NEXORA mode activated. Systems ready.",
-
-        jarvis:"JARVIS-inspired mode activated. Systems ready.",
-
-        study:"Study mode activated. Ready to help you learn.",
-
-        gaming:"Gaming mode activated. Ready.",
-
-        garage:"Garage mode activated. Ready.",
-
-        science:"Science mode activated. Ready for analysis."
-    };
-
-    speak(responses[mode]);
-}
-
-
-$("mode").onchange = () => {
-
-    changeMode(
-        $("mode").value
-    );
-};
-
-
-/* =====================================================
-   PROCESS COMMAND
-===================================================== */
-
-function processCommand(command){
-
-    const text =
-        command.toLowerCase().trim();
-
-    const intent =
-        detectIntent(text);
-
-
-    if(intent === "STOP"){
-        stopAll();
+        stopAssistant();
         return;
     }
 
 
-    if(intent === "HELP"){
+    /* HELP */
+
+    if(has(text,[
+        "help",
+        "what can you do",
+        "what commands do you know",
+        "give me commands"
+    ])){
 
         speak(
-            "I can understand voice commands for modes, websites, searching, maths, time, dates, voice controls, HUD, diagnostics, QR, memory, activity tracking and physical interaction."
+            "I can change modes, search the web, open websites, calculate maths, tell you the time and date, control the HUD, run diagnostics, change my voice, manage memory, open the activity dashboard and activate the camera."
         );
 
         return;
     }
 
 
-    if(intent === "NEXORA"){
+    /* MODE SWITCHING */
+
+    if(has(text,[
+        "switch to nexora",
+        "activate nexora",
+        "nexora mode",
+        "use nexora"
+    ])){
+
         changeMode("nexora");
         return;
     }
 
-    if(intent === "JARVIS"){
+
+    if(has(text,[
+        "switch to jarvis",
+        "activate jarvis",
+        "jarvis mode",
+        "use jarvis"
+    ])){
+
         changeMode("jarvis");
         return;
     }
 
-    if(intent === "STUDY"){
+
+    if(has(text,[
+        "study mode",
+        "activate study mode",
+        "start study mode"
+    ])){
+
         changeMode("study");
         return;
     }
 
-    if(intent === "GAMING"){
+
+    if(has(text,[
+        "gaming mode",
+        "activate gaming mode",
+        "start gaming mode"
+    ])){
+
         changeMode("gaming");
         return;
     }
 
-    if(intent === "GARAGE"){
+
+    if(has(text,[
+        "garage mode",
+        "activate garage mode",
+        "start garage mode"
+    ])){
+
         changeMode("garage");
         return;
     }
 
-    if(intent === "SCIENCE"){
+
+    if(has(text,[
+        "science mode",
+        "activate science mode",
+        "start science mode"
+    ])){
+
         changeMode("science");
         return;
     }
 
 
-    if(intent === "YOUTUBE"){
+    /* TIME */
 
-        speak("Opening YouTube.");
-
-        setTimeout(
-            ()=>{
-                window.open(
-                    "https://www.youtube.com",
-                    "_blank"
-                );
-            },
-            500
-        );
-
-        return;
-    }
-
-
-    if(intent === "GOOGLE"){
-
-        speak("Opening Google.");
-
-        setTimeout(
-            ()=>{
-                window.open(
-                    "https://www.google.com",
-                    "_blank"
-                );
-            },
-            500
-        );
-
-        return;
-    }
-
-
-    if(intent === "GMAIL"){
-
-        speak("Opening Gmail.");
-
-        setTimeout(
-            ()=>{
-                window.open(
-                    "https://mail.google.com",
-                    "_blank"
-                );
-            },
-            500
-        );
-
-        return;
-    }
-
-
-    if(intent === "TIME"){
+    if(has(text,[
+        "what time is it",
+        "whats the time",
+        "tell me the time",
+        "current time"
+    ])){
 
         speak(
-            "The time is " +
+            "The time is "+
             new Date().toLocaleTimeString()
         );
 
@@ -1808,10 +1786,17 @@ function processCommand(command){
     }
 
 
-    if(intent === "DATE"){
+    /* DATE */
+
+    if(has(text,[
+        "what date is it",
+        "whats todays date",
+        "what day is it",
+        "tell me the date"
+    ])){
 
         speak(
-            "Today is " +
+            "Today is "+
             new Date().toLocaleDateString(
                 undefined,
                 {
@@ -1827,19 +1812,67 @@ function processCommand(command){
     }
 
 
-    if(intent === "REPEAT"){
+    /* WHO */
+
+    if(has(text,[
+        "who are you",
+        "what are you",
+        "your name"
+    ])){
 
         speak(
-            lastCommand
-            ? "Your last command was " + lastCommand
-            : "There is nothing to repeat yet."
+            currentMode==="jarvis"
+            ? "I am NEXORA operating in JARVIS-inspired mode."
+            : "I am NEXORA, your browser-based voice assistant."
         );
 
         return;
     }
 
 
-    if(intent === "HUD"){
+    /* GREETING */
+
+    if(has(text,[
+        "hello",
+        "hi nexora",
+        "hey nexora",
+        "hello nexora"
+    ])){
+
+        speak(
+            currentMode==="jarvis"
+            ? "Good to hear from you. Systems are ready."
+            : "Hello. NEXORA is ready."
+        );
+
+        return;
+    }
+
+
+    /* REPEAT */
+
+    if(has(text,[
+        "repeat",
+        "repeat that",
+        "say that again"
+    ])){
+
+        speak(
+            lastResponse||
+            "There is nothing to repeat yet."
+        );
+
+        return;
+    }
+
+
+    /* HUD */
+
+    if(has(text,[
+        "show hud",
+        "activate hud",
+        "turn on hud"
+    ])){
 
         $("hud").classList.add("active");
 
@@ -1849,7 +1882,11 @@ function processCommand(command){
     }
 
 
-    if(intent === "NOHUD"){
+    if(has(text,[
+        "hide hud",
+        "turn off hud",
+        "deactivate hud"
+    ])){
 
         $("hud").classList.remove("active");
 
@@ -1859,168 +1896,133 @@ function processCommand(command){
     }
 
 
-    if(intent === "FULLSCREEN"){
+    /* FULLSCREEN */
 
-        if(document.documentElement.requestFullscreen)
-            document.documentElement.requestFullscreen();
+    if(has(text,[
+        "fullscreen",
+        "full screen",
+        "go fullscreen"
+    ])){
 
-        speak("Fullscreen activated.");
+        if(
+            document.documentElement
+            .requestFullscreen
+        ){
 
-        return;
-    }
-
-
-    if(intent === "DIAGNOSTICS"){
-
-        runDiagnostics();
-
-        return;
-    }
-
-
-    if(intent === "QR"){
-
-        showQR();
-
-        return;
-    }
-
-
-    if(intent === "CAMERA"){
-
-        openCamera();
-
-        return;
-    }
-
-
-    if(intent === "DASHBOARD"){
-
-        $("dashboard").classList.add("open");
+            document.documentElement
+            .requestFullscreen();
+        }
 
         speak(
-            "Activity dashboard opened."
+            "Fullscreen activated."
         );
 
         return;
     }
 
 
-    if(intent === "SLOWER"){
+    /* YOUTUBE */
 
-        $("speed").value =
-            Math.max(
-                .6,
-                Number($("speed").value)-.1
-            );
+    if(has(text,[
+        "open youtube",
+        "launch youtube",
+        "go to youtube"
+    ])){
 
-        saveProfile();
+        speak("Opening YouTube.");
 
-        speak("Speaking slower.");
-
-        return;
-    }
-
-
-    if(intent === "FASTER"){
-
-        $("speed").value =
-            Math.min(
-                1.5,
-                Number($("speed").value)+.1
-            );
-
-        saveProfile();
-
-        speak("Speaking faster.");
-
-        return;
-    }
-
-
-    if(intent === "VOICE"){
-
-        openPanel();
-
-        speak("Voice controls opened.");
-
-        return;
-    }
-
-
-    if(intent === "MEMORY"){
-
-        speak(
-            memory.length
-            ? "I remember: " + memory.join(", ")
-            : "Your memory is currently empty."
+        setTimeout(
+            ()=>{
+                window.open(
+                    "https://www.youtube.com",
+                    "_blank"
+                );
+            },
+            600
         );
 
         return;
     }
 
 
-    if(intent === "FORGET"){
+    /* GOOGLE */
 
-        memory = [];
+    if(has(text,[
+        "open google",
+        "launch google",
+        "go to google"
+    ])){
 
-        saveProfile();
+        speak("Opening Google.");
 
-        speak("Memory cleared.");
+        setTimeout(
+            ()=>{
+                window.open(
+                    "https://www.google.com",
+                    "_blank"
+                );
+            },
+            600
+        );
 
         return;
     }
 
 
     /* SEARCH */
+
     if(
-        text.startsWith("search ") ||
-        text.startsWith("search for ") ||
-        text.startsWith("look up ") ||
+        text.startsWith("search ")||
+        text.startsWith("search for ")||
+        text.startsWith("look up ")||
         text.startsWith("find ")
     ){
 
-        let query = text
+        let query=text
             .replace(/^search for /,"")
             .replace(/^search /,"")
             .replace(/^look up /,"")
             .replace(/^find /,"")
             .trim();
 
-        if(query){
-
-            speak("Searching for " + query);
-
-            setTimeout(
-                ()=>{
-                    window.open(
-                        "https://www.google.com/search?q=" +
-                        encodeURIComponent(query),
-                        "_blank"
-                    );
-                },
-                500
-            );
-
-        }else{
+        if(!query){
 
             speak(
                 "What would you like me to search for?"
             );
+
+            return;
         }
+
+        speak(
+            "Searching for "+
+            query
+        );
+
+        setTimeout(
+            ()=>{
+                window.open(
+                    "https://www.google.com/search?q="+
+                    encodeURIComponent(query),
+                    "_blank"
+                );
+            },
+            600
+        );
 
         return;
     }
 
 
-    /* MATH */
+    /* CALCULATOR */
+
     if(
-        text.startsWith("calculate ") ||
-        text.startsWith("work out ") ||
+        text.startsWith("calculate ")||
+        text.startsWith("work out ")||
         text.startsWith("what is ")
     ){
 
-        let expression = text
+        let expression=text
             .replace(/^calculate /,"")
             .replace(/^work out /,"")
             .replace(/^what is /,"")
@@ -2031,20 +2033,22 @@ function processCommand(command){
             .replace(/minus/g,"-");
 
         if(
-            /^[0-9+\-*/().%\s]+$/.test(expression)
+            /^[0-9+\-*/().%\s]+$/
+            .test(expression)
         ){
 
             try{
 
-                const answer =
+                const answer=
                     Function(
-                        '"use strict";return (' +
-                        expression +
+                        '"use strict";return ('+
+                        expression+
                         ')'
                     )();
 
                 speak(
-                    "The answer is " + answer
+                    "The answer is "+
+                    answer
                 );
 
                 return;
@@ -2054,14 +2058,13 @@ function processCommand(command){
     }
 
 
-    /* REMEMBER */
+    /* MEMORY */
+
     if(text.startsWith("remember ")){
 
-        const item =
-            text.replace(
-                "remember ",
-                ""
-            ).trim();
+        const item=text
+            .replace(/^remember /,"")
+            .trim();
 
         if(item){
 
@@ -2069,20 +2072,167 @@ function processCommand(command){
 
             saveProfile();
 
-            speak("I'll remember that.");
+            speak(
+                "I'll remember that."
+            );
         }
 
         return;
     }
 
 
-    /* STUDY */
-    if(currentMode === "study"){
+    if(has(text,[
+        "what do you remember",
+        "show memory",
+        "what is in my memory"
+    ])){
+
+        if(memory.length){
+
+            speak(
+                "I remember: "+
+                memory.join(", ")
+            );
+
+        }else{
+
+            speak(
+                "Your memory is empty."
+            );
+        }
+
+        return;
+    }
+
+
+    if(has(text,[
+        "forget that",
+        "clear memory",
+        "forget everything"
+    ])){
+
+        memory=[];
+
+        saveProfile();
 
         speak(
-            "Study mode is active. I heard: " +
-            command +
-            ". You can ask me a school question, ask for a quiz, or ask me to explain something."
+            "Memory cleared."
+        );
+
+        return;
+    }
+
+
+    /* DIAGNOSTICS */
+
+    if(has(text,[
+        "run diagnostics",
+        "run diagnostic",
+        "system check",
+        "check the system",
+        "system status"
+    ])){
+
+        runDiagnostics();
+
+        return;
+    }
+
+
+    /* CAMERA */
+
+    if(has(text,[
+        "open camera",
+        "activate camera",
+        "physical interaction",
+        "start physical interaction"
+    ])){
+
+        openCamera();
+
+        return;
+    }
+
+
+    /* DASHBOARD */
+
+    if(has(text,[
+        "activity dashboard",
+        "show activity",
+        "show wellness",
+        "open dashboard"
+    ])){
+
+        $("dashboard")
+            .classList.add("open");
+
+        speak(
+            "Activity dashboard opened."
+        );
+
+        return;
+    }
+
+
+    /* VOICE */
+
+    if(has(text,[
+        "change voice",
+        "voice settings",
+        "show voices"
+    ])){
+
+        $("panel")
+            .classList.add("open");
+
+        speak(
+            "Voice settings opened."
+        );
+
+        return;
+    }
+
+
+    /* SPEED */
+
+    if(has(text,[
+        "speak slower",
+        "talk slower",
+        "slow down"
+    ])){
+
+        $("speed").value=
+            Math.max(
+                .6,
+                Number($("speed").value)-.1
+            );
+
+        saveProfile();
+
+        speak(
+            "Speaking slower."
+        );
+
+        return;
+    }
+
+
+    if(has(text,[
+        "speak faster",
+        "talk faster",
+        "speed up"
+    ])){
+
+        $("speed").value=
+            Math.min(
+                1.5,
+                Number($("speed").value)+.1
+            );
+
+        saveProfile();
+
+        speak(
+            "Speaking faster."
         );
 
         return;
@@ -2090,60 +2240,113 @@ function processCommand(command){
 
 
     /* UNKNOWN */
+
     speak(
-        currentMode === "jarvis"
-        ? "Command received. I do not currently have an action assigned to that request."
-        : "I heard you say " +
-          command +
-          ". I don't have an action for that yet."
+        "I heard you say "+
+        command+
+        ". I don't have an action assigned to that command yet."
     );
 }
 
 
 /* =====================================================
-   PANEL
+   MODE SYSTEM
 ===================================================== */
 
-function openPanel(){
-    $("panel").classList.add("open");
+const modeNames={
+
+    nexora:"NEXORA MODE",
+    jarvis:"JARVIS-INSPIRED MODE",
+    study:"STUDY MODE",
+    gaming:"GAMING MODE",
+    garage:"GARAGE MODE",
+    science:"SCIENCE MODE"
+};
+
+
+function updateMode(){
+
+    $("modeText").textContent=
+        modeNames[currentMode];
+
+    $("hudMode").textContent=
+        modeNames[currentMode];
+
+    chooseVoice();
+
+    saveProfile();
 }
 
-function closePanel(){
-    $("panel").classList.remove("open");
+
+function changeMode(mode){
+
+    currentMode=mode;
+
+    $("modeSelect").value=mode;
+
+    updateMode();
+
+    const responses={
+
+        nexora:
+        "NEXORA mode activated.",
+
+        jarvis:
+        "JARVIS-inspired mode activated.",
+
+        study:
+        "Study mode activated. Ready to help you learn.",
+
+        gaming:
+        "Gaming mode activated. Systems ready.",
+
+        garage:
+        "Garage mode activated. Garage systems ready.",
+
+        science:
+        "Science mode activated. Analysis systems ready."
+    };
+
+    speak(responses[mode]);
 }
 
-$("control").onclick = () => {
 
+$("modeSelect").onchange=()=>{
+    changeMode(
+        $("modeSelect").value
+    );
+};
+
+
+/* =====================================================
+   MENU
+===================================================== */
+
+$("menuButton").onclick=()=>{
     $("panel").classList.toggle("open");
 };
 
 
 /* =====================================================
-   VOICE CONTROLS
+   VOICE SETTINGS
 ===================================================== */
 
-$("testVoice").onclick = () => {
-
+$("testVoice").onclick=()=>{
     speak(
-        currentMode === "jarvis"
-        ? "JARVIS-inspired voice system online."
-        : "NEXORA voice system online."
+        "Voice system online. NEXORA ready."
     );
 };
 
-$("stopSpeech").onclick = stopAll;
-
-$("speed").onchange = saveProfile;
-$("pitch").onchange = saveProfile;
-
-$("voice").onchange = saveProfile;
+$("voiceSelect").onchange=saveProfile;
+$("speed").onchange=saveProfile;
+$("pitch").onchange=saveProfile;
 
 
 /* =====================================================
    HUD
 ===================================================== */
 
-$("hudButton").onclick = () => {
+$("hudBtn").onclick=()=>{
 
     $("hud").classList.toggle("active");
 
@@ -2156,90 +2359,141 @@ $("hudButton").onclick = () => {
 
 
 /* =====================================================
+   FULLSCREEN
+===================================================== */
+
+$("fullscreenBtn").onclick=()=>{
+
+    if(
+        document.documentElement
+        .requestFullscreen
+    ){
+
+        document.documentElement
+            .requestFullscreen();
+    }
+
+    speak(
+        "Fullscreen activated."
+    );
+};
+
+
+/* =====================================================
    DIAGNOSTICS
 ===================================================== */
 
 function runDiagnostics(){
 
-    const mic =
-        recognition
-        ? "ready"
-        : "unavailable";
-
-    const speech =
+    const speech=
         "speechSynthesis" in window
         ? "ready"
         : "unavailable";
 
-    const internet =
+    const microphone=
+        recognition
+        ? "ready"
+        : "unavailable";
+
+    const network=
         navigator.onLine
         ? "online"
         : "offline";
 
     speak(
-        "Diagnostics complete. " +
-        "Core online. " +
-        "Microphone " + mic +
-        ". Speech system " + speech +
-        ". Internet " + internet + "."
+        "Diagnostics complete. Core online. Microphone "+
+        microphone+
+        ". Speech "+
+        speech+
+        ". Network "+
+        network+
+        "."
     );
 }
 
-$("diagnosticButton").onclick =
+$("diagnosticsBtn").onclick=
     runDiagnostics;
+
+
+/* =====================================================
+   SEARCH
+===================================================== */
+
+$("searchBtn").onclick=()=>{
+
+    const query=prompt(
+        "What should NEXORA search for?"
+    );
+
+    if(query){
+
+        speak(
+            "Searching for "+query
+        );
+
+        window.open(
+            "https://www.google.com/search?q="+
+            encodeURIComponent(query),
+            "_blank"
+        );
+    }
+};
 
 
 /* =====================================================
    QR
 ===================================================== */
 
-function showQR(){
+$("qrBtn").onclick=()=>{
 
-    const qr = $("qr");
+    const qr=$("qr");
 
-    qr.innerHTML = "";
+    qr.innerHTML="";
 
-    const img =
-        document.createElement("img");
+    const img=document.createElement("img");
 
-    img.width = 180;
-    img.height = 180;
+    img.width=180;
+    img.height=180;
 
-    img.src =
-        "https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=" +
+    img.src=
+        "https://api.qrserver.com/v1/create-qr-code/?size=180x180&data="+
         encodeURIComponent(
             window.location.href
         );
 
     qr.appendChild(img);
 
-    qr.style.display = "flex";
-}
-
-$("qrButton").onclick = showQR;
-
-
-/* =====================================================
-   ACTIVITY DASHBOARD
-===================================================== */
-
-$("dashboardButton").onclick = () => {
-
-    $("dashboard").classList.toggle("open");
+    qr.style.display=
+        qr.style.display==="none"
+        ?"block"
+        :"none";
 };
 
 
 /* =====================================================
-   CAMERA / PHYSICAL INTERACTION
+   DASHBOARD
+===================================================== */
+
+$("dashboardBtn").onclick=()=>{
+
+    $("dashboard")
+        .classList.toggle("open");
+};
+
+
+/* =====================================================
+   CAMERA
 ===================================================== */
 
 async function openCamera(){
 
-    if(!navigator.mediaDevices ||
-       !navigator.mediaDevices.getUserMedia){
+    if(
+        !navigator.mediaDevices||
+        !navigator.mediaDevices.getUserMedia
+    ){
 
         speak(
-            "Camera interaction is not supported by this browser."
+            "Camera interaction is not available in this browser."
         );
 
         return;
@@ -2247,21 +2501,20 @@ async function openCamera(){
 
     try{
 
-        cameraStream =
-            await navigator.mediaDevices.getUserMedia({
+        cameraStream=
+            await navigator.mediaDevices
+            .getUserMedia({
                 video:true,
                 audio:false
             });
 
-        $("camera").srcObject =
+        $("video").srcObject=
             cameraStream;
 
-        $("cameraBox").classList.add(
-            "open"
-        );
+        $("camera").classList.add("open");
 
         speak(
-            "Camera interaction activated. This camera system is for interface interaction and does not diagnose health or physical development."
+            "Physical interaction camera activated."
         );
 
     }catch{
@@ -2278,69 +2531,115 @@ function closeCamera(){
     if(cameraStream){
 
         cameraStream
-            .getTracks()
-            .forEach(
-                track => track.stop()
-            );
+        .getTracks()
+        .forEach(
+            track=>track.stop()
+        );
 
-        cameraStream = null;
+        cameraStream=null;
     }
 
-    $("camera").srcObject = null;
+    $("video").srcObject=null;
 
-    $("cameraBox").classList.remove(
+    $("camera").classList.remove(
         "open"
     );
 }
 
-$("cameraButton").onclick =
+
+$("cameraBtn").onclick=
     openCamera;
 
-$("cameraClose").onclick =
+$("closeCamera").onclick=
     closeCamera;
 
 
 /* =====================================================
-   MEMORY
+   MEMORY BUTTONS
 ===================================================== */
 
-$("memoryButton").onclick = () => {
+$("memoryBtn").onclick=()=>{
 
-    speak(
-        memory.length
-        ? "I remember: " + memory.join(", ")
-        : "Your memory is currently empty."
-    );
+    if(memory.length){
+
+        speak(
+            "I remember: "+
+            memory.join(", ")
+        );
+
+    }else{
+
+        speak(
+            "Your memory is currently empty."
+        );
+    }
 };
 
-$("clearMemory").onclick = () => {
 
-    memory = [];
+$("clearMemoryBtn").onclick=()=>{
+
+    memory=[];
 
     saveProfile();
 
-    speak("Memory cleared.");
+    speak(
+        "Memory cleared."
+    );
 };
 
 
 /* =====================================================
-   ONLINE STATUS
+   LOGOUT
+===================================================== */
+
+$("logoutBtn").onclick=()=>{
+
+    stopAssistant();
+
+    closeCamera();
+
+    currentUser=null;
+
+    nexoraActivated=false;
+
+    localStorage.removeItem(
+        "NEXORA_CURRENT_USER"
+    );
+
+    $("loginScreen")
+        .classList.remove("hidden");
+
+    $("panel")
+        .classList.remove("open");
+
+    $("username").value="";
+    $("password").value="";
+    $("confirmPassword").value="";
+
+    $("state").textContent=
+        "CORE LOCKED";
+};
+
+
+/* =====================================================
+   NETWORK
 ===================================================== */
 
 function updateNetwork(){
 
-    const online =
+    const online=
         navigator.onLine;
 
-    $("status").classList.toggle(
-        "offline",
-        !online
-    );
+    $("statusDot")
+        .classList.toggle(
+            "offline",
+            !online
+        );
 
-    $("hudNetwork").textContent =
+    $("hudNetwork").textContent=
         online
-        ? "ONLINE"
-        : "OFFLINE";
+        ?"ONLINE"
+        :"OFFLINE";
 }
 
 window.addEventListener(
@@ -2353,6 +2652,8 @@ window.addEventListener(
     updateNetwork
 );
 
+updateNetwork();
+
 
 /* =====================================================
    CLOCK
@@ -2360,12 +2661,12 @@ window.addEventListener(
 
 function updateClock(){
 
-    const now = new Date();
+    const now=new Date();
 
-    $("hudTime").textContent =
+    $("hudTime").textContent=
         now.toLocaleTimeString();
 
-    $("hudDate").textContent =
+    $("hudDate").textContent=
         now.toLocaleDateString();
 }
 
@@ -2375,55 +2676,69 @@ setInterval(
 );
 
 updateClock();
-updateNetwork();
 
 
 /* =====================================================
-   KEYBOARD COMMANDS
+   KEYBOARD
 ===================================================== */
 
 document.addEventListener(
     "keydown",
-    event => {
+    event=>{
 
-        const tag =
+        const tag=
             document.activeElement.tagName;
 
         if(
-            event.code === "Space" &&
-            tag !== "INPUT" &&
-            tag !== "SELECT"
+            event.code==="Space"&&
+            tag!=="INPUT"&&
+            tag!=="SELECT"
         ){
 
             event.preventDefault();
-            listen();
+
+            if(!nexoraActivated){
+
+                activateNexora();
+
+            }else{
+
+                startListening();
+            }
         }
 
-        if(event.key === "Escape"){
-            stopAll();
+        if(event.key==="Escape"){
+
+            stopAssistant();
             closeCamera();
         }
 
-        if(event.key.toLowerCase() === "m"){
-            $("panel").classList.toggle("open");
+        if(
+            event.key.toLowerCase()==="m"
+        ){
+
+            $("panel")
+                .classList.toggle("open");
         }
 
-        if(event.key.toLowerCase() === "h"){
-            $("hud").classList.toggle("active");
+        if(
+            event.key.toLowerCase()==="h"
+        ){
+
+            $("hud")
+                .classList.toggle("active");
         }
     }
 );
 
 
 /* =====================================================
-   STARTUP
+   STATE
 ===================================================== */
 
-setState(
-    currentUser
-    ? "SYSTEM READY"
-    : "LOCKED"
-);
+function setState(text){
+    $("state").textContent=text;
+}
 
 </script>
 
