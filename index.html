@@ -4,20 +4,18 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#020711">
-<link rel="manifest" href="manifest.json">
-
-<title>NEXORA 1.8</title>
+<title>NEXORA 1.8.2</title>
 
 <style>
 :root{
     --accent:#00aaff;
-    --background:#020711;
-    --panel:#071426;
-    --border:rgba(0,170,255,.25);
+    --bg:#020711;
     --text:#eaf8ff;
-    --muted:#7fa8bd;
-    --core-size:220px;
-    --glow:35px;
+    --muted:#7294a8;
+    --panel:rgba(5,16,30,.94);
+    --border:rgba(0,170,255,.22);
+    --core-size:230px;
+    --glow:45px;
 }
 
 *{
@@ -28,105 +26,115 @@
 
 body{
     min-height:100vh;
+    overflow:hidden;
     background:
-        radial-gradient(circle at center,
-        rgba(0,120,255,.15),
-        transparent 35%),
-        var(--background);
+        radial-gradient(
+            circle at center,
+            rgba(0,130,255,.14),
+            transparent 38%
+        ),
+        radial-gradient(
+            circle at 50% 110%,
+            rgba(0,70,180,.12),
+            transparent 40%
+        ),
+        var(--bg);
     color:var(--text);
-    font-family:Segoe UI,Arial,sans-serif;
+    font-family:"Segoe UI",Arial,sans-serif;
 }
 
-/* =========================
-   LOCKED NEXORA CORE LAYOUT
-   ========================= */
+/* =================================
+   MAIN NEXORA CORE
+================================= */
 
-.topbar{
-    height:68px;
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    padding:0 22px;
-    background:rgba(2,8,18,.9);
-    border-bottom:1px solid var(--border);
-}
-
-.logo{
-    font-size:20px;
-    font-weight:bold;
-    letter-spacing:4px;
-}
-
-.online{
-    color:#37f5a0;
-}
-
-.layout{
-    display:grid;
-    grid-template-columns:245px 1fr 300px;
-    min-height:calc(100vh - 68px);
-}
-
-/* LEFT */
-
-.sidebar{
-    padding:18px;
-    background:rgba(2,9,20,.7);
-    border-right:1px solid var(--border);
-}
-
-.title{
-    color:var(--muted);
-    font-size:11px;
-    letter-spacing:2px;
-    margin:15px 0 10px;
-}
-
-.nav{
-    width:100%;
-    padding:11px;
-    margin-bottom:6px;
-    color:white;
-    background:transparent;
-    border:1px solid transparent;
-    border-radius:10px;
-    text-align:left;
-    cursor:pointer;
-}
-
-.nav:hover{
-    background:rgba(0,150,255,.12);
-    border-color:var(--border);
-}
-
-/* CENTER */
-
-.main{
+.app{
+    min-height:100vh;
+    position:relative;
     display:flex;
     flex-direction:column;
     align-items:center;
-    padding:35px 20px;
+    justify-content:center;
 }
 
+.top{
+    position:absolute;
+    top:0;
+    left:0;
+    right:0;
+    height:70px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:0 25px;
+    border-bottom:1px solid rgba(0,170,255,.08);
+    background:rgba(2,7,17,.45);
+    backdrop-filter:blur(15px);
+}
+
+.logo{
+    font-size:18px;
+    font-weight:700;
+    letter-spacing:5px;
+}
+
+.status{
+    font-size:11px;
+    color:#38f5a0;
+    letter-spacing:2px;
+}
+
+.top-buttons{
+    display:flex;
+    gap:8px;
+}
+
+.icon{
+    width:38px;
+    height:38px;
+    border-radius:50%;
+    border:1px solid var(--border);
+    background:rgba(0,130,255,.06);
+    color:white;
+    cursor:pointer;
+    transition:.2s;
+}
+
+.icon:hover{
+    background:rgba(0,150,255,.16);
+    box-shadow:0 0 20px rgba(0,150,255,.2);
+}
+
+/* =================================
+   WELCOME
+================================= */
+
 .welcome{
+    position:absolute;
+    top:110px;
     text-align:center;
 }
 
 .welcome h1{
-    letter-spacing:4px;
+    font-size:25px;
+    letter-spacing:9px;
+    font-weight:400;
 }
 
 .welcome p{
+    margin-top:8px;
     color:var(--muted);
-    margin-top:7px;
+    font-size:12px;
 }
 
-/* CORE */
+/* =================================
+   CORE
+================================= */
 
-.core-container{
-    width:470px;
-    max-width:90vw;
-    height:390px;
+.core-area{
+    position:relative;
+    width:500px;
+    height:420px;
+    max-width:95vw;
     display:flex;
     justify-content:center;
     align-items:center;
@@ -135,26 +143,28 @@ body{
 .core{
     width:var(--core-size);
     height:var(--core-size);
-    border-radius:50%;
     position:relative;
+    border-radius:50%;
     display:flex;
-    justify-content:center;
     align-items:center;
+    justify-content:center;
 
     background:
         radial-gradient(
             circle,
-            white 0 2%,
-            var(--accent) 5%,
-            rgba(0,120,255,.4) 35%,
-            transparent 70%
+            #ffffff 0%,
+            var(--accent) 4%,
+            rgba(0,160,255,.65) 18%,
+            rgba(0,110,255,.2) 45%,
+            transparent 72%
         );
 
     box-shadow:
         0 0 var(--glow) var(--accent),
-        0 0 90px rgba(0,150,255,.4);
+        0 0 100px rgba(0,150,255,.3);
 
-    animation:pulse 3s infinite;
+    transition:.4s;
+    animation:corePulse 3s infinite;
 }
 
 .core::before{
@@ -164,7 +174,8 @@ body{
     height:145%;
     border:1px solid var(--accent);
     border-radius:50%;
-    animation:spin 8s linear infinite;
+    opacity:.65;
+    animation:orbit 9s linear infinite;
 }
 
 .core::after{
@@ -172,270 +183,385 @@ body{
     position:absolute;
     width:180%;
     height:180%;
-    border:1px solid var(--accent);
+    border:1px solid rgba(0,170,255,.22);
     border-radius:50%;
-    opacity:.2;
-    animation:spinReverse 12s linear infinite;
+    animation:orbitReverse 14s linear infinite;
 }
 
 .core-label{
-    font-weight:bold;
-    letter-spacing:3px;
-    z-index:2;
+    z-index:5;
+    font-size:13px;
+    font-weight:700;
+    letter-spacing:4px;
 }
 
-@keyframes pulse{
-    0%,100%{transform:scale(1)}
-    50%{transform:scale(1.06)}
+@keyframes corePulse{
+    0%,100%{
+        transform:scale(1);
+    }
+    50%{
+        transform:scale(1.045);
+    }
 }
 
-@keyframes spin{
-    to{transform:rotate(360deg)}
+@keyframes orbit{
+    to{
+        transform:rotate(360deg);
+    }
 }
 
-@keyframes spinReverse{
-    to{transform:rotate(-360deg)}
-}
-
-.speaking{
-    animation:speak .4s infinite alternate;
+@keyframes orbitReverse{
+    to{
+        transform:rotate(-360deg);
+    }
 }
 
 .listening{
-    animation:listen .7s infinite alternate;
+    animation:listening .65s infinite alternate;
 }
 
 .thinking{
-    animation:think 1s linear infinite;
+    animation:thinking 1.5s linear infinite;
 }
 
-@keyframes speak{
-    to{transform:scale(1.13)}
+.speaking{
+    animation:speaking .35s infinite alternate;
 }
 
-@keyframes listen{
-    to{transform:scale(1.15)}
+@keyframes listening{
+    from{
+        transform:scale(1);
+        box-shadow:
+            0 0 40px var(--accent),
+            0 0 90px rgba(0,150,255,.3);
+    }
+
+    to{
+        transform:scale(1.12);
+        box-shadow:
+            0 0 70px var(--accent),
+            0 0 150px rgba(0,150,255,.45);
+    }
 }
 
-@keyframes think{
-    to{transform:rotate(360deg)}
+@keyframes thinking{
+    to{
+        transform:rotate(360deg);
+    }
 }
 
-/* COMMAND BAR */
+@keyframes speaking{
+    to{
+        transform:scale(1.13);
+    }
+}
+
+/* =================================
+   RESPONSE
+================================= */
+
+.response{
+    position:absolute;
+    bottom:130px;
+    width:min(700px,90vw);
+    min-height:45px;
+    text-align:center;
+    padding:10px 18px;
+    color:#dff6ff;
+    font-size:15px;
+    line-height:1.5;
+}
+
+.response-title{
+    font-size:9px;
+    letter-spacing:3px;
+    color:var(--accent);
+    margin-bottom:5px;
+}
+
+.response-text{
+    white-space:pre-wrap;
+}
+
+/* =================================
+   COMMAND BAR
+================================= */
+
+.command-area{
+    position:absolute;
+    bottom:45px;
+    width:min(650px,90vw);
+}
 
 .command{
-    width:min(780px,95%);
     display:flex;
+    align-items:center;
     gap:8px;
-    padding:8px;
-    background:rgba(5,17,31,.9);
+    padding:7px;
+
+    background:rgba(5,15,28,.8);
     border:1px solid var(--border);
-    border-radius:16px;
+    border-radius:18px;
+
+    backdrop-filter:blur(18px);
+    box-shadow:0 10px 50px rgba(0,0,0,.3);
 }
 
 .command input{
     flex:1;
     background:transparent;
-    border:none;
-    outline:none;
+    border:0;
+    outline:0;
     color:white;
-    padding:13px;
+    padding:12px;
 }
 
-button{
-    cursor:pointer;
+.command input::placeholder{
+    color:#58798c;
 }
 
 .send{
-    background:#0077ff;
+    padding:11px 17px;
+    border:0;
+    border-radius:12px;
     color:white;
-    border:none;
-    border-radius:10px;
-    padding:12px 18px;
-    font-weight:bold;
+    background:linear-gradient(
+        135deg,
+        #008cff,
+        #005ac9
+    );
+    cursor:pointer;
 }
 
-.icon{
-    background:rgba(0,130,255,.12);
-    color:white;
-    border:1px solid var(--border);
-    border-radius:10px;
-    padding:10px 14px;
+.send:hover{
+    filter:brightness(1.15);
 }
 
-.quick{
-    width:min(780px,95%);
-    display:flex;
-    flex-wrap:wrap;
-    justify-content:center;
-    gap:8px;
-    margin-top:12px;
-}
+/* =================================
+   ANALYSIS
+================================= */
 
-.quick button{
-    background:rgba(0,120,255,.08);
-    color:#ccefff;
-    border:1px solid var(--border);
-    border-radius:999px;
-    padding:8px 13px;
-}
-
-.response{
-    width:min(780px,95%);
-    min-height:80px;
-    margin-top:15px;
+.analysis{
+    position:absolute;
+    right:25px;
+    bottom:95px;
+    width:260px;
     padding:15px;
+
+    background:rgba(4,14,27,.88);
     border:1px solid var(--border);
     border-radius:15px;
-    background:rgba(5,17,31,.7);
+
+    backdrop-filter:blur(18px);
+
+    opacity:0;
+    pointer-events:none;
+    transform:translateY(10px);
+
+    transition:.3s;
 }
 
-.response-title{
+.analysis.show{
+    opacity:1;
+    pointer-events:auto;
+    transform:translateY(0);
+}
+
+.analysis-title{
     color:var(--accent);
-    font-size:11px;
-    letter-spacing:2px;
-    margin-bottom:8px;
-}
-
-.response-text{
-    white-space:pre-wrap;
-    line-height:1.6;
-}
-
-/* RIGHT */
-
-.right{
-    padding:18px;
-    background:rgba(2,9,20,.7);
-    border-left:1px solid var(--border);
-}
-
-.panel{
-    padding:15px;
+    font-size:10px;
+    letter-spacing:3px;
     margin-bottom:12px;
-    background:rgba(7,18,35,.85);
-    border:1px solid var(--border);
-    border-radius:15px;
 }
 
-.panel h3{
-    margin-bottom:10px;
-    font-size:14px;
-}
-
-.stat{
+.analysis-line{
     display:flex;
     justify-content:space-between;
-    padding:7px 0;
+    gap:10px;
+    padding:6px 0;
+    font-size:11px;
     border-bottom:1px solid rgba(255,255,255,.05);
-    font-size:13px;
 }
 
-.muted{
+.analysis-line span:first-child{
     color:var(--muted);
 }
 
-/* MODALS */
+.check{
+    color:#38f5a0;
+}
 
-.modal{
-    display:none;
+/* =================================
+   POPUP PANELS
+================================= */
+
+.overlay{
     position:fixed;
     inset:0;
     z-index:100;
+
+    display:none;
     align-items:center;
     justify-content:center;
+
     padding:20px;
-    background:rgba(0,0,0,.75);
-    backdrop-filter:blur(12px);
+
+    background:rgba(0,0,0,.7);
+    backdrop-filter:blur(15px);
 }
 
-.modal.active{
+.overlay.show{
     display:flex;
 }
 
-.modal-box{
+.panel{
     width:min(850px,95vw);
-    max-height:90vh;
+    max-height:88vh;
     overflow:auto;
-    padding:22px;
-    background:#061120;
+
+    padding:25px;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(7,23,42,.98),
+            rgba(2,10,20,.98)
+        );
+
     border:1px solid var(--border);
     border-radius:20px;
+
+    box-shadow:
+        0 30px 100px rgba(0,0,0,.6);
 }
 
-.modal-header{
+.panel-header{
     display:flex;
     justify-content:space-between;
+    align-items:center;
     margin-bottom:20px;
 }
 
+.panel-header h2{
+    letter-spacing:3px;
+}
+
 .close{
+    border:0;
     background:none;
-    border:none;
     color:white;
-    font-size:25px;
+    font-size:28px;
+    cursor:pointer;
 }
 
 .grid{
     display:grid;
-    grid-template-columns:repeat(
-        auto-fit,
-        minmax(180px,1fr)
-    );
+    grid-template-columns:
+        repeat(auto-fit,minmax(170px,1fr));
     gap:10px;
 }
 
-label{
-    display:block;
-    color:var(--muted);
-    font-size:12px;
-    margin:10px 0 5px;
+.card{
+    padding:16px;
+    border:1px solid var(--border);
+    border-radius:12px;
+    background:rgba(0,130,255,.05);
 }
 
-input,select,textarea{
+.card strong{
+    display:block;
+    margin-bottom:5px;
+}
+
+.card small{
+    color:var(--muted);
+}
+
+/* =================================
+   FORMS
+================================= */
+
+label{
+    display:block;
+    margin:12px 0 5px;
+    color:var(--muted);
+    font-size:12px;
+}
+
+input,
+select,
+textarea{
     width:100%;
     padding:11px;
-    background:#071a2b;
+
+    color:white;
+    background:#06182a;
+
     border:1px solid var(--border);
     border-radius:9px;
-    color:white;
+    outline:none;
 }
 
 .full{
     width:100%;
     margin-top:10px;
-    padding:12px;
 }
 
-/* UPDATE */
+textarea{
+    resize:vertical;
+}
+
+/* =================================
+   UPDATE
+================================= */
 
 .update{
     position:fixed;
     inset:0;
-    z-index:500;
+    z-index:1000;
+
     display:flex;
     align-items:center;
     justify-content:center;
+
+    padding:20px;
+
     background:
-        radial-gradient(circle,
-        rgba(0,120,255,.18),
-        #020711 60%);
+        radial-gradient(
+            circle at center,
+            rgba(0,130,255,.18),
+            #020711 65%
+        );
+}
+
+.update.hidden{
+    display:none;
 }
 
 .update-box{
     width:min(650px,95vw);
-    padding:40px;
+    max-height:90vh;
+    overflow:auto;
+
     text-align:center;
-    background:rgba(4,14,28,.95);
+    padding:35px;
+
+    background:rgba(4,14,28,.97);
+
     border:1px solid var(--border);
     border-radius:25px;
+
+    box-shadow:
+        0 30px 120px rgba(0,0,0,.7);
 }
 
 .update-core{
-    width:110px;
-    height:110px;
+    width:100px;
+    height:100px;
     margin:auto;
+
     border-radius:50%;
+
     background:
         radial-gradient(
             circle,
@@ -443,2640 +569,2317 @@ input,select,textarea{
             var(--accent) 10%,
             transparent 70%
         );
-    box-shadow:0 0 55px var(--accent);
+
+    box-shadow:
+        0 0 60px var(--accent);
 }
 
 .update-box h1{
     margin-top:20px;
-    letter-spacing:7px;
+    letter-spacing:8px;
 }
 
 .update-box h2{
     color:var(--accent);
-    margin:12px;
+    margin:10px;
+}
+
+.update-box p{
+    color:var(--muted);
 }
 
 .changes{
     text-align:left;
-    line-height:1.8;
-    margin:20px auto;
-    max-width:500px;
+    max-width:480px;
+    margin:25px auto;
+    line-height:1.9;
 }
 
 .version{
     position:fixed;
-    right:15px;
-    bottom:10px;
-    font-size:11px;
-    color:var(--muted);
+    right:16px;
+    bottom:12px;
+
+    padding:6px 10px;
+
+    color:rgba(180,220,240,.55);
+
+    background:rgba(4,12,23,.6);
+    border:1px solid rgba(0,170,255,.15);
+    border-radius:20px;
+
+    font-size:9px;
+    letter-spacing:2px;
 }
 
-.hidden{
-    display:none!important;
-}
-
-/* STARS */
-
-.stars{
-    font-size:35px;
-    color:#50606b;
-    letter-spacing:4px;
-}
-
-.star{
-    cursor:pointer;
-}
-
-.star.active{
-    color:#ffd34d;
-    text-shadow:0 0 15px #ffd34d;
-}
-
-@media(max-width:1050px){
-    .layout{
-        grid-template-columns:190px 1fr;
-    }
-
-    .right{
-        display:none;
-    }
-}
+/* =================================
+   MOBILE
+================================= */
 
 @media(max-width:700px){
-    .layout{
-        grid-template-columns:1fr;
+
+    .welcome{
+        top:95px;
     }
 
-    .sidebar{
-        display:none;
+    .welcome h1{
+        font-size:19px;
+        letter-spacing:6px;
     }
 
-    .core-container{
-        height:300px;
+    .core-area{
+        height:370px;
+    }
+
+    .analysis{
+        left:15px;
+        right:15px;
+        bottom:160px;
+        width:auto;
+    }
+
+    .response{
+        bottom:120px;
+    }
+
+    .command-area{
+        bottom:35px;
+    }
+
+    .top{
+        padding:0 15px;
     }
 }
 </style>
 </head>
 
+
 <body>
 
-<!-- =========================
+<!-- ==========================================
      UPDATE SCREEN
-     ========================= -->
+========================================== -->
 
 <div id="updateScreen" class="update">
 
-<div class="update-box">
+    <div class="update-box">
 
-<div class="update-core"></div>
+        <div class="update-core"></div>
 
-<h1>NEXORA</h1>
+        <h1>NEXORA</h1>
 
-<h2>
-SYSTEM UPDATE
-<span id="versionTop">1.8</span>
-</h2>
+        <h2>UPDATE 1.8.2</h2>
 
-<p id="updateWelcome">
-Welcome, Miguel.
-</p>
+        <p>ECOSYSTEM FOUNDATION</p>
 
-<div class="changes">
+        <div class="changes">
 
-• 🔒 Locked NEXORA Core layout<br>
-• 🧠 Advanced assistant understanding<br>
-• 🎙 Hey NEXORA voice activation<br>
-• 🎭 Advanced assistant modes<br>
-• 💼 Entrepreneur Mode<br>
-• 🛠 Custom commands<br>
-• 🎨 Core customization<br>
-• 🎯 Challenge system<br>
-• ⭐ Review and rating system<br>
-• 📱 App/PWA support
+            <b>🧠 Advanced AI Foundation</b><br>
+            Natural language understanding and context awareness.
+            <br><br>
 
-</div>
+            <b>🎙 Voice Intelligence</b><br>
+            Wake phrase and voice interaction.
+            <br><br>
 
-<button
-class="send"
-onclick="startNexora()"
->
-START NEXORA
-</button>
+            <b>🧩 Skills System</b><br>
+            Expandable abilities and custom commands.
+            <br><br>
 
-</div>
+            <b>📱 Device Foundation</b><br>
+            Notification support and future phone integration.
+            <br><br>
 
-</div>
+            <b>🎨 Core Experience</b><br>
+            The NEXORA Core remains the main screen.
+            Everything else stays hidden until needed.
 
+        </div>
 
-<!-- =========================
-     HEADER
-     ========================= -->
+        <button
+            class="send"
+            onclick="startNexora()"
+        >
+            ENTER NEXORA
+        </button>
 
-<header class="topbar">
-
-<div class="logo">
-🔵 NEXORA
-</div>
-
-<div class="online">
-● ONLINE
-</div>
-
-<button
-class="icon"
-onclick="openModal('settings')"
->
-⚙
-</button>
-
-</header>
-
-
-<!-- =========================
-     LOCKED CORE LAYOUT
-     ========================= -->
-
-<div class="layout">
-
-<!-- LEFT -->
-
-<aside class="sidebar">
-
-<div class="title">
-ASSISTANT
-</div>
-
-<button
-class="nav"
-onclick="openModal('commands')"
->
-⚡ Command Center
-</button>
-
-<button
-class="nav"
-onclick="openModal('skills')"
->
-🧩 Skills
-</button>
-
-<button
-class="nav"
-onclick="openModal('custom')"
->
-🎨 Custom Lab
-</button>
-
-<button
-class="nav"
-onclick="openModal('challenge')"
->
-🎯 Challenges
-</button>
-
-<button
-class="nav"
-onclick="openModal('review')"
->
-⭐ Review NEXORA
-</button>
-
-<button
-class="nav"
-onclick="openModal('profile')"
->
-👤 Profile
-</button>
-
-
-<div class="title">
-MODES
-</div>
-
-<div id="modes"></div>
-
-
-<div class="title">
-SYSTEM
-</div>
-
-<button
-class="nav"
-onclick="demoMode()"
->
-🚀 Demo Mode
-</button>
-
-</aside>
-
-
-<!-- CENTER -->
-
-<main class="main">
-
-<div class="welcome">
-
-<h1 id="welcome">
-WELCOME, MIGUEL
-</h1>
-
-<p id="modeText">
-NEXORA is ready.
-</p>
+    </div>
 
 </div>
 
 
-<div class="core-container">
+<!-- ==========================================
+     NEXORA MAIN
+========================================== -->
+
+<div class="app">
+
+    <header class="top">
+
+        <div class="logo">
+            🔵 NEXORA
+        </div>
+
+        <div class="status">
+            ● ONLINE
+        </div>
+
+        <div class="top-buttons">
+
+            <button
+                class="icon"
+                onclick="openPanel('ecosystemPanel')"
+            >
+                ◈
+            </button>
+
+            <button
+                class="icon"
+                onclick="openPanel('settingsPanel')"
+            >
+                ⚙
+            </button>
+
+        </div>
+
+    </header>
+
+
+    <section class="welcome">
+
+        <h1>WELCOME</h1>
+
+        <p id="modeText">
+            NEXORA is ready.
+        </p>
+
+    </section>
+
+
+    <!-- ======================================
+         CORE
+    ======================================= -->
+
+    <section class="core-area">
+
+        <div
+            id="core"
+            class="core"
+        >
+
+            <div
+                id="coreLabel"
+                class="core-label"
+            >
+                NEXORA
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ======================================
+         RESPONSE
+    ======================================= -->
+
+    <div class="response">
+
+        <div class="response-title">
+            NEXORA
+        </div>
+
+        <div
+            id="responseText"
+            class="response-text"
+        >
+            I'm ready. Say "Hey NEXORA" or type below.
+        </div>
+
+    </div>
+
+
+    <!-- ======================================
+         COMMAND INPUT
+    ======================================= -->
+
+    <div class="command-area">
+
+        <div class="command">
+
+            <button
+                class="icon"
+                onclick="toggleVoice()"
+                title="Voice"
+            >
+                🎙
+            </button>
+
+            <input
+                id="input"
+                type="text"
+                placeholder="Talk to NEXORA..."
+                autocomplete="off"
+            >
+
+            <button
+                class="send"
+                onclick="send()"
+            >
+                →
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <!-- ======================================
+         ANALYSIS
+    ======================================= -->
+
+    <div
+        id="analysis"
+        class="analysis"
+    >
+
+        <div class="analysis-title">
+            NEXORA ANALYSIS
+        </div>
+
+        <div class="analysis-line">
+            <span>Understanding</span>
+            <span class="check">✓</span>
+        </div>
+
+        <div class="analysis-line">
+            <span>Topic</span>
+            <span id="analysisTopic">General</span>
+        </div>
+
+        <div class="analysis-line">
+            <span>Subtopic</span>
+            <span id="analysisSubtopic">General</span>
+        </div>
+
+        <div class="analysis-line">
+            <span>Intent</span>
+            <span id="analysisIntent">Conversation</span>
+        </div>
+
+        <div class="analysis-line">
+            <span>Mode</span>
+            <span id="analysisMode">General</span>
+        </div>
+
+        <div class="analysis-line">
+            <span>Context</span>
+            <span class="check">✓</span>
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- ==========================================
+     COMMAND PANEL
+========================================== -->
 
 <div
-id="core"
-class="core"
+    id="commandPanel"
+    class="overlay"
 >
+
+    <div class="panel">
+
+        <div class="panel-header">
+
+            <h2>⚡ COMMAND CENTER</h2>
+
+            <button
+                class="close"
+                onclick="closePanel('commandPanel')"
+            >
+                ×
+            </button>
+
+        </div>
+
+        <textarea
+            id="commandInput"
+            rows="4"
+            placeholder="Create or test a NEXORA command..."
+        ></textarea>
+
+        <button
+            class="send full"
+            onclick="analyzeCommand()"
+        >
+            ANALYZE COMMAND
+        </button>
+
+        <div
+            id="commandResult"
+            class="card"
+            style="margin-top:15px"
+        >
+            NEXORA command engine ready.
+        </div>
+
+        <button
+            class="send full"
+            onclick="createCommand()"
+        >
+            + CREATE CUSTOM COMMAND
+        </button>
+
+    </div>
+
+</div>
+
+
+<!-- ==========================================
+     SKILLS PANEL
+========================================== -->
 
 <div
-id="coreLabel"
-class="core-label"
->
-NEXORA
-</div>
-
-</div>
-
-</div>
-
-
-<!-- COMMAND BAR -->
-
-<div class="command">
-
-<button
-class="icon"
-onclick="toggleListening()"
->
-🎙️
-</button>
-
-<input
-id="input"
-placeholder='Say "Hey NEXORA" or type a command...'
-onkeydown="
-if(event.key==='Enter')
-send()
-"
+    id="skillsPanel"
+    class="overlay"
 >
 
-<button
-class="send"
-onclick="send()"
->
-SEND
-</button>
+    <div class="panel">
+
+        <div class="panel-header">
+
+            <h2>🧩 NEXORA SKILLS</h2>
+
+            <button
+                class="close"
+                onclick="closePanel('skillsPanel')"
+            >
+                ×
+            </button>
+
+        </div>
+
+        <div class="grid">
+
+            <div class="card">📚 <strong>Study</strong><small>Learning assistance</small></div>
+
+            <div class="card">🧮 <strong>Maths</strong><small>Problems and explanations</small></div>
+
+            <div class="card">🔬 <strong>Science</strong><small>Science subjects</small></div>
+
+            <div class="card">🌍 <strong>Geography</strong><small>Geography assistance</small></div>
+
+            <div class="card">📖 <strong>History</strong><small>History assistance</small></div>
+
+            <div class="card">🇫🇷 <strong>French</strong><small>Language learning</small></div>
+
+            <div class="card">💻 <strong>Developer</strong><small>Programming assistance</small></div>
+
+            <div class="card">💼 <strong>Entrepreneur</strong><small>Business thinking</small></div>
+
+            <div class="card">🔎 <strong>Research</strong><small>Research assistance</small></div>
+
+            <div class="card">🎨 <strong>Creative</strong><small>Creative tools</small></div>
+
+            <div class="card">🎮 <strong>Gaming</strong><small>Gaming topics</small></div>
+
+            <div class="card">🚗 <strong>Automotive</strong><small>Cars and technology</small></div>
+
+        </div>
+
+    </div>
 
 </div>
 
 
-<div class="quick">
-
-<button onclick="quick('What can you do?')">
-What can you do?
-</button>
-
-<button onclick="quick('Give me a challenge')">
-Challenge
-</button>
-
-<button onclick="quick('Activate Entrepreneur Mode')">
-Entrepreneur
-</button>
-
-<button onclick="quick('Show my commands')">
-Commands
-</button>
-
-<button onclick="quick('Tell me about yourself')">
-About NEXORA
-</button>
-
-</div>
-
-
-<div class="response">
-
-<div class="response-title">
-NEXORA RESPONSE
-</div>
+<!-- ==========================================
+     SETTINGS PANEL
+========================================== -->
 
 <div
-id="response"
-class="response-text"
+    id="settingsPanel"
+    class="overlay"
 >
-Welcome back, Miguel.
-NEXORA is online and ready.
-</div>
+
+    <div class="panel">
+
+        <div class="panel-header">
+
+            <h2>⚙ NEXORA SETTINGS</h2>
+
+            <button
+                class="close"
+                onclick="closePanel('settingsPanel')"
+            >
+                ×
+            </button>
+
+        </div>
+
+        <label>Language</label>
+
+        <select
+            id="language"
+            onchange="changeLanguage(this.value)"
+        >
+
+            <option value="en-US">English</option>
+            <option value="fr-FR">Français</option>
+            <option value="es-ES">Español</option>
+            <option value="pt-PT">Português</option>
+            <option value="de-DE">Deutsch</option>
+            <option value="it-IT">Italiano</option>
+            <option value="sw-KE">Kiswahili</option>
+            <option value="sn-ZW">Shona</option>
+
+        </select>
+
+
+        <label>Voice</label>
+
+        <select id="voices"></select>
+
+
+        <label>Voice Speed</label>
+
+        <input
+            id="rate"
+            type="range"
+            min=".5"
+            max="2"
+            step=".1"
+            value="1"
+        >
+
+
+        <label>Voice Pitch</label>
+
+        <input
+            id="pitch"
+            type="range"
+            min=".5"
+            max="2"
+            step=".1"
+            value="1"
+        >
+
+
+        <button
+            class="send full"
+            onclick="testVoice()"
+        >
+            TEST VOICE
+        </button>
+
+
+        <button
+            class="send full"
+            onclick="openPanel('customPanel')"
+        >
+            🎨 CUSTOMIZE CORE
+        </button>
+
+
+        <button
+            class="send full"
+            onclick="enableNotifications()"
+        >
+            🔔 ENABLE NOTIFICATIONS
+        </button>
+
+
+        <button
+            class="send full"
+            onclick="openPanel('modesPanel')"
+        >
+            🧠 MODES
+        </button>
+
+    </div>
 
 </div>
 
-</main>
+
+<!-- ==========================================
+     CUSTOM PANEL
+========================================== -->
+
+<div
+    id="customPanel"
+    class="overlay"
+>
+
+    <div class="panel">
+
+        <div class="panel-header">
+
+            <h2>🎨 CORE CUSTOMIZATION</h2>
+
+            <button
+                class="close"
+                onclick="closePanel('customPanel')"
+            >
+                ×
+            </button>
+
+        </div>
 
 
-<!-- RIGHT -->
+        <label>Core Shape</label>
 
-<aside class="right">
+        <select
+            id="shape"
+            onchange="changeShape(this.value)"
+        >
 
-<div class="panel">
+            <option value="orb">Orb</option>
+            <option value="diamond">Diamond</option>
+            <option value="hex">Hexagon</option>
+            <option value="ring">Ring</option>
 
-<h3>
-⚡ SYSTEM
-</h3>
-
-<div class="stat">
-<span class="muted">
-Status
-</span>
-
-<span style="color:#37f5a0">
-ONLINE
-</span>
-</div>
-
-<div class="stat">
-<span class="muted">
-Mode
-</span>
-
-<span id="sideMode">
-General
-</span>
-</div>
-
-<div class="stat">
-<span class="muted">
-Voice
-</span>
-
-<span id="voiceStatus">
-READY
-</span>
-</div>
-
-</div>
+        </select>
 
 
-<div class="panel">
+        <label>Core Size</label>
 
-<h3>
-🧠 CONTEXT
-</h3>
+        <input
+            type="range"
+            min="150"
+            max="300"
+            value="230"
+            oninput="changeSize(this.value)"
+        >
 
-<div class="stat">
-<span class="muted">
-Topic
-</span>
 
-<span id="topic">
-None
-</span>
-</div>
+        <label>LED Glow</label>
 
-<div class="stat">
-<span class="muted">
-Subtopic
-</span>
+        <input
+            type="range"
+            min="10"
+            max="90"
+            value="45"
+            oninput="changeGlow(this.value)"
+        >
 
-<span id="subtopic">
-None
-</span>
-</div>
 
-<div class="stat">
-<span class="muted">
-Intent
-</span>
+        <label>LED Colour</label>
 
-<span id="intent">
-Conversation
-</span>
-</div>
+        <input
+            type="color"
+            value="#00aaff"
+            onchange="changeColor(this.value)"
+        >
+
+    </div>
 
 </div>
 
 
-<div class="panel">
+<!-- ==========================================
+     MODES PANEL
+========================================== -->
 
-<h3>
-📜 ACTIVITY
-</h3>
+<div
+    id="modesPanel"
+    class="overlay"
+>
 
-<div id="activity"></div>
+    <div class="panel">
+
+        <div class="panel-header">
+
+            <h2>🧠 NEXORA MODES</h2>
+
+            <button
+                class="close"
+                onclick="closePanel('modesPanel')"
+            >
+                ×
+            </button>
+
+        </div>
+
+        <div
+            id="modesGrid"
+            class="grid"
+        ></div>
+
+    </div>
 
 </div>
 
-</aside>
+
+<!-- ==========================================
+     ECOSYSTEM PANEL
+========================================== -->
+
+<div
+    id="ecosystemPanel"
+    class="overlay"
+>
+
+    <div class="panel">
+
+        <div class="panel-header">
+
+            <h2>🌐 NEXORA ECOSYSTEM</h2>
+
+            <button
+                class="close"
+                onclick="closePanel('ecosystemPanel')"
+            >
+                ×
+            </button>
+
+        </div>
+
+
+        <div class="grid">
+
+            <div class="card">
+                🧠
+                <strong>Brain</strong>
+                <small>AI intelligence</small>
+            </div>
+
+            <div class="card">
+                🎙
+                <strong>Voice</strong>
+                <small>Voice interaction</small>
+            </div>
+
+            <div class="card">
+                🧩
+                <strong>Skills</strong>
+                <small>Expandable abilities</small>
+            </div>
+
+            <div class="card">
+                ⚡
+                <strong>Actions</strong>
+                <small>Supported tasks</small>
+            </div>
+
+            <div class="card">
+                🧠
+                <strong>Memory</strong>
+                <small>User-controlled memory</small>
+            </div>
+
+            <div class="card">
+                📱
+                <strong>Phone</strong>
+                <small>Future mobile integration</small>
+            </div>
+
+            <div class="card">
+                🔗
+                <strong>Connect</strong>
+                <small>Approved services</small>
+            </div>
+
+            <div class="card">
+                💻
+                <strong>Developer</strong>
+                <small>Build NEXORA Skills</small>
+            </div>
+
+        </div>
+
+
+        <div style="margin-top:25px">
+
+            <div class="card">
+
+                <strong>NEXORA 1.8</strong>
+
+                <small>CORE</small>
+
+            </div>
+
+            <div class="card">
+
+                <strong>NEXORA 1.9</strong>
+
+                <small>SMARTER CONVERSATIONS</small>
+
+            </div>
+
+            <div class="card">
+
+                <strong>NEXORA 2.0</strong>
+
+                <small>ADVANCED AI</small>
+
+            </div>
+
+            <div class="card">
+
+                <strong>NEXORA 2.5</strong>
+
+                <small>ADVANCED TOOLS</small>
+
+            </div>
+
+            <div class="card">
+
+                <strong>NEXORA 3.0</strong>
+
+                <small>FULL ASSISTANT ECOSYSTEM</small>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- ==========================================
+     REVIEW PANEL
+========================================== -->
+
+<div
+    id="reviewPanel"
+    class="overlay"
+>
+
+    <div class="panel">
+
+        <div class="panel-header">
+
+            <h2>⭐ REVIEW NEXORA</h2>
+
+            <button
+                class="close"
+                onclick="closePanel('reviewPanel')"
+            >
+                ×
+            </button>
+
+        </div>
+
+        <div
+            id="stars"
+            style="
+            display:flex;
+            gap:10px;
+            margin:20px 0;
+            "
+        >
+
+            <span class="star">★</span>
+            <span class="star">★</span>
+            <span class="star">★</span>
+            <span class="star">★</span>
+            <span class="star">★</span>
+
+        </div>
+
+
+        <textarea
+            id="reviewText"
+            rows="5"
+            placeholder="Tell us what you think about NEXORA..."
+        ></textarea>
+
+
+        <button
+            class="send full"
+            onclick="submitReview()"
+        >
+            SUBMIT REVIEW
+        </button>
+
+
+        <button
+            class="send full"
+            onclick="shareReview()"
+        >
+            📱 SHARE REVIEW
+        </button>
+
+    </div>
 
 </div>
 
 
 <div class="version">
-NEXORA • UPDATE 1.8
-</div>
-
-
-<!-- =========================
-     COMMAND CENTER
-     ========================= -->
-
-<div class="modal" id="commands">
-
-<div class="modal-box">
-
-<div class="modal-header">
-
-<h2>
-⚡ COMMAND CENTER
-</h2>
-
-<button
-class="close"
-onclick="closeModal('commands')"
->
-×
-</button>
-
-</div>
-
-<p>
-NEXORA can understand natural-language commands.
-</p>
-
-<br>
-
-<textarea
-id="commandSimulator"
-rows="4"
-placeholder="Try: Activate Entrepreneur Mode and explain how to market a new product."
-></textarea>
-
-<button
-class="send full"
-onclick="analyzeCommand()"
->
-ANALYZE COMMAND
-</button>
-
-<div
-id="analysisResult"
-class="panel"
-style="margin-top:15px"
->
-Waiting for command...
-</div>
-
-<button
-class="send full"
-onclick="createCommand()"
->
-🛠 CREATE CUSTOM COMMAND
-</button>
-
-</div>
-
-</div>
-
-
-<!-- =========================
-     SKILLS
-     ========================= -->
-
-<div class="modal" id="skills">
-
-<div class="modal-box">
-
-<div class="modal-header">
-
-<h2>
-🧩 SKILL CENTER
-</h2>
-
-<button
-class="close"
-onclick="closeModal('skills')"
->
-×
-</button>
-
-</div>
-
-<div class="grid">
-
-<div class="panel">🧮 Maths</div>
-<div class="panel">🔬 Science</div>
-<div class="panel">📚 Study</div>
-<div class="panel">💻 Coding</div>
-<div class="panel">🌍 Geography</div>
-<div class="panel">📖 History</div>
-<div class="panel">🇫🇷 French</div>
-<div class="panel">🎙 Voice</div>
-<div class="panel">🔎 Research</div>
-<div class="panel">🎮 Gaming</div>
-<div class="panel">🚗 Automotive</div>
-<div class="panel">🎨 Creative</div>
-<div class="panel">💼 Business</div>
-<div class="panel">🎯 Challenges</div>
-
-</div>
-
-</div>
-
-</div>
-
-
-<!-- =========================
-     CUSTOM LAB
-     ========================= -->
-
-<div class="modal" id="custom">
-
-<div class="modal-box">
-
-<div class="modal-header">
-
-<h2>
-🎨 CUSTOM LAB
-</h2>
-
-<button
-class="close"
-onclick="closeModal('custom')"
->
-×
-</button>
-
-</div>
-
-
-<h3>
-Core
-</h3>
-
-<label>
-Core Shape
-</label>
-
-<select
-id="shape"
-onchange="changeShape(this.value)"
->
-
-<option value="circle">
-Orb
-</option>
-
-<option value="diamond">
-Diamond
-</option>
-
-<option value="hex">
-Hexagon
-</option>
-
-<option value="ring">
-Ring
-</option>
-
-</select>
-
-
-<label>
-Core Size
-</label>
-
-<input
-type="range"
-min="140"
-max="300"
-value="220"
-oninput="changeSize(this.value)"
->
-
-
-<label>
-LED Glow
-</label>
-
-<input
-type="range"
-min="5"
-max="80"
-value="35"
-oninput="changeGlow(this.value)"
->
-
-
-<label>
-LED Colour
-</label>
-
-<input
-type="color"
-value="#00aaff"
-onchange="changeColor(this.value)"
->
-
-
-<h3 style="margin-top:20px">
-Voice
-</h3>
-
-<select id="voices"></select>
-
-<label>
-Voice Speed
-</label>
-
-<input
-id="rate"
-type="range"
-min=".5"
-max="2"
-step=".1"
-value="1"
->
-
-
-<label>
-Voice Pitch
-</label>
-
-<input
-id="pitch"
-type="range"
-min=".5"
-max="2"
-step=".1"
-value="1"
->
-
-
-<button
-class="send full"
-onclick="testVoice()"
->
-▶ TEST VOICE
-</button>
-
-</div>
-
-</div>
-
-
-<!-- =========================
-     CHALLENGES
-     ========================= -->
-
-<div class="modal" id="challenge">
-
-<div class="modal-box">
-
-<div class="modal-header">
-
-<h2>
-🎯 CHALLENGE CENTER
-</h2>
-
-<button
-class="close"
-onclick="closeModal('challenge')"
->
-×
-</button>
-
-</div>
-
-<button
-class="send full"
-onclick="challenge('math')"
->
-🧮 Maths
-</button>
-
-<button
-class="send full"
-onclick="challenge('science')"
->
-🔬 Science
-</button>
-
-<button
-class="send full"
-onclick="challenge('logic')"
->
-🧠 Logic
-</button>
-
-<div
-id="challengeArea"
-class="panel"
-style="margin-top:15px"
->
-Choose a challenge.
-</div>
-
-</div>
-
-</div>
-
-
-<!-- =========================
-     REVIEW
-     ========================= -->
-
-<div class="modal" id="review">
-
-<div class="modal-box">
-
-<div class="modal-header">
-
-<h2>
-⭐ REVIEW NEXORA
-</h2>
-
-<button
-class="close"
-onclick="closeModal('review')"
->
-×
-</button>
-
-</div>
-
-<p>
-Tell us what you think about NEXORA.
-</p>
-
-<br>
-
-<div
-id="stars"
-class="stars"
->
-<span class="star">★</span>
-<span class="star">★</span>
-<span class="star">★</span>
-<span class="star">★</span>
-<span class="star">★</span>
-</div>
-
-<textarea
-id="reviewText"
-rows="6"
-placeholder="Write your review..."
-></textarea>
-
-<select id="reviewCategory">
-
-<option>AI</option>
-<option>Voice</option>
-<option>Commands</option>
-<option>Customization</option>
-<option>Core Design</option>
-<option>Challenges</option>
-<option>Entrepreneur Mode</option>
-
-</select>
-
-<button
-class="send full"
-onclick="submitReview()"
->
-⭐ SUBMIT REVIEW
-</button>
-
-<div id="reviewResult"></div>
-
-</div>
-
-</div>
-
-
-<!-- =========================
-     PROFILE
-     ========================= -->
-
-<div class="modal" id="profile">
-
-<div class="modal-box">
-
-<div class="modal-header">
-
-<h2>
-👤 PROFILE
-</h2>
-
-<button
-class="close"
-onclick="closeModal('profile')"
->
-×
-</button>
-
-</div>
-
-<label>
-Name
-</label>
-
-<input
-id="name"
-value="Miguel"
->
-
-<button
-class="send full"
-onclick="saveProfile()"
->
-SAVE PROFILE
-</button>
-
-</div>
-
-</div>
-
-
-<!-- =========================
-     SETTINGS
-     ========================= -->
-
-<div class="modal" id="settings">
-
-<div class="modal-box">
-
-<div class="modal-header">
-
-<h2>
-⚙️ SETTINGS
-</h2>
-
-<button
-class="close"
-onclick="closeModal('settings')"
->
-×
-</button>
-
-</div>
-
-<button
-class="send full"
-onclick="toggleListening()"
->
-🎙 MICROPHONE
-</button>
-
-<button
-class="send full"
-onclick="openModal('review')"
->
-⭐ REVIEW NEXORA
-</button>
-
-<button
-class="send full"
-onclick="createCommand()"
->
-🛠 CUSTOM COMMAND
-</button>
-
-<button
-class="send full"
-onclick="clearContext()"
->
-🧠 CLEAR CONTEXT
-</button>
-
-</div>
-
+    NEXORA 1.8.2
 </div>
 
 
 <script>
 
-/* ==================================================
-   NEXORA 1.8 CORE-LOCK ENGINE
-   ================================================== */
+/* ==========================================
+   NEXORA CORE ENGINE
+========================================== */
 
-const VERSION = "1.8";
+const VERSION="1.8.2";
 
-const CORE_LOCKED = true;
+const state={
 
-const MODES = [
+    mode:"General",
 
-"General",
-"Student",
-"Maths",
-"Science",
-"Geography",
-"History",
-"French",
-"Developer",
-"Entrepreneur",
-"Business",
-"Research",
-"Creative",
-"Gaming",
-"Automotive",
-"Tutor",
-"Presentation",
-"System",
-"Challenge",
-"Custom"
+    language:
+        localStorage.getItem(
+            "nexoraLanguage"
+        ) || "en-US",
+
+    topic:"General",
+
+    subtopic:"General",
+
+    intent:"Conversation",
+
+    lastQuestion:"",
+
+    lastAnswer:"",
+
+    listening:false,
+
+    rating:0,
+
+    customCommands:
+        JSON.parse(
+            localStorage.getItem(
+                "nexoraCommands"
+            ) || "{}"
+        )
+};
+
+
+/* ==========================================
+   PANELS
+========================================== */
+
+function openPanel(id){
+
+    document
+        .getElementById(id)
+        .classList.add("show");
+}
+
+function closePanel(id){
+
+    document
+        .getElementById(id)
+        .classList.remove("show");
+}
+
+
+/* ==========================================
+   UPDATE
+========================================== */
+
+function startNexora(){
+
+    localStorage.setItem(
+        "nexoraSeenVersion",
+        VERSION
+    );
+
+    document
+        .getElementById("updateScreen")
+        .classList.add("hidden");
+
+    setTimeout(()=>{
+
+        speak(
+            "NEXORA is online and ready."
+        );
+
+    },500);
+}
+
+
+if(
+    localStorage.getItem(
+        "nexoraSeenVersion"
+    )===VERSION
+){
+
+    document
+        .getElementById("updateScreen")
+        .classList.add("hidden");
+}
+
+
+/* ==========================================
+   CORE STATE
+========================================== */
+
+function coreState(stateName){
+
+    const core=
+        document.getElementById("core");
+
+    core.classList.remove(
+        "listening",
+        "thinking",
+        "speaking"
+    );
+
+    if(stateName==="listening")
+        core.classList.add("listening");
+
+    if(stateName==="thinking")
+        core.classList.add("thinking");
+
+    if(stateName==="speaking")
+        core.classList.add("speaking");
+
+
+    document
+        .getElementById("coreLabel")
+        .textContent=
+
+        stateName==="listening"
+            ? "LISTENING"
+
+        :stateName==="thinking"
+            ? "ANALYSING"
+
+        :stateName==="speaking"
+            ? "RESPONDING"
+
+        :"NEXORA";
+}
+
+
+/* ==========================================
+   ANALYSIS
+========================================== */
+
+function showAnalysis(){
+
+    document
+        .getElementById("analysis")
+        .classList.add("show");
+
+    document
+        .getElementById("analysisTopic")
+        .textContent=state.topic;
+
+    document
+        .getElementById("analysisSubtopic")
+        .textContent=state.subtopic;
+
+    document
+        .getElementById("analysisIntent")
+        .textContent=state.intent;
+
+    document
+        .getElementById("analysisMode")
+        .textContent=state.mode;
+}
+
+
+function hideAnalysis(){
+
+    setTimeout(()=>{
+
+        document
+            .getElementById("analysis")
+            .classList.remove("show");
+
+    },3500);
+}
+
+
+/* ==========================================
+   UNDERSTANDING
+========================================== */
+
+function normalize(text){
+
+    return text
+        .toLowerCase()
+        .replace(/[^\w\s?']/g," ")
+        .replace(/\s+/g," ")
+        .trim();
+}
+
+
+function detectIntent(text){
+
+    const t=normalize(text);
+
+    if(
+        /\b(open|launch|start|activate|switch|change|set|create|show|enable|disable)\b/
+        .test(t)
+    )
+        return "Command";
+
+    if(
+        t.includes("?") ||
+        /\b(what|why|how|when|where|who|which|can|could|is|are|does|do)\b/
+        .test(t)
+    )
+        return "Question";
+
+    if(
+        /\b(explain|teach|help me understand)\b/
+        .test(t)
+    )
+        return "Explanation";
+
+    if(
+        /\b(compare|difference|better)\b/
+        .test(t)
+    )
+        return "Comparison";
+
+    if(
+        /\b(plan|strategy|steps|roadmap)\b/
+        .test(t)
+    )
+        return "Planning";
+
+    return "Conversation";
+}
+
+
+function detectTopic(text){
+
+    const t=normalize(text);
+
+    const topics={
+
+        Maths:[
+            "math",
+            "algebra",
+            "equation",
+            "fraction",
+            "percentage",
+            "factorisation"
+        ],
+
+        Science:[
+            "science",
+            "biology",
+            "chemistry",
+            "physics",
+            "dna",
+            "cell"
+        ],
+
+        Geography:[
+            "geography",
+            "weather",
+            "climate",
+            "rainfall"
+        ],
+
+        History:[
+            "history",
+            "war",
+            "empire"
+        ],
+
+        French:[
+            "french",
+            "français",
+            "bonjour",
+            "translate"
+        ],
+
+        Developer:[
+            "code",
+            "coding",
+            "html",
+            "css",
+            "javascript",
+            "python",
+            "programming",
+            "website"
+        ],
+
+        Entrepreneur:[
+            "business",
+            "entrepreneur",
+            "startup",
+            "customer",
+            "marketing",
+            "pricing",
+            "product",
+            "brand"
+        ],
+
+        Gaming:[
+            "gaming",
+            "game",
+            "esports",
+            "playstation",
+            "gt7"
+        ],
+
+        Automotive:[
+            "car",
+            "cars",
+            "engine",
+            "tuning",
+            "traction",
+            "horsepower"
+        ]
+    };
+
+
+    for(
+        const topic in topics
+    ){
+
+        if(
+            topics[topic]
+                .some(
+                    word=>t.includes(word)
+                )
+        ){
+
+            state.topic=topic;
+
+            state.subtopic=topic;
+
+            return;
+        }
+    }
+
+    if(!state.topic)
+        state.topic="General";
+}
+
+
+/* ==========================================
+   RESPONSE
+========================================== */
+
+function response(text){
+
+    document
+        .getElementById("responseText")
+        .textContent=text;
+
+    state.lastAnswer=text;
+
+    speak(text);
+
+    hideAnalysis();
+}
+
+
+/* ==========================================
+   AI RESPONSE FOUNDATION
+========================================== */
+
+function answer(text){
+
+    const t=normalize(text);
+
+    /* Greetings */
+
+    if(
+        /^(hi|hello|hey|yo|sup)\b/
+        .test(t)
+    ){
+
+        return[
+            "Hey. NEXORA is ready.",
+            "Hello. What are we working on?",
+            "Hey. What can I help you with?"
+        ][
+            Math.floor(
+                Math.random()*3
+            )
+        ];
+    }
+
+
+    /* Identity */
+
+    if(
+        /\b(who are you|what are you)\b/
+        .test(t)
+    ){
+
+        return `
+I'm NEXORA — an expandable AI assistant ecosystem.
+
+My Core is the main interface. My intelligence, skills, voice, commands, tools and future device integrations operate around it.
+`;
+    }
+
+
+    /* Capabilities */
+
+    if(
+        /\b(what can you do|your abilities|your features)\b/
+        .test(t)
+    ){
+
+        return `
+I can understand natural questions and commands, switch modes, analyse topics and subtopics, use voice, create custom commands, run challenges, change languages and provide an expandable assistant architecture.
+
+My deeper AI capabilities can be connected through a secure AI backend.
+`;
+    }
+
+
+    /* Context */
+
+    if(
+        /\b(it|that|this|them|again|the second|the first|what about)\b/
+        .test(t)
+        &&
+        state.lastQuestion
+    ){
+
+        return `
+I understand you're referring to our previous topic: ${state.topic}.
+
+Tell me what you want to know about it and I'll continue from there.
+`;
+    }
+
+
+    /* Entrepreneur */
+
+    if(
+        state.mode==="Entrepreneur" ||
+        state.topic==="Entrepreneur"
+    ){
+
+        return `
+Entrepreneur Mode is active.
+
+Let's work through the idea, target customer, product, competition, pricing, marketing and launch strategy.
+
+Tell me the business idea you're thinking about.
+`;
+    }
+
+
+    /* Developer */
+
+    if(
+        state.mode==="Developer" ||
+        state.topic==="Developer"
+    ){
+
+        return `
+Developer Mode is active.
+
+I can help you plan the architecture, write code, find bugs and improve the design.
+
+Tell me what you're building.
+`;
+    }
+
+
+    /* Tutor */
+
+    if(
+        state.mode==="Tutor"
+    ){
+
+        return `
+Tutor Mode is active.
+
+I'll explain the idea clearly, give an example and then I can test you with a question.
+`;
+    }
+
+
+    /* Challenge */
+
+    if(
+        /\b(challenge|quiz me|test me)\b/
+        .test(t)
+    ){
+
+        openPanel("challengePanel");
+
+        return "I've opened a challenge for you.";
+    }
+
+
+    /* Thanks */
+
+    if(
+        /\b(thanks|thank you)\b/
+        .test(t)
+    ){
+
+        return "You're welcome.";
+    }
+
+
+    /* Generic */
+
+    return `
+I understand your request.
+
+Topic: ${state.topic}
+Subtopic: ${state.subtopic}
+Intent: ${state.intent}
+
+For completely open-ended answers, NEXORA can connect to a secure AI backend.
+`;
+}
+
+
+/* ==========================================
+   PROCESS MESSAGE
+========================================== */
+
+async function process(text){
+
+    if(!text.trim())
+        return;
+
+
+    state.lastQuestion=text;
+
+    state.intent=
+        detectIntent(text);
+
+    detectTopic(text);
+
+    showAnalysis();
+
+    coreState("thinking");
+
+
+    /* Mode command */
+
+    const mode=
+        MODES.find(
+            m=>
+            normalize(text)
+            .includes(
+                normalize(m)
+            )
+        );
+
+
+    if(
+        mode &&
+        /\b(mode|switch|activate|enter|use)\b/
+        .test(
+            normalize(text)
+        )
+    ){
+
+        setMode(mode);
+
+        return;
+    }
+
+
+    /* Custom commands */
+
+    for(
+        const command in
+        state.customCommands
+    ){
+
+        if(
+            normalize(text)
+            .includes(
+                normalize(command)
+            )
+        ){
+
+            response(
+                state.customCommands[
+                    command
+                ].response
+            );
+
+            return;
+        }
+    }
+
+
+    /* Open skills */
+
+    if(
+        /\b(show|open)\b.*\bskills\b/
+        .test(normalize(text))
+    ){
+
+        openPanel("skillsPanel");
+
+        response(
+            "I've opened the Skills system."
+        );
+
+        return;
+    }
+
+
+    /* Open commands */
+
+    if(
+        /\b(show|open)\b.*\bcommands\b/
+        .test(normalize(text))
+    ){
+
+        openPanel("commandPanel");
+
+        response(
+            "I've opened the Command Center."
+        );
+
+        return;
+    }
+
+
+    /* Open customization */
+
+    if(
+        /\b(customize|customise)\b/
+        .test(normalize(text))
+    ){
+
+        openPanel("customPanel");
+
+        response(
+            "I've opened Core customization."
+        );
+
+        return;
+    }
+
+
+    /* Notifications */
+
+    if(
+        /\b(enable|turn on)\b.*\bnotifications\b/
+        .test(normalize(text))
+    ){
+
+        enableNotifications();
+
+        response(
+            "I've requested notification permission."
+        );
+
+        return;
+    }
+
+
+    /* Answer */
+
+    response(
+        answer(text)
+    );
+}
+
+
+/* ==========================================
+   SEND
+========================================== */
+
+function send(){
+
+    const input=
+        document.getElementById("input");
+
+    const text=
+        input.value.trim();
+
+    if(!text)
+        return;
+
+    input.value="";
+
+    process(text);
+}
+
+
+document
+    .getElementById("input")
+    .addEventListener(
+        "keydown",
+        e=>{
+            if(e.key==="Enter")
+                send();
+        }
+    );
+
+
+/* ==========================================
+   MODES
+========================================== */
+
+const MODES=[
+
+    "General",
+    "Student",
+    "Tutor",
+    "Maths",
+    "Science",
+    "Geography",
+    "History",
+    "French",
+    "Developer",
+    "Entrepreneur",
+    "Business",
+    "Research",
+    "Creative",
+    "Gaming",
+    "Automotive",
+    "Challenge",
+    "System",
+    "Custom"
 
 ];
 
 
-let state = {
+function buildModes(){
 
-name:
-localStorage.getItem("nexoraName")
-|| "Miguel",
+    const grid=
+        document.getElementById(
+            "modesGrid"
+        );
 
-mode:
-localStorage.getItem("nexoraMode")
-|| "General",
+    MODES.forEach(mode=>{
 
-topic:"",
+        const card=
+            document.createElement(
+                "div"
+            );
 
-subtopic:"",
+        card.className="card";
 
-intent:"Conversation",
+        card.style.cursor="pointer";
 
-listening:false,
+        card.innerHTML=
+            `<strong>🔵 ${mode}</strong>
+             <small>Activate ${mode} Mode</small>`;
 
-customCommands:
-JSON.parse(
-localStorage.getItem("nexoraCommands")
-|| "{}"
-)
+        card.onclick=()=>{
+            setMode(mode);
+            closePanel("modesPanel");
+        };
 
-};
+        grid.appendChild(card);
 
-
-/* =========================
-   BASIC HELPERS
-   ========================= */
-
-function $(id){
-
-return document.getElementById(id);
-
+    });
 }
 
 
-function openModal(id){
+function setMode(mode){
 
-$(id).classList.add("active");
+    state.mode=mode;
 
+    document
+        .getElementById("modeText")
+        .textContent=
+        mode+" Mode active.";
+
+    response(
+        `Alright. ${mode} Mode is now active.`
+    );
 }
 
 
-function closeModal(id){
-
-$(id).classList.remove("active");
-
-}
-
-
-function log(message){
-
-let item=document.createElement("div");
-
-item.style.fontSize="12px";
-
-item.style.padding="6px 0";
-
-item.style.borderBottom=
-"1px solid rgba(255,255,255,.05)";
-
-item.textContent=message;
-
-$("activity").prepend(item);
-
-}
-
-
-/* =========================
-   CORE STATE
-   ========================= */
-
-function coreState(mode){
-
-let core=$("core");
-
-core.classList.remove(
-"speaking",
-"listening",
-"thinking"
-);
-
-if(mode==="speaking")
-core.classList.add("speaking");
-
-if(mode==="listening")
-core.classList.add("listening");
-
-if(mode==="thinking")
-core.classList.add("thinking");
-
-$("coreLabel").textContent=
-mode==="speaking"
-?"SPEAKING":
-mode==="listening"
-?"LISTENING":
-mode==="thinking"
-?"THINKING":
-"NEXORA";
-
-}
-
-
-/* =========================
-   SPEECH
-   ========================= */
+/* ==========================================
+   VOICE
+========================================== */
 
 let voices=[];
 
 function loadVoices(){
 
-voices=speechSynthesis.getVoices();
+    if(!("speechSynthesis" in window))
+        return;
 
-$("voices").innerHTML="";
+    voices=
+        speechSynthesis.getVoices();
 
-voices.forEach((voice,index)=>{
+    const select=
+        document.getElementById(
+            "voices"
+        );
 
-let option=document.createElement("option");
+    select.innerHTML="";
 
-option.value=index;
+    voices.forEach(
+        (voice,index)=>{
 
-option.textContent=
-voice.name+
-" — "+
-voice.lang;
+            const option=
+                document.createElement(
+                    "option"
+                );
 
-$("voices").appendChild(option);
+            option.value=index;
 
-});
+            option.textContent=
+                voice.name+
+                " — "+
+                voice.lang;
 
+            select.appendChild(
+                option
+            );
+        }
+    );
 }
 
-if("speechSynthesis" in window){
 
-speechSynthesis.onvoiceschanged=
-loadVoices;
+if(
+    "speechSynthesis" in window
+){
 
-loadVoices();
+    speechSynthesis
+        .onvoiceschanged=
+        loadVoices;
 
+    loadVoices();
 }
 
 
 function speak(text){
 
-if(!("speechSynthesis" in window))
-return;
+    if(
+        !("speechSynthesis" in window)
+    )
+        return;
 
-speechSynthesis.cancel();
+    speechSynthesis.cancel();
 
-let utterance=
-new SpeechSynthesisUtterance(text);
+    const utterance=
+        new SpeechSynthesisUtterance(
+            text
+        );
 
-let voiceIndex=
-$("voices").value;
+    const voice=
+        voices[
+            document
+            .getElementById("voices")
+            .value
+        ];
 
-if(voices[voiceIndex])
-utterance.voice=
-voices[voiceIndex];
+    if(voice)
+        utterance.voice=voice;
 
-utterance.rate=
-parseFloat($("rate").value);
+    utterance.lang=
+        state.language;
 
-utterance.pitch=
-parseFloat($("pitch").value);
+    utterance.rate=
+        parseFloat(
+            document
+            .getElementById("rate")
+            .value
+        );
 
-coreState("speaking");
+    utterance.pitch=
+        parseFloat(
+            document
+            .getElementById("pitch")
+            .value
+        );
 
-$("voiceStatus").textContent=
-"SPEAKING";
+    coreState("speaking");
 
-utterance.onend=()=>{
+    utterance.onend=()=>{
+        coreState("ready");
+    };
 
-coreState("ready");
-
-$("voiceStatus").textContent=
-"READY";
-
-};
-
-speechSynthesis.speak(
-utterance
-);
-
+    speechSynthesis.speak(
+        utterance
+    );
 }
 
 
-/* =========================
-   SPEECH RECOGNITION
-   ========================= */
+function testVoice(){
 
-const Recognition=
-window.SpeechRecognition ||
-window.webkitSpeechRecognition;
+    speak(
+        "Voice test successful. NEXORA is ready."
+    );
+}
+
+
+/* ==========================================
+   SPEECH RECOGNITION
+========================================== */
+
+const SpeechRecognition=
+    window.SpeechRecognition ||
+    window.webkitSpeechRecognition;
 
 let recognition=null;
 
-if(Recognition){
 
-recognition=
-new Recognition();
+if(SpeechRecognition){
 
-recognition.continuous=true;
+    recognition=
+        new SpeechRecognition();
 
-recognition.interimResults=false;
+    recognition.continuous=true;
 
-recognition.lang="en-US";
+    recognition.interimResults=false;
 
-
-recognition.onstart=()=>{
-
-state.listening=true;
-
-coreState("listening");
-
-};
+    recognition.lang=
+        state.language;
 
 
-recognition.onresult=(event)=>{
+    recognition.onstart=()=>{
 
-let result=
-event.results[
-event.results.length-1
-][0].transcript;
+        state.listening=true;
 
-processVoice(result);
-
-};
+        coreState("listening");
+    };
 
 
-recognition.onend=()=>{
+    recognition.onresult=
+        event=>{
 
-if(state.listening){
+            const result=
+                event
+                .results[
+                    event.results.length-1
+                ][0]
+                .transcript;
 
-try{
+            const lower=
+                result.toLowerCase();
 
-recognition.start();
+            if(
+                lower.includes(
+                    "hey nexora"
+                )
+            ){
 
-}catch(e){}
+                const command=
+                    result
+                    .replace(
+                        /hey nexora/ig,
+                        ""
+                    )
+                    .trim();
 
-}
+                if(command)
+                    process(command);
+                else
+                    speak("Yes?");
 
-};
+            }
 
-}
-
-
-function toggleListening(){
-
-if(!recognition){
-
-speak(
-"Voice recognition is not available in this browser."
-);
-
-return;
-
-}
+        };
 
 
-if(state.listening){
+    recognition.onend=()=>{
 
-state.listening=false;
+        if(state.listening){
 
-recognition.stop();
+            try{
+                recognition.start();
+            }catch(e){}
 
-coreState("ready");
+        }
 
-}else{
-
-state.listening=true;
-
-recognition.start();
-
-}
-
+    };
 }
 
 
-function processVoice(text){
+function toggleVoice(){
 
-let clean=text.trim();
+    if(!recognition){
 
-if(!clean)
-return;
+        response(
+            "Voice recognition is not supported by this browser."
+        );
 
-let lower=clean.toLowerCase();
+        return;
+    }
 
 
-if(
-lower.includes("hey nexora")
-){
+    if(state.listening){
 
-speak(
-`Yes, ${state.name}?`
-);
+        state.listening=false;
 
-clean=
-clean.replace(
-/hey nexora/ig,
-""
-).trim();
+        recognition.stop();
 
-if(clean){
+        coreState("ready");
 
-setTimeout(
-()=>processRequest(clean),
-600
-);
+    }else{
 
-}
+        state.listening=true;
 
-return;
+        recognition.lang=
+            state.language;
 
+        recognition.start();
+    }
 }
 
 
-processRequest(clean);
+/* ==========================================
+   LANGUAGE
+========================================== */
 
+function changeLanguage(language){
+
+    state.language=language;
+
+    localStorage.setItem(
+        "nexoraLanguage",
+        language
+    );
+
+    if(recognition)
+        recognition.lang=language;
+
+    response(
+        "Language changed."
+    );
 }
 
 
-/* =========================
-   MODES
-   ========================= */
-
-function createModes(){
-
-let container=
-$("modes");
-
-MODES.forEach(mode=>{
-
-let button=
-document.createElement("button");
-
-button.className="nav";
-
-button.textContent=
-"• "+mode+" Mode";
-
-button.onclick=()=>{
-
-activateMode(mode);
-
-};
-
-container.appendChild(button);
-
-});
-
-}
-
-
-function activateMode(mode){
-
-state.mode=mode;
-
-localStorage.setItem(
-"nexoraMode",
-mode
-);
-
-$("sideMode").textContent=
-mode;
-
-$("modeText").textContent=
-`${mode} Mode active.`;
-
-response(
-`${mode} Mode activated, ${state.name}.`
-);
-
-}
-
-
-/* =========================
-   INTENT ENGINE
-   ========================= */
-
-function detectIntent(text){
-
-if(
-/^(open|launch|start|activate|switch|set|create|show|change|turn|stop)/i
-.test(text)
-){
-
-return "Command";
-
-}
-
-
-if(
-/^(what|why|how|when|where|who|which|can|is|are|does|do)/i
-.test(text)
-||
-text.includes("?")
-){
-
-return "Question";
-
-}
-
-
-if(
-text.includes("explain")||
-text.includes("teach")
-){
-
-return "Explanation";
-
-}
-
-
-if(
-text.includes("compare")||
-text.includes("difference")
-){
-
-return "Comparison";
-
-}
-
-
-if(
-text.includes("plan")||
-text.includes("strategy")
-){
-
-return "Planning";
-
-}
-
-
-return "Conversation";
-
-}
-
-
-/* =========================
-   TOPIC ENGINE
-   ========================= */
-
-function detectTopic(text){
-
-const topics={
-
-Maths:[
-"math",
-"calculate",
-"equation",
-"algebra",
-"factor",
-"fraction",
-"percentage"
-],
-
-Science:[
-"science",
-"biology",
-"chemistry",
-"physics",
-"dna",
-"cell",
-"energy",
-"force"
-],
-
-History:[
-"history",
-"war",
-"empire"
-],
-
-Geography:[
-"geography",
-"weather",
-"climate",
-"rainfall",
-"population"
-],
-
-French:[
-"french",
-"français",
-"bonjour",
-"traduire"
-],
-
-Developer:[
-"code",
-"coding",
-"html",
-"css",
-"javascript",
-"python",
-"website",
-"programming"
-],
-
-Entrepreneur:[
-"business",
-"entrepreneur",
-"startup",
-"marketing",
-"customer",
-"profit",
-"product",
-"company"
-],
-
-Gaming:[
-"game",
-"gaming",
-"esports",
-"gt7",
-"playstation"
-],
-
-Automotive:[
-"car",
-"cars",
-"engine",
-"tuning",
-"traction",
-"horsepower"
-]
-
-};
-
-
-for(
-let topic in topics
-){
-
-if(
-topics[topic].some(
-word=>text.includes(word)
-)
-){
-
-state.topic=topic;
-
-state.subtopic=topic;
-
-if(topic==="Entrepreneur"){
-
-if(text.includes("marketing"))
-state.subtopic="Marketing";
-
-else if(text.includes("customer"))
-state.subtopic="Customers";
-
-else if(text.includes("price"))
-state.subtopic="Pricing";
-
-else
-state.subtopic=
-"Business Strategy";
-
-}
-
-return;
-
-}
-
-}
-
-}
-
-
-/* =========================
-   CONTEXT
-   ========================= */
-
-function updateContext(){
-
-$("topic").textContent=
-state.topic||"None";
-
-$("subtopic").textContent=
-state.subtopic||"None";
-
-$("intent").textContent=
-state.intent;
-
-}
-
-
-/* =========================
-   MAIN PROCESSOR
-   ========================= */
-
-function processRequest(text){
-
-let lower=text.toLowerCase();
-
-log(
-"YOU: "+text
-);
-
-state.intent=
-detectIntent(lower);
-
-detectTopic(lower);
-
-updateContext();
-
-coreState("thinking");
-
-
-/* CUSTOM COMMAND */
-
-for(
-let command in state.customCommands
-){
-
-if(
-lower.includes(
-command.toLowerCase()
-)
-){
-
-let data=
-state.customCommands[
-command
-];
-
-if(data.response){
-
-response(
-data.response
-);
-
-}
-
-return;
-
-}
-
-}
-
-
-/* MODE COMMAND */
-
-for(
-let mode of MODES
-){
-
-let name=
-mode.toLowerCase();
-
-if(
-lower.includes(
-"activate "+name+" mode"
-)
-||
-lower.includes(
-"switch to "+name+" mode"
-)
-||
-lower.includes(
-"enter "+name+" mode"
-)
-){
-
-activateMode(mode);
-
-return;
-
-}
-
-}
-
-
-/* SYSTEM */
-
-if(
-lower.includes("command center")
-){
-
-openModal("commands");
-
-response(
-"Command Center opened."
-);
-
-return;
-
-}
-
-
-if(
-lower.includes("custom lab")||
-lower.includes("customize")
-){
-
-openModal("custom");
-
-response(
-"Custom Lab opened."
-);
-
-return;
-
-}
-
-
-if(
-lower.includes("review nexora")
-){
-
-openModal("review");
-
-return;
-
-}
-
-
-/* TIMER */
-
-let timer=
-lower.match(
-/(\d+)\s*(second|seconds|minute|minutes)/
-);
-
-if(
-timer &&
-lower.includes("timer")
-){
-
-let amount=
-parseInt(timer[1]);
-
-let unit=
-timer[2];
-
-let milliseconds=
-unit.startsWith("minute")
-?
-amount*60000
-:
-amount*1000;
-
-response(
-`Timer started for ${amount} ${unit}, ${state.name}.`
-);
-
-setTimeout(()=>{
-
-response(
-`Your timer is finished, ${state.name}.`
-);
-
-},milliseconds);
-
-return;
-
-}
-
-
-/* CALCULATOR */
-
-if(
-lower.includes("calculate")
-||
-lower.includes("what is")
-){
-
-let expression=
-lower
-.replace("calculate","")
-.replace("what is","")
-.replace(/times/g,"*")
-.replace(/plus/g,"+")
-.replace(/minus/g,"-")
-.replace(/divided by/g,"/")
-.trim();
-
-if(
-/^[0-9+\-*/().%\s]+$/
-.test(expression)
-){
-
-try{
-
-let answer=
-Function(
-'"use strict";return ('+
-expression+
-')'
-)();
-
-response(
-`The answer is ${answer}, ${state.name}.`
-);
-
-return;
-
-}catch(e){}
-
-}
-
-}
-
-
-/* CHALLENGE */
-
-if(
-lower.includes("challenge")
-){
-
-openModal("challenge");
-
-startChallenge();
-
-return;
-
-}
-
-
-/* DEFAULT AI RESPONSE */
-
-setTimeout(()=>{
-
-let answer=
-generateAnswer(text);
-
-response(answer);
-
-},500);
-
-}
-
-
-/* =========================
-   LOCAL AI RESPONSE ENGINE
-   ========================= */
-
-function generateAnswer(text){
-
-let lower=
-text.toLowerCase();
-
-
-if(
-lower.includes("what can you do")
-){
-
-return `
-I can understand questions and natural-language commands.
-
-I can:
-• Switch modes
-• Understand topics and subtopics
-• Remember conversation context
-• Use voice recognition
-• Speak responses
-• Run commands
-• Create custom commands
-• Give challenges
-• Customize the NEXORA Core
-• Help with study
-• Enter Entrepreneur Mode
-• Assist with coding
-• Handle calculations
-• Manage timers
-• Open supported websites
-
-My Core layout is permanently locked while my capabilities can continue expanding.
-`;
-
-}
-
-
-if(
-lower.includes("who are you")
-){
-
-return `
-I'm NEXORA 1.8.
-
-I'm a customizable AI assistant designed around the NEXORA Core.
-
-My interface stays locked while my intelligence, commands, skills, modes and voice system can keep expanding.
-`;
-
-}
-
-
-/* ENTREPRENEUR */
-
-if(
-state.mode==="Entrepreneur"||
-state.topic==="Entrepreneur"
-){
-
-if(
-state.subtopic==="Marketing"
-){
-
-return `
-Entrepreneur Mode • Marketing
-
-Start by identifying your target customer.
-
-Then consider:
-
-1. What problem does your product solve?
-2. Who needs it most?
-3. Where does that audience spend time?
-4. What makes your product different?
-5. How can you test your idea cheaply?
-
-Then measure what works and improve it.
-`;
-
-}
-
-
-if(
-state.subtopic==="Customers"
-){
-
-return `
-Entrepreneur Mode • Customers
-
-Think about:
-
-• Target customer
-• Customer problem
-• Customer needs
-• Buying motivation
-• Competitors
-• Feedback
-
-A strong business usually starts with solving a real problem.
-`;
-
-}
-
-
-return `
-Entrepreneur Mode is active.
-
-I can help you work through:
-
-• Business ideas
-• Products
-• Customers
-• Marketing
-• Pricing
-• Competition
-• Branding
-• Growth
-• Business strategy
-`;
-
-}
-
-
-/* TUTOR */
-
-if(
-state.mode==="Tutor"
-){
-
-return `
-Tutor Mode is active.
-
-Tell me the subject and topic.
-
-I'll explain it step-by-step, give examples, then give you questions to test your understanding.
-`;
-
-}
-
-
-/* DEFAULT */
-
-return `
-I understand what you're asking, ${state.name}.
-
-Your request appears to be:
-
-Intent: ${state.intent}
-Topic: ${state.topic||"General"}
-Subtopic: ${state.subtopic||"General"}
-
-For full open-ended AI reasoning, connect the NEXORA backend to an AI model through a secure server.
-`;
-
-}
-
-
-/* =========================
-   RESPONSE
-   ========================= */
-
-function response(text){
-
-$("response").textContent=
-text;
-
-log(
-"NEXORA: "+text
-);
-
-speak(text);
-
-}
-
-
-/* =========================
-   QUICK BUTTONS
-   ========================= */
-
-function quick(text){
-
-$("input").value=text;
-
-send();
-
-}
-
-
-function send(){
-
-let text=
-$("input").value.trim();
-
-if(!text)
-return;
-
-$("input").value="";
-
-processRequest(text);
-
-}
-
-
-/* =========================
-   CUSTOM COMMANDS
-   ========================= */
-
-function createCommand(){
-
-let name=
-prompt(
-"Enter the custom command name:"
-);
-
-if(!name)
-return;
-
-let answer=
-prompt(
-"What should NEXORA say when this command is used?"
-);
-
-if(!answer)
-return;
-
-state.customCommands[name]={
-response:answer
-};
-
-localStorage.setItem(
-"nexoraCommands",
-JSON.stringify(
-state.customCommands
-)
-);
-
-response(
-`Custom command "${name}" created, ${state.name}.`
-);
-
-}
-
-
-/* =========================
+/* ==========================================
    CUSTOMIZATION
-   ========================= */
-
-function changeShape(shape){
-
-let core=$("core");
-
-core.style.clipPath="none";
-
-if(shape==="diamond"){
-
-core.style.borderRadius="15px";
-
-core.style.transform=
-"rotate(45deg)";
-
-}
-
-else if(shape==="hex"){
-
-core.style.clipPath=
-"polygon(25% 5%,75% 5%,100% 50%,75% 95%,25% 95%,0 50%)";
-
-}
-
-else if(shape==="ring"){
-
-core.style.background=
-"transparent";
-
-core.style.border=
-"15px solid var(--accent)";
-
-}
-
-else{
-
-core.style.borderRadius="50%";
-
-core.style.transform=
-"none";
-
-core.style.border="none";
-
-core.style.background=
-"radial-gradient(circle,white 0 2%,var(--accent) 5%,rgba(0,120,255,.4) 35%,transparent 70%)";
-
-}
-
-localStorage.setItem(
-"nexoraShape",
-shape
-);
-
-}
-
+========================================== */
 
 function changeSize(value){
 
-document.documentElement.style
-.setProperty(
-"--core-size",
-value+"px"
-);
-
+    document.documentElement
+        .style
+        .setProperty(
+            "--core-size",
+            value+"px"
+        );
 }
 
 
 function changeGlow(value){
 
-document.documentElement.style
-.setProperty(
-"--glow",
-value+"px"
-);
-
+    document.documentElement
+        .style
+        .setProperty(
+            "--glow",
+            value+"px"
+        );
 }
 
 
 function changeColor(value){
 
-document.documentElement.style
-.setProperty(
-"--accent",
-value
-);
+    document.documentElement
+        .style
+        .setProperty(
+            "--accent",
+            value
+        );
 
-localStorage.setItem(
-"nexoraColor",
-value
-);
-
+    localStorage.setItem(
+        "nexoraColor",
+        value
+    );
 }
 
 
-/* =========================
-   VOICE TEST
-   ========================= */
+function changeShape(shape){
 
-function testVoice(){
+    const core=
+        document.getElementById(
+            "core"
+        );
 
-speak(
-`Voice test successful. Welcome to NEXORA, ${state.name}.`
-);
+    core.style.clipPath="none";
 
+    core.style.borderRadius="50%";
+
+    if(shape==="diamond"){
+
+        core.style.borderRadius="15px";
+
+        core.style.transform=
+            "rotate(45deg)";
+    }
+
+    if(shape==="hex"){
+
+        core.style.clipPath=
+            "polygon(25% 5%,75% 5%,100% 50%,75% 95%,25% 95%,0 50%)";
+    }
+
+    if(shape==="ring"){
+
+        core.style.background=
+            "transparent";
+
+        core.style.border=
+            "12px solid var(--accent)";
+
+    }else{
+
+        core.style.border=
+            "none";
+
+        core.style.background=
+            `radial-gradient(
+                circle,
+                #ffffff 0%,
+                var(--accent) 4%,
+                rgba(0,160,255,.65) 18%,
+                rgba(0,110,255,.2) 45%,
+                transparent 72%
+            )`;
+    }
 }
 
 
-/* =========================
-   PROFILE
-   ========================= */
+/* ==========================================
+   CUSTOM COMMANDS
+========================================== */
 
-function saveProfile(){
+function createCommand(){
 
-let name=
-$("name").value.trim();
+    const name=
+        prompt(
+            "Command name:"
+        );
 
-if(!name)
-name="Miguel";
+    if(!name)
+        return;
 
-state.name=name;
+    const commandResponse=
+        prompt(
+            "What should NEXORA say?"
+        );
 
-localStorage.setItem(
-"nexoraName",
-name
-);
+    if(!commandResponse)
+        return;
 
-$("welcome").textContent=
-"WELCOME, "+
-name.toUpperCase();
+    state.customCommands[name]={
+        response:
+            commandResponse
+    };
 
-$("updateWelcome").textContent=
-"Welcome, "+
-name+".";
+    localStorage.setItem(
+        "nexoraCommands",
+        JSON.stringify(
+            state.customCommands
+        )
+    );
 
-response(
-`Profile saved. Welcome, ${name}.`
-);
-
+    document
+        .getElementById(
+            "commandResult"
+        )
+        .textContent=
+        "Custom command created: "+
+        name;
 }
 
 
-/* =========================
-   CHALLENGES
-   ========================= */
+/* ==========================================
+   COMMAND ANALYSIS
+========================================== */
 
-const challenges=[
+function analyzeCommand(){
 
-{
-question:
-"What is 12 × 8?",
+    const text=
+        document
+        .getElementById(
+            "commandInput"
+        )
+        .value
+        .trim();
 
-answers:
-["86","96","108","88"],
+    if(!text)
+        return;
 
-correct:"96"
+    state.intent=
+        detectIntent(text);
 
-},
+    detectTopic(text);
 
-{
-question:
-"Which organ pumps blood?",
+    document
+        .getElementById(
+            "commandResult"
+        )
+        .innerHTML=`
 
-answers:
-["Lung","Heart","Liver","Kidney"],
+        <b>NEXORA UNDERSTANDING</b>
+        <br><br>
 
-correct:"Heart"
+        Intent:
+        ${state.intent}
 
-},
+        <br>
 
-{
-question:
-"What comes next: 2, 4, 8, 16...?",
+        Topic:
+        ${state.topic}
 
-answers:
-["20","24","32","30"],
+        <br>
 
-correct:"32"
+        Subtopic:
+        ${state.subtopic}
 
-}
+        <br>
 
-];
-
-
-function startChallenge(){
-
-let q=
-challenges[
-Math.floor(
-Math.random()*
-challenges.length
-)
-];
-
-$("challengeArea").innerHTML=
-"<h3>"+
-q.question+
-"</h3>";
-
-q.answers.forEach(answer=>{
-
-let button=
-document.createElement("button");
-
-button.className=
-"send full";
-
-button.textContent=
-answer;
-
-button.onclick=()=>{
-
-if(answer===q.correct){
-
-$("challengeArea").innerHTML+=
-"<p>✅ Correct! +100 XP</p>";
-
-speak(
-"Correct. Excellent work, "+
-state.name+"."
-);
-
-}
-
-else{
-
-$("challengeArea").innerHTML+=
-"<p>❌ Not quite. The answer was "+
-q.correct+".</p>";
-
-speak(
-"Not quite, "+state.name+"."
-);
-
-}
-
-};
-
-$("challengeArea")
-.appendChild(button);
-
-});
-
+        Mode:
+        ${state.mode}
+    `;
 }
 
 
-/* =========================
+/* ==========================================
+   NOTIFICATIONS
+========================================== */
+
+async function enableNotifications(){
+
+    if(
+        !("Notification" in window)
+    ){
+
+        response(
+            "Notifications aren't supported here."
+        );
+
+        return;
+    }
+
+    const permission=
+        await Notification
+        .requestPermission();
+
+    if(
+        permission==="granted"
+    ){
+
+        new Notification(
+            "NEXORA",
+            {
+                body:
+                    "NEXORA notifications are enabled."
+            }
+        );
+
+        response(
+            "Notifications are enabled."
+        );
+
+    }else{
+
+        response(
+            "Notification permission was not granted."
+        );
+    }
+}
+
+
+/* ==========================================
    REVIEWS
-   ========================= */
-
-let rating=0;
+========================================== */
 
 document
-.querySelectorAll(".star")
-.forEach(
-(star,index)=>{
+    .querySelectorAll(
+        ".star"
+    )
+    .forEach(
+        (star,index)=>{
 
-star.onclick=()=>{
+            star.style.cursor="pointer";
 
-rating=index+1;
+            star.style.fontSize="35px";
 
-document
-.querySelectorAll(".star")
-.forEach(
-(s,i)=>{
+            star.style.color="#30404c";
 
-s.classList.toggle(
-"active",
-i<rating
-);
+            star.onclick=()=>{
 
-});
+                state.rating=
+                    index+1;
 
-};
+                document
+                    .querySelectorAll(
+                        ".star"
+                    )
+                    .forEach(
+                        (s,i)=>{
 
-});
+                            s.style.color=
+                                i<
+                                state.rating
+                                    ? "#ffd75a"
+                                    : "#30404c";
+                        }
+                    );
+            };
+        }
+    );
 
 
 function submitReview(){
 
-if(rating===0){
+    const text=
+        document
+        .getElementById(
+            "reviewText"
+        )
+        .value
+        .trim();
 
-$("reviewResult").textContent=
-"Please select a rating.";
+    if(!state.rating){
 
-return;
+        alert(
+            "Please choose a rating."
+        );
 
-}
+        return;
+    }
 
-let reviews=
-JSON.parse(
-localStorage.getItem(
-"nexoraReviews"
-)||"[]"
-);
+    if(!text){
 
-reviews.push({
+        alert(
+            "Please write a review."
+        );
 
-name:state.name,
+        return;
+    }
 
-rating:rating,
+    const review={
 
-review:
-$("reviewText").value,
+        rating:state.rating,
 
-date:
-new Date().toISOString(),
+        text,
 
-version:VERSION
+        version:VERSION,
 
-});
+        date:
+            new Date()
+            .toISOString()
 
-localStorage.setItem(
-"nexoraReviews",
-JSON.stringify(reviews)
-);
+    };
 
-$("reviewResult").textContent=
-"⭐ Thank you for reviewing NEXORA!";
+    localStorage.setItem(
+        "nexoraReview",
+        JSON.stringify(review)
+    );
 
-$("reviewText").value="";
-
-rating=0;
-
-document
-.querySelectorAll(".star")
-.forEach(
-s=>s.classList.remove("active")
-);
-
-}
-
-
-/* =========================
-   CONTEXT
-   ========================= */
-
-function clearContext(){
-
-state.topic="";
-
-state.subtopic="";
-
-state.intent=
-"Conversation";
-
-updateContext();
-
-response(
-"Conversation context cleared, "+
-state.name+"."
-);
-
+    response(
+        "Thank you for reviewing NEXORA."
+    );
 }
 
 
-/* =========================
-   DEMO
-   ========================= */
+async function shareReview(){
 
-function demoMode(){
+    const review=
+        JSON.parse(
+            localStorage.getItem(
+                "nexoraReview"
+            )||"null"
+        );
 
-let steps=[
+    if(!review){
 
-"Booting NEXORA...",
+        alert(
+            "Submit a review first."
+        );
 
-"Loading AI Brain...",
+        return;
+    }
 
-"Loading Context Engine...",
+    const text=
+`⭐ NEXORA ${review.rating}/5
 
-"Loading Voice System...",
+${review.text}
 
-"Loading Skills...",
+#NEXORA #AI`;
 
-"Loading Command Engine...",
+    if(
+        navigator.share
+    ){
 
-"Loading Customization...",
+        try{
 
-"All systems online."
+            await navigator.share({
 
-];
+                title:
+                    "My NEXORA Review",
 
-steps.forEach(
-(step,index)=>{
+                text
 
-setTimeout(()=>{
+            });
 
-$("response").textContent=
-step;
+        }catch(e){}
 
-},
-index*700
-);
+    }else{
 
-});
+        try{
 
-setTimeout(()=>{
+            await navigator
+                .clipboard
+                .writeText(text);
 
-response(
-`NEXORA 1.8 demonstration complete. Welcome, ${state.name}.`
-);
+            alert(
+                "Review copied. You can paste it into your social platform."
+            );
 
-},steps.length*700);
+        }catch(e){
 
+            alert(text);
+        }
+    }
 }
 
 
-/* =========================
-   UPDATE SYSTEM
-   ========================= */
-
-function startNexora(){
-
-localStorage.setItem(
-"nexoraSeenVersion",
-VERSION
-);
-
-$("updateScreen")
-.classList.add("hidden");
-
-setTimeout(()=>{
-
-speak(
-`Welcome back, ${state.name}. NEXORA is online and ready.`
-);
-
-},500);
-
-}
-
-
-/* =========================
+/* ==========================================
    INITIALIZE
-   ========================= */
+========================================== */
 
 function init(){
 
-$("welcome").textContent=
-"WELCOME, "+
-state.name.toUpperCase();
+    buildModes();
 
-$("name").value=
-state.name;
-
-createModes();
-
-$("sideMode").textContent=
-state.mode;
-
-$("modeText").textContent=
-state.mode+
-" Mode active.";
-
-let savedColor=
-localStorage.getItem("nexoraColor");
-
-if(savedColor){
-
-changeColor(savedColor);
-
-}
-
-let savedShape=
-localStorage.getItem("nexoraShape");
-
-if(savedShape){
-
-$("shape").value=
-savedShape;
-
-changeShape(savedShape);
-
-}
-
-$("versionTop").textContent=
-VERSION;
+    document
+        .getElementById(
+            "language"
+        )
+        .value=
+        state.language;
 
 
-/* SHOW UPDATE ONLY ON NEW VERSION */
+    const savedColor=
+        localStorage.getItem(
+            "nexoraColor"
+        );
 
-if(
-localStorage.getItem(
-"nexoraSeenVersion"
-)===VERSION
-){
+    if(savedColor)
+        changeColor(savedColor);
 
-$("updateScreen")
-.classList.add("hidden");
 
-}
+    const savedMode=
+        localStorage.getItem(
+            "nexoraMode"
+        );
 
-log(
-`NEXORA ${VERSION} initialized for ${state.name}.`
-);
+    if(savedMode)
+        state.mode=savedMode;
 
+
+    document
+        .getElementById(
+            "modeText"
+        )
+        .textContent=
+        state.mode+
+        " Mode active.";
 }
 
 init();
 
-
-/* =========================
-   PWA
-   ========================= */
-
-if(
-"serviceWorker"
-in navigator
-){
-
-window.addEventListener(
-"load",
-()=>{
-
-navigator.serviceWorker
-.register("sw.js")
-.catch(
-error=>
-console.log(
-"Service worker:",
-error
-)
-);
-
-});
-
-}
-
 </script>
-{
-  "name": "NEXORA 1.8",
-  "short_name": "NEXORA",
-  "description": "NEXORA Advanced AI Assistant",
-  "start_url": "./index.html",
-  "display": "standalone",
-  "background_color": "#020711",
-  "theme_color": "#020711",
-  "orientation": "any"
-}
-    const CACHE_NAME = "nexora-1.8";
 
-const FILES = [
-    "./",
-    "./index.html",
-    "./manifest.json"
-];
-
-self.addEventListener("install", event => {
-
-    event.waitUntil(
-
-        caches.open(CACHE_NAME)
-        .then(cache => {
-
-            return cache.addAll(FILES);
-
-        })
-
-    );
-
-});
-
-
-self.addEventListener("activate", event => {
-
-    event.waitUntil(
-
-        caches.keys()
-        .then(keys => {
-
-            return Promise.all(
-
-                keys
-                .filter(key => key !== CACHE_NAME)
-                .map(key => caches.delete(key))
-
-            );
-
-        })
-
-    );
-
-});
-
-
-self.addEventListener("fetch", event => {
-
-    event.respondWith(
-
-        caches.match(event.request)
-        .then(cached => {
-
-            return cached ||
-                   fetch(event.request);
-
-        })
-
-    );
-
-});
-    </script>
 </body>
 </html>
