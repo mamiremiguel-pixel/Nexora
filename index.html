@@ -1,2610 +1,685 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
 <meta charset="UTF-8">
-
-<meta name="viewport"
-content="width=device-width,initial-scale=1,maximum-scale=1">
-
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#020812">
 <title>NEXORA CORE</title>
 
 <style>
-
-/* =====================================================
-   NEXORA CORE — FULL SYSTEM
-===================================================== */
-
 *{
+    box-sizing:border-box;
     margin:0;
     padding:0;
-    box-sizing:border-box;
-    -webkit-tap-highlight-color:transparent;
 }
 
-html,
-body{
+html,body{
     width:100%;
     height:100%;
-    overflow:hidden;
 }
 
 body{
-
-    background:#02060b;
-
-    color:white;
-
-    font-family:
-        Arial,
-        Helvetica,
-        sans-serif;
-
-    transition:
-        background .4s ease;
-}
-
-
-/* =====================================================
-   BACKGROUND
-===================================================== */
-
-.background{
-
-    position:fixed;
-
-    inset:0;
-
-    z-index:0;
-
+    overflow:hidden;
+    font-family:Arial,Helvetica,sans-serif;
     background:
-        radial-gradient(
-            circle at center,
-            #08374d 0%,
-            #041725 25%,
-            #020912 55%,
-            #000 100%
-        );
-
-    transition:
-        background .5s ease;
+        radial-gradient(circle at center,
+        #0b426b 0%,
+        #06243d 25%,
+        #020d19 55%,
+        #01050a 100%);
+    color:#e8fbff;
 }
 
+/* BACKGROUND */
 
-/* =====================================================
-   BACKGROUND PATTERNS
-===================================================== */
-
-.background.grid{
-
-    background-image:
-
-        linear-gradient(
-            rgba(0,220,255,.08) 1px,
-            transparent 1px
-        ),
-
-        linear-gradient(
-            90deg,
-            rgba(0,220,255,.08) 1px,
-            transparent 1px
-        ),
-
-        radial-gradient(
-            circle,
-            #06344b,
-            #000
-        );
-
-    background-size:
-        40px 40px,
-        40px 40px,
-        auto;
-}
-
-
-.background.hex{
-
-    background-image:
-
-        repeating-linear-gradient(
-            30deg,
-            rgba(0,220,255,.04) 0 1px,
-            transparent 1px 35px
-        ),
-
-        repeating-linear-gradient(
-            150deg,
-            rgba(0,220,255,.04) 0 1px,
-            transparent 1px 35px
-        ),
-
-        radial-gradient(
-            circle,
-            #07364b,
-            #000
-        );
-}
-
-
-.background.circuit{
-
-    background-image:
-
-        linear-gradient(
-            90deg,
-            rgba(0,220,255,.04) 1px,
-            transparent 1px
-        ),
-
-        linear-gradient(
-            rgba(0,220,255,.04) 1px,
-            transparent 1px
-        ),
-
-        radial-gradient(
-            circle at center,
-            #07364b,
-            #000
-        );
-
-    background-size:
-        70px 70px,
-        70px 70px,
-        auto;
-}
-
-
-.background.clean{
-
-    background:
-        radial-gradient(
-            circle at center,
-            #10212c,
-            #02060b 70%,
-            #000
-        );
-}
-
-
-/* =====================================================
-   MOVING LIGHT
-===================================================== */
-
-.background::before{
-
+body::before{
     content:"";
-
-    position:absolute;
-
-    inset:-50%;
-
-    background:
-
-        radial-gradient(
-            circle,
-            rgba(0,220,255,.15),
-            transparent 45%
-        );
-
-    animation:
-        backgroundMove 12s infinite alternate;
-
-}
-
-.background.no-animation::before{
-    animation:none;
-}
-
-@keyframes backgroundMove{
-
-    from{
-        transform:
-            translate(-5%,-3%);
-    }
-
-    to{
-        transform:
-            translate(5%,3%);
-    }
-
-}
-
-
-/* =====================================================
-   STARS
-===================================================== */
-
-.stars{
-
-    position:absolute;
-
-    inset:0;
-
-    background-image:
-
-        radial-gradient(
-            circle,
-            rgba(255,255,255,.8) 1px,
-            transparent 1px
-        );
-
-    background-size:
-        90px 90px;
-
-    opacity:.12;
-
-    animation:
-        starMove 40s linear infinite;
-
-}
-
-.stars.hidden{
-    display:none;
-}
-
-.stars.no-animation{
-    animation:none;
-}
-
-@keyframes starMove{
-
-    from{
-        transform:
-            translate(0,0);
-    }
-
-    to{
-        transform:
-            translate(90px,90px);
-    }
-
-}
-
-
-/* =====================================================
-   SCANLINES
-===================================================== */
-
-.scanlines{
-
     position:fixed;
-
     inset:0;
-
     pointer-events:none;
-
-    z-index:100;
-
     background:
-
-        repeating-linear-gradient(
-            0deg,
-            transparent,
-            transparent 3px,
-            rgba(0,220,255,.018) 4px
-        );
-
+        linear-gradient(rgba(0,190,255,.035) 1px,transparent 1px),
+        linear-gradient(90deg,rgba(0,190,255,.035) 1px,transparent 1px);
+    background-size:45px 45px;
 }
 
-.scanlines.hidden{
-    display:none;
-}
-
-
-/* =====================================================
-   STATUS
-===================================================== */
-
-.status{
-
-    position:fixed;
-
-    top:18px;
-
-    left:50%;
-
-    transform:
-        translateX(-50%);
-
-    z-index:30;
-
-    font:
-        9px monospace;
-
-    letter-spacing:3px;
-
-    color:#39ff9b;
-
-}
-
-
-/* =====================================================
-   CORE AREA
-===================================================== */
+/* MAIN */
 
 .main{
-
-    position:fixed;
-
-    inset:0;
-
+    width:100%;
+    height:100vh;
     display:flex;
-
     align-items:center;
-
     justify-content:center;
-
-    z-index:10;
-}
-
-
-.core-system{
-
     position:relative;
-
-    width:
-        min(80vw,380px);
-
-    height:
-        min(80vw,380px);
-
-    display:flex;
-
-    align-items:center;
-
-    justify-content:center;
-
-    transition:
-        transform .5s ease;
 }
 
-
-/* =====================================================
-   LAYOUT MODES
-===================================================== */
-
-.core-system.compact{
-
-    transform:
-        scale(.78);
-}
-
-.core-system.large{
-
-    transform:
-        scale(1.12);
-}
-
-
-/* =====================================================
-   RINGS
-===================================================== */
-
-.ring-one{
-
-    position:absolute;
-
-    inset:0;
-
-    border-radius:50%;
-
-    border:
-        1px solid
-        rgba(0,220,255,.35);
-
-    box-shadow:
-        0 0 35px
-        rgba(0,180,255,.15);
-
-    animation:
-        rotate 14s linear infinite;
-
-}
-
-
-.ring-two{
-
-    position:absolute;
-
-    inset:8%;
-
-    border-radius:50%;
-
-    border:
-        2px solid
-        rgba(0,230,255,.45);
-
-    border-left-color:
-        transparent;
-
-    border-right-color:
-        transparent;
-
-    animation:
-        rotateReverse 7s linear infinite;
-
-}
-
-
-.ring-three{
-
-    position:absolute;
-
-    inset:14%;
-
-    border-radius:50%;
-
-    border:
-        1px dashed
-        rgba(0,220,255,.5);
-
-    animation:
-        rotate 10s linear infinite;
-
-}
-
-
-.rings-off .ring-one,
-.rings-off .ring-two,
-.rings-off .ring-three,
-.rings-off .ticks{
-
-    animation:none;
-}
-
-
-/* =====================================================
-   TICKS
-===================================================== */
-
-.ticks{
-
-    position:absolute;
-
-    inset:5%;
-
-    border-radius:50%;
-
-    background:
-
-        repeating-conic-gradient(
-            rgba(0,220,255,.7)
-            0deg 1deg,
-            transparent 1deg 10deg
-        );
-
-    -webkit-mask:
-
-        radial-gradient(
-            transparent 68%,
-            black 69%,
-            black 70%,
-            transparent 71%
-        );
-
-    mask:
-
-        radial-gradient(
-            transparent 68%,
-            black 69%,
-            black 70%,
-            transparent 71%
-        );
-
-    animation:
-        rotateReverse 20s linear infinite;
-
-}
-
-
-/* =====================================================
-   CORE
-===================================================== */
+/* CORE */
 
 .core{
-
-    position:absolute;
-
-    width:40%;
-
-    height:40%;
-
-    min-width:105px;
-
-    min-height:105px;
-
-    max-width:155px;
-
-    max-height:155px;
-
-    border-radius:50%;
-
+    width:285px;
+    height:285px;
+    position:relative;
+    display:flex;
+    align-items:center;
+    justify-content:center;
     cursor:pointer;
-
-    touch-action:manipulation;
-
-    background:
-
-        radial-gradient(
-            circle,
-            #fff 0%,
-            #c8ffff 5%,
-            var(--core-color,#00f2ff) 14%,
-            var(--core-color-dark,#007cc7) 35%,
-            rgba(0,50,90,.3) 68%,
-            transparent 75%
-        );
-
-    border:
-        2px solid
-        var(--core-color-light,#bfffff);
-
-    box-shadow:
-
-        0 0 10px white,
-
-        0 0 25px
-        var(--core-color,#00eaff),
-
-        0 0 60px
-        var(--core-color,#009cff),
-
-        0 0 110px
-        var(--core-color,#008cff),
-
-        inset 0 0 35px white;
-
-    animation:
-        pulse 3s infinite;
-
-    transition:
-        box-shadow .4s,
-        filter .4s;
+    transition:.35s;
 }
 
-
-.core.active{
-
-    filter:
-        brightness(1.15);
-
+.core:hover{
+    transform:scale(1.04);
 }
 
-
-.core.listening{
-
-    animation:
-        listening .55s infinite alternate;
-
+.core:active{
+    transform:scale(.98);
 }
 
-
-.core.thinking{
-
-    animation:
-        thinking .25s infinite alternate;
-
-}
-
-
-.core.no-animation{
-
-    animation:none;
-}
-
-
-.core.no-glow{
-
-    box-shadow:
-        inset 0 0 15px white;
-}
-
-
-@keyframes pulse{
-
-    0%,100%{
-        transform:scale(1);
-    }
-
-    50%{
-        transform:scale(1.04);
-    }
-
-}
-
-
-@keyframes listening{
-
-    from{
-        transform:scale(1.03);
-    }
-
-    to{
-        transform:scale(1.17);
-    }
-
-}
-
-
-@keyframes thinking{
-
-    from{
-        filter:brightness(1);
-    }
-
-    to{
-        filter:brightness(2);
-    }
-
-}
-
-
-@keyframes rotate{
-
-    from{
-        transform:rotate(0deg);
-    }
-
-    to{
-        transform:rotate(360deg);
-    }
-
-}
-
-
-@keyframes rotateReverse{
-
-    from{
-        transform:rotate(360deg);
-    }
-
-    to{
-        transform:rotate(0deg);
-    }
-
-}
-
-
-/* =====================================================
-   NAME
-===================================================== */
-
-.core-label{
-
+.ring{
     position:absolute;
+    inset:0;
+    border-radius:50%;
+    border:2px solid rgba(0,210,255,.65);
+    box-shadow:
+        0 0 18px #00bfff,
+        inset 0 0 28px rgba(0,190,255,.25);
+    animation:rotate 10s linear infinite;
+}
 
-    bottom:-65px;
+.ring:nth-child(2){
+    inset:18px;
+    border-color:rgba(85,225,255,.45);
+    animation-direction:reverse;
+    animation-duration:7s;
+}
 
-    width:100%;
+.ring:nth-child(3){
+    inset:39px;
+    border-style:dashed;
+    animation-duration:5s;
+}
 
-    text-align:center;
+.center{
+    width:108px;
+    height:108px;
+    border-radius:50%;
+    background:
+        radial-gradient(circle,
+        #ffffff 0%,
+        #9cefff 18%,
+        #14b8ee 42%,
+        #00618e 68%,
+        #001625 100%);
+
+    box-shadow:
+        0 0 28px #00d9ff,
+        0 0 75px rgba(0,200,255,.75),
+        inset 0 0 25px white;
+
+    animation:pulse 2s infinite;
+}
+
+.core.active .center{
+    animation:activePulse .65s infinite;
+
+    box-shadow:
+        0 0 40px #00eaff,
+        0 0 120px #00bfff,
+        inset 0 0 32px white;
+}
+
+.core.active .ring{
+    animation-duration:2s;
+}
+
+/* ORBITS */
+
+.orbit{
+    position:absolute;
+    border-radius:50%;
+    border:1px solid rgba(0,210,255,.22);
+    pointer-events:none;
+}
+
+.orbit.one{
+    width:365px;
+    height:190px;
+    transform:rotate(25deg);
+    animation:orbitOne 8s linear infinite;
+}
+
+.orbit.two{
+    width:190px;
+    height:365px;
+    transform:rotate(-25deg);
+    animation:orbitTwo 10s linear infinite;
+}
+
+/* BIG NEXORA */
+
+.title{
+    position:absolute;
+    top:calc(50% + 180px);
+    left:50%;
+    transform:translateX(-50%);
+
+    font-size:34px;
+    font-weight:700;
+    letter-spacing:10px;
+
+    color:#a5efff;
+    text-shadow:
+        0 0 10px #00bfff,
+        0 0 25px rgba(0,190,255,.8);
+
+    white-space:nowrap;
 
     pointer-events:none;
-
 }
 
+/* CURRENT MODE */
 
-.nexora-name{
-
-    font-size:
-        clamp(18px,5vw,26px);
-
-    letter-spacing:
-        clamp(5px,2vw,10px);
-
-    color:#e8fdff;
-
-    text-shadow:
-
-        0 0 8px
-        var(--core-color,#00eaff),
-
-        0 0 25px
-        var(--core-color,#0077ff);
-
-}
-
-
-/* =====================================================
-   MESSAGE
-===================================================== */
-
-.ai{
-
-    position:fixed;
-
+.mode-display{
+    position:absolute;
+    top:calc(50% + 225px);
     left:50%;
+    transform:translateX(-50%);
 
-    bottom:25px;
-
-    transform:
-        translateX(-50%);
-
-    width:
-        min(650px,88vw);
-
-    text-align:center;
-
-    z-index:30;
-
-}
-
-
-.message{
-
-    font-size:
-        clamp(10px,3vw,14px);
-
-    color:#d7faff;
-
-    text-shadow:
-        0 0 12px
-        rgba(0,220,255,.6);
-
-}
-
-
-/* =====================================================
-   SETTINGS BUTTON
-===================================================== */
-
-.settings-button{
-
-    position:fixed;
-
-    top:18px;
-
-    right:18px;
-
-    width:44px;
-
-    height:44px;
-
-    border-radius:50%;
-
-    border:
-        1px solid
-        #00eaff;
-
-    background:
-        rgba(0,20,35,.9);
-
-    color:#a9f8ff;
-
-    cursor:pointer;
-
-    z-index:70;
-
-    font-size:19px;
-
-}
-
-
-/* =====================================================
-   QR BUTTON
-===================================================== */
-
-.qr-button{
-
-    position:fixed;
-
-    right:18px;
-
-    bottom:18px;
-
-    width:58px;
-
-    height:58px;
-
-    border-radius:50%;
-
-    border:
-        1px solid
-        #00eaff;
-
-    background:
-        rgba(0,20,35,.92);
-
-    color:#a9f8ff;
-
-    font-size:24px;
-
-    cursor:pointer;
-
-    z-index:60;
-
-}
-
-
-/* =====================================================
-   VOICE PANEL
-===================================================== */
-
-.voice-panel{
-
-    position:fixed;
-
-    left:18px;
-
-    bottom:18px;
-
-    width:
-        min(330px,88vw);
-
-    z-index:60;
-
-    padding:14px;
-
-    border:
-        1px solid
-        rgba(0,220,255,.45);
-
-    border-radius:18px;
-
-    background:
-        rgba(0,15,25,.88);
-
-    box-shadow:
-        0 0 25px
-        rgba(0,220,255,.15);
-
-    backdrop-filter:
-        blur(12px);
-
-}
-
-
-.voice-title{
-
-    color:#9eefff;
-
-    font-size:9px;
-
+    font-size:11px;
     letter-spacing:3px;
+    color:#6bb9d2;
 
-    margin-bottom:10px;
-
+    white-space:nowrap;
+    pointer-events:none;
 }
 
-
-.voice-row{
-
-    display:flex;
-
-    gap:8px;
-
-}
-
-
-#voiceSelect{
-
-    flex:1;
-
-    min-width:0;
-
-    padding:9px;
-
-    border:
-        1px solid
-        #00eaff;
-
-    border-radius:15px;
-
-    background:#03101a;
-
-    color:#bdf8ff;
-
-    outline:none;
-
-    font-size:10px;
-
-}
-
+/* TOP RIGHT BUTTON */
 
 .voice-button{
+    position:fixed;
+    top:20px;
+    right:20px;
 
-    padding:9px 12px;
+    width:52px;
+    height:52px;
 
-    border:
-        1px solid
-        #00eaff;
+    border-radius:50%;
+    border:1px solid rgba(0,215,255,.6);
 
-    border-radius:15px;
+    background:rgba(3,28,45,.85);
+    color:white;
 
-    background:
-        transparent;
-
-    color:#a9f8ff;
-
+    font-size:21px;
     cursor:pointer;
 
-    font-size:9px;
+    z-index:50;
 
+    box-shadow:
+        0 0 18px rgba(0,190,255,.25);
+
+    transition:.25s;
 }
 
-
-/* =====================================================
-   MY VOICE
-===================================================== */
-
-.my-voice{
-
-    border-top:
-        1px solid
-        rgba(0,220,255,.15);
-
-    margin-top:10px;
-
-    padding-top:10px;
-
+.voice-button:hover{
+    box-shadow:
+        0 0 30px #00cfff;
 }
 
-
-.my-voice-title{
-
-    color:#72dff2;
-
-    font-size:8px;
-
-    letter-spacing:2px;
-
-    margin-bottom:7px;
-
+.voice-button.active{
+    background:#006e91;
+    box-shadow:
+        0 0 30px #00eaff;
 }
 
+/* PANEL */
 
-.my-voice-info{
-
-    color:#688b98;
-
-    font-size:9px;
-
-    line-height:1.5;
-
-    margin-bottom:8px;
-
-}
-
-
-.my-voice-controls{
-
-    display:flex;
-
-    gap:7px;
-
-    flex-wrap:wrap;
-
-}
-
-
-.my-voice-controls button{
-
-    padding:7px 10px;
-
-    border:
-        1px solid
-        rgba(0,220,255,.7);
-
-    border-radius:14px;
-
-    background:
-        transparent;
-
-    color:#9eefff;
-
-    cursor:pointer;
-
-    font-size:8px;
-
-}
-
-
-.recording{
-
-    color:#ff7070 !important;
-
-    border-color:#ff7070 !important;
-
-}
-
-
-/* =====================================================
-   SETTINGS WINDOW
-===================================================== */
-
-.settings-window{
-
+.panel{
     position:fixed;
 
-    inset:0;
+    top:85px;
+    right:20px;
 
-    display:none;
-
-    align-items:center;
-
-    justify-content:center;
-
-    padding:15px;
-
-    background:
-        rgba(0,0,0,.88);
-
-    backdrop-filter:
-        blur(15px);
-
-    z-index:150;
-
-}
-
-
-.settings-window.show{
-
-    display:flex;
-
-}
-
-
-.settings-panel{
-
-    width:
-        min(500px,95vw);
-
-    max-height:
-        90vh;
+    width:300px;
+    max-height:calc(100vh - 105px);
 
     overflow-y:auto;
 
-    padding:22px;
-
-    border:
-        1px solid
-        #00eaff;
+    padding:19px;
 
     border-radius:20px;
 
-    background:
-        linear-gradient(
-            145deg,
-            #061c2c,
-            #01070d
-        );
+    background:rgba(2,13,24,.96);
+
+    border:1px solid rgba(0,205,255,.35);
 
     box-shadow:
-        0 0 70px
-        rgba(0,210,255,.35);
+        0 0 35px rgba(0,170,255,.2);
 
+    backdrop-filter:blur(18px);
+
+    z-index:40;
+
+    transform:translateX(340px);
+    transition:.35s;
 }
 
-
-.settings-panel h2{
-
-    text-align:center;
-
-    color:#c5faff;
-
-    letter-spacing:5px;
-
-    margin-bottom:20px;
-
+.panel.open{
+    transform:translateX(0);
 }
 
-
-.setting-group{
-
-    margin-bottom:18px;
-
-    padding-bottom:14px;
-
-    border-bottom:
-        1px solid
-        rgba(0,220,255,.12);
-
+.panel-title{
+    color:#7ce7ff;
+    font-size:16px;
+    letter-spacing:2px;
+    margin-bottom:17px;
 }
 
+/* MODE */
 
-.setting-title{
-
-    color:#4ee4ff;
-
-    font:
-        9px monospace;
-
-    letter-spacing:3px;
-
-    margin-bottom:10px;
-
-}
-
-
-.setting-row{
-
-    display:flex;
-
-    align-items:center;
-
-    justify-content:space-between;
-
-    gap:10px;
-
-    margin:9px 0;
-
-    color:#a9cdd6;
-
+.mode-label{
+    display:block;
+    color:#73b9ce;
     font-size:11px;
-
+    letter-spacing:1px;
+    margin-bottom:7px;
 }
 
-
-.setting-row select{
-
-    min-width:150px;
-
-    padding:7px;
-
-    border:
-        1px solid
-        #007e99;
+.mode-select{
+    width:100%;
+    padding:11px;
 
     border-radius:10px;
 
-    background:#03101a;
+    border:1px solid #117da4;
 
-    color:#c8faff;
+    background:#061d2e;
+    color:white;
 
+    margin-bottom:17px;
 }
 
+/* CONTROLS */
 
-.setting-row input[type="range"]{
-
-    width:150px;
-
+.control-label{
+    display:block;
+    color:#73b9ce;
+    font-size:11px;
+    margin-bottom:7px;
 }
 
-
-.setting-row input[type="checkbox"]{
-
-    accent-color:#00eaff;
-
-    transform:
-        scale(1.2);
-
+input[type="range"]{
+    width:100%;
+    margin-bottom:16px;
 }
 
+.panel-button{
+    width:100%;
+    padding:10px;
 
-.color-options{
+    border-radius:10px;
 
-    display:flex;
+    border:1px solid #0a9fd3;
 
-    flex-wrap:wrap;
-
-    gap:8px;
-
-}
-
-
-.color-option{
-
-    width:32px;
-
-    height:32px;
-
-    border-radius:50%;
-
-    border:
-        2px solid
-        rgba(255,255,255,.4);
+    background:#063d5a;
+    color:white;
 
     cursor:pointer;
 
+    margin-top:5px;
+
+    transition:.2s;
 }
 
-
-.color-option.selected{
-
-    border:
-        3px solid
-        white;
-
-    box-shadow:
-        0 0 15px white;
-
+.panel-button:hover{
+    background:#075d80;
+    box-shadow:0 0 15px rgba(0,210,255,.3);
 }
 
+/* QR */
 
-.settings-buttons{
-
-    display:flex;
-
-    justify-content:center;
-
-    gap:10px;
-
-}
-
-
-.settings-buttons button{
-
-    padding:10px 18px;
-
-    border:
-        1px solid
-        #00eaff;
-
-    border-radius:20px;
-
-    background:
-        transparent;
-
-    color:#a9f8ff;
-
-    cursor:pointer;
-
-}
-
-
-/* =====================================================
-   QR
-===================================================== */
-
-.qr-window{
-
-    position:fixed;
-
-    inset:0;
-
+.qr{
     display:none;
 
-    align-items:center;
+    margin-top:13px;
 
     justify-content:center;
-
-    padding:20px;
-
-    background:
-        rgba(0,0,0,.9);
-
-    backdrop-filter:
-        blur(15px);
-
-    z-index:200;
-
-}
-
-
-.qr-window.show{
-
-    display:flex;
-
-}
-
-
-.qr-panel{
-
-    width:
-        min(380px,94vw);
-
-    padding:25px;
-
-    text-align:center;
-
-    border:
-        1px solid
-        #00eaff;
-
-    border-radius:20px;
-
-    background:
-        linear-gradient(
-            145deg,
-            #061c2c,
-            #01070d
-        );
-
-}
-
-
-.qr-panel h2{
-
-    color:#b8faff;
-
-    letter-spacing:5px;
-
-    margin-bottom:10px;
-
-}
-
-
-.qr-panel p{
-
-    color:#789aa8;
-
-    font-size:12px;
-
-    line-height:1.6;
-
-    margin-bottom:18px;
-
-}
-
-
-#qrcode{
-
-    width:220px;
-
-    height:220px;
-
-    margin:auto;
 
     padding:10px;
 
     background:white;
 
-    display:flex;
-
-    align-items:center;
-
-    justify-content:center;
-
+    border-radius:10px;
 }
 
+/* STATUS */
 
-#qrcode img,
-#qrcode canvas{
+.status{
+    position:fixed;
+    left:20px;
+    bottom:20px;
 
-    max-width:100%;
+    width:9px;
+    height:9px;
 
-    max-height:100%;
+    border-radius:50%;
 
+    background:#00ff9d;
+
+    box-shadow:0 0 14px #00ff9d;
+
+    z-index:10;
 }
 
-
-.qr-url{
-
-    margin-top:15px;
-
-    padding:10px;
-
-    font:9px monospace;
-
-    color:#75dcec;
-
-    background:
-        rgba(0,0,0,.4);
-
-    overflow:hidden;
-
-    white-space:nowrap;
-
+.status.listening{
+    background:#00d9ff;
+    box-shadow:0 0 18px #00d9ff;
 }
 
+/* ANIMATIONS */
 
-.qr-controls{
-
-    display:flex;
-
-    justify-content:center;
-
-    gap:10px;
-
-    margin-top:18px;
-
+@keyframes rotate{
+    from{
+        transform:rotate(0deg);
+    }
+    to{
+        transform:rotate(360deg);
+    }
 }
 
+@keyframes pulse{
+    0%,100%{
+        transform:scale(1);
+    }
 
-.qr-controls button{
-
-    padding:10px 18px;
-
-    border:
-        1px solid
-        #00eaff;
-
-    border-radius:20px;
-
-    background:
-        transparent;
-
-    color:#a9f8ff;
-
-    cursor:pointer;
-
+    50%{
+        transform:scale(1.08);
+    }
 }
 
-
-/* =====================================================
-   MOBILE
-===================================================== */
-
-@media(max-width:700px){
-
-    .status{
-
-        top:10px;
-
-        font-size:7px;
-
-        letter-spacing:2px;
-
+@keyframes activePulse{
+    0%,100%{
+        transform:scale(1);
     }
 
-
-    .core-system{
-
-        width:70vw;
-
-        height:70vw;
-
+    50%{
+        transform:scale(1.18);
     }
-
-
-    .voice-panel{
-
-        left:8px;
-
-        bottom:8px;
-
-        width:
-            min(290px,75vw);
-
-        padding:10px;
-
-    }
-
-
-    .voice-row{
-
-        flex-direction:column;
-
-    }
-
-
-    #voiceSelect{
-
-        width:100%;
-
-    }
-
-
-    .voice-button{
-
-        width:100%;
-
-    }
-
-
-    .settings-button{
-
-        top:10px;
-
-        right:10px;
-
-    }
-
-
-    .qr-button{
-
-        right:10px;
-
-        bottom:10px;
-
-        width:50px;
-
-        height:50px;
-
-    }
-
-
-    .ai{
-
-        bottom:10px;
-
-    }
-
 }
 
+@keyframes orbitOne{
+    from{
+        transform:rotate(25deg);
+    }
 
+    to{
+        transform:rotate(385deg);
+    }
+}
+
+@keyframes orbitTwo{
+    from{
+        transform:rotate(-25deg);
+    }
+
+    to{
+        transform:rotate(-385deg);
+    }
+}
+
+/* MOBILE */
+
+@media(max-width:600px){
+
+    .core{
+        width:220px;
+        height:220px;
+    }
+
+    .center{
+        width:84px;
+        height:84px;
+    }
+
+    .orbit.one{
+        width:285px;
+        height:150px;
+    }
+
+    .orbit.two{
+        width:150px;
+        height:285px;
+    }
+
+    .title{
+        top:calc(50% + 145px);
+        font-size:27px;
+        letter-spacing:7px;
+    }
+
+    .mode-display{
+        top:calc(50% + 185px);
+        font-size:9px;
+    }
+
+    .panel{
+        width:calc(100% - 30px);
+        right:15px;
+        top:80px;
+    }
+}
 </style>
-
 </head>
-
 
 <body>
 
+<div class="main">
 
-<!-- BACKGROUND -->
+    <div class="core" id="core">
 
-<div
-    class="background"
-    id="background">
+        <div class="ring"></div>
+        <div class="ring"></div>
+        <div class="ring"></div>
 
-    <div
-        class="stars"
-        id="stars">
+        <div class="orbit one"></div>
+        <div class="orbit two"></div>
+
+        <div class="center"></div>
+
+    </div>
+
+    <div class="title">
+        NEXORA
+    </div>
+
+    <div class="mode-display" id="modeDisplay">
+        NEXORA MODE
     </div>
 
 </div>
 
 
-<div
-    class="scanlines"
-    id="scanlines">
-</div>
+<!-- STATUS LIGHT -->
+
+<div class="status" id="status"></div>
 
 
-<!-- STATUS -->
-
-<div
-    class="status"
-    id="connection">
-
-    ● CORE STANDBY
-
-</div>
-
-
-<!-- SETTINGS BUTTON -->
+<!-- VOICE / SETTINGS BUTTON -->
 
 <button
-    class="settings-button"
-    id="settingsButton">
-
-    ⚙
-
+    class="voice-button"
+    id="voiceButton"
+    title="Open NEXORA controls">
+    🎙️
 </button>
 
 
-<!-- MAIN -->
+<!-- CONTROL PANEL -->
 
-<main class="main">
+<div class="panel" id="panel">
+
+    <div class="panel-title">
+        NEXORA CONTROL
+    </div>
+
+    <!-- MODE -->
+
+    <label class="mode-label">
+        ASSISTANT MODE
+    </label>
+
+    <select
+        class="mode-select"
+        id="modeSelect">
+
+        <option value="nexora">
+            🔵 NEXORA
+        </option>
+
+        <option value="jarvis">
+            ⚪ JARVIS-INSPIRED
+        </option>
+
+    </select>
+
+
+    <!-- VOICE -->
+
+    <label class="control-label">
+        VOICE
+    </label>
+
+    <select
+        class="mode-select"
+        id="voiceSelect">
+    </select>
+
+
+    <!-- SPEED -->
+
+    <label class="control-label">
+        VOICE SPEED
+    </label>
+
+    <input
+        id="rate"
+        type="range"
+        min="0.6"
+        max="1.5"
+        step="0.05"
+        value="1">
+
+
+    <!-- PITCH -->
+
+    <label class="control-label">
+        VOICE PITCH
+    </label>
+
+    <input
+        id="pitch"
+        type="range"
+        min="0.5"
+        max="1.5"
+        step="0.05"
+        value="1">
+
+
+    <!-- TEST -->
+
+    <button
+        class="panel-button"
+        id="testVoice">
+        🔊 TEST VOICE
+    </button>
+
+
+    <!-- STOP -->
+
+    <button
+        class="panel-button"
+        id="stopVoice">
+        ⏹ STOP VOICE
+    </button>
+
+
+    <!-- QR -->
+
+    <button
+        class="panel-button"
+        id="qrButton">
+        📱 SHOW QR
+    </button>
 
     <div
-        class="core-system"
-        id="coreSystem">
-
-        <div class="ring-one"></div>
-
-        <div class="ring-two"></div>
-
-        <div class="ring-three"></div>
-
-        <div class="ticks"></div>
-
-
-        <div
-            class="core"
-            id="core"
-            tabindex="0">
-
-        </div>
-
-
-        <div class="core-label">
-
-            <div class="nexora-name">
-
-                NEXORA
-
-            </div>
-
-        </div>
-
-    </div>
-
-</main>
-
-
-<!-- MESSAGE -->
-
-<div class="ai">
-
-    <div
-        class="message"
-        id="message">
-
-        Tap the Core to activate NEXORA.
-
+        class="qr"
+        id="qr">
     </div>
 
 </div>
-
-
-<!-- =====================================================
-     VOICE MATRIX
-===================================================== -->
-
-<div class="voice-panel">
-
-    <div class="voice-title">
-
-        NEXORA VOICE MATRIX
-
-    </div>
-
-
-    <div class="voice-row">
-
-        <select
-            id="voiceSelect">
-
-            <option>
-                Loading voices...
-            </option>
-
-        </select>
-
-
-        <button
-            class="voice-button"
-            id="testVoice">
-
-            TEST
-
-        </button>
-
-    </div>
-
-
-    <div class="my-voice">
-
-        <div class="my-voice-title">
-
-            MY VOICE
-
-        </div>
-
-
-        <div class="my-voice-info">
-
-            Record a personal voice sample
-            and play it back on this device.
-
-        </div>
-
-
-        <div class="my-voice-controls">
-
-            <button
-                id="recordVoice">
-
-                🎙 RECORD
-
-            </button>
-
-
-            <button
-                id="playVoice"
-                disabled>
-
-                ▶ PLAY
-
-            </button>
-
-
-            <button
-                id="deleteVoice"
-                disabled>
-
-                🗑 DELETE
-
-            </button>
-
-        </div>
-
-    </div>
-
-</div>
-
-
-<!-- =====================================================
-     SETTINGS WINDOW
-===================================================== -->
-
-<div
-    class="settings-window"
-    id="settingsWindow">
-
-    <div class="settings-panel">
-
-        <h2>
-            NEXORA SETTINGS
-        </h2>
-
-
-        <!-- CORE -->
-
-        <div class="setting-group">
-
-            <div class="setting-title">
-                CORE CUSTOMIZATION
-            </div>
-
-
-            <div class="setting-row">
-
-                <span>
-                    Core glow
-                </span>
-
-                <input
-                    type="range"
-                    id="glowRange"
-                    min="0"
-                    max="100"
-                    value="80">
-
-            </div>
-
-
-            <div class="setting-row">
-
-                <span>
-                    Core size
-                </span>
-
-                <input
-                    type="range"
-                    id="sizeRange"
-                    min="70"
-                    max="130"
-                    value="100">
-
-            </div>
-
-
-            <div class="setting-title">
-                CORE COLOR
-            </div>
-
-
-            <div class="color-options">
-
-                <div
-                    class="color-option"
-                    data-color="#00eaff"
-                    style="background:#00eaff">
-                </div>
-
-                <div
-                    class="color-option"
-                    data-color="#008cff"
-                    style="background:#008cff">
-                </div>
-
-                <div
-                    class="color-option"
-                    data-color="#9b5cff"
-                    style="background:#9b5cff">
-                </div>
-
-                <div
-                    class="color-option"
-                    data-color="#00ff88"
-                    style="background:#00ff88">
-                </div>
-
-                <div
-                    class="color-option"
-                    data-color="#ff3030"
-                    style="background:#ff3030">
-                </div>
-
-                <div
-                    class="color-option"
-                    data-color="#ffffff"
-                    style="background:#ffffff">
-                </div>
-
-            </div>
-
-        </div>
-
-
-        <!-- BACKGROUND -->
-
-        <div class="setting-group">
-
-            <div class="setting-title">
-                BACKGROUND
-            </div>
-
-
-            <div class="setting-row">
-
-                <span>
-                    Pattern
-                </span>
-
-                <select id="backgroundSelect">
-
-                    <option value="default">
-                        Deep Space
-                    </option>
-
-                    <option value="grid">
-                        Digital Grid
-                    </option>
-
-                    <option value="hex">
-                        Hex Pattern
-                    </option>
-
-                    <option value="circuit">
-                        Circuit
-                    </option>
-
-                    <option value="clean">
-                        Clean Dark
-                    </option>
-
-                </select>
-
-            </div>
-
-
-            <div class="setting-row">
-
-                <span>
-                    Starfield
-                </span>
-
-                <input
-                    type="checkbox"
-                    id="starsToggle"
-                    checked>
-
-            </div>
-
-
-            <div class="setting-row">
-
-                <span>
-                    Moving background
-                </span>
-
-                <input
-                    type="checkbox"
-                    id="backgroundAnimation"
-                    checked>
-
-            </div>
-
-        </div>
-
-
-        <!-- EFFECTS -->
-
-        <div class="setting-group">
-
-            <div class="setting-title">
-                EFFECTS
-            </div>
-
-
-            <div class="setting-row">
-
-                <span>
-                    Scanlines
-                </span>
-
-                <input
-                    type="checkbox"
-                    id="scanToggle"
-                    checked>
-
-            </div>
-
-
-            <div class="setting-row">
-
-                <span>
-                    Core animation
-                </span>
-
-                <input
-                    type="checkbox"
-                    id="coreAnimation"
-                    checked>
-
-            </div>
-
-
-            <div class="setting-row">
-
-                <span>
-                    Ring animation
-                </span>
-
-                <input
-                    type="checkbox"
-                    id="ringAnimation"
-                    checked>
-
-            </div>
-
-        </div>
-
-
-        <!-- LAYOUT -->
-
-        <div class="setting-group">
-
-            <div class="setting-title">
-                LAYOUT
-            </div>
-
-
-            <div class="setting-row">
-
-                <span>
-                    Interface size
-                </span>
-
-                <select id="layoutSelect">
-
-                    <option value="standard">
-                        Standard
-                    </option>
-
-                    <option value="compact">
-                        Compact
-                    </option>
-
-                    <option value="large">
-                        Large
-                    </option>
-
-                </select>
-
-            </div>
-
-        </div>
-
-
-        <!-- BUTTONS -->
-
-        <div class="settings-buttons">
-
-            <button
-                id="resetSettings">
-
-                RESET
-
-            </button>
-
-
-            <button
-                id="closeSettings">
-
-                CLOSE
-
-            </button>
-
-        </div>
-
-    </div>
-
-</div>
-
-
-<!-- =====================================================
-     QR
-===================================================== -->
-
-<button
-    class="qr-button"
-    id="qrButton">
-
-    ▦
-
-</button>
-
-
-<div
-    class="qr-window"
-    id="qrWindow">
-
-    <div class="qr-panel">
-
-        <h2>
-            NEXORA
-        </h2>
-
-
-        <p>
-
-            Scan this QR code to open
-            NEXORA on another device.
-
-        </p>
-
-
-        <div id="qrcode"></div>
-
-
-        <div
-            class="qr-url"
-            id="qrURL">
-
-        </div>
-
-
-        <div class="qr-controls">
-
-            <button id="copyURL">
-                COPY LINK
-            </button>
-
-
-            <button id="closeQR">
-                CLOSE
-            </button>
-
-        </div>
-
-    </div>
-
-</div>
-
-
-<!-- QR LIBRARY -->
-
-<script src=
-"https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js">
-</script>
 
 
 <script>
 
-/* =====================================================
-   ELEMENTS
-===================================================== */
+/* =========================================
+   NEXORA CORE v2.1
+   ========================================= */
 
 const core =
-document.getElementById("core");
+    document.getElementById("core");
 
-const coreSystem =
-document.getElementById("coreSystem");
+const voiceButton =
+    document.getElementById("voiceButton");
 
-const message =
-document.getElementById("message");
+const panel =
+    document.getElementById("panel");
 
-const connection =
-document.getElementById("connection");
+const modeSelect =
+    document.getElementById("modeSelect");
 
-const background =
-document.getElementById("background");
-
-const stars =
-document.getElementById("stars");
-
-const scanlines =
-document.getElementById("scanlines");
-
-
-let active = false;
-let listening = false;
-
-
-/* =====================================================
-   SETTINGS
-===================================================== */
-
-const defaults = {
-
-    color:"#00eaff",
-
-    glow:80,
-
-    size:100,
-
-    background:"default",
-
-    stars:true,
-
-    backgroundAnimation:true,
-
-    scanlines:true,
-
-    coreAnimation:true,
-
-    ringAnimation:true,
-
-    layout:"standard"
-
-};
-
-
-let settings =
-JSON.parse(
-    localStorage.getItem(
-        "nexoraSettings"
-    )
-) || {...defaults};
-
-
-/* =====================================================
-   COLOR
-===================================================== */
-
-function setCoreColor(color){
-
-    let dark =
-        color;
-
-    let light =
-        color;
-
-
-    document.documentElement
-        .style
-        .setProperty(
-            "--core-color",
-            color
-        );
-
-    document.documentElement
-        .style
-        .setProperty(
-            "--core-color-dark",
-            dark
-        );
-
-    document.documentElement
-        .style
-        .setProperty(
-            "--core-color-light",
-            light
-        );
-
-
-    document
-        .querySelectorAll(
-            ".color-option"
-        )
-        .forEach(
-            option => {
-
-                option.classList.toggle(
-                    "selected",
-                    option.dataset.color
-                    === color
-                );
-
-            }
-        );
-}
-
-
-/* =====================================================
-   APPLY SETTINGS
-===================================================== */
-
-function applySettings(){
-
-    setCoreColor(
-        settings.color
-    );
-
-
-    core.style.filter =
-        `brightness(${0.7 +
-        settings.glow / 100})`;
-
-
-    core.style.width =
-        `${40 *
-        settings.size /
-        100}%`;
-
-    core.style.height =
-        `${40 *
-        settings.size /
-        100}%`;
-
-
-    background.className =
-        "background";
-
-
-    if(
-        settings.background !==
-        "default"
-    ){
-
-        background.classList.add(
-            settings.background
-        );
-    }
-
-
-    stars.classList.toggle(
-        "hidden",
-        !settings.stars
-    );
-
-
-    stars.classList.toggle(
-        "no-animation",
-        !settings.backgroundAnimation
-    );
-
-
-    background.classList.toggle(
-        "no-animation",
-        !settings.backgroundAnimation
-    );
-
-
-    scanlines.classList.toggle(
-        "hidden",
-        !settings.scanlines
-    );
-
-
-    core.classList.toggle(
-        "no-animation",
-        !settings.coreAnimation
-    );
-
-
-    coreSystem.classList.toggle(
-        "rings-off",
-        !settings.ringAnimation
-    );
-
-
-    coreSystem.classList.remove(
-        "compact",
-        "large"
-    );
-
-
-    if(
-        settings.layout ===
-        "compact"
-    ){
-
-        coreSystem.classList.add(
-            "compact"
-        );
-    }
-
-
-    if(
-        settings.layout ===
-        "large"
-    ){
-
-        coreSystem.classList.add(
-            "large"
-        );
-    }
-
-
-    /* Update controls */
-
-    document.getElementById(
-        "glowRange"
-    ).value =
-        settings.glow;
-
-
-    document.getElementById(
-        "sizeRange"
-    ).value =
-        settings.size;
-
-
-    document.getElementById(
-        "backgroundSelect"
-    ).value =
-        settings.background;
-
-
-    document.getElementById(
-        "starsToggle"
-    ).checked =
-        settings.stars;
-
-
-    document.getElementById(
-        "backgroundAnimation"
-    ).checked =
-        settings.backgroundAnimation;
-
-
-    document.getElementById(
-        "scanToggle"
-    ).checked =
-        settings.scanlines;
-
-
-    document.getElementById(
-        "coreAnimation"
-    ).checked =
-        settings.coreAnimation;
-
-
-    document.getElementById(
-        "ringAnimation"
-    ).checked =
-        settings.ringAnimation;
-
-
-    document.getElementById(
-        "layoutSelect"
-    ).value =
-        settings.layout;
-
-
-    localStorage.setItem(
-        "nexoraSettings",
-        JSON.stringify(settings)
-    );
-}
-
-
-/* =====================================================
-   SETTINGS EVENTS
-===================================================== */
-
-document
-.querySelectorAll(
-    ".color-option"
-)
-.forEach(
-    option => {
-
-        option.addEventListener(
-            "click",
-            function(){
-
-                settings.color =
-                    this.dataset.color;
-
-                applySettings();
-
-            }
-        );
-
-    }
-);
-
-
-document.getElementById(
-    "glowRange"
-).addEventListener(
-    "input",
-    function(){
-
-        settings.glow =
-            Number(this.value);
-
-        applySettings();
-
-    }
-);
-
-
-document.getElementById(
-    "sizeRange"
-).addEventListener(
-    "input",
-    function(){
-
-        settings.size =
-            Number(this.value);
-
-        applySettings();
-
-    }
-);
-
-
-document.getElementById(
-    "backgroundSelect"
-).addEventListener(
-    "change",
-    function(){
-
-        settings.background =
-            this.value;
-
-        applySettings();
-
-    }
-);
-
-
-document.getElementById(
-    "starsToggle"
-).addEventListener(
-    "change",
-    function(){
-
-        settings.stars =
-            this.checked;
-
-        applySettings();
-
-    }
-);
-
-
-document.getElementById(
-    "backgroundAnimation"
-).addEventListener(
-    "change",
-    function(){
-
-        settings.backgroundAnimation =
-            this.checked;
-
-        applySettings();
-
-    }
-);
-
-
-document.getElementById(
-    "scanToggle"
-).addEventListener(
-    "change",
-    function(){
-
-        settings.scanlines =
-            this.checked;
-
-        applySettings();
-
-    }
-);
-
-
-document.getElementById(
-    "coreAnimation"
-).addEventListener(
-    "change",
-    function(){
-
-        settings.coreAnimation =
-            this.checked;
-
-        applySettings();
-
-    }
-);
-
-
-document.getElementById(
-    "ringAnimation"
-).addEventListener(
-    "change",
-    function(){
-
-        settings.ringAnimation =
-            this.checked;
-
-        applySettings();
-
-    }
-);
-
-
-document.getElementById(
-    "layoutSelect"
-).addEventListener(
-    "change",
-    function(){
-
-        settings.layout =
-            this.value;
-
-        applySettings();
-
-    }
-);
-
-
-/* =====================================================
-   SETTINGS WINDOW
-===================================================== */
-
-const settingsWindow =
-document.getElementById(
-    "settingsWindow"
-);
-
-
-document.getElementById(
-    "settingsButton"
-).onclick =
-function(){
-
-    settingsWindow.classList.add(
-        "show"
-    );
-
-};
-
-
-document.getElementById(
-    "closeSettings"
-).onclick =
-function(){
-
-    settingsWindow.classList.remove(
-        "show"
-    );
-
-};
-
-
-document.getElementById(
-    "resetSettings"
-).onclick =
-function(){
-
-    settings =
-        {...defaults};
-
-    applySettings();
-
-    message.innerText =
-        "NEXORA settings restored.";
-
-};
-
-
-/* =====================================================
-   VOICE SYSTEM
-===================================================== */
+const modeDisplay =
+    document.getElementById("modeDisplay");
 
 const voiceSelect =
-document.getElementById(
-    "voiceSelect"
-);
+    document.getElementById("voiceSelect");
 
-const testVoice =
-document.getElementById(
-    "testVoice"
-);
+const rate =
+    document.getElementById("rate");
 
+const pitch =
+    document.getElementById("pitch");
+
+const status =
+    document.getElementById("status");
 
 let voices = [];
 
-let selectedVoice = null;
+let listening = false;
 
+let currentMode = "nexora";
+
+
+/* =========================================
+   LOAD VOICES
+   ========================================= */
 
 function loadVoices(){
 
-    if(
-        !("speechSynthesis" in window)
-    ){
-
-        return;
-    }
-
-
     voices =
-        speechSynthesis.getVoices();
+        window.speechSynthesis
+        .getVoices();
 
-
-    voiceSelect.innerHTML =
-        "";
-
+    voiceSelect.innerHTML = "";
 
     voices.forEach(
-        function(voice,index){
+        (voice,index)=>{
 
             const option =
                 document.createElement(
                     "option"
                 );
 
-            option.value =
-                index;
+            option.value = index;
 
             option.textContent =
                 voice.name +
@@ -2614,301 +689,278 @@ function loadVoices(){
             voiceSelect.appendChild(
                 option
             );
-
         }
     );
 
-
-    const english =
-        voices.findIndex(
-            voice =>
-                voice.lang
-                .toLowerCase()
-                .startsWith("en")
-        );
+    chooseBestVoice();
+}
 
 
-    const chosen =
-        english >= 0
-        ? english
-        : 0;
+/* =========================================
+   BEST VOICE
+   ========================================= */
 
+function chooseBestVoice(){
 
-    if(voices.length){
+    if(!voices.length)
+        return;
+
+    let preferred;
+
+    if(currentMode === "jarvis"){
+
+        preferred =
+            voices.findIndex(
+                voice =>
+                    /Daniel|George|David|UK English|Microsoft/i
+                    .test(voice.name)
+            );
+
+    }else{
+
+        preferred =
+            voices.findIndex(
+                voice =>
+                    /Google|Microsoft|Samantha|Alex|English/i
+                    .test(voice.name)
+            );
+    }
+
+    if(preferred >= 0){
 
         voiceSelect.value =
-            chosen;
-
-        selectedVoice =
-            voices[chosen];
+            preferred;
     }
 }
 
 
-if(
-    "speechSynthesis"
-    in window
-){
+/* =========================================
+   VOICES CAN LOAD LATE
+   ========================================= */
 
-    speechSynthesis.onvoiceschanged =
-        loadVoices;
+speechSynthesis.onvoiceschanged =
+    loadVoices;
 
-    loadVoices();
-
-}
+loadVoices();
 
 
-voiceSelect.onchange =
-function(){
-
-    selectedVoice =
-        voices[
-            Number(
-                this.value
-            )
-        ];
-
-};
-
+/* =========================================
+   SPEAK
+   ========================================= */
 
 function speak(text){
 
-    if(
-        !("speechSynthesis"
-        in window)
-    ){
-
+    if(!("speechSynthesis" in window))
         return;
-    }
-
 
     speechSynthesis.cancel();
 
-
-    const utterance =
+    const message =
         new SpeechSynthesisUtterance(
             text
         );
 
+    const selected =
+        voices[
+            Number(
+                voiceSelect.value
+            )
+        ];
 
-    utterance.voice =
-        selectedVoice;
+    if(selected){
 
+        message.voice =
+            selected;
 
-    utterance.rate =
-        .9;
+        message.lang =
+            selected.lang;
+    }
 
-    utterance.pitch =
-        .78;
+    message.rate =
+        Number(rate.value);
 
-    utterance.volume =
-        1;
+    message.pitch =
+        Number(pitch.value);
 
+    message.volume = 1;
 
     speechSynthesis.speak(
-        utterance
+        message
     );
-
 }
 
 
-testVoice.onclick =
-function(){
+/* =========================================
+   MODE SWITCH
+   ========================================= */
 
-    speak(
-        "Hello. I am NEXORA. " +
-        "Your voice settings are working."
-    );
+modeSelect.addEventListener(
+    "change",
+    function(){
 
-};
+        currentMode =
+            this.value;
+
+        if(currentMode === "jarvis"){
+
+            modeDisplay.textContent =
+                "JARVIS-INSPIRED MODE";
+
+            chooseBestVoice();
+
+            speak(
+                "JARVIS-inspired mode activated. Systems ready."
+            );
+
+        }else{
+
+            modeDisplay.textContent =
+                "NEXORA MODE";
+
+            chooseBestVoice();
+
+            speak(
+                "NEXORA mode activated. Ready."
+            );
+        }
+    }
+);
 
 
-/* =====================================================
-   VOICE RECOGNITION
-===================================================== */
+/* =========================================
+   SPEECH RECOGNITION
+   ========================================= */
 
-const SpeechRecognition =
-window.SpeechRecognition ||
-window.webkitSpeechRecognition;
-
+const Recognition =
+    window.SpeechRecognition ||
+    window.webkitSpeechRecognition;
 
 let recognition = null;
 
-
-if(SpeechRecognition){
+if(Recognition){
 
     recognition =
-        new SpeechRecognition();
+        new Recognition();
 
+    recognition.continuous = false;
 
-    recognition.lang =
-        "en-US";
+    recognition.interimResults = false;
 
-
-    recognition.continuous =
-        false;
-
-
-    recognition.interimResults =
-        false;
-
-
-    recognition.maxAlternatives =
-        1;
+    recognition.lang = "en-US";
 
 
     recognition.onstart =
-    function(){
+        function(){
 
-        listening = true;
+            listening = true;
 
-        core.classList.add(
-            "listening"
-        );
+            core.classList.add(
+                "active"
+            );
 
-        connection.innerText =
-            "● LISTENING";
+            voiceButton.classList.add(
+                "active"
+            );
 
-        message.innerText =
-            "Listening...";
-
-    };
+            status.classList.add(
+                "listening"
+            );
+        };
 
 
     recognition.onresult =
-    function(event){
+        function(event){
 
-        const command =
-            event
-            .results[0][0]
-            .transcript
-            .toLowerCase()
-            .trim();
+            const command =
+                event.results[0][0]
+                .transcript
+                .trim();
 
-
-        listening = false;
-
-        core.classList.remove(
-            "listening"
-        );
-
-        core.classList.add(
-            "thinking"
-        );
-
-
-        connection.innerText =
-            "● PROCESSING";
-
-
-        processCommand(
-            command
-        );
-
-    };
+            processCommand(
+                command
+            );
+        };
 
 
     recognition.onerror =
-    function(event){
+        function(event){
 
-        listening = false;
-
-        core.classList.remove(
-            "listening",
-            "thinking"
-        );
-
-
-        if(
-            event.error ===
-            "not-allowed"
-        ){
-
-            respond(
-                "Microphone access is blocked. " +
-                "Allow microphone access for NEXORA."
+            console.log(
+                "Speech error:",
+                event.error
             );
 
-        }
+            listening = false;
 
-        else{
+            core.classList.remove(
+                "active"
+            );
 
-            message.innerText =
-                "I couldn't hear you. Tap the Core and try again.";
-        }
+            voiceButton.classList.remove(
+                "active"
+            );
 
-    };
+            status.classList.remove(
+                "listening"
+            );
+
+            if(
+                event.error ===
+                "not-allowed"
+            ){
+
+                speak(
+                    "Microphone permission is required."
+                );
+
+            }
+        };
 
 
     recognition.onend =
-    function(){
+        function(){
 
-        listening = false;
+            listening = false;
 
-        core.classList.remove(
-            "listening"
-        );
+            core.classList.remove(
+                "active"
+            );
 
+            voiceButton.classList.remove(
+                "active"
+            );
 
-        if(active){
-
-            connection.innerText =
-                "● CORE ONLINE";
-        }
-
-    };
+            status.classList.remove(
+                "listening"
+            );
+        };
 
 }
 
 
-/* =====================================================
-   CORE ACTIVATION
-===================================================== */
+/* =========================================
+   START LISTENING
+   ========================================= */
 
 function startListening(){
 
-    if(!active){
-
-        active = true;
-
-        core.classList.add(
-            "active"
-        );
-
-        connection.innerText =
-            "● CORE ONLINE";
-
-        speak(
-            "NEXORA online."
-        );
-
-        return;
-    }
-
-
     if(!recognition){
 
-        respond(
-            "Voice recognition is not supported " +
-            "in this browser. Try Chrome or Edge."
+        speak(
+            "Voice recognition is not supported by this browser."
         );
 
         return;
     }
 
-
-    if(listening){
-
+    if(listening)
         return;
-    }
-
 
     try{
 
         recognition.start();
 
-    }
-    catch(error){
+    }catch(error){
 
         console.log(error);
 
@@ -2916,149 +968,295 @@ function startListening(){
 }
 
 
-core.onclick =
-function(){
+/* =========================================
+   CORE CLICK
+   ========================================= */
 
-    startListening();
+core.addEventListener(
+    "click",
+    function(){
 
-};
+        if(listening){
 
+            recognition.stop();
 
-core.onkeydown =
-function(event){
+        }else{
 
-    if(
-        event.key ===
-        "Enter" ||
-        event.key ===
-        " "
-    ){
+            startListening();
 
-        event.preventDefault();
-
-        startListening();
-
+        }
     }
-
-};
-
-
-/* =====================================================
-   RESPONSE
-===================================================== */
-
-function respond(text){
-
-    message.innerText =
-        text;
-
-    speak(text);
-
-}
+);
 
 
-/* =====================================================
+/* =========================================
+   PANEL
+   ========================================= */
+
+voiceButton.addEventListener(
+    "click",
+    function(){
+
+        panel.classList.toggle(
+            "open"
+        );
+    }
+);
+
+
+/* =========================================
    COMMAND ENGINE
-===================================================== */
+   ========================================= */
 
 function processCommand(command){
 
-    let answer = "";
+    const text =
+        command
+        .toLowerCase()
+        .trim();
 
-    let url = null;
 
+    /* GREETING */
 
     if(
-        command.includes("hello") ||
-        command.includes("hi") ||
-        command.includes("hey")
+        text.includes("hello") ||
+        text.includes("hi nexora") ||
+        text.includes("hello nexora") ||
+        text === "hi"
     ){
 
-        answer =
-            "Hello. NEXORA is ready.";
+        if(currentMode === "jarvis"){
+
+            speak(
+                "Good day. JARVIS-inspired mode is online and ready."
+            );
+
+        }else{
+
+            speak(
+                "Hello. NEXORA is online and ready."
+            );
+        }
+
+        return;
     }
 
 
-    else if(
-        command.includes("who are you") ||
-        command.includes("what are you")
+    /* NAME */
+
+    if(
+        text.includes("your name") ||
+        text.includes("who are you")
     ){
 
-        answer =
-            "I am NEXORA, a digital intelligence interface.";
+        if(currentMode === "jarvis"){
+
+            speak(
+                "This is the JARVIS-inspired assistant mode operating through NEXORA CORE."
+            );
+
+        }else{
+
+            speak(
+                "I am NEXORA, your personal browser assistant."
+            );
+        }
+
+        return;
     }
 
 
-    else if(
-        command.includes("what can you do") ||
-        command === "help"
+    /* TIME */
+
+    if(
+        text.includes("what time") ||
+        text === "time" ||
+        text.includes("current time")
     ){
 
-        answer =
-            "I can answer questions, perform calculations, " +
-            "open websites and search the web.";
-    }
-
-
-    else if(
-        command.includes("status") ||
-        command.includes("system")
-    ){
-
-        answer =
-            "NEXORA systems are operational.";
-    }
-
-
-    else if(
-        command.includes("robotics") ||
-        command.includes("robot")
-    ){
-
-        answer =
-            "Robotics systems are ready.";
-    }
-
-
-    else if(
-        command.includes("science")
-    ){
-
-        answer =
-            "Science systems are online.";
-    }
-
-
-    else if(
-        command.includes("math")
-    ){
-
-        answer =
-            "Mathematics systems are ready.";
-    }
-
-
-    else if(
-        command.includes("time")
-    ){
-
-        answer =
+        speak(
             "The current time is " +
             new Date()
-            .toLocaleTimeString();
+            .toLocaleTimeString()
+        );
+
+        return;
     }
 
 
-    else if(
-        command.startsWith(
-            "calculate "
-        )
+    /* DATE */
+
+    if(
+        text.includes("what date") ||
+        text.includes("what day is it") ||
+        text.includes("today's date")
     ){
 
-        const expression =
-            command.replace(
+        speak(
+            "Today is " +
+            new Date()
+            .toLocaleDateString(
+                undefined,
+                {
+                    weekday:"long",
+                    month:"long",
+                    day:"numeric",
+                    year:"numeric"
+                }
+            )
+        );
+
+        return;
+    }
+
+
+    /* OPEN GOOGLE */
+
+    if(
+        text.includes("open google")
+    ){
+
+        speak(
+            currentMode === "jarvis"
+            ? "Opening Google."
+            : "Opening Google."
+        );
+
+        setTimeout(
+            function(){
+
+                window.open(
+                    "https://www.google.com",
+                    "_blank"
+                );
+
+            },
+            700
+        );
+
+        return;
+    }
+
+
+    /* OPEN YOUTUBE */
+
+    if(
+        text.includes("open youtube")
+    ){
+
+        speak(
+            "Opening YouTube."
+        );
+
+        setTimeout(
+            function(){
+
+                window.open(
+                    "https://www.youtube.com",
+                    "_blank"
+                );
+
+            },
+            700
+        );
+
+        return;
+    }
+
+
+    /* SEARCH */
+
+    if(
+        text.startsWith("search ") ||
+        text.startsWith("search for ")
+    ){
+
+        let query =
+            text
+            .replace(
+                "search for ",
+                ""
+            )
+            .replace(
+                "search ",
+                ""
+            )
+            .trim();
+
+        if(!query){
+
+            speak(
+                "What would you like me to search for?"
+            );
+
+            return;
+        }
+
+        speak(
+            "Searching for " +
+            query
+        );
+
+        setTimeout(
+            function(){
+
+                window.open(
+                    "https://www.google.com/search?q=" +
+                    encodeURIComponent(
+                        query
+                    ),
+                    "_blank"
+                );
+
+            },
+            700
+        );
+
+        return;
+    }
+
+
+    /* CALCULATOR */
+
+    if(
+        text.startsWith("calculate ") ||
+        text.startsWith("work out ")
+    ){
+
+        let expression =
+            text
+            .replace(
                 "calculate ",
                 ""
+            )
+            .replace(
+                "work out ",
+                ""
+            )
+            .trim();
+
+
+        expression =
+            expression
+            .replace(
+                /plus/g,
+                "+"
+            )
+            .replace(
+                /minus/g,
+                "-"
+            )
+            .replace(
+                /times/g,
+                "*"
+            )
+            .replace(
+                /multiplied by/g,
+                "*"
+            )
+            .replace(
+                /divided by/g,
+                "/"
             );
 
 
@@ -3076,506 +1274,294 @@ function processCommand(command){
                         ')'
                     )();
 
-
-                answer =
-                    "The answer is " +
-                    result;
-
-            }
-            catch{
-
-                answer =
-                    "I couldn't calculate that.";
-            }
-
-        }
-
-        else{
-
-            answer =
-                "Please give me a mathematical expression.";
-        }
-
-    }
-
-
-    else if(
-        command.includes(
-            "open google"
-        )
-    ){
-
-        answer =
-            "Opening Google.";
-
-        url =
-            "https://www.google.com";
-    }
-
-
-    else if(
-        command.includes(
-            "open youtube"
-        )
-    ){
-
-        answer =
-            "Opening YouTube.";
-
-        url =
-            "https://www.youtube.com";
-    }
-
-
-    else if(
-        command.startsWith(
-            "search for "
-        )
-    ){
-
-        const query =
-            command.replace(
-                "search for ",
-                ""
-            );
-
-
-        answer =
-            "Searching for " +
-            query;
-
-
-        url =
-            "https://www.google.com/search?q=" +
-            encodeURIComponent(
-                query
-            );
-    }
-
-
-    else{
-
-        answer =
-            "I don't know that one yet. " +
-            "I'll search the web for you.";
-
-        url =
-            "https://www.google.com/search?q=" +
-            encodeURIComponent(
-                command
-            );
-    }
-
-
-    core.classList.remove(
-        "thinking"
-    );
-
-
-    respond(answer);
-
-
-    if(url){
-
-        setTimeout(
-            function(){
-
-                window.open(
-                    url,
-                    "_blank"
+                speak(
+                    expression +
+                    " equals " +
+                    result
                 );
 
-            },
-            900
-        );
+            }catch{
 
+                speak(
+                    "I couldn't calculate that."
+                );
+            }
+
+        }else{
+
+            speak(
+                "I can calculate basic arithmetic."
+            );
+        }
+
+        return;
     }
 
+
+    /* JOKE */
+
+    if(
+        text.includes(
+            "tell me a joke"
+        )
+    ){
+
+        speak(
+            "Why did the computer go to the doctor? Because it had a virus."
+        );
+
+        return;
+    }
+
+
+    /* HELP */
+
+    if(
+        text === "help" ||
+        text.includes(
+            "what can you do"
+        )
+    ){
+
+        if(currentMode === "jarvis"){
+
+            speak(
+                "I can process voice commands, open websites, search the web, calculate numbers, report the time and date, and operate the NEXORA CORE interface."
+            );
+
+        }else{
+
+            speak(
+                "I can listen to voice commands, open websites, search the web, calculate numbers, and tell you the time and date."
+            );
+        }
+
+        return;
+    }
+
+
+    /* STOP */
+
+    if(
+        text === "stop" ||
+        text.includes(
+            "stop talking"
+        )
+    ){
+
+        speechSynthesis.cancel();
+
+        return;
+    }
+
+
+    /* SWITCH TO JARVIS */
+
+    if(
+        text.includes(
+            "switch to jarvis"
+        ) ||
+        text.includes(
+            "activate jarvis"
+        )
+    ){
+
+        modeSelect.value =
+            "jarvis";
+
+        modeSelect.dispatchEvent(
+            new Event("change")
+        );
+
+        return;
+    }
+
+
+    /* SWITCH TO NEXORA */
+
+    if(
+        text.includes(
+            "switch to nexora"
+        ) ||
+        text.includes(
+            "activate nexora"
+        )
+    ){
+
+        modeSelect.value =
+            "nexora";
+
+        modeSelect.dispatchEvent(
+            new Event("change")
+        );
+
+        return;
+    }
+
+
+    /* UNKNOWN */
+
+    if(currentMode === "jarvis"){
+
+        speak(
+            "Command received. I don't currently have an action for that request."
+        );
+
+    }else{
+
+        speak(
+            "I heard you say " +
+            command +
+            ". I don't have that command available yet."
+        );
+    }
 }
 
 
-/* =====================================================
-   MY VOICE
-===================================================== */
+/* =========================================
+   TEST VOICE
+   ========================================= */
 
-const recordVoice =
-document.getElementById(
-    "recordVoice"
-);
+document
+.getElementById("testVoice")
+.addEventListener(
+    "click",
+    function(){
 
-const playVoice =
-document.getElementById(
-    "playVoice"
-);
+        if(currentMode === "jarvis"){
 
-const deleteVoice =
-document.getElementById(
-    "deleteVoice"
-);
-
-
-let mediaRecorder =
-null;
-
-let voiceChunks = [];
-
-let voiceRecording =
-null;
-
-
-recordVoice.onclick =
-async function(){
-
-    if(
-        mediaRecorder &&
-        mediaRecorder.state ===
-        "recording"
-    ){
-
-        mediaRecorder.stop();
-
-        recordVoice.innerText =
-            "🎙 RECORD";
-
-        recordVoice.classList.remove(
-            "recording"
-        );
-
-        return;
-    }
-
-
-    if(
-        !navigator.mediaDevices ||
-        !navigator.mediaDevices.getUserMedia
-    ){
-
-        message.innerText =
-            "Voice recording isn't supported here.";
-
-        return;
-    }
-
-
-    try{
-
-        const stream =
-            await navigator
-            .mediaDevices
-            .getUserMedia({
-                audio:true
-            });
-
-
-        voiceChunks = [];
-
-
-        mediaRecorder =
-            new MediaRecorder(
-                stream
+            speak(
+                "JARVIS-inspired voice system online."
             );
 
+        }else{
 
-        mediaRecorder.ondataavailable =
-        function(event){
-
-            if(
-                event.data.size
-            ){
-
-                voiceChunks.push(
-                    event.data
-                );
-
-            }
-
-        };
-
-
-        mediaRecorder.onstop =
-        function(){
-
-            const blob =
-                new Blob(
-                    voiceChunks,
-                    {
-                        type:
-                        "audio/webm"
-                    }
-                );
-
-
-            voiceRecording =
-                URL.createObjectURL(
-                    blob
-                );
-
-
-            playVoice.disabled =
-                false;
-
-            deleteVoice.disabled =
-                false;
-
-
-            stream
-            .getTracks()
-            .forEach(
-                track =>
-                track.stop()
+            speak(
+                "NEXORA voice system online."
             );
-
-
-            message.innerText =
-                "Your voice sample is ready.";
-
-        };
-
-
-        mediaRecorder.start();
-
-
-        recordVoice.innerText =
-            "⏹ STOP";
-
-
-        recordVoice.classList.add(
-            "recording"
-        );
-
-
-        message.innerText =
-            "Recording... tap STOP when finished.";
-
-    }
-
-    catch{
-
-        message.innerText =
-            "Please allow microphone access.";
-    }
-
-};
-
-
-playVoice.onclick =
-function(){
-
-    if(
-        voiceRecording
-    ){
-
-        new Audio(
-            voiceRecording
-        ).play();
-
-    }
-
-};
-
-
-deleteVoice.onclick =
-function(){
-
-    if(
-        voiceRecording
-    ){
-
-        URL.revokeObjectURL(
-            voiceRecording
-        );
-
-    }
-
-
-    voiceRecording =
-        null;
-
-    voiceChunks =
-        [];
-
-
-    playVoice.disabled =
-        true;
-
-    deleteVoice.disabled =
-        true;
-
-
-    message.innerText =
-        "Voice sample deleted.";
-
-};
-
-
-/* =====================================================
-   QR SYSTEM
-===================================================== */
-
-const qrButton =
-document.getElementById(
-    "qrButton"
-);
-
-const qrWindow =
-document.getElementById(
-    "qrWindow"
-);
-
-const qrBox =
-document.getElementById(
-    "qrcode"
-);
-
-
-function generateQR(){
-
-    qrBox.innerHTML =
-        "";
-
-
-    if(
-        typeof QRCode ===
-        "undefined"
-    ){
-
-        qrBox.innerText =
-            "QR library unavailable.";
-
-        return;
-    }
-
-
-    new QRCode(
-        qrBox,
-        {
-
-            text:
-                window.location.href,
-
-            width:200,
-
-            height:200,
-
-            colorDark:
-                "#000000",
-
-            colorLight:
-                "#ffffff",
-
-            correctLevel:
-                QRCode.CorrectLevel.H
-
         }
-    );
-
-}
-
-
-qrButton.onclick =
-function(){
-
-    document.getElementById(
-        "qrURL"
-    ).innerText =
-        window.location.href;
+    }
+);
 
 
-    qrWindow.classList.add(
-        "show"
-    );
+/* =========================================
+   STOP VOICE
+   ========================================= */
+
+document
+.getElementById("stopVoice")
+.addEventListener(
+    "click",
+    function(){
+
+        speechSynthesis.cancel();
+
+    }
+);
 
 
-    generateQR();
+/* =========================================
+   QR CODE
+   ========================================= */
 
-};
+document
+.getElementById("qrButton")
+.addEventListener(
+    "click",
+    function(){
 
+        const qr =
+            document.getElementById(
+                "qr"
+            );
 
-document.getElementById(
-    "closeQR"
-).onclick =
-function(){
+        if(
+            qr.style.display ===
+            "flex"
+        ){
 
-    qrWindow.classList.remove(
-        "show"
-    );
+            qr.style.display =
+                "none";
 
-};
+            this.textContent =
+                "📱 SHOW QR";
 
+            return;
+        }
 
-document.getElementById(
-    "copyURL"
-).onclick =
-async function(){
+        qr.innerHTML = "";
 
-    try{
+        const image =
+            document.createElement(
+                "img"
+            );
 
-        await navigator
-            .clipboard
-            .writeText(
+        image.width = 180;
+
+        image.height = 180;
+
+        image.alt =
+            "NEXORA QR Code";
+
+        image.src =
+            "https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=" +
+            encodeURIComponent(
                 window.location.href
             );
 
+        qr.appendChild(
+            image
+        );
 
-        message.innerText =
-            "NEXORA link copied.";
+        qr.style.display =
+            "flex";
+
+        this.textContent =
+            "❌ HIDE QR";
 
     }
-    catch{
-
-        message.innerText =
-            window.location.href;
-
-    }
-
-};
+);
 
 
-/* =====================================================
-   ESCAPE
-===================================================== */
+/* =========================================
+   KEYBOARD
+   ========================================= */
 
 document.addEventListener(
     "keydown",
     function(event){
 
         if(
-            event.key ===
-            "Escape"
+            event.code === "Space" &&
+            document.activeElement.tagName !== "INPUT" &&
+            document.activeElement.tagName !== "SELECT"
         ){
 
-            settingsWindow.classList.remove(
-                "show"
-            );
+            event.preventDefault();
 
-            qrWindow.classList.remove(
-                "show"
-            );
-
+            startListening();
         }
 
+
+        if(
+            event.key === "Escape"
+        ){
+
+            speechSynthesis.cancel();
+
+            if(
+                listening &&
+                recognition
+            ){
+
+                recognition.stop();
+            }
+        }
     }
-);
-
-
-/* =====================================================
-   START
-===================================================== */
-
-applySettings();
-
-
-setTimeout(
-    function(){
-
-        message.innerText =
-            "Tap the Core to activate NEXORA.";
-
-    },
-    800
 );
 
 </script>
 
 </body>
 </html>
+```
