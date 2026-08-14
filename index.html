@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <meta name="theme-color" content="#020711">
-<title>NEXORA 1.8.2</title>
+<title>NEXORA 1.9</title>
 
 <style>
 *{
@@ -87,6 +87,21 @@ body{
 
 .circleBtn:hover{
     background:rgba(0,170,255,.2);
+}
+
+.circleBtn:focus-visible,
+.send:focus-visible,
+.card:focus-visible,
+.close:focus-visible{
+    outline:2px solid white;
+    outline-offset:2px;
+}
+
+.circleBtn:disabled,
+.send:disabled,
+#input:disabled{
+    opacity:.4;
+    cursor:not-allowed;
 }
 
 /* WELCOME */
@@ -433,6 +448,29 @@ textarea{
     margin-top:8px;
 }
 
+.memList{
+    margin-top:10px;
+    font-size:12px;
+    color:#9db6c6;
+    line-height:1.6;
+}
+
+.memList .row{
+    display:flex;
+    justify-content:space-between;
+    gap:10px;
+    padding:6px 0;
+    border-bottom:1px solid rgba(255,255,255,.05);
+}
+
+.memList button{
+    background:none;
+    border:none;
+    color:#ff6b6b;
+    cursor:pointer;
+    font-size:11px;
+}
+
 /* UPDATE */
 
 .update{
@@ -539,24 +577,19 @@ textarea{
 
         <h1>NEXORA</h1>
 
-        <h2>UPDATE 1.8.2</h2>
+        <h2>UPDATE 1.9</h2>
 
-        <p>ASSISTANT ECOSYSTEM FOUNDATION</p>
+        <p>SMARTER CONVERSATIONS</p>
 
         <div class="changes">
 
-            ✓ NEXORA Core remains the main screen<br>
-            ✓ Natural conversation foundation<br>
-            ✓ Question and command understanding<br>
-            ✓ Topic and subtopic analysis<br>
-            ✓ Student Mode<br>
-            ✓ Entrepreneur Mode<br>
-            ✓ Developer Mode<br>
-            ✓ Voice interaction<br>
-            ✓ Customizable Core<br>
-            ✓ Multiple languages<br>
-            ✓ Expandable skills system<br>
-            ✓ NEXORA ecosystem roadmap
+            ✓ Real AI brain connected (no more canned fallback)<br>
+            ✓ One continuous NEXORA identity — modes shift focus, not personality<br>
+            ✓ Remembers the conversation within a session<br>
+            ✓ Reminders and persistent memory<br>
+            ✓ Settings, mode, color and size now survive a refresh<br>
+            ✓ Fixed topic-detection false positives<br>
+            ✓ Input locks while NEXORA is thinking, to stop message pile-ups
 
         </div>
 
@@ -587,12 +620,16 @@ textarea{
 
             <button
                 class="circleBtn"
+                title="Ecosystem"
+                aria-label="Open ecosystem panel"
                 onclick="openPanel('ecosystem')">
                 ◈
             </button>
 
             <button
                 class="circleBtn"
+                title="Settings"
+                aria-label="Open settings panel"
                 onclick="openPanel('settings')">
                 ⚙
             </button>
@@ -618,6 +655,8 @@ textarea{
     <div
         id="core"
         class="core"
+        role="button"
+        aria-label="Press to speak to NEXORA"
         onclick="toggleVoice()"
     >
 
@@ -652,6 +691,8 @@ textarea{
 
         <button
             class="circleBtn"
+            title="Voice input"
+            aria-label="Toggle voice input"
             onclick="toggleVoice()">
             🎙
         </button>
@@ -664,6 +705,7 @@ textarea{
 
         <button
             class="send"
+            id="sendBtn"
             onclick="sendMessage()">
             SEND
         </button>
@@ -706,7 +748,7 @@ textarea{
 
 
     <div class="version">
-        NEXORA 1.8.2
+        NEXORA 1.9
     </div>
 
 </div>
@@ -724,6 +766,7 @@ textarea{
 
             <button
                 class="close"
+                aria-label="Close ecosystem panel"
                 onclick="closePanel('ecosystem')">
                 ×
             </button>
@@ -735,7 +778,7 @@ textarea{
             <div class="card">
                 🧠
                 <b>AI Brain</b>
-                <small>Core intelligence</small>
+                <small>Core intelligence — now live</small>
             </div>
 
             <div class="card">
@@ -747,7 +790,7 @@ textarea{
             <div class="card">
                 🧩
                 <b>Skills</b>
-                <small>Expandable abilities</small>
+                <small>Reminders, memory, expandable abilities</small>
             </div>
 
             <div class="card">
@@ -799,6 +842,7 @@ textarea{
 
             <button
                 class="close"
+                aria-label="Close settings panel"
                 onclick="closePanel('settings')">
                 ×
             </button>
@@ -831,13 +875,19 @@ textarea{
         <button
             class="send full"
             onclick="openPanel('modes')">
-            🧠 MODES
+            🧠 FOCUS
         </button>
 
         <button
             class="send full"
             onclick="openPanel('custom')">
             🎨 CUSTOMIZE CORE
+        </button>
+
+        <button
+            class="send full"
+            onclick="openPanel('memory')">
+            🗂 MEMORY & REMINDERS
         </button>
 
     </div>
@@ -853,15 +903,20 @@ textarea{
 
         <div class="panelHead">
 
-            <h2>🧠 MODES</h2>
+            <h2>🧠 FOCUS</h2>
 
             <button
                 class="close"
+                aria-label="Close focus panel"
                 onclick="closePanel('modes')">
                 ×
             </button>
 
         </div>
+
+        <p style="color:#7893a3;font-size:12px;margin-bottom:15px;">
+            NEXORA stays the same assistant throughout — this just points its attention.
+        </p>
 
         <div class="grid" id="modeGrid"></div>
 
@@ -882,6 +937,7 @@ textarea{
 
             <button
                 class="close"
+                aria-label="Close customize panel"
                 onclick="closePanel('custom')">
                 ×
             </button>
@@ -901,6 +957,7 @@ textarea{
 
         <input
             type="range"
+            id="sizeSlider"
             min="150"
             max="300"
             value="220"
@@ -918,17 +975,55 @@ textarea{
 </div>
 
 
+<!-- MEMORY -->
+
+<div id="memory" class="overlay">
+
+    <div class="panel">
+
+        <div class="panelHead">
+
+            <h2>🗂 MEMORY & REMINDERS</h2>
+
+            <button
+                class="close"
+                aria-label="Close memory panel"
+                onclick="closePanel('memory')">
+                ×
+            </button>
+
+        </div>
+
+        <p style="color:#7893a3;font-size:12px;">
+            Say "remember that ..." or "remind me to ... in N minutes" and NEXORA keeps it here.
+        </p>
+
+        <div id="memList" class="memList"></div>
+
+        <button
+            class="send full"
+            onclick="clearMemory()">
+            CLEAR ALL
+        </button>
+
+    </div>
+
+</div>
+
+
+<script src="https://js.puter.com/v2/"></script>
+
 <script>
 
 /* =========================================
    NEXORA ENGINE
 ========================================= */
 
-const VERSION = "1.8.2";
+const VERSION = "1.9";
 
-let currentMode = "General";
+let currentMode = localStorage.getItem("nexora_mode") || "General";
 
-let currentLanguage = "en-US";
+let currentLanguage = localStorage.getItem("nexora_lang") || "en-US";
 
 let voices = [];
 
@@ -936,9 +1031,15 @@ let recognition = null;
 
 let listening = false;
 
+let busy = false;
+
+let conversationHistory = [];
+
+const MAX_HISTORY = 12;
+
 
 /* =========================================
-   UPDATE
+   UPDATE / SPLASH
 ========================================= */
 
 function enterNexora(){
@@ -947,7 +1048,17 @@ function enterNexora(){
         .getElementById("updateScreen")
         .classList.add("hide");
 
+    localStorage.setItem("nexora_seen_" + VERSION, "true");
+
     speak("NEXORA is ready.");
+
+}
+
+if(localStorage.getItem("nexora_seen_" + VERSION)){
+
+    document
+        .getElementById("updateScreen")
+        .classList.add("hide");
 
 }
 
@@ -961,6 +1072,10 @@ function openPanel(id){
     document
         .getElementById(id)
         .classList.add("show");
+
+    if(id === "memory"){
+        renderMemoryPanel();
+    }
 
 }
 
@@ -1028,8 +1143,12 @@ function coreState(state){
 
 
 /* =========================================
-   ANALYSIS
+   ANALYSIS  (fixed: whole-word matching)
 ========================================= */
+
+function hasWord(t, word){
+    return new RegExp("\\b" + word + "\\b", "i").test(t);
+}
 
 function analyse(text){
 
@@ -1039,50 +1158,29 @@ function analyse(text){
     let subtopic = "General";
     let intent = "Conversation";
 
-    if(
-        t.includes("math") ||
-        t.includes("algebra") ||
-        t.includes("fraction") ||
-        t.includes("factor")
-    ){
+    const mathWords = ["math","maths","algebra","fraction","factor","equation"];
+    const scienceWords = ["science","biology","chemistry","physics"];
+    const bizWords = ["business","entrepreneur","startup"];
+    const devWords = ["code","html","javascript","website","css","function","bug"];
+    const carWords = ["car","engine","tuning","vehicle"];
+
+    if(mathWords.some(w => hasWord(t,w))){
         topic = "Maths";
         subtopic = "Mathematics";
     }
-
-    else if(
-        t.includes("science") ||
-        t.includes("biology") ||
-        t.includes("chemistry") ||
-        t.includes("physics")
-    ){
+    else if(scienceWords.some(w => hasWord(t,w))){
         topic = "Science";
         subtopic = "Science";
     }
-
-    else if(
-        t.includes("business") ||
-        t.includes("entrepreneur") ||
-        t.includes("startup")
-    ){
+    else if(bizWords.some(w => hasWord(t,w))){
         topic = "Entrepreneur";
         subtopic = "Business";
     }
-
-    else if(
-        t.includes("code") ||
-        t.includes("html") ||
-        t.includes("javascript") ||
-        t.includes("website")
-    ){
+    else if(devWords.some(w => hasWord(t,w))){
         topic = "Developer";
         subtopic = "Programming";
     }
-
-    else if(
-        t.includes("car") ||
-        t.includes("engine") ||
-        t.includes("tuning")
-    ){
+    else if(carWords.some(w => hasWord(t,w))){
         topic = "Automotive";
         subtopic = "Cars";
     }
@@ -1105,7 +1203,9 @@ function analyse(text){
         t.startsWith("show") ||
         t.startsWith("activate") ||
         t.startsWith("change") ||
-        t.startsWith("set")
+        t.startsWith("set") ||
+        t.startsWith("remind") ||
+        t.startsWith("remember")
     ){
         intent = "Command";
     }
@@ -1124,12 +1224,147 @@ function analyse(text){
 
 
 /* =========================================
+   MEMORY
+========================================= */
+
+function getMemories(){
+    try{
+        return JSON.parse(localStorage.getItem("nexora_memories") || "[]");
+    }catch(e){
+        return [];
+    }
+}
+
+function saveMemories(list){
+    localStorage.setItem("nexora_memories", JSON.stringify(list));
+}
+
+function rememberFact(fact){
+    const list = getMemories();
+    list.push({ text: fact, time: new Date().toLocaleString() });
+    saveMemories(list);
+}
+
+function clearMemory(){
+    saveMemories([]);
+    renderMemoryPanel();
+}
+
+function renderMemoryPanel(){
+    const list = getMemories();
+    const el = document.getElementById("memList");
+
+    if(list.length === 0){
+        el.innerHTML = "<p style='color:#4d6373;'>Nothing remembered yet.</p>";
+        return;
+    }
+
+    el.innerHTML = "";
+
+    list.forEach(function(item, i){
+        const row = document.createElement("div");
+        row.className = "row";
+        row.innerHTML =
+            "<span>" + item.text + "</span>";
+
+        const del = document.createElement("button");
+        del.textContent = "remove";
+        del.onclick = function(){
+            const l = getMemories();
+            l.splice(i,1);
+            saveMemories(l);
+            renderMemoryPanel();
+        };
+
+        row.appendChild(del);
+        el.appendChild(row);
+    });
+}
+
+
+/* =========================================
+   REMINDERS
+========================================= */
+
+function setReminder(text, minutes){
+
+    showAnswer("Understood. I'll remind you to " + text + " in " + minutes + " minute" + (minutes === 1 ? "" : "s") + ".");
+
+    speak("I'll remind you to " + text + " in " + minutes + " minutes.");
+
+    setTimeout(function(){
+
+        showAnswer("Reminder: " + text);
+        speak("Reminder: " + text);
+
+        if("Notification" in window && Notification.permission === "granted"){
+            new Notification("NEXORA", { body: text });
+        }
+
+    }, minutes * 60000);
+
+    if("Notification" in window && Notification.permission === "default"){
+        Notification.requestPermission();
+    }
+
+}
+
+function tryParseReminder(t){
+
+    // "remind me to X in N minute(s)/hour(s)"
+    const match = t.match(/remind me to (.+?) in (\d+)\s*(minute|minutes|hour|hours)/i);
+
+    if(match){
+        const task = match[1];
+        let amount = parseInt(match[2], 10);
+        const unit = match[3];
+
+        if(unit.startsWith("hour")){
+            amount = amount * 60;
+        }
+
+        setReminder(task, amount);
+        return true;
+    }
+
+    return false;
+
+}
+
+function tryParseMemory(t){
+
+    const match = t.match(/remember (?:that )?(.+)/i);
+
+    if(match){
+        rememberFact(match[1]);
+        showAnswer("Noted. I'll remember that " + match[1] + ".");
+        speak("Noted.");
+        return true;
+    }
+
+    return false;
+
+}
+
+
+/* =========================================
    RESPONSE ENGINE
 ========================================= */
 
-function generateResponse(text){
+async function generateResponse(text){
 
     const t = text.toLowerCase().trim();
+
+
+    /* SKILLS: reminders + memory take priority */
+
+    if(t.includes("remind me to") && tryParseReminder(t)){
+        return null; // already handled directly
+    }
+
+    if(t.startsWith("remember ") && tryParseMemory(t)){
+        return null; // already handled directly
+    }
 
 
     /* GREETING */
@@ -1139,7 +1374,7 @@ function generateResponse(text){
         t === "hello" ||
         t.includes("hey nexora")
     ){
-        return "Hey. NEXORA is ready. What would you like to do?";
+        return "Good to hear from you. What are we working on?";
     }
 
 
@@ -1149,7 +1384,7 @@ function generateResponse(text){
         t.includes("who are you") ||
         t.includes("what are you")
     ){
-        return "I'm NEXORA — an expandable AI assistant system built around the NEXORA Core.";
+        return "I'm NEXORA — the intelligence running this OS. One assistant, wherever your attention takes us.";
     }
 
 
@@ -1159,119 +1394,101 @@ function generateResponse(text){
         t.includes("what can you do") ||
         t.includes("what are your features")
     ){
-        return "I can understand questions and commands, analyse topics, switch modes, interact through voice, use skills and operate as the foundation of a larger assistant ecosystem.";
+        return "I can hold a real conversation, remember things you tell me, set reminders, analyse what you're asking, shift focus between General, Student, Developer and more, and control this interface by voice or text.";
     }
 
 
-    /* MODE */
+    /* MODE / FOCUS */
 
-    if(
-        t.includes("entrepreneur mode")
-    ){
-        currentMode = "Entrepreneur";
-
-        document.getElementById("mode").textContent =
-            "Entrepreneur Mode";
-
-        return "Entrepreneur Mode activated. I can help you develop ideas, products, customers, marketing and business strategies.";
+    if(t.includes("entrepreneur mode")){
+        setMode("Entrepreneur");
+        return "Focus shifted to Entrepreneur. Same me — just tuned in on ideas, product and strategy now.";
     }
 
-
-    if(
-        t.includes("student mode") ||
-        t.includes("study mode")
-    ){
-        currentMode = "Student";
-
-        document.getElementById("mode").textContent =
-            "Student Mode";
-
-        return "Student Mode activated. I can help you learn, practise questions and understand difficult topics.";
+    if(t.includes("student mode") || t.includes("study mode")){
+        setMode("Student");
+        return "Focus shifted to Student. Let's get you through this.";
     }
 
-
-    if(
-        t.includes("developer mode")
-    ){
-        currentMode = "Developer";
-
-        document.getElementById("mode").textContent =
-            "Developer Mode";
-
-        return "Developer Mode activated. Tell me what you're building.";
+    if(t.includes("developer mode")){
+        setMode("Developer");
+        return "Focus shifted to Developer. Tell me what you're building.";
     }
 
 
     /* OPEN PANELS */
 
-    if(
-        t.includes("open settings") ||
-        t.includes("show settings")
-    ){
+    if(t.includes("open settings") || t.includes("show settings")){
         openPanel("settings");
         return "Settings are open.";
     }
 
-
-    if(
-        t.includes("show ecosystem") ||
-        t.includes("open ecosystem")
-    ){
+    if(t.includes("show ecosystem") || t.includes("open ecosystem")){
         openPanel("ecosystem");
         return "The NEXORA ecosystem is open.";
     }
 
-
-    if(
-        t.includes("show modes") ||
-        t.includes("open modes")
-    ){
+    if(t.includes("show modes") || t.includes("open modes") || t.includes("show focus") || t.includes("open focus")){
         openPanel("modes");
-        return "NEXORA modes are open.";
+        return "Focus options are open.";
     }
 
-
-    if(
-        t.includes("customize") ||
-        t.includes("customise")
-    ){
+    if(t.includes("customize") || t.includes("customise")){
         openPanel("custom");
-        return "Core customization is open.";
+        return "Core customisation is open.";
     }
 
-
-    /* COMMANDS */
-
-    if(
-        t.includes("show commands") ||
-        t.includes("open commands")
-    ){
-        return "The command system is being prepared. NEXORA can be expanded with custom commands.";
+    if(t.includes("open memory") || t.includes("show memory") || t.includes("show reminders")){
+        openPanel("memory");
+        return "Here's what I've got stored.";
     }
 
 
     /* HELP */
 
-    if(
-        t === "help" ||
-        t.includes("help me")
-    ){
-        return "You can ask me questions, activate modes, open settings, customize the Core, or simply talk naturally.";
+    if(t === "help" || t.includes("help me")){
+        return "Ask me questions, tell me to remember something, ask for a reminder, shift focus, open settings, customise the Core, or just talk naturally — I'll take it from there.";
     }
 
 
     /* THANKS */
 
-    if(
-        t.includes("thank")
-    ){
-        return "You're welcome.";
+    if(t.includes("thank")){
+        return "Anytime.";
     }
 
 
-    /* DEFAULT */
+    /* DEFAULT — real AI brain */
 
-    return "I understand what you're asking, but this NEXORA version needs its full AI backend connected for open-ended answers. The interface and assistant engine are ready.";
+    try{
+
+        const systemPrompt =
+            "You are NEXORA, a calm, sharp, quietly capable AI assistant — a single " +
+            "continuous intelligence running this user's personal OS, in the spirit of " +
+            "JARVIS. You do not switch personalities between modes; 'focus' only changes " +
+            "what you're helping with. Keep replies concise, confident, and natural to " +
+            "speak aloud. Current focus: " + currentMode + ".";
+
+        const messages = conversationHistory
+            .map(m => m.role + ": " + m.content)
+            .join("\n");
+
+        const prompt = systemPrompt + "\n\n" + messages + "\nUser: " + text;
+
+        const response = await puter.ai.chat(prompt);
+
+        const reply = typeof response === "string"
+            ? response
+            : (response && response.message && response.message.content) || String(response);
+
+        return reply;
+
+    }catch(err){
+
+        return "Apologies — I couldn't reach my core intelligence just now. Everything else is still online.";
+
+    }
+
 }
 
 
@@ -1279,24 +1496,46 @@ function generateResponse(text){
    PROCESS
 ========================================= */
 
+function setBusy(state){
+    busy = state;
+    document.getElementById("input").disabled = state;
+    document.getElementById("sendBtn").disabled = state;
+}
+
 function processMessage(text){
 
-    if(!text) return;
+    if(!text || busy) return;
 
     analyse(text);
 
     coreState("thinking");
 
-    setTimeout(function(){
+    setBusy(true);
 
-        const answer =
-            generateResponse(text);
+    conversationHistory.push({ role: "User", content: text });
+
+    if(conversationHistory.length > MAX_HISTORY){
+        conversationHistory = conversationHistory.slice(-MAX_HISTORY);
+    }
+
+    setTimeout(async function(){
+
+        const answer = await generateResponse(text);
+
+        setBusy(false);
+
+        if(answer === null){
+            // handled directly by a skill (reminder/memory), core just settles
+            coreState("ready");
+            return;
+        }
+
+        conversationHistory.push({ role: "NEXORA", content: answer });
 
         showAnswer(answer);
-
         speak(answer);
 
-    },500);
+    }, 400);
 
 }
 
@@ -1313,7 +1552,7 @@ function sendMessage(){
     const text =
         input.value.trim();
 
-    if(!text) return;
+    if(!text || busy) return;
 
     input.value = "";
 
@@ -1369,6 +1608,12 @@ function loadVoices(){
 
     });
 
+    const savedVoice = localStorage.getItem("nexora_voice");
+
+    if(savedVoice !== null && voices[savedVoice]){
+        select.value = savedVoice;
+    }
+
 }
 
 
@@ -1423,6 +1668,11 @@ function speak(text){
 
 
 function testVoice(){
+
+    localStorage.setItem(
+        "nexora_voice",
+        document.getElementById("voices").value
+    );
 
     speak(
         "Voice system operational. NEXORA is ready."
@@ -1510,6 +1760,8 @@ function toggleVoice(){
 
     }
 
+    if(busy) return;
+
 
     if(listening){
 
@@ -1543,6 +1795,8 @@ function changeLanguage(){
             "language"
         ).value;
 
+    localStorage.setItem("nexora_lang", currentLanguage);
+
     if(recognition){
 
         recognition.lang =
@@ -1558,7 +1812,7 @@ function changeLanguage(){
 
 
 /* =========================================
-   MODES
+   MODES / FOCUS
 ========================================= */
 
 const modes = [
@@ -1584,6 +1838,18 @@ const modes = [
 ];
 
 
+function setMode(name){
+
+    currentMode = name;
+
+    document.getElementById("mode").textContent =
+        name + " Mode";
+
+    localStorage.setItem("nexora_mode", name);
+
+}
+
+
 function buildModes(){
 
     const grid =
@@ -1595,6 +1861,7 @@ function buildModes(){
             document.createElement("div");
 
         card.className = "card";
+        card.tabIndex = 0;
 
         card.innerHTML =
             "<b>🔵 " +
@@ -1605,25 +1872,15 @@ function buildModes(){
 
         card.onclick = function(){
 
-            currentMode =
-                item[0];
-
-            document.getElementById(
-                "mode"
-            ).textContent =
-                item[0] + " Mode";
+            setMode(item[0]);
 
             closePanel("modes");
 
-            showAnswer(
-                item[0] +
-                " Mode activated."
-            );
+            const msg = item[0] + " focus activated.";
 
-            speak(
-                item[0] +
-                " Mode activated."
-            );
+            showAnswer(msg);
+
+            speak(msg);
 
         };
 
@@ -1652,6 +1909,8 @@ function changeColor(){
             color
         );
 
+    localStorage.setItem("nexora_color", color);
+
 }
 
 
@@ -1665,6 +1924,8 @@ function changeSize(size){
 
     core.style.height =
         size + "px";
+
+    localStorage.setItem("nexora_size", size);
 
 }
 
@@ -1685,6 +1946,39 @@ function resetCore(){
 
     core.style.height = "220px";
 
+    document.getElementById("color").value = "#00aaff";
+    document.getElementById("sizeSlider").value = 220;
+
+    localStorage.removeItem("nexora_color");
+    localStorage.removeItem("nexora_size");
+
+}
+
+
+/* =========================================
+   RESTORE PERSISTED STATE
+========================================= */
+
+function restoreState(){
+
+    document.getElementById("mode").textContent = currentMode + " Mode";
+    document.getElementById("language").value = currentLanguage;
+
+    const savedColor = localStorage.getItem("nexora_color");
+
+    if(savedColor){
+        document.documentElement.style.setProperty("--blue", savedColor);
+        document.getElementById("color").value = savedColor;
+    }
+
+    const savedSize = localStorage.getItem("nexora_size");
+
+    if(savedSize){
+        document.getElementById("core").style.width = savedSize + "px";
+        document.getElementById("core").style.height = savedSize + "px";
+        document.getElementById("sizeSlider").value = savedSize;
+    }
+
 }
 
 
@@ -1693,6 +1987,8 @@ function resetCore(){
 ========================================= */
 
 buildModes();
+
+restoreState();
 
 </script>
 
