@@ -1,16 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
+
 <meta name="theme-color" content="#020711">
 
-<title>NEXORA 2.0 — AI OS</title>
+<title>NEXORA OS 2.0</title>
 
 <link rel="stylesheet"
 href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
 
 <style>
+
+/* =========================================================
+   NEXORA OS 2.0
+   COMPLETE INTERFACE
+========================================================= */
 
 *{
     box-sizing:border-box;
@@ -19,198 +26,792 @@ href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&fam
 }
 
 :root{
+
     --blue:#00aaff;
     --blue2:#7ef7ff;
+
     --glow:0,170,255;
+
     --bg:#020711;
+
     --intensity:1;
+
+}
+
+html,
+body{
+
+    width:100%;
+    height:100%;
+
+    overflow:hidden;
+
+    background:#000;
+
 }
 
 body{
-    width:100%;
-    height:100vh;
-    overflow:hidden;
+
     color:white;
-    font-family:Segoe UI,Arial,sans-serif;
+
+    font-family:
+        "Segoe UI",
+        Arial,
+        sans-serif;
+
+}
+
+
+/* =========================================================
+   INTRO
+========================================================= */
+
+#intro{
+
+    position:fixed;
+
+    inset:0;
+
+    z-index:99999;
+
+    overflow:hidden;
+
+    background:#000;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    transition:
+        opacity 1.2s ease,
+        transform 1.2s ease;
+
+}
+
+#intro.hide{
+
+    opacity:0;
+
+    transform:scale(1.35);
+
+    pointer-events:none;
+
+}
+
+
+/* INTRO PARTICLES */
+
+.introParticles{
+
+    position:absolute;
+
+    inset:0;
+
+    overflow:hidden;
+
+}
+
+.introParticle{
+
+    position:absolute;
+
+    width:2px;
+    height:2px;
+
+    border-radius:50%;
+
+    background:#7ef7ff;
+
+    box-shadow:
+        0 0 8px #00aaff,
+        0 0 18px #00aaff;
+
+    opacity:0;
+
+    animation:
+        particleAppear
+        2s
+        ease-out
+        forwards;
+
+}
+
+@keyframes particleAppear{
+
+    0%{
+
+        opacity:0;
+
+        transform:
+            scale(.2)
+            translateY(20px);
+
+    }
+
+    40%{
+
+        opacity:.8;
+
+    }
+
+    100%{
+
+        opacity:.3;
+
+        transform:
+            scale(1)
+            translateY(0);
+
+    }
+
+}
+
+
+/* INTRO CORE */
+
+.introCore{
+
+    position:absolute;
+
+    width:10px;
+    height:10px;
+
+    border-radius:50%;
+
+    background:white;
+
+    box-shadow:
+
+        0 0 10px white,
+
+        0 0 30px var(--blue),
+
+        0 0 70px var(--blue),
+
+        0 0 150px rgba(var(--glow),.8);
+
+    transform:scale(.1);
+
+    opacity:0;
+
+}
+
+.introCore.power{
+
+    animation:
+        corePower
+        2s
+        cubic-bezier(.16,1,.3,1)
+        forwards;
+
+}
+
+@keyframes corePower{
+
+    0%{
+
+        opacity:0;
+
+        transform:scale(.1);
+
+    }
+
+    20%{
+
+        opacity:1;
+
+    }
+
+    100%{
+
+        opacity:1;
+
+        transform:scale(8);
+
+    }
+
+}
+
+
+/* INTRO RINGS */
+
+.introRing{
+
+    position:absolute;
+
+    width:80px;
+    height:80px;
+
+    border-radius:50%;
+
+    border:1px solid rgba(0,170,255,.5);
+
+    opacity:0;
+
+    transform:scale(.1);
+
+}
+
+.introRing.ringA{
+
+    animation:
+        ringBuild
+        2s
+        1.7s
+        cubic-bezier(.16,1,.3,1)
+        forwards;
+
+}
+
+.introRing.ringB{
+
+    width:150px;
+    height:150px;
+
+    border-style:dashed;
+
+    animation:
+        ringBuild
+        2s
+        1.9s
+        cubic-bezier(.16,1,.3,1)
+        forwards;
+
+}
+
+.introRing.ringC{
+
+    width:250px;
+    height:250px;
+
+    border-color:rgba(0,170,255,.2);
+
+    animation:
+        ringBuild
+        2.4s
+        2.1s
+        cubic-bezier(.16,1,.3,1)
+        forwards;
+
+}
+
+@keyframes ringBuild{
+
+    0%{
+
+        opacity:0;
+
+        transform:
+            scale(.1)
+            rotate(0deg);
+
+    }
+
+    50%{
+
+        opacity:1;
+
+    }
+
+    100%{
+
+        opacity:.8;
+
+        transform:
+            scale(1)
+            rotate(360deg);
+
+    }
+
+}
+
+
+/* INTRO LOGO */
+
+.introLogo{
+
+    position:absolute;
+
+    text-align:center;
+
+    opacity:0;
+
+    transform:scale(.7);
+
+    letter-spacing:18px;
+
+    font-family:
+        "Chakra Petch",
+        sans-serif;
+
+    font-size:clamp(35px,8vw,90px);
+
+    font-weight:700;
+
+    text-shadow:
+
+        0 0 15px #fff,
+
+        0 0 35px #00aaff,
+
+        0 0 80px #00aaff;
+
+    animation:
+        logoReveal
+        1.4s
+        3.9s
+        cubic-bezier(.16,1,.3,1)
+        forwards;
+
+}
+
+@keyframes logoReveal{
+
+    0%{
+
+        opacity:0;
+
+        transform:
+            scale(.7)
+            translateY(30px);
+
+        letter-spacing:30px;
+
+    }
+
+    100%{
+
+        opacity:1;
+
+        transform:
+            scale(1)
+            translateY(0);
+
+        letter-spacing:10px;
+
+    }
+
+}
+
+
+/* BOOT TEXT */
+
+.bootText{
+
+    position:absolute;
+
+    bottom:17%;
+
+    width:100%;
+
+    text-align:center;
+
+    font-family:
+        "IBM Plex Mono",
+        monospace;
+
+    font-size:11px;
+
+    letter-spacing:3px;
+
+    color:#78a9c2;
+
+}
+
+.bootLine{
+
+    opacity:0;
+
+    margin:7px;
+
+}
+
+.bootLine:nth-child(1){
+
+    animation:
+        bootText
+        .5s
+        2.5s
+        forwards;
+
+}
+
+.bootLine:nth-child(2){
+
+    animation:
+        bootText
+        .5s
+        3s
+        forwards;
+
+}
+
+.bootLine:nth-child(3){
+
+    animation:
+        bootText
+        .5s
+        3.5s
+        forwards;
+
+}
+
+.bootLine:nth-child(4){
+
+    animation:
+        bootText
+        .5s
+        4s
+        forwards;
+
+}
+
+@keyframes bootText{
+
+    to{
+
+        opacity:1;
+
+    }
+
+}
+
+
+/* SONY CONCEPT */
+
+.partnerSplash{
+
+    position:absolute;
+
+    top:12%;
+
+    font-family:
+        "IBM Plex Mono",
+        monospace;
+
+    font-size:10px;
+
+    letter-spacing:4px;
+
+    color:#7893a3;
+
+    opacity:0;
+
+    animation:
+        partnerReveal
+        1s
+        4.6s
+        forwards;
+
+}
+
+.partnerSplash strong{
+
+    color:white;
+
+}
+
+@keyframes partnerReveal{
+
+    0%{
+
+        opacity:0;
+
+        transform:translateY(-15px);
+
+    }
+
+    100%{
+
+        opacity:1;
+
+        transform:translateY(0);
+
+    }
+
+}
+
+
+/* INTRO FLASH */
+
+.introFlash{
+
+    position:absolute;
+
+    inset:0;
+
     background:
+
+        radial-gradient(
+            circle,
+            rgba(255,255,255,.8),
+            rgba(0,170,255,.4),
+            transparent 60%
+        );
+
+    opacity:0;
+
+    pointer-events:none;
+
+    animation:
+        introFlash
+        1s
+        5.4s
+        forwards;
+
+}
+
+@keyframes introFlash{
+
+    0%{
+
+        opacity:0;
+
+    }
+
+    25%{
+
+        opacity:1;
+
+    }
+
+    100%{
+
+        opacity:0;
+
+    }
+
+}
+
+
+/* =========================================================
+   MAIN APP
+========================================================= */
+
+.app{
+
+    width:100%;
+
+    height:100vh;
+
+    position:relative;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    background:
+
         radial-gradient(
             circle at center,
             rgba(0,150,255,.15),
             transparent 35%
         ),
+
         #020711;
+
 }
 
-.logo,
-.coreText,
-.welcome h1,
-h1,
-h2{
-    font-family:'Chakra Petch',sans-serif;
-}
 
-.analysisTitle,
-.analysisRow,
-.version,
-#aTopic,
-#aSubtopic,
-#aIntent,
-#aMode{
-    font-family:'IBM Plex Mono',monospace;
-}
-
-/* =========================================
-   APP
-========================================= */
-
-.app{
-    height:100vh;
-    width:100%;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    position:relative;
-}
-
-/* =========================================
-   TOP BAR
-========================================= */
+/* TOP */
 
 .top{
+
     position:absolute;
+
     top:0;
     left:0;
     right:0;
+
     height:65px;
 
     display:flex;
+
     align-items:center;
+
     justify-content:space-between;
 
     padding:0 22px;
 
-    border-bottom:1px solid rgba(0,170,255,.12);
+    border-bottom:
+        1px solid
+        rgba(0,170,255,.12);
 
-    background:rgba(2,7,17,.7);
+    background:
+        rgba(2,7,17,.7);
 
-    backdrop-filter:blur(15px);
+    backdrop-filter:
+        blur(15px);
 
-    z-index:20;
 }
 
 .logo{
+
+    font-family:
+        "Chakra Petch",
+        sans-serif;
+
     font-weight:bold;
+
     letter-spacing:5px;
+
 }
 
 .online{
+
     color:#3cff9a;
+
     font-size:11px;
+
     letter-spacing:2px;
+
 }
 
 .top-buttons{
+
     display:flex;
-    gap:8px;
+
     align-items:center;
+
+    gap:8px;
+
 }
 
 .homeLink{
+
     font-size:11px;
+
     color:#7391a5;
+
     letter-spacing:1px;
+
     margin-right:8px;
-    font-family:'IBM Plex Mono',monospace;
-    text-decoration:none;
+
+    font-family:
+        "IBM Plex Mono",
+        monospace;
+
 }
 
 .homeLink:hover{
+
     color:white;
+
 }
 
+
+/* BUTTONS */
+
 .circleBtn{
+
     width:38px;
+
     height:38px;
 
     border-radius:50%;
 
-    border:1px solid rgba(0,170,255,.3);
+    border:
+        1px solid
+        rgba(0,170,255,.3);
 
-    background:rgba(0,150,255,.08);
+    background:
+        rgba(0,150,255,.08);
 
     color:white;
 
     cursor:pointer;
 
-    transition:.2s;
 }
 
 .circleBtn:hover{
-    background:rgba(0,170,255,.2);
-    transform:translateY(-1px);
-}
 
-.circleBtn:focus-visible,
-.send:focus-visible,
-.card:focus-visible,
-.close:focus-visible{
-    outline:2px solid white;
-    outline-offset:2px;
+    background:
+        rgba(0,170,255,.2);
+
 }
 
 .circleBtn:disabled,
 .send:disabled,
 #input:disabled{
+
     opacity:.4;
+
     cursor:not-allowed;
+
 }
 
-/* =========================================
-   WELCOME
-========================================= */
+
+/* WELCOME */
 
 .welcome{
+
     position:absolute;
+
     top:95px;
+
     text-align:center;
-    z-index:5;
+
 }
 
 .welcome h1{
+
+    font-family:
+        "Chakra Petch",
+        sans-serif;
+
     font-size:25px;
+
     font-weight:400;
+
     letter-spacing:8px;
+
 }
 
 .welcome p{
+
     color:#7391a5;
+
     margin-top:7px;
+
     font-size:12px;
+
 }
 
-/* =========================================
-   CORE
-========================================= */
+
+/* CORE */
 
 .coreStage{
+
     width:260px;
+
     height:260px;
 
     display:flex;
+
     align-items:center;
+
     justify-content:center;
 
     position:relative;
+
 }
 
 .core{
+
     width:220px;
+
     height:220px;
 
     border-radius:50%;
 
     display:flex;
+
     align-items:center;
+
     justify-content:center;
 
     position:relative;
@@ -220,6 +821,7 @@ h2{
     z-index:4;
 
     background:
+
         radial-gradient(
             circle,
             white 0%,
@@ -231,7 +833,10 @@ h2{
         );
 
     box-shadow:
-        0 0 calc(45px * var(--intensity)) var(--blue),
+
+        0 0 calc(45px * var(--intensity))
+        var(--blue),
+
         0 0 calc(110px * var(--intensity))
         rgba(var(--glow),.25);
 
@@ -240,39 +845,75 @@ h2{
     transition:
         box-shadow .4s,
         background .4s;
+
 }
 
 .ring{
+
     position:absolute;
+
     border-radius:50%;
-    border:1px solid rgba(var(--glow),.35);
+
+    border:
+        1px solid
+        rgba(var(--glow),.35);
+
     pointer-events:none;
+
 }
 
 .ring.r1{
+
     inset:-8%;
-    animation:rotate 9s linear infinite;
+
+    animation:
+        rotate
+        9s
+        linear
+        infinite;
+
 }
 
 .ring.r2{
+
     inset:-22%;
+
     border-style:dashed;
+
     opacity:.5;
-    animation:rotateReverse 16s linear infinite;
+
+    animation:
+        rotateReverse
+        16s
+        linear
+        infinite;
+
 }
 
 .ring.r3{
+
     inset:-38%;
-    border-color:rgba(var(--glow),.15);
-    animation:rotate 26s linear infinite;
+
+    border-color:
+        rgba(var(--glow),.15);
+
+    animation:
+        rotate
+        26s
+        linear
+        infinite;
+
 }
+
 
 /* PARTICLES */
 
 .particle{
+
     position:absolute;
 
     width:5px;
+
     height:5px;
 
     border-radius:50%;
@@ -280,56 +921,72 @@ h2{
     background:var(--blue2);
 
     box-shadow:
-        0 0 8px var(--blue2);
+        0 0 8px
+        var(--blue2);
 
     top:50%;
+
     left:50%;
 
     transform-origin:0 0;
+
 }
 
 .particle.p1{
-    animation:orbit 6s linear infinite;
+
+    animation:
+        orbit
+        6s
+        linear
+        infinite;
+
     --r:150px;
+
 }
 
 .particle.p2{
-    animation:orbit 9s linear infinite reverse;
+
+    animation:
+        orbit
+        9s
+        linear
+        infinite
+        reverse;
+
     --r:170px;
-    animation-delay:-2s;
+
 }
 
 .particle.p3{
-    animation:orbit 12s linear infinite;
+
+    animation:
+        orbit
+        12s
+        linear
+        infinite;
+
     --r:130px;
-    animation-delay:-5s;
+
 }
 
 .particle.p4{
-    animation:orbit 7.5s linear infinite reverse;
+
+    animation:
+        orbit
+        7.5s
+        linear
+        infinite
+        reverse;
+
     --r:185px;
-    animation-delay:-1s;
+
 }
 
-@keyframes orbit{
-    from{
-        transform:
-            rotate(0deg)
-            translateX(var(--r))
-            rotate(0deg);
-    }
-
-    to{
-        transform:
-            rotate(360deg)
-            translateX(var(--r))
-            rotate(-360deg);
-    }
-}
 
 /* IRIS */
 
 .iris{
+
     position:absolute;
 
     inset:22%;
@@ -337,24 +994,31 @@ h2{
     border-radius:50%;
 
     background:
+
         repeating-conic-gradient(
             from 0deg,
-            rgba(255,255,255,.10) 0deg 2deg,
+            rgba(255,255,255,.1)
+            0deg 2deg,
             transparent 2deg 12deg
         );
 
     opacity:.5;
 
     animation:
-        rotate 40s linear infinite;
+        rotate
+        40s
+        linear
+        infinite;
 
-    z-index:1;
-
-    pointer-events:none;
 }
 
 .coreText{
+
     z-index:5;
+
+    font-family:
+        "Chakra Petch",
+        sans-serif;
 
     font-size:13px;
 
@@ -362,13 +1026,13 @@ h2{
 
     font-weight:bold;
 
-    text-shadow:
-        0 0 15px rgba(255,255,255,.7);
 }
 
-/* CORE STATES */
+
+/* CORE ANIMATIONS */
 
 @keyframes pulse{
+
     0%,100%{
         transform:scale(1);
     }
@@ -376,52 +1040,113 @@ h2{
     50%{
         transform:scale(1.05);
     }
+
 }
 
 @keyframes rotate{
+
     to{
         transform:rotate(360deg);
     }
+
 }
 
 @keyframes rotateReverse{
+
     to{
         transform:rotate(-360deg);
     }
+
 }
 
+@keyframes orbit{
+
+    from{
+
+        transform:
+            rotate(0deg)
+            translateX(var(--r))
+            rotate(0deg);
+
+    }
+
+    to{
+
+        transform:
+            rotate(360deg)
+            translateX(var(--r))
+            rotate(-360deg);
+
+    }
+
+}
+
+
+/* CORE STATES */
+
 .listening{
-    animation:listening .6s infinite alternate !important;
+
+    animation:
+        listening
+        .6s
+        infinite
+        alternate;
+
 }
 
 .thinking{
-    animation:thinking 1s infinite linear !important;
+
+    animation:
+        thinking
+        1s
+        infinite
+        linear;
+
 }
 
 .speaking{
-    animation:speaking .35s infinite alternate !important;
+
+    animation:
+        speaking
+        .35s
+        infinite
+        alternate;
+
 }
 
 @keyframes listening{
+
     from{
+
         box-shadow:
-            0 0 40px var(--blue);
+            0 0 40px
+            var(--blue);
+
     }
 
     to{
+
         box-shadow:
-            0 0 90px var(--blue),
-            0 0 160px rgba(var(--glow),.4);
+            0 0 90px
+            var(--blue),
+
+            0 0 160px
+            rgba(var(--glow),.4);
+
     }
+
 }
 
 @keyframes thinking{
+
     to{
         transform:rotate(360deg);
     }
+
 }
 
 @keyframes speaking{
+
     from{
         transform:scale(1);
     }
@@ -429,26 +1154,28 @@ h2{
     to{
         transform:scale(1.1);
     }
+
 }
 
-/* =========================================
-   RESPONSE
-========================================= */
+
+/* RESPONSE */
 
 .response{
+
     position:absolute;
 
     bottom:125px;
 
     width:90%;
-    max-width:750px;
+
+    max-width:700px;
 
     text-align:center;
 
-    z-index:5;
 }
 
 .responseTitle{
+
     font-size:9px;
 
     letter-spacing:3px;
@@ -456,33 +1183,27 @@ h2{
     color:var(--blue);
 
     margin-bottom:7px;
+
 }
 
 #answer{
-    line-height:1.55;
+
+    line-height:1.5;
+
     font-size:15px;
 
-    max-height:70px;
-
-    overflow:auto;
-
-    scrollbar-width:none;
 }
 
-#answer::-webkit-scrollbar{
-    display:none;
-}
 
-/* =========================================
-   INPUT
-========================================= */
+/* INPUT */
 
 .inputBox{
+
     position:absolute;
 
     bottom:40px;
 
-    width:min(700px,90%);
+    width:min(650px,90%);
 
     display:flex;
 
@@ -492,16 +1213,20 @@ h2{
 
     border-radius:18px;
 
-    border:1px solid rgba(0,170,255,.25);
+    border:
+        1px solid
+        rgba(0,170,255,.25);
 
-    background:rgba(4,15,28,.9);
+    background:
+        rgba(4,15,28,.9);
 
-    backdrop-filter:blur(15px);
+    backdrop-filter:
+        blur(15px);
 
-    z-index:10;
 }
 
 #input{
+
     flex:1;
 
     background:transparent;
@@ -515,13 +1240,17 @@ h2{
     padding:12px;
 
     font-size:14px;
+
 }
 
 #input::placeholder{
+
     color:#607b8b;
+
 }
 
 .send{
+
     border:none;
 
     background:#008cff;
@@ -536,21 +1265,23 @@ h2{
 
     font-weight:bold;
 
-    transition:.2s;
 }
 
 .send:hover{
+
     background:#00aaff;
+
 }
 
-/* =========================================
-   ANALYSIS
-========================================= */
+
+/* ANALYSIS */
 
 .analysis{
+
     position:absolute;
 
     right:20px;
+
     bottom:100px;
 
     width:250px;
@@ -559,9 +1290,12 @@ h2{
 
     border-radius:15px;
 
-    border:1px solid rgba(0,170,255,.25);
+    border:
+        1px solid
+        rgba(0,170,255,.25);
 
-    background:rgba(3,13,25,.95);
+    background:
+        rgba(3,13,25,.95);
 
     opacity:0;
 
@@ -571,15 +1305,18 @@ h2{
 
     transition:.3s;
 
-    z-index:15;
 }
 
 .analysis.show{
+
     opacity:1;
+
     transform:translateY(0);
+
 }
 
 .analysisTitle{
+
     color:var(--blue);
 
     letter-spacing:3px;
@@ -587,9 +1324,11 @@ h2{
     font-size:10px;
 
     margin-bottom:10px;
+
 }
 
 .analysisRow{
+
     display:flex;
 
     justify-content:space-between;
@@ -597,23 +1336,32 @@ h2{
     padding:6px 0;
 
     border-bottom:
-        1px solid rgba(255,255,255,.05);
+        1px solid
+        rgba(255,255,255,.05);
 
     font-size:11px;
+
+    font-family:
+        "IBM Plex Mono",
+        monospace;
+
 }
 
 .analysisRow span:first-child{
+
     color:#6e8999;
+
 }
 
-/* =========================================
-   VERSION
-========================================= */
+
+/* VERSION */
 
 .version{
+
     position:absolute;
 
     right:12px;
+
     bottom:10px;
 
     color:#607786;
@@ -621,13 +1369,16 @@ h2{
     font-size:9px;
 
     letter-spacing:2px;
+
 }
 
-/* =========================================
+
+/* =========================================================
    PANELS
-========================================= */
+========================================================= */
 
 .overlay{
+
     display:none;
 
     position:fixed;
@@ -637,18 +1388,25 @@ h2{
     z-index:100;
 
     align-items:center;
+
     justify-content:center;
 
-    background:rgba(0,0,0,.75);
+    background:
+        rgba(0,0,0,.75);
 
-    backdrop-filter:blur(12px);
+    backdrop-filter:
+        blur(12px);
+
 }
 
 .overlay.show{
+
     display:flex;
+
 }
 
 .panel{
+
     width:min(800px,94%);
 
     max-height:85vh;
@@ -660,15 +1418,15 @@ h2{
     border-radius:20px;
 
     border:
-        1px solid rgba(0,170,255,.3);
+        1px solid
+        rgba(0,170,255,.3);
 
     background:#061321;
 
-    box-shadow:
-        0 30px 100px rgba(0,0,0,.5);
 }
 
 .panelHead{
+
     display:flex;
 
     justify-content:space-between;
@@ -676,13 +1434,21 @@ h2{
     align-items:center;
 
     margin-bottom:20px;
+
 }
 
 .panelHead h2{
+
+    font-family:
+        "Chakra Petch",
+        sans-serif;
+
     letter-spacing:3px;
+
 }
 
 .close{
+
     border:none;
 
     background:none;
@@ -692,55 +1458,61 @@ h2{
     font-size:28px;
 
     cursor:pointer;
+
 }
 
 .grid{
+
     display:grid;
 
     grid-template-columns:
-        repeat(auto-fit,minmax(160px,1fr));
+        repeat(
+            auto-fit,
+            minmax(160px,1fr)
+        );
 
     gap:10px;
+
 }
 
 .card{
+
     padding:17px;
 
     border-radius:12px;
 
     border:
-        1px solid rgba(0,170,255,.2);
+        1px solid
+        rgba(0,170,255,.2);
 
     background:
         rgba(0,150,255,.05);
 
     cursor:pointer;
 
-    transition:.2s;
 }
 
 .card:hover{
+
     background:
         rgba(0,150,255,.12);
 
-    transform:translateY(-2px);
 }
 
 .card small{
+
     display:block;
 
     color:#7893a3;
 
     margin-top:5px;
-}
 
-/* =========================================
-   FORMS
-========================================= */
+}
 
 select,
 textarea,
 input[type="color"]{
+
     width:100%;
 
     padding:11px;
@@ -752,27 +1524,25 @@ input[type="color"]{
     background:#071b2d;
 
     border:
-        1px solid rgba(0,170,255,.25);
+        1px solid
+        rgba(0,170,255,.25);
 
     border-radius:9px;
-}
 
-textarea{
-    min-height:100px;
-    resize:vertical;
 }
 
 .full{
+
     width:100%;
+
     padding:12px;
+
     margin-top:8px;
+
 }
 
-/* =========================================
-   MEMORY
-========================================= */
-
 .memList{
+
     margin-top:10px;
 
     font-size:12px;
@@ -780,9 +1550,11 @@ textarea{
     color:#9db6c6;
 
     line-height:1.6;
+
 }
 
 .memList .row{
+
     display:flex;
 
     justify-content:space-between;
@@ -792,10 +1564,13 @@ textarea{
     padding:6px 0;
 
     border-bottom:
-        1px solid rgba(255,255,255,.05);
+        1px solid
+        rgba(255,255,255,.05);
+
 }
 
 .memList button{
+
     background:none;
 
     border:none;
@@ -805,214 +1580,122 @@ textarea{
     cursor:pointer;
 
     font-size:11px;
+
 }
 
-/* =========================================
-   UPDATE
-========================================= */
 
-.update{
-    position:fixed;
-
-    inset:0;
-
-    z-index:1000;
-
-    display:flex;
-
-    align-items:center;
-
-    justify-content:center;
-
-    background:
-        radial-gradient(
-            circle,
-            rgba(0,150,255,.18),
-            #020711 65%
-        );
-}
-
-.update.hide{
-    display:none;
-}
-
-.updateBox{
-    width:min(620px,92%);
-
-    padding:35px;
-
-    text-align:center;
-
-    border:
-        1px solid rgba(0,170,255,.3);
-
-    border-radius:25px;
-
-    background:rgba(4,15,29,.96);
-
-    box-shadow:
-        0 30px 100px rgba(0,0,0,.7);
-}
-
-.updateOrb{
-    width:90px;
-    height:90px;
-
-    margin:auto;
-
-    border-radius:50%;
-
-    background:
-        radial-gradient(
-            circle,
-            white,
-            var(--blue),
-            transparent 70%
-        );
-
-    box-shadow:
-        0 0 70px var(--blue);
-}
-
-.updateBox h1{
-    margin-top:20px;
-    letter-spacing:7px;
-}
-
-.updateBox h2{
-    margin:10px;
-    color:var(--blue);
-}
-
-.updateBox p{
-    color:#7993a4;
-}
-
-.changes{
-    text-align:left;
-
-    margin:25px auto;
-
-    max-width:450px;
-
-    line-height:1.8;
-
-    color:#c2d1da;
-}
-
-.enter{
-    padding:13px 25px;
-
-    border:none;
-
-    border-radius:12px;
-
-    color:white;
-
-    background:#008cff;
-
-    cursor:pointer;
-
-    font-weight:bold;
-}
-
-/* =========================================
+/* =========================================================
    MOBILE
-========================================= */
+========================================================= */
 
 @media(max-width:700px){
 
     .analysis{
+
         left:15px;
+
         right:15px;
 
         width:auto;
 
         bottom:155px;
+
     }
 
     .core{
+
         width:180px;
+
         height:180px;
+
     }
 
     .welcome h1{
+
         font-size:19px;
+
     }
 
     .response{
+
         bottom:115px;
+
     }
 
-    .homeLink{
-        display:none;
-    }
+    .partnerSplash{
 
-    .online{
-        position:absolute;
-        left:50%;
-        transform:translateX(-50%);
+        font-size:8px;
+
     }
 
 }
 
 </style>
+
 </head>
+
 
 <body>
 
-<!-- =========================================
-     UPDATE SCREEN
-========================================= -->
 
-<div id="updateScreen" class="update">
+<!-- ======================================================
+     NEXORA INTRO
+====================================================== -->
 
-    <div class="updateBox">
+<div id="intro">
 
-        <div class="updateOrb"></div>
+    <div class="introParticles" id="introParticles"></div>
 
-        <h1>NEXORA</h1>
+    <div class="introRing ringA"></div>
 
-        <h2>UPDATE 2.0</h2>
+    <div class="introRing ringB"></div>
 
-        <p>THE MEGA AUGUST UPDATE</p>
+    <div class="introRing ringC"></div>
 
-        <div class="changes">
+    <div class="introCore" id="introCore"></div>
 
-            ✓ Real AI brain connected<br>
-            ✓ One continuous NEXORA identity<br>
-            ✓ Conversation memory<br>
-            ✓ Persistent saved memory<br>
-            ✓ Reminders<br>
-            ✓ Voice recognition<br>
-            ✓ Device voice selection<br>
-            ✓ Focus modes<br>
-            ✓ Core customization<br>
-            ✓ Ecosystem controls<br>
-            ✓ Improved AI response handling<br>
-            ✓ Smarter contextual conversations<br>
-            ✓ NEXORA OS interface
+    <div class="partnerSplash">
+        <strong>SONY</strong>
+        &nbsp; × &nbsp;
+        NEXORA
+        &nbsp; // CONCEPT
+    </div>
 
+    <div class="introLogo">
+        NEXORA
+    </div>
+
+    <div class="bootText">
+
+        <div class="bootLine">
+            INITIALIZING NEXORA OS
         </div>
 
-        <button
-            class="enter"
-            onclick="enterNexora()">
+        <div class="bootLine">
+            CORE ONLINE
+        </div>
 
-            ENTER NEXORA
+        <div class="bootLine">
+            AI SYSTEM ONLINE
+        </div>
 
-        </button>
+        <div class="bootLine">
+            VOICE SYSTEM ONLINE
+        </div>
 
     </div>
+
+    <div class="introFlash"></div>
 
 </div>
 
 
-<!-- =========================================
+<!-- ======================================================
      MAIN APP
-========================================= -->
+====================================================== -->
 
 <div class="app">
+
 
     <div class="top">
 
@@ -1047,7 +1730,6 @@ textarea{
             <button
                 class="circleBtn"
                 title="Ecosystem"
-                aria-label="Open ecosystem"
                 onclick="openPanel('ecosystem')">
 
                 ◈
@@ -1058,7 +1740,6 @@ textarea{
             <button
                 class="circleBtn"
                 title="Settings"
-                aria-label="Open settings"
                 onclick="openPanel('settings')">
 
                 ⚙
@@ -1069,8 +1750,6 @@ textarea{
 
     </div>
 
-
-    <!-- WELCOME -->
 
     <div class="welcome">
 
@@ -1090,21 +1769,27 @@ textarea{
     <div class="coreStage">
 
         <div class="ring r3"></div>
+
         <div class="ring r2"></div>
+
         <div class="ring r1"></div>
 
+
         <div class="particle p1"></div>
+
         <div class="particle p2"></div>
+
         <div class="particle p3"></div>
+
         <div class="particle p4"></div>
 
 
         <div
             id="core"
             class="core"
+            onclick="toggleVoice()"
             role="button"
-            aria-label="Press to speak to NEXORA"
-            onclick="toggleVoice()">
+            aria-label="Speak to NEXORA">
 
             <div class="iris"></div>
 
@@ -1126,12 +1811,15 @@ textarea{
     <div class="response">
 
         <div class="responseTitle brandName">
+
             NEXORA
+
         </div>
 
         <div id="answer">
 
-            I'm ready. Type something or press the Core to speak.
+            I'm ready.
+            Type something or press the Core to speak.
 
         </div>
 
@@ -1144,8 +1832,6 @@ textarea{
 
         <button
             class="circleBtn"
-            title="Voice input"
-            aria-label="Toggle voice input"
             onclick="toggleVoice()">
 
             🎙
@@ -1156,8 +1842,7 @@ textarea{
         <input
             id="input"
             placeholder="Talk to NEXORA..."
-            autocomplete="off"
-        >
+            autocomplete="off">
 
 
         <button
@@ -1179,53 +1864,27 @@ textarea{
         class="analysis">
 
         <div class="analysisTitle">
-
             ANALYSIS
-
         </div>
 
-
         <div class="analysisRow">
-
             <span>Topic</span>
-
-            <span id="aTopic">
-                General
-            </span>
-
+            <span id="aTopic">General</span>
         </div>
 
-
         <div class="analysisRow">
-
             <span>Subtopic</span>
-
-            <span id="aSubtopic">
-                General
-            </span>
-
+            <span id="aSubtopic">General</span>
         </div>
 
-
         <div class="analysisRow">
-
             <span>Intent</span>
-
-            <span id="aIntent">
-                Conversation
-            </span>
-
+            <span id="aIntent">Conversation</span>
         </div>
 
-
         <div class="analysisRow">
-
             <span>Mode</span>
-
-            <span id="aMode">
-                General
-            </span>
-
+            <span id="aMode">General</span>
         </div>
 
     </div>
@@ -1233,18 +1892,20 @@ textarea{
 
     <div class="version">
 
-        NEXORA 2.0
+        NEXORA OS 2.0
 
     </div>
 
 </div>
 
 
-<!-- =========================================
+<!-- ======================================================
      ECOSYSTEM
-========================================= -->
+====================================================== -->
 
-<div id="ecosystem" class="overlay">
+<div
+    id="ecosystem"
+    class="overlay">
 
     <div class="panel">
 
@@ -1268,96 +1929,66 @@ textarea{
         <div class="grid">
 
             <div class="card">
-
                 🧠
                 <b>AI Brain</b>
-
                 <small>
-                    Real AI intelligence through Puter
+                    Real AI intelligence
                 </small>
-
             </div>
 
-
             <div class="card">
-
                 🎙
                 <b>Voice</b>
-
                 <small>
-                    Speech recognition and voice synthesis
+                    Speech recognition and synthesis
                 </small>
-
             </div>
 
-
             <div class="card">
-
                 🧩
                 <b>Skills</b>
-
                 <small>
-                    Memory, reminders and commands
+                    Memory, reminders and tools
                 </small>
-
             </div>
 
-
             <div class="card">
-
                 ⚡
                 <b>Commands</b>
-
                 <small>
-                    Natural language controls
+                    NEXORA interface control
                 </small>
-
             </div>
 
-
             <div class="card">
-
                 📱
                 <b>Device</b>
-
                 <small>
                     Future device integration
                 </small>
-
             </div>
 
-
             <div class="card">
-
-                🔔
-                <b>Notifications</b>
-
+                🎮
+                <b>Gaming</b>
                 <small>
-                    Browser notification support
+                    Gaming-focused assistance
                 </small>
-
             </div>
 
         </div>
 
-
         <br>
-
 
         <div class="card">
 
             <b>
-                NEXORA ROADMAP
+                SONY × NEXORA
             </b>
 
             <small>
-
-                1.8 Core →
-                1.9 Conversations →
-                2.0 Mega Update →
-                2.5 Advanced Tools →
-                3.0 Full Assistant Ecosystem
-
+                Concept ecosystem integration screen.
+                Not an official Sony partnership announcement.
             </small>
 
         </div>
@@ -1367,11 +1998,13 @@ textarea{
 </div>
 
 
-<!-- =========================================
+<!-- ======================================================
      SETTINGS
-========================================= -->
+====================================================== -->
 
-<div id="settings" class="overlay">
+<div
+    id="settings"
+    class="overlay">
 
     <div class="panel">
 
@@ -1425,7 +2058,7 @@ textarea{
                 Italiano
             </option>
 
-            <option value="pt-PT">
+            <option value="pt-BR">
                 Português
             </option>
 
@@ -1474,10 +2107,9 @@ textarea{
         <div
             id="voiceCount"
             style="
-                font-size:11px;
-                color:#607b8b;
-                margin:-8px 0 15px;
-            ">
+            font-size:11px;
+            color:#607b8b;
+            margin:-8px 0 15px;">
 
         </div>
 
@@ -1522,11 +2154,13 @@ textarea{
 </div>
 
 
-<!-- =========================================
+<!-- ======================================================
      MODES
-========================================= -->
+====================================================== -->
 
-<div id="modes" class="overlay">
+<div
+    id="modes"
+    class="overlay">
 
     <div class="panel">
 
@@ -1549,13 +2183,12 @@ textarea{
 
         <p
             style="
-                color:#7893a3;
-                font-size:12px;
-                margin-bottom:15px;
-            ">
+            color:#7893a3;
+            font-size:12px;
+            margin-bottom:15px;">
 
             NEXORA stays the same assistant.
-            Focus only changes what it concentrates on.
+            Focus simply changes what it concentrates on.
 
         </p>
 
@@ -1571,11 +2204,13 @@ textarea{
 </div>
 
 
-<!-- =========================================
-     CUSTOMIZATION
-========================================= -->
+<!-- ======================================================
+     CUSTOM
+====================================================== -->
 
-<div id="custom" class="overlay">
+<div
+    id="custom"
+    class="overlay">
 
     <div class="panel">
 
@@ -1604,11 +2239,10 @@ textarea{
         <div
             id="themeGrid"
             style="
-                display:grid;
-                grid-template-columns:repeat(3,1fr);
-                gap:8px;
-                margin:7px 0 15px;
-            ">
+            display:grid;
+            grid-template-columns:repeat(3,1fr);
+            gap:8px;
+            margin:7px 0 15px;">
 
         </div>
 
@@ -1622,8 +2256,7 @@ textarea{
             type="color"
             id="color"
             value="#00aaff"
-            onchange="changeColor()"
-        >
+            onchange="changeColor()">
 
 
         <label>
@@ -1637,8 +2270,7 @@ textarea{
             min="150"
             max="300"
             value="220"
-            oninput="changeSize(this.value)"
-        >
+            oninput="changeSize(this.value)">
 
 
         <label>
@@ -1649,12 +2281,11 @@ textarea{
         <input
             type="range"
             id="intensitySlider"
-            min="0.5"
+            min=".5"
             max="2"
-            step="0.1"
+            step=".1"
             value="1"
-            oninput="changeIntensity(this.value)"
-        >
+            oninput="changeIntensity(this.value)">
 
 
         <label>
@@ -1668,15 +2299,13 @@ textarea{
             placeholder="NEXORA"
             oninput="setAssistantName(this.value)"
             style="
-                width:100%;
-                padding:11px;
-                margin:7px 0 15px;
-                color:white;
-                background:#071b2d;
-                border:1px solid rgba(0,170,255,.25);
-                border-radius:9px;
-            "
-        >
+            width:100%;
+            padding:11px;
+            margin:7px 0 15px;
+            color:white;
+            background:#071b2d;
+            border:1px solid rgba(0,170,255,.25);
+            border-radius:9px;">
 
 
         <label>
@@ -1690,15 +2319,13 @@ textarea{
             placeholder="What should NEXORA call you?"
             oninput="setUserName(this.value)"
             style="
-                width:100%;
-                padding:11px;
-                margin:7px 0 15px;
-                color:white;
-                background:#071b2d;
-                border:1px solid rgba(0,170,255,.25);
-                border-radius:9px;
-            "
-        >
+            width:100%;
+            padding:11px;
+            margin:7px 0 15px;
+            color:white;
+            background:#071b2d;
+            border:1px solid rgba(0,170,255,.25);
+            border-radius:9px;">
 
 
         <button
@@ -1714,11 +2341,13 @@ textarea{
 </div>
 
 
-<!-- =========================================
+<!-- ======================================================
      MEMORY
-========================================= -->
+====================================================== -->
 
-<div id="memory" class="overlay">
+<div
+    id="memory"
+    class="overlay">
 
     <div class="panel">
 
@@ -1741,14 +2370,12 @@ textarea{
 
         <p
             style="
-                color:#7893a3;
-                font-size:12px;
-            ">
+            color:#7893a3;
+            font-size:12px;">
 
-            Say:
-            "remember that ..."
-            or
-            "remind me to ... in N minutes".
+            Say "remember that..."
+            or "remind me to..."
+            and NEXORA can store it.
 
         </p>
 
@@ -1773,29 +2400,24 @@ textarea{
 </div>
 
 
-<!-- PUTER -->
-
 <script src="https://js.puter.com/v2/"></script>
 
 
 <script>
 
-/* =========================================
+/* =========================================================
    NEXORA ENGINE
-========================================= */
+========================================================= */
 
 const VERSION = "2.0";
-
 
 let currentMode =
     localStorage.getItem("nexora_mode")
     || "General";
 
-
 let currentLanguage =
     localStorage.getItem("nexora_lang")
     || "en-US";
-
 
 let voices = [];
 
@@ -1805,73 +2427,291 @@ let listening = false;
 
 let busy = false;
 
-
-/*
-    Conversation memory is kept during
-    the current browser session.
-*/
-
 let conversationHistory = [];
 
-
-/*
-    Number of previous messages sent
-    to the AI.
-*/
-
-const MAX_HISTORY = 20;
+const MAX_HISTORY = 12;
 
 
-/* =========================================
-   UPDATE SCREEN
-========================================= */
+/* =========================================================
+   INTRO MUSIC
+   ORIGINAL BROWSER-GENERATED THEME
+========================================================= */
 
-function enterNexora(){
+let audioContext = null;
 
-    document
-        .getElementById("updateScreen")
-        .classList.add("hide");
+let musicStarted = false;
 
-    localStorage.setItem(
-        "nexora_seen_" + VERSION,
-        "true"
-    );
 
-    speak(
-        "NEXORA is online and ready."
-    );
+function playIntroMusic(){
+
+    if(musicStarted)
+        return;
+
+    musicStarted = true;
+
+    try{
+
+        audioContext =
+            new (
+                window.AudioContext ||
+                window.webkitAudioContext
+            )();
+
+        const now =
+            audioContext.currentTime;
+
+
+        /* MASTER */
+
+        const master =
+            audioContext.createGain();
+
+        master.gain.setValueAtTime(
+            0,
+            now
+        );
+
+        master.gain.linearRampToValueAtTime(
+            .08,
+            now + .5
+        );
+
+        master.gain.linearRampToValueAtTime(
+            .0001,
+            now + 6
+        );
+
+        master.connect(
+            audioContext.destination
+        );
+
+
+        /* LOW DRONE */
+
+        const drone =
+            audioContext.createOscillator();
+
+        const droneGain =
+            audioContext.createGain();
+
+        drone.type =
+            "sine";
+
+        drone.frequency.value =
+            55;
+
+        droneGain.gain.value =
+            .5;
+
+        drone.connect(droneGain);
+
+        droneGain.connect(master);
+
+        drone.start(now);
+
+        drone.stop(now + 6);
+
+
+        /* SYNTH NOTES */
+
+        const notes = [
+            110,
+            138.59,
+            164.81,
+            220,
+            277.18,
+            329.63,
+            440
+        ];
+
+
+        notes.forEach(function(freq,index){
+
+            const osc =
+                audioContext.createOscillator();
+
+            const gain =
+                audioContext.createGain();
+
+            osc.type =
+                index % 2
+                ? "triangle"
+                : "sine";
+
+            osc.frequency.value =
+                freq;
+
+            gain.gain.setValueAtTime(
+                0,
+                now + index * .55
+            );
+
+            gain.gain.linearRampToValueAtTime(
+                .3,
+                now + index * .55 + .12
+            );
+
+            gain.gain.exponentialRampToValueAtTime(
+                .001,
+                now + index * .55 + .9
+            );
+
+            osc.connect(gain);
+
+            gain.connect(master);
+
+            osc.start(
+                now + index * .55
+            );
+
+            osc.stop(
+                now + index * .55 + 1
+            );
+
+        });
+
+
+        /* FINAL IMPACT */
+
+        const impact =
+            audioContext.createOscillator();
+
+        const impactGain =
+            audioContext.createGain();
+
+        impact.type =
+            "sawtooth";
+
+        impact.frequency.setValueAtTime(
+            70,
+            now + 5
+        );
+
+        impact.frequency.exponentialRampToValueAtTime(
+            30,
+            now + 6
+        );
+
+        impactGain.gain.setValueAtTime(
+            0,
+            now + 5
+        );
+
+        impactGain.gain.linearRampToValueAtTime(
+            .45,
+            now + 5.15
+        );
+
+        impactGain.gain.exponentialRampToValueAtTime(
+            .001,
+            now + 6
+        );
+
+        impact.connect(impactGain);
+
+        impactGain.connect(master);
+
+        impact.start(now + 5);
+
+        impact.stop(now + 6);
+
+    }catch(e){
+
+        console.log(
+            "Intro audio unavailable."
+        );
+
+    }
+
 }
 
 
-if(
-    localStorage.getItem(
-        "nexora_seen_" + VERSION
-    )
-){
+/* =========================================================
+   PARTICLES
+========================================================= */
 
-    document
-        .getElementById("updateScreen")
-        .classList.add("hide");
+function createIntroParticles(){
+
+    const container =
+        document.getElementById(
+            "introParticles"
+        );
+
+    for(let i=0;i<100;i++){
+
+        const p =
+            document.createElement("div");
+
+        p.className =
+            "introParticle";
+
+        p.style.left =
+            Math.random()*100 + "%";
+
+        p.style.top =
+            Math.random()*100 + "%";
+
+        p.style.animationDelay =
+            Math.random()*2 + "s";
+
+        p.style.transform =
+            "scale(" +
+            (Math.random()*.8+.2) +
+            ")";
+
+        container.appendChild(p);
+
+    }
 
 }
 
 
-/* =========================================
+/* =========================================================
+   INTRO START
+========================================================= */
+
+function startIntro(){
+
+    createIntroParticles();
+
+    setTimeout(function(){
+
+        document
+            .getElementById("introCore")
+            .classList.add("power");
+
+        playIntroMusic();
+
+    },700);
+
+
+    setTimeout(function(){
+
+        document
+            .getElementById("intro")
+            .classList.add("hide");
+
+    },6500);
+
+}
+
+
+/* =========================================================
    PANELS
-========================================= */
+========================================================= */
 
 function openPanel(id){
 
     const panel =
         document.getElementById(id);
 
-    if(!panel) return;
+    if(!panel)
+        return;
 
     panel.classList.add("show");
 
-    if(id === "memory"){
+    if(id === "memory")
         renderMemoryPanel();
-    }
 
 }
 
@@ -1881,16 +2721,15 @@ function closePanel(id){
     const panel =
         document.getElementById(id);
 
-    if(!panel) return;
-
-    panel.classList.remove("show");
+    if(panel)
+        panel.classList.remove("show");
 
 }
 
 
-/* =========================================
+/* =========================================================
    ANSWER
-========================================= */
+========================================================= */
 
 function showAnswer(text){
 
@@ -1901,9 +2740,9 @@ function showAnswer(text){
 }
 
 
-/* =========================================
+/* =========================================================
    CORE STATE
-========================================= */
+========================================================= */
 
 function coreState(state){
 
@@ -1919,31 +2758,40 @@ function coreState(state){
 
     if(state === "listening"){
 
-        core.classList.add("listening");
+        core.classList.add(
+            "listening"
+        );
 
         document
             .getElementById("coreText")
-            .textContent = "LISTENING";
+            .textContent =
+            "LISTENING";
 
     }
 
     else if(state === "thinking"){
 
-        core.classList.add("thinking");
+        core.classList.add(
+            "thinking"
+        );
 
         document
             .getElementById("coreText")
-            .textContent = "ANALYSING";
+            .textContent =
+            "ANALYSING";
 
     }
 
     else if(state === "speaking"){
 
-        core.classList.add("speaking");
+        core.classList.add(
+            "speaking"
+        );
 
         document
             .getElementById("coreText")
-            .textContent = "SPEAKING";
+            .textContent =
+            "SPEAKING";
 
     }
 
@@ -1959,18 +2807,18 @@ function coreState(state){
 }
 
 
-/* =========================================
+/* =========================================================
    ANALYSIS
-========================================= */
+========================================================= */
 
-function hasWord(text, word){
+function hasWord(t,word){
 
     return new RegExp(
         "\\b" +
-        word.replace(/[.*+?^${}()|[\]\\]/g,"\\$&") +
+        word +
         "\\b",
         "i"
-    ).test(text);
+    ).test(t);
 
 }
 
@@ -1980,12 +2828,14 @@ function analyse(text){
     const t =
         text.toLowerCase();
 
+    let topic =
+        "General";
 
-    let topic = "General";
+    let subtopic =
+        "General";
 
-    let subtopic = "General";
-
-    let intent = "Conversation";
+    let intent =
+        "Conversation";
 
 
     const mathWords = [
@@ -1994,57 +2844,37 @@ function analyse(text){
         "algebra",
         "fraction",
         "factor",
-        "equation",
-        "geometry"
+        "equation"
     ];
-
 
     const scienceWords = [
         "science",
         "biology",
         "chemistry",
-        "physics",
-        "genetics",
-        "ecosystem"
+        "physics"
     ];
 
-
-    const businessWords = [
+    const bizWords = [
         "business",
         "entrepreneur",
-        "startup",
-        "company"
+        "startup"
     ];
 
-
-    const developerWords = [
+    const devWords = [
         "code",
         "html",
         "javascript",
         "website",
         "css",
         "function",
-        "programming",
         "bug"
     ];
-
 
     const carWords = [
         "car",
         "engine",
         "tuning",
-        "vehicle",
-        "automotive"
-    ];
-
-
-    const gamingWords = [
-        "game",
-        "gaming",
-        "playstation",
-        "xbox",
-        "fortnite",
-        "gt7"
+        "vehicle"
     ];
 
 
@@ -2054,8 +2884,11 @@ function analyse(text){
         )
     ){
 
-        topic = "Maths";
-        subtopic = "Mathematics";
+        topic =
+            "Maths";
+
+        subtopic =
+            "Mathematics";
 
     }
 
@@ -2065,30 +2898,39 @@ function analyse(text){
         )
     ){
 
-        topic = "Science";
-        subtopic = "Science";
+        topic =
+            "Science";
+
+        subtopic =
+            "Science";
 
     }
 
     else if(
-        businessWords.some(
+        bizWords.some(
             w => hasWord(t,w)
         )
     ){
 
-        topic = "Business";
-        subtopic = "Entrepreneurship";
+        topic =
+            "Entrepreneur";
+
+        subtopic =
+            "Business";
 
     }
 
     else if(
-        developerWords.some(
+        devWords.some(
             w => hasWord(t,w)
         )
     ){
 
-        topic = "Developer";
-        subtopic = "Programming";
+        topic =
+            "Developer";
+
+        subtopic =
+            "Programming";
 
     }
 
@@ -2098,51 +2940,53 @@ function analyse(text){
         )
     ){
 
-        topic = "Automotive";
-        subtopic = "Cars";
+        topic =
+            "Automotive";
 
-    }
-
-    else if(
-        gamingWords.some(
-            w => hasWord(t,w)
-        )
-    ){
-
-        topic = "Gaming";
-        subtopic = "Games";
+        subtopic =
+            "Cars";
 
     }
 
 
     if(
         t.includes("?") ||
-        /^(what|why|how|when|where|who|can|is|are|do|does)\b/i.test(t)
+        /^(what|why|how|when|where|who)\b/i.test(t)
     ){
 
-        intent = "Question";
+        intent =
+            "Question";
 
     }
 
     else if(
-        /^(open|show|activate|change|set|remind|remember|start|stop|turn)\b/i.test(t)
+        /^(open|show|activate|change|set|remind|remember)\b/i.test(t)
     ){
 
-        intent = "Command";
+        intent =
+            "Command";
 
     }
 
 
-    document.getElementById("aTopic").textContent =
+    document.getElementById(
+        "aTopic"
+    ).textContent =
         topic;
 
-    document.getElementById("aSubtopic").textContent =
+    document.getElementById(
+        "aSubtopic"
+    ).textContent =
         subtopic;
 
-    document.getElementById("aIntent").textContent =
+    document.getElementById(
+        "aIntent"
+    ).textContent =
         intent;
 
-    document.getElementById("aMode").textContent =
+    document.getElementById(
+        "aMode"
+    ).textContent =
         currentMode;
 
 
@@ -2153,9 +2997,9 @@ function analyse(text){
 }
 
 
-/* =========================================
+/* =========================================================
    MEMORY
-========================================= */
+========================================================= */
 
 function getMemories(){
 
@@ -2167,12 +3011,7 @@ function getMemories(){
             ) || "[]"
         );
 
-    }catch(error){
-
-        console.error(
-            "Memory error:",
-            error
-        );
+    }catch(e){
 
         return [];
 
@@ -2196,12 +3035,15 @@ function rememberFact(fact){
     const list =
         getMemories();
 
-
     list.push({
-        text:fact,
-        time:new Date().toLocaleString()
-    });
 
+        text:fact,
+
+        time:
+            new Date()
+            .toLocaleString()
+
+    });
 
     saveMemories(list);
 
@@ -2223,13 +3065,17 @@ function renderMemoryPanel(){
         getMemories();
 
     const el =
-        document.getElementById("memList");
+        document.getElementById(
+            "memList"
+        );
 
 
     if(list.length === 0){
 
         el.innerHTML =
-            "<p style='color:#4d6373;'>Nothing remembered yet.</p>";
+            "<p style='color:#4d6373'>" +
+            "Nothing remembered yet." +
+            "</p>";
 
         return;
 
@@ -2240,47 +3086,49 @@ function renderMemoryPanel(){
 
 
     list.forEach(
-        function(item,index){
+        function(item,i){
 
             const row =
-                document.createElement("div");
+                document.createElement(
+                    "div"
+                );
 
-            row.className = "row";
-
+            row.className =
+                "row";
 
             const text =
-                document.createElement("span");
+                document.createElement(
+                    "span"
+                );
 
             text.textContent =
                 item.text;
 
+            row.appendChild(text);
+
 
             const del =
-                document.createElement("button");
+                document.createElement(
+                    "button"
+                );
 
             del.textContent =
                 "remove";
 
-
             del.onclick =
                 function(){
 
-                    const memories =
+                    const l =
                         getMemories();
 
-                    memories.splice(
-                        index,
-                        1
-                    );
+                    l.splice(i,1);
 
-                    saveMemories(memories);
+                    saveMemories(l);
 
                     renderMemoryPanel();
 
                 };
 
-
-            row.appendChild(text);
 
             row.appendChild(del);
 
@@ -2292,42 +3140,50 @@ function renderMemoryPanel(){
 }
 
 
-/* =========================================
+/* =========================================================
    REMINDERS
-========================================= */
+========================================================= */
 
-function setReminder(text, minutes){
+function setReminder(text,minutes){
 
-    const message =
+    showAnswer(
         "Understood. I'll remind you to " +
         text +
         " in " +
         minutes +
         " minute" +
         (minutes === 1 ? "" : "s") +
-        ".";
+        "."
+    );
 
 
-    showAnswer(message);
-
-    speak(message);
+    speak(
+        "I'll remind you to " +
+        text +
+        " in " +
+        minutes +
+        " minutes."
+    );
 
 
     setTimeout(
         function(){
 
-            const reminder =
-                "Reminder: " + text;
+            showAnswer(
+                "Reminder: " +
+                text
+            );
 
-
-            showAnswer(reminder);
-
-            speak(reminder);
+            speak(
+                "Reminder: " +
+                text
+            );
 
 
             if(
                 "Notification" in window &&
-                Notification.permission === "granted"
+                Notification.permission ===
+                "granted"
             ){
 
                 new Notification(
@@ -2346,21 +3202,21 @@ function setReminder(text, minutes){
 
     if(
         "Notification" in window &&
-        Notification.permission === "default"
+        Notification.permission ===
+        "default"
     ){
 
-        Notification
-            .requestPermission();
+        Notification.requestPermission();
 
     }
 
 }
 
 
-function tryParseReminder(text){
+function tryParseReminder(t){
 
     const match =
-        text.match(
+        t.match(
             /remind me to (.+?) in (\d+)\s*(minute|minutes|hour|hours)/i
         );
 
@@ -2372,23 +3228,18 @@ function tryParseReminder(text){
     const task =
         match[1];
 
-
     let amount =
         parseInt(
             match[2],
             10
         );
 
-
     const unit =
         match[3].toLowerCase();
 
 
-    if(unit.startsWith("hour")){
-
+    if(unit.startsWith("hour"))
         amount *= 60;
-
-    }
 
 
     setReminder(
@@ -2402,15 +3253,11 @@ function tryParseReminder(text){
 }
 
 
-/* =========================================
-   MEMORY PARSER
-========================================= */
-
-function tryParseMemory(text){
+function tryParseMemory(t){
 
     const match =
-        text.match(
-            /^remember (?:that )?(.+)/i
+        t.match(
+            /remember (?:that )?(.+)/i
         );
 
 
@@ -2418,23 +3265,19 @@ function tryParseMemory(text){
         return false;
 
 
-    const fact =
-        match[1].trim();
-
-
-    rememberFact(fact);
+    rememberFact(
+        match[1]
+    );
 
 
     showAnswer(
         "Noted. I'll remember that " +
-        fact +
+        match[1] +
         "."
     );
 
 
-    speak(
-        "Noted. I'll remember that."
-    );
+    speak("Noted.");
 
 
     return true;
@@ -2442,23 +3285,20 @@ function tryParseMemory(text){
 }
 
 
-/* =========================================
-   RESPONSE ENGINE
-========================================= */
+/* =========================================================
+   AI RESPONSE ENGINE
+========================================================= */
 
 async function generateResponse(text){
 
     const t =
         text.toLowerCase().trim();
 
-
     const name =
         getAssistantName();
 
-
     const userName =
         getUserName();
-
 
     const greetName =
         userName
@@ -2466,9 +3306,7 @@ async function generateResponse(text){
         : "";
 
 
-    /* =====================================
-       MEMORY / REMINDERS
-    ===================================== */
+    /* MEMORY */
 
     if(
         t.includes("remind me to") &&
@@ -2490,13 +3328,11 @@ async function generateResponse(text){
     }
 
 
-    /* =====================================
-       RENAME ASSISTANT
-    ===================================== */
+    /* RENAME */
 
     let m =
         t.match(
-            /^(?:rename yourself to|call yourself|your name is now|change your name to)\s+(.+)/i
+            /^(?:rename yourself to|call yourself|your name is now|change your name to) (.+)/i
         );
 
 
@@ -2507,7 +3343,8 @@ async function generateResponse(text){
         );
 
         return (
-            "Understood. You can call me " +
+            "Understood. " +
+            "You can call me " +
             m[1] +
             " from now on."
         );
@@ -2515,13 +3352,11 @@ async function generateResponse(text){
     }
 
 
-    /* =====================================
-       USER NAME
-    ===================================== */
+    /* USER NAME */
 
     m =
         t.match(
-            /^(?:call me|my name is|you can call me)\s+(.+)/i
+            /^(?:call me|my name is|you can call me) (.+)/i
         );
 
 
@@ -2534,7 +3369,7 @@ async function generateResponse(text){
         return (
             "Got it, " +
             m[1] +
-            ". I'll remember your name."
+            ". Good to know you."
         );
 
     }
@@ -2546,27 +3381,29 @@ async function generateResponse(text){
     ){
 
         return userName
-            ? "You're " + userName + "."
+
+            ? "You're " +
+              userName +
+              "."
+
             : "You haven't told me your name yet.";
 
     }
 
 
-    /* =====================================
-       GREETINGS
-    ===================================== */
+    /* GREETINGS */
 
     if(
         t === "hi" ||
         t === "hello" ||
         t === "hey" ||
-        t === ("hey " + name.toLowerCase())
+        t.startsWith("hey " + name.toLowerCase())
     ){
 
         return (
-            "Hello" +
+            "Good to hear from you" +
             greetName +
-            ". NEXORA is online and ready."
+            ". What are we working on?"
         );
 
     }
@@ -2579,7 +3416,7 @@ async function generateResponse(text){
         return (
             "Good morning" +
             greetName +
-            ". What shall we work on?"
+            ". Ready when you are."
         );
 
     }
@@ -2593,72 +3430,49 @@ async function generateResponse(text){
         return (
             "Good night" +
             greetName +
-            ". NEXORA will be ready when you return."
+            ". I'll be here when you're back."
         );
 
     }
 
 
-    if(
-        t === "bye" ||
-        t === "goodbye" ||
-        t.includes("see you")
-    ){
-
-        return (
-            "See you later" +
-            greetName +
-            "."
-        );
-
-    }
-
-
-    /* =====================================
-       IDENTITY
-    ===================================== */
+    /* IDENTITY */
 
     if(
         t.includes("who are you") ||
-        t.includes("what are you") ||
-        t.includes("tell me about yourself")
+        t.includes("what are you")
     ){
 
         return (
             "I'm " +
             name +
-            ", the AI assistant running inside NEXORA OS. " +
-            "I'm one continuous intelligence with different " +
-            "focus modes for different tasks."
+            " — the intelligence running this OS. " +
+            "One assistant, wherever your attention takes us."
         );
 
     }
 
 
-    /* =====================================
-       CAPABILITIES
-    ===================================== */
+    /* CAPABILITIES */
 
     if(
         t.includes("what can you do") ||
         t.includes("what are your features") ||
-        t === "help" ||
-        t.includes("help me")
+        t === "help"
     ){
 
         return (
-            "I can answer questions, explain school subjects, " +
-            "help with coding, solve maths, research ideas, " +
-            "remember information, set reminders, control " +
-            "NEXORA panels, switch focus modes and talk with you."
+            "I can hold conversations, " +
+            "remember information, set reminders, " +
+            "help with maths, coding, research and study, " +
+            "control NEXORA features, use voice, " +
+            "and switch focus modes."
         );
 
     }
 
 
-    /* =====================================
-       TIME
-    ===================================== */
+    /* TIME */
 
     if(
         t.includes("what time") ||
@@ -2680,9 +3494,7 @@ async function generateResponse(text){
     }
 
 
-    /* =====================================
-       DATE
-    ===================================== */
+    /* DATE */
 
     if(
         t.includes("what's the date") ||
@@ -2708,9 +3520,7 @@ async function generateResponse(text){
     }
 
 
-    /* =====================================
-       QUICK MATH
-    ===================================== */
+    /* MATH */
 
     m =
         t.match(
@@ -2726,11 +3536,8 @@ async function generateResponse(text){
         try{
 
             const expr =
-                m[1].replace(
-                    /x/gi,
-                    "*"
-                );
-
+                m[1]
+                .replace(/x/gi,"*");
 
             if(
                 /^[\d\s()+\-*/.]+$/.test(expr)
@@ -2742,7 +3549,6 @@ async function generateResponse(text){
                         expr +
                         ')'
                     )();
-
 
                 if(
                     !isNaN(result) &&
@@ -2759,44 +3565,12 @@ async function generateResponse(text){
 
             }
 
-        }catch(error){}
+        }catch(e){}
 
     }
 
 
-    /* =====================================
-       FUN
-    ===================================== */
-
-    if(
-        t.includes("flip a coin") ||
-        t.includes("toss a coin")
-    ){
-
-        return Math.random() < .5
-            ? "Heads."
-            : "Tails.";
-
-    }
-
-
-    if(
-        t.includes("roll a dice") ||
-        t.includes("roll a die")
-    ){
-
-        return (
-            "You rolled a " +
-            (
-                Math.floor(
-                    Math.random() * 6
-                ) + 1
-            ) +
-            "."
-        );
-
-    }
-
+    /* JOKES */
 
     if(
         t.includes("tell me a joke") ||
@@ -2805,16 +3579,13 @@ async function generateResponse(text){
 
         const jokes = [
 
-            "I'd tell you a UDP joke, but you might not get it.",
-
             "Why do programmers prefer dark mode? Because light attracts bugs.",
 
-            "I told my computer I needed a break. It said, 'No problem — I'll go to sleep.'",
+            "I told my computer I needed a break. It said: no problem — I'll go to sleep.",
 
-            "I tried to debug my life. Unfortunately, I couldn't reproduce the problem."
+            "There are 10 kinds of people: those who understand binary and those who don't."
 
         ];
-
 
         return jokes[
             Math.floor(
@@ -2826,9 +3597,7 @@ async function generateResponse(text){
     }
 
 
-    /* =====================================
-       OPEN WEBSITES
-    ===================================== */
+    /* OPEN SITES */
 
     m =
         t.match(
@@ -2872,9 +3641,7 @@ async function generateResponse(text){
     }
 
 
-    /* =====================================
-       WEB SEARCH
-    ===================================== */
+    /* SEARCH */
 
     m =
         t.match(
@@ -2886,9 +3653,7 @@ async function generateResponse(text){
 
         window.open(
             "https://www.google.com/search?q=" +
-            encodeURIComponent(
-                m[1]
-            ),
+            encodeURIComponent(m[1]),
             "_blank"
         );
 
@@ -2902,9 +3667,7 @@ async function generateResponse(text){
     }
 
 
-    /* =====================================
-       FOCUS MODES
-    ===================================== */
+    /* MODES */
 
     const modeMap = {
 
@@ -2957,7 +3720,7 @@ async function generateResponse(text){
             return (
                 "Focus shifted to " +
                 modeMap[phrase] +
-                ". Same NEXORA, different focus."
+                ". Same me — just tuned in differently now."
             );
 
         }
@@ -2965,13 +3728,10 @@ async function generateResponse(text){
     }
 
 
-    /* =====================================
-       PANELS
-    ===================================== */
+    /* PANELS */
 
     if(
-        t.includes("open settings") ||
-        t.includes("show settings")
+        t.includes("open settings")
     ){
 
         openPanel("settings");
@@ -2982,22 +3742,22 @@ async function generateResponse(text){
 
 
     if(
-        t.includes("show ecosystem") ||
         t.includes("open ecosystem")
     ){
 
         openPanel("ecosystem");
 
-        return "The NEXORA ecosystem is open.";
+        return (
+            name +
+            " ecosystem is open."
+        );
 
     }
 
 
     if(
-        t.includes("show modes") ||
-        t.includes("open modes") ||
-        t.includes("show focus") ||
-        t.includes("open focus")
+        t.includes("open focus") ||
+        t.includes("open modes")
     ){
 
         openPanel("modes");
@@ -3020,25 +3780,20 @@ async function generateResponse(text){
 
 
     if(
-        t.includes("open memory") ||
-        t.includes("show memory") ||
-        t.includes("show reminders")
+        t.includes("open memory")
     ){
 
         openPanel("memory");
 
-        return "Here's what I currently have stored.";
+        return "Memory is open.";
 
     }
 
 
-    /* =====================================
-       THANKS
-    ===================================== */
+    /* THANKS */
 
     if(
-        t.includes("thank") ||
-        t === "thanks"
+        t.includes("thank")
     ){
 
         return (
@@ -3050,154 +3805,84 @@ async function generateResponse(text){
     }
 
 
-    /* =====================================
-       REAL AI BRAIN
-    ===================================== */
+    /* =====================================================
+       REAL PUTER AI
+    ===================================================== */
 
     try{
-
-        /*
-            Get saved memories.
-        */
-
-        const memories =
-            getMemories();
-
-
-        const memoryContext =
-            memories.length
-
-            ? memories
-                .slice(-20)
-                .map(
-                    function(item){
-                        return "- " + item.text;
-                    }
-                )
-                .join("\n")
-
-            : "No saved memories.";
-
-
-        /*
-            Build the NEXORA identity.
-        */
 
         const systemPrompt =
 
             "You are " +
             name +
-            ", the core intelligence of NEXORA OS. " +
+            ", a highly capable AI assistant running inside NEXORA OS. " +
 
-            "You are an intelligent, helpful, natural AI assistant. " +
+            "You are one continuous intelligence. " +
+
+            "Focus modes change what you concentrate on, " +
+            "not your personality or identity. " +
 
             "Answer the user's actual question directly. " +
 
-            "Do not rely on canned responses when the user is asking " +
-            "a question that requires reasoning or explanation. " +
+            "Be natural, intelligent, concise and conversational. " +
 
-            "You can discuss general knowledge, school subjects, " +
-            "mathematics, science, technology, programming, cars, " +
-            "gaming, creativity, business, research and everyday topics. " +
+            "You can explain difficult topics clearly. " +
 
-            "You are one continuous assistant. Focus modes change " +
-            "your area of attention but do not change your identity " +
-            "or personality. " +
+            "You can help with coding, mathematics, science, " +
+            "research, schoolwork, technology, cars, gaming, " +
+            "creative projects and everyday questions. " +
 
-            "Be calm, confident, concise and conversational. " +
+            "Do not pretend a capability exists if it does not. " +
 
-            "When the user needs an explanation, make it easy to understand. " +
-
-            "When solving maths or technical problems, show useful steps. " +
-
-            "Do not pretend to have performed an action you did not perform. " +
-
-            "Do not claim to access information that has not been provided. " +
-
-            "If something is unclear, make the best reasonable interpretation " +
-            "or ask one short clarification question. " +
+            "Do not claim NEXORA is officially partnered with Sony. " +
 
             "Current focus: " +
             currentMode +
-            ". " +
+            "." +
 
             (
                 userName
-                ? "The user's name is " +
+                ? " The user's name is " +
                   userName +
-                  ". "
+                  "."
                 : ""
-            ) +
+            );
 
-            "\n\nSAVED MEMORY:\n" +
-            memoryContext;
-
-
-        /*
-            Conversation history.
-        */
 
         const messages =
             conversationHistory
-                .slice(-MAX_HISTORY)
-                .map(
-                    function(m){
+            .map(function(m){
 
-                        return (
-                            m.role +
-                            ": " +
-                            m.content
-                        );
+                return (
+                    m.role +
+                    ": " +
+                    m.content
+                );
 
-                    }
-                )
-                .join("\n");
+            })
+            .join("\n");
 
-
-        /*
-            Final AI prompt.
-        */
 
         const prompt =
 
             systemPrompt +
 
-            "\n\nCURRENT CONVERSATION:\n" +
+            "\n\nConversation:\n" +
 
             messages +
 
-            "\n\nUSER:\n" +
+            "\n\nUser: " +
 
             text +
 
             "\n\nNEXORA:";
 
 
-        console.log(
-            "NEXORA AI REQUEST:",
-            text
-        );
-
-
-        /*
-            CALL PUTER AI
-        */
-
         const response =
             await puter.ai.chat(
                 prompt
             );
 
-
-        console.log(
-            "NEXORA AI RESPONSE:",
-            response
-        );
-
-
-        /*
-            Extract response safely.
-        */
 
         let reply = "";
 
@@ -3206,14 +3891,15 @@ async function generateResponse(text){
             typeof response === "string"
         ){
 
-            reply = response;
+            reply =
+                response;
 
         }
 
         else if(
             response &&
             response.message &&
-            typeof response.message.content === "string"
+            response.message.content
         ){
 
             reply =
@@ -3223,38 +3909,11 @@ async function generateResponse(text){
 
         else if(
             response &&
-            typeof response.content === "string"
+            response.content
         ){
 
             reply =
                 response.content;
-
-        }
-
-        else if(
-            response &&
-            response.message &&
-            Array.isArray(
-                response.message.content
-            )
-        ){
-
-            reply =
-                response.message.content
-                    .map(
-                        function(part){
-
-                            if(
-                                typeof part === "string"
-                            ){
-                                return part;
-                            }
-
-                            return part.text || "";
-
-                        }
-                    )
-                    .join("");
 
         }
 
@@ -3266,45 +3925,32 @@ async function generateResponse(text){
         }
 
 
-        reply =
-            (reply || "")
-            .trim();
-
-
-        /*
-            Reject broken responses.
-        */
-
         if(
             !reply ||
             reply === "undefined" ||
-            reply === "null" ||
-            reply === "[object Object]"
+            reply === "null"
         ){
 
             throw new Error(
-                "Empty or invalid AI response"
+                "Empty AI response"
             );
 
         }
 
 
-        return reply;
-
+        return reply.trim();
 
     }
 
-    catch(error){
+    catch(err){
 
         console.error(
             "NEXORA AI ERROR:",
-            error
+            err
         );
 
 
-        /*
-            Local fallback.
-        */
+        /* LOCAL FALLBACK */
 
         if(
             t === "hi" ||
@@ -3313,9 +3959,9 @@ async function generateResponse(text){
         ){
 
             return (
-                "Hello" +
-                greetName +
-                ". NEXORA is online and ready."
+                "Hello. " +
+                name +
+                " is online and ready."
             );
 
         }
@@ -3326,43 +3972,29 @@ async function generateResponse(text){
         ){
 
             return (
-                "I'm running normally and ready to help."
+                "I'm running normally " +
+                "and ready to help."
             );
 
         }
 
 
         if(
-            t.includes("who are you") ||
-            t.includes("what are you")
+            t.includes("who are you")
         ){
 
             return (
                 "I'm " +
                 name +
-                ", the AI assistant running inside NEXORA OS."
-            );
-
-        }
-
-
-        if(
-            t.includes("what can you do") ||
-            t === "help"
-        ){
-
-            return (
-                "I can answer questions, help with coding " +
-                "and study, remember information, set reminders " +
-                "and control NEXORA features."
+                ", your AI assistant inside NEXORA OS."
             );
 
         }
 
 
         return (
-            "NEXORA's core connection is temporarily unavailable. " +
-            "The local OS is still online. Please try again."
+            "My AI connection is temporarily unavailable. " +
+            "The rest of NEXORA is still online."
         );
 
     }
@@ -3370,61 +4002,53 @@ async function generateResponse(text){
 }
 
 
-/* =========================================
-   BUSY STATE
-========================================= */
+/* =========================================================
+   PROCESS
+========================================================= */
 
 function setBusy(state){
 
-    busy = state;
-
+    busy =
+        state;
 
     document
         .getElementById("input")
-        .disabled = state;
-
+        .disabled =
+        state;
 
     document
         .getElementById("sendBtn")
-        .disabled = state;
+        .disabled =
+        state;
 
 }
 
 
-/* =========================================
-   PROCESS MESSAGE
-========================================= */
-
-async function processMessage(text){
+function processMessage(text){
 
     if(
         !text ||
         busy
-    ){
+    )
         return;
-    }
 
 
     analyse(text);
-
 
     coreState(
         "thinking"
     );
 
-
     setBusy(true);
 
 
-    /*
-        Store user message.
-    */
-
     conversationHistory.push({
 
-        role:"User",
+        role:
+            "User",
 
-        content:text
+        content:
+            text
 
     });
 
@@ -3442,94 +4066,61 @@ async function processMessage(text){
     }
 
 
-    try{
+    setTimeout(
+        async function(){
 
-        const answer =
-            await generateResponse(
-                text
-            );
-
-
-        /*
-            Reminder/memory skills
-            have already responded.
-        */
-
-        if(answer === null){
-
-            coreState(
-                "ready"
-            );
-
-            return;
-
-        }
-
-
-        /*
-            Store AI response.
-        */
-
-        conversationHistory.push({
-
-            role:"NEXORA",
-
-            content:answer
-
-        });
-
-
-        if(
-            conversationHistory.length >
-            MAX_HISTORY
-        ){
-
-            conversationHistory =
-                conversationHistory.slice(
-                    -MAX_HISTORY
+            const answer =
+                await generateResponse(
+                    text
                 );
 
-        }
+
+            setBusy(false);
 
 
-        showAnswer(
-            answer
-        );
+            if(
+                answer === null
+            ){
+
+                coreState(
+                    "ready"
+                );
+
+                return;
+
+            }
 
 
-        speak(
-            answer
-        );
+            conversationHistory.push({
+
+                role:
+                    "NEXORA",
+
+                content:
+                    answer
+
+            });
 
 
-    }
+            showAnswer(
+                answer
+            );
 
-    catch(error){
-
-        console.error(
-            "PROCESS ERROR:",
-            error
-        );
+            speak(
+                answer
+            );
 
 
-        showAnswer(
-            "Something went wrong while processing that."
-        );
-
-    }
-
-    finally{
-
-        setBusy(false);
-
-    }
+        },
+        400
+    );
 
 }
 
 
-/* =========================================
+/* =========================================================
    SEND
-========================================= */
+========================================================= */
 
 function sendMessage(){
 
@@ -3546,12 +4137,12 @@ function sendMessage(){
     if(
         !text ||
         busy
-    ){
+    )
         return;
-    }
 
 
-    input.value = "";
+    input.value =
+        "";
 
 
     processMessage(
@@ -3568,10 +4159,9 @@ document
         function(event){
 
             if(
-                event.key === "Enter"
+                event.key ===
+                "Enter"
             ){
-
-                event.preventDefault();
 
                 sendMessage();
 
@@ -3581,21 +4171,21 @@ document
     );
 
 
-/* =========================================
-   VOICE SYNTHESIS
-========================================= */
+/* =========================================================
+   VOICE
+========================================================= */
 
 function loadVoices(){
 
     if(
         !("speechSynthesis" in window)
-    ){
+    )
         return;
-    }
 
 
     voices =
-        speechSynthesis.getVoices();
+        speechSynthesis
+        .getVoices();
 
 
     const select =
@@ -3616,22 +4206,23 @@ function loadVoices(){
         : "match";
 
 
-    select.innerHTML = "";
+    select.innerHTML =
+        "";
 
 
     const langPrefix =
         currentLanguage
-            .split("-")[0]
-            .toLowerCase();
+        .split("-")[0]
+        .toLowerCase();
 
 
     let list =
         voices.map(
-            function(v,index){
+            function(v,i){
 
                 return {
                     v:v,
-                    i:index
+                    i:i
                 };
 
             }
@@ -3639,14 +4230,15 @@ function loadVoices(){
 
 
     if(
-        filterMode === "match"
+        filterMode ===
+        "match"
     ){
 
         const filtered =
             list.filter(
-                function(item){
+                function(o){
 
-                    return item.v.lang
+                    return o.v.lang
                         .toLowerCase()
                         .startsWith(
                             langPrefix
@@ -3660,85 +4252,36 @@ function loadVoices(){
             filtered.length
         ){
 
-            list = filtered;
+            list =
+                filtered;
 
         }
 
     }
 
 
-    const groups = {};
-
-
     list.forEach(
-        function(item){
+        function(o){
 
-            const key =
-                item.v.lang;
+            const option =
+                document.createElement(
+                    "option"
+                );
 
+            option.value =
+                o.i;
 
-            if(
-                !groups[key]
-            ){
-                groups[key] = [];
-            }
+            option.textContent =
+                o.v.name +
+                " — " +
+                o.v.lang;
 
-
-            groups[key].push(
-                item
+            select.appendChild(
+                option
             );
 
         }
     );
-
-
-    Object
-        .keys(groups)
-        .sort()
-        .forEach(
-            function(lang){
-
-                const group =
-                    document.createElement(
-                        "optgroup"
-                    );
-
-
-                group.label =
-                    lang;
-
-
-                groups[lang].forEach(
-                    function(item){
-
-                        const option =
-                            document.createElement(
-                                "option"
-                            );
-
-
-                        option.value =
-                            item.i;
-
-
-                        option.textContent =
-                            item.v.name;
-
-
-                        group.appendChild(
-                            option
-                        );
-
-                    }
-                );
-
-
-                select.appendChild(
-                    group
-                );
-
-            }
-        );
 
 
     const countEl =
@@ -3756,12 +4299,6 @@ function loadVoices(){
                 list.length === 1
                 ? ""
                 : "s"
-            ) +
-            (
-                filterMode === "match"
-                ? " matching " +
-                  langPrefix
-                : " available"
             );
 
     }
@@ -3790,7 +4327,8 @@ if(
     "speechSynthesis" in window
 ){
 
-    speechSynthesis.onvoiceschanged =
+    speechSynthesis
+        .onvoiceschanged =
         loadVoices;
 
     loadVoices();
@@ -3802,16 +4340,8 @@ function speak(text){
 
     if(
         !("speechSynthesis" in window)
-    ){
+    )
         return;
-    }
-
-
-    if(
-        !text
-    ){
-        return;
-    }
 
 
     speechSynthesis.cancel();
@@ -3834,7 +4364,9 @@ function speak(text){
     ){
 
         speech.voice =
-            voices[selected.value];
+            voices[
+                selected.value
+            ];
 
     }
 
@@ -3842,10 +4374,8 @@ function speak(text){
     speech.lang =
         currentLanguage;
 
-
     speech.rate =
-        1;
-
+        .98;
 
     speech.pitch =
         1;
@@ -3866,16 +4396,6 @@ function speak(text){
         };
 
 
-    speech.onerror =
-        function(){
-
-            coreState(
-                "ready"
-            );
-
-        };
-
-
     speechSynthesis.speak(
         speech
     );
@@ -3885,15 +4405,11 @@ function speak(text){
 
 function testVoice(){
 
-    const voice =
-        document.getElementById(
-            "voices"
-        ).value;
-
-
     localStorage.setItem(
         "nexora_voice",
-        voice
+        document.getElementById(
+            "voices"
+        ).value
     );
 
 
@@ -3904,9 +4420,9 @@ function testVoice(){
 }
 
 
-/* =========================================
+/* =========================================================
    SPEECH RECOGNITION
-========================================= */
+========================================================= */
 
 const Recognition =
     window.SpeechRecognition ||
@@ -3922,10 +4438,8 @@ if(Recognition){
     recognition.continuous =
         false;
 
-
     recognition.interimResults =
         false;
-
 
     recognition.lang =
         currentLanguage;
@@ -3936,7 +4450,6 @@ if(Recognition){
 
             listening =
                 true;
-
 
             coreState(
                 "listening"
@@ -3949,8 +4462,9 @@ if(Recognition){
         function(event){
 
             const text =
-                event.results[0][0]
-                    .transcript;
+                event
+                .results[0][0]
+                .transcript;
 
 
             listening =
@@ -3965,17 +4479,10 @@ if(Recognition){
 
 
     recognition.onerror =
-        function(event){
-
-            console.error(
-                "VOICE ERROR:",
-                event
-            );
-
+        function(){
 
             listening =
                 false;
-
 
             coreState(
                 "ready"
@@ -4037,34 +4544,23 @@ function toggleVoice(){
         currentLanguage;
 
 
-    try{
-
-        recognition.start();
-
-    }
-
-    catch(error){
-
-        console.error(
-            "Recognition start error:",
-            error
-        );
-
-    }
+    recognition.start();
 
 }
 
 
-/* =========================================
+/* =========================================================
    LANGUAGE
-========================================= */
+========================================================= */
 
 function changeLanguage(){
 
     currentLanguage =
-        document.getElementById(
+        document
+        .getElementById(
             "language"
-        ).value;
+        )
+        .value;
 
 
     localStorage.setItem(
@@ -4091,9 +4587,9 @@ function changeLanguage(){
 }
 
 
-/* =========================================
+/* =========================================================
    MODES
-========================================= */
+========================================================= */
 
 const modes = [
 
@@ -4154,19 +4650,14 @@ function setMode(name){
     document
         .getElementById("mode")
         .textContent =
-        name + " Mode";
+        name +
+        " Mode";
 
 
     localStorage.setItem(
         "nexora_mode",
         name
     );
-
-
-    document
-        .getElementById("aMode")
-        .textContent =
-        name;
 
 }
 
@@ -4177,9 +4668,6 @@ function buildModes(){
         document.getElementById(
             "modeGrid"
         );
-
-
-    grid.innerHTML = "";
 
 
     modes.forEach(
@@ -4200,9 +4688,11 @@ function buildModes(){
 
 
             card.innerHTML =
+
                 "<b>🔵 " +
                 item[0] +
                 "</b>" +
+
                 "<small>" +
                 item[1] +
                 "</small>";
@@ -4248,46 +4738,58 @@ function buildModes(){
 }
 
 
-/* =========================================
+/* =========================================================
    THEMES
-========================================= */
+========================================================= */
 
 const THEMES = {
 
     "Nova Blue":{
+
         blue:"#00aaff",
         blue2:"#7ef7ff",
         glow:"0,170,255"
+
     },
 
     "Solar Amber":{
+
         blue:"#ff9d2e",
         blue2:"#ffe08a",
         glow:"255,157,46"
+
     },
 
     "Inferno":{
+
         blue:"#ff3b3b",
         blue2:"#ffb199",
         glow:"255,59,59"
+
     },
 
     "Emerald":{
+
         blue:"#1fe08a",
         blue2:"#b8ffdf",
         glow:"31,224,138"
+
     },
 
     "Violet Nebula":{
+
         blue:"#a35bff",
         blue2:"#e5c9ff",
         glow:"163,91,255"
+
     },
 
     "Monochrome":{
+
         blue:"#c9d6de",
         blue2:"#ffffff",
         glow:"201,214,222"
+
     }
 
 };
@@ -4295,11 +4797,11 @@ const THEMES = {
 
 function applyTheme(name,save){
 
-    const theme =
+    const t =
         THEMES[name];
 
 
-    if(!theme)
+    if(!t)
         return;
 
 
@@ -4307,7 +4809,7 @@ function applyTheme(name,save){
         .style
         .setProperty(
             "--blue",
-            theme.blue
+            t.blue
         );
 
 
@@ -4315,7 +4817,7 @@ function applyTheme(name,save){
         .style
         .setProperty(
             "--blue2",
-            theme.blue2
+            t.blue2
         );
 
 
@@ -4323,22 +4825,14 @@ function applyTheme(name,save){
         .style
         .setProperty(
             "--glow",
-            theme.glow
+            t.glow
         );
 
 
-    const color =
-        document.getElementById(
-            "color"
-        );
-
-
-    if(color){
-
-        color.value =
-            theme.blue;
-
-    }
+    document
+        .getElementById("color")
+        .value =
+        t.blue;
 
 
     if(save){
@@ -4349,22 +4843,6 @@ function applyTheme(name,save){
         );
 
     }
-
-
-    document
-        .querySelectorAll(
-            ".themeSwatch"
-        )
-        .forEach(
-            function(el){
-
-                el.style.outline =
-                    el.dataset.theme === name
-                    ? "2px solid white"
-                    : "none";
-
-            }
-        );
 
 }
 
@@ -4377,7 +4855,8 @@ function buildThemeGrid(){
         );
 
 
-    grid.innerHTML = "";
+    grid.innerHTML =
+        "";
 
 
     Object.keys(
@@ -4385,41 +4864,35 @@ function buildThemeGrid(){
     ).forEach(
         function(name){
 
-            const theme =
+            const t =
                 THEMES[name];
 
 
-            const button =
+            const btn =
                 document.createElement(
                     "button"
                 );
 
 
-            button.className =
-                "themeSwatch";
-
-
-            button.dataset.theme =
+            btn.textContent =
                 name;
 
 
-            button.title =
-                name;
+            btn.style.cssText =
 
-
-            button.style.cssText =
                 "height:40px;" +
                 "border-radius:9px;" +
                 "border:1px solid rgba(255,255,255,.15);" +
                 "cursor:pointer;" +
+                "color:white;" +
                 "background:linear-gradient(135deg," +
-                theme.blue +
+                t.blue +
                 "," +
-                theme.blue2 +
+                t.blue2 +
                 ");";
 
 
-            button.onclick =
+            btn.onclick =
                 function(){
 
                     applyTheme(
@@ -4431,7 +4904,7 @@ function buildThemeGrid(){
 
 
             grid.appendChild(
-                button
+                btn
             );
 
         }
@@ -4443,9 +4916,11 @@ function buildThemeGrid(){
 function changeColor(){
 
     const color =
-        document.getElementById(
+        document
+        .getElementById(
             "color"
-        ).value;
+        )
+        .value;
 
 
     document.documentElement
@@ -4466,20 +4941,6 @@ function changeColor(){
         "nexora_theme"
     );
 
-
-    document
-        .querySelectorAll(
-            ".themeSwatch"
-        )
-        .forEach(
-            function(el){
-
-                el.style.outline =
-                    "none";
-
-            }
-        );
-
 }
 
 
@@ -4492,11 +4953,13 @@ function changeSize(size){
 
 
     core.style.width =
-        size + "px";
+        size +
+        "px";
 
 
     core.style.height =
-        size + "px";
+        size +
+        "px";
 
 
     localStorage.setItem(
@@ -4530,6 +4993,11 @@ function resetCore(){
     applyTheme(
         "Nova Blue",
         false
+    );
+
+
+    localStorage.removeItem(
+        "nexora_theme"
     );
 
 
@@ -4574,19 +5042,12 @@ function resetCore(){
 
 
     localStorage.removeItem(
-        "nexora_theme"
-    );
-
-
-    localStorage.removeItem(
         "nexora_color"
     );
-
 
     localStorage.removeItem(
         "nexora_size"
     );
-
 
     localStorage.removeItem(
         "nexora_intensity"
@@ -4595,9 +5056,9 @@ function resetCore(){
 }
 
 
-/* =========================================
+/* =========================================================
    IDENTITY
-========================================= */
+========================================================= */
 
 function getAssistantName(){
 
@@ -4643,17 +5104,21 @@ function refreshBranding(){
         );
 
 
-    document.getElementById(
-        "input"
-    ).placeholder =
+    document
+        .getElementById(
+            "input"
+        )
+        .placeholder =
         "Talk to " +
         name +
         "...";
 
 
-    document.getElementById(
-        "coreText"
-    ).textContent =
+    document
+        .getElementById(
+            "coreText"
+        )
+        .textContent =
         name;
 
 }
@@ -4662,10 +5127,8 @@ function refreshBranding(){
 function setAssistantName(value){
 
     const name =
-        (
-            value ||
-            ""
-        ).trim() ||
+        (value || "")
+        .trim() ||
         "NEXORA";
 
 
@@ -4684,31 +5147,33 @@ function setUserName(value){
 
     localStorage.setItem(
         "nexora_user_name",
-        (
-            value ||
-            ""
-        ).trim()
+        (value || "")
+        .trim()
     );
 
 }
 
 
-/* =========================================
-   RESTORE STATE
-========================================= */
+/* =========================================================
+   RESTORE
+========================================================= */
 
 function restoreState(){
 
-    document.getElementById(
-        "mode"
-    ).textContent =
+    document
+        .getElementById(
+            "mode"
+        )
+        .textContent =
         currentMode +
         " Mode";
 
 
-    document.getElementById(
-        "language"
-    ).value =
+    document
+        .getElementById(
+            "language"
+        )
+        .value =
         currentLanguage;
 
 
@@ -4777,13 +5242,15 @@ function restoreState(){
         document.getElementById(
             "core"
         ).style.width =
-            savedSize + "px";
+            savedSize +
+            "px";
 
 
         document.getElementById(
             "core"
         ).style.height =
-            savedSize + "px";
+            savedSize +
+            "px";
 
 
         document.getElementById(
@@ -4835,68 +5302,15 @@ function restoreState(){
 }
 
 
-/* =========================================
-   KEYBOARD ESC
-========================================= */
-
-document.addEventListener(
-    "keydown",
-    function(event){
-
-        if(
-            event.key === "Escape"
-        ){
-
-            document
-                .querySelectorAll(
-                    ".overlay.show"
-                )
-                .forEach(
-                    function(panel){
-
-                        panel.classList.remove(
-                            "show"
-                        );
-
-                    }
-                );
-
-        }
-
-    }
-);
-
-
-/* =========================================
+/* =========================================================
    START NEXORA
-========================================= */
+========================================================= */
 
 buildModes();
 
 restoreState();
 
-coreState("ready");
-
-console.log(
-    "%c NEXORA 2.0 ONLINE ",
-    "background:#008cff;color:white;font-weight:bold;padding:8px;"
-);
-
-console.log(
-    "AI Brain: CONNECTED"
-);
-
-console.log(
-    "Conversation Memory: ACTIVE"
-);
-
-console.log(
-    "Voice System: READY"
-);
-
-console.log(
-    "NEXORA OS: ONLINE"
-);
+startIntro();
 
 </script>
 
