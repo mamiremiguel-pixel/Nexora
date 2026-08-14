@@ -4,21 +4,14 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <meta name="theme-color" content="#020711">
-<title>NEXORA 2.0 — App</title>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+
+<title>NEXORA 2.0 — AI OS</title>
+
+<link rel="stylesheet"
+href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
 
 <style>
-body{ font-family:Segoe UI,Arial,sans-serif; }
-.logo, .coreText, .welcome h1, h1, h2{ font-family:'Chakra Petch',sans-serif; }
-.analysisTitle, .analysisRow, .version, #aTopic, #aSubtopic, #aIntent, #aMode{ font-family:'IBM Plex Mono',monospace; }
-.homeLink{
-    font-size:11px;
-    color:#7391a5;
-    letter-spacing:1px;
-    margin-right:14px;
-    font-family:'IBM Plex Mono',monospace;
-}
-.homeLink:hover{ color:white; }
+
 *{
     box-sizing:border-box;
     margin:0;
@@ -37,16 +30,38 @@ body{
     width:100%;
     height:100vh;
     overflow:hidden;
-    font-family:Segoe UI,Arial,sans-serif;
     color:white;
+    font-family:Segoe UI,Arial,sans-serif;
     background:
-        radial-gradient(circle at center,
-        rgba(0,150,255,.15),
-        transparent 35%),
+        radial-gradient(
+            circle at center,
+            rgba(0,150,255,.15),
+            transparent 35%
+        ),
         #020711;
 }
 
-/* MAIN */
+.logo,
+.coreText,
+.welcome h1,
+h1,
+h2{
+    font-family:'Chakra Petch',sans-serif;
+}
+
+.analysisTitle,
+.analysisRow,
+.version,
+#aTopic,
+#aSubtopic,
+#aIntent,
+#aMode{
+    font-family:'IBM Plex Mono',monospace;
+}
+
+/* =========================================
+   APP
+========================================= */
 
 .app{
     height:100vh;
@@ -57,7 +72,9 @@ body{
     position:relative;
 }
 
-/* TOP */
+/* =========================================
+   TOP BAR
+========================================= */
 
 .top{
     position:absolute;
@@ -65,13 +82,20 @@ body{
     left:0;
     right:0;
     height:65px;
+
     display:flex;
     align-items:center;
     justify-content:space-between;
+
     padding:0 22px;
+
     border-bottom:1px solid rgba(0,170,255,.12);
+
     background:rgba(2,7,17,.7);
+
     backdrop-filter:blur(15px);
+
+    z-index:20;
 }
 
 .logo{
@@ -88,20 +112,42 @@ body{
 .top-buttons{
     display:flex;
     gap:8px;
+    align-items:center;
+}
+
+.homeLink{
+    font-size:11px;
+    color:#7391a5;
+    letter-spacing:1px;
+    margin-right:8px;
+    font-family:'IBM Plex Mono',monospace;
+    text-decoration:none;
+}
+
+.homeLink:hover{
+    color:white;
 }
 
 .circleBtn{
     width:38px;
     height:38px;
+
     border-radius:50%;
+
     border:1px solid rgba(0,170,255,.3);
+
     background:rgba(0,150,255,.08);
+
     color:white;
+
     cursor:pointer;
+
+    transition:.2s;
 }
 
 .circleBtn:hover{
     background:rgba(0,170,255,.2);
+    transform:translateY(-1px);
 }
 
 .circleBtn:focus-visible,
@@ -119,12 +165,15 @@ body{
     cursor:not-allowed;
 }
 
-/* WELCOME */
+/* =========================================
+   WELCOME
+========================================= */
 
 .welcome{
     position:absolute;
     top:95px;
     text-align:center;
+    z-index:5;
 }
 
 .welcome h1{
@@ -139,46 +188,59 @@ body{
     font-size:12px;
 }
 
-/* CORE */
+/* =========================================
+   CORE
+========================================= */
 
 .coreStage{
     width:260px;
     height:260px;
+
     display:flex;
     align-items:center;
     justify-content:center;
+
     position:relative;
 }
 
 .core{
     width:220px;
     height:220px;
+
     border-radius:50%;
+
     display:flex;
     align-items:center;
     justify-content:center;
+
     position:relative;
+
     cursor:pointer;
+
     z-index:4;
 
     background:
-        radial-gradient(circle,
-        white 0%,
-        var(--blue2) 4%,
-        var(--blue) 18%,
-        rgba(var(--glow),.45) 38%,
-        rgba(var(--glow),.12) 55%,
-        transparent 74%);
+        radial-gradient(
+            circle,
+            white 0%,
+            var(--blue2) 4%,
+            var(--blue) 18%,
+            rgba(var(--glow),.45) 38%,
+            rgba(var(--glow),.12) 55%,
+            transparent 74%
+        );
 
     box-shadow:
         0 0 calc(45px * var(--intensity)) var(--blue),
-        0 0 calc(110px * var(--intensity)) rgba(var(--glow),.25);
+        0 0 calc(110px * var(--intensity))
+        rgba(var(--glow),.25);
 
     animation:pulse 3s infinite;
-    transition:box-shadow .4s, background .4s;
-}
 
-/* concentric rings */
+    transition:
+        box-shadow .4s,
+        background .4s;
+}
 
 .ring{
     position:absolute;
@@ -187,58 +249,124 @@ body{
     pointer-events:none;
 }
 
-.ring.r1{ inset:-8%; animation:rotate 9s linear infinite; }
-.ring.r2{ inset:-22%; border-style:dashed; opacity:.5; animation:rotateReverse 16s linear infinite; }
-.ring.r3{ inset:-38%; border-color:rgba(var(--glow),.15); animation:rotate 26s linear infinite; }
+.ring.r1{
+    inset:-8%;
+    animation:rotate 9s linear infinite;
+}
 
-/* orbiting particles */
+.ring.r2{
+    inset:-22%;
+    border-style:dashed;
+    opacity:.5;
+    animation:rotateReverse 16s linear infinite;
+}
+
+.ring.r3{
+    inset:-38%;
+    border-color:rgba(var(--glow),.15);
+    animation:rotate 26s linear infinite;
+}
+
+/* PARTICLES */
 
 .particle{
     position:absolute;
+
     width:5px;
     height:5px;
+
     border-radius:50%;
+
     background:var(--blue2);
-    box-shadow:0 0 8px var(--blue2);
+
+    box-shadow:
+        0 0 8px var(--blue2);
+
     top:50%;
     left:50%;
+
     transform-origin:0 0;
 }
 
-.particle.p1{ animation:orbit 6s linear infinite; --r:150px; }
-.particle.p2{ animation:orbit 9s linear infinite reverse; --r:170px; animation-delay:-2s; }
-.particle.p3{ animation:orbit 12s linear infinite; --r:130px; animation-delay:-5s; }
-.particle.p4{ animation:orbit 7.5s linear infinite reverse; --r:185px; animation-delay:-1s; }
-
-@keyframes orbit{
-    from{ transform:rotate(0deg) translateX(var(--r)) rotate(0deg); }
-    to{ transform:rotate(360deg) translateX(var(--r)) rotate(-360deg); }
+.particle.p1{
+    animation:orbit 6s linear infinite;
+    --r:150px;
 }
 
-/* inner iris texture */
+.particle.p2{
+    animation:orbit 9s linear infinite reverse;
+    --r:170px;
+    animation-delay:-2s;
+}
+
+.particle.p3{
+    animation:orbit 12s linear infinite;
+    --r:130px;
+    animation-delay:-5s;
+}
+
+.particle.p4{
+    animation:orbit 7.5s linear infinite reverse;
+    --r:185px;
+    animation-delay:-1s;
+}
+
+@keyframes orbit{
+    from{
+        transform:
+            rotate(0deg)
+            translateX(var(--r))
+            rotate(0deg);
+    }
+
+    to{
+        transform:
+            rotate(360deg)
+            translateX(var(--r))
+            rotate(-360deg);
+    }
+}
+
+/* IRIS */
 
 .iris{
     position:absolute;
+
     inset:22%;
+
     border-radius:50%;
+
     background:
         repeating-conic-gradient(
             from 0deg,
             rgba(255,255,255,.10) 0deg 2deg,
             transparent 2deg 12deg
         );
+
     opacity:.5;
-    animation:rotate 40s linear infinite;
+
+    animation:
+        rotate 40s linear infinite;
+
     z-index:1;
+
     pointer-events:none;
 }
 
 .coreText{
     z-index:5;
+
     font-size:13px;
+
     letter-spacing:4px;
+
     font-weight:bold;
+
+    text-shadow:
+        0 0 15px rgba(255,255,255,.7);
 }
+
+/* CORE STATES */
 
 @keyframes pulse{
     0%,100%{
@@ -263,24 +391,27 @@ body{
 }
 
 .listening{
-    animation:listening .6s infinite alternate;
+    animation:listening .6s infinite alternate !important;
 }
 
 .thinking{
-    animation:thinking 1s infinite linear;
+    animation:thinking 1s infinite linear !important;
 }
 
 .speaking{
-    animation:speaking .35s infinite alternate;
+    animation:speaking .35s infinite alternate !important;
 }
 
 @keyframes listening{
     from{
-        box-shadow:0 0 40px var(--blue);
+        box-shadow:
+            0 0 40px var(--blue);
     }
+
     to{
-        box-shadow:0 0 90px var(--blue),
-                   0 0 160px rgba(var(--glow),.4);
+        box-shadow:
+            0 0 90px var(--blue),
+            0 0 160px rgba(var(--glow),.4);
     }
 }
 
@@ -294,55 +425,95 @@ body{
     from{
         transform:scale(1);
     }
+
     to{
         transform:scale(1.1);
     }
 }
 
-/* RESPONSE */
+/* =========================================
+   RESPONSE
+========================================= */
 
 .response{
     position:absolute;
+
     bottom:125px;
+
     width:90%;
-    max-width:700px;
+    max-width:750px;
+
     text-align:center;
+
+    z-index:5;
 }
 
 .responseTitle{
     font-size:9px;
+
     letter-spacing:3px;
+
     color:var(--blue);
+
     margin-bottom:7px;
 }
 
 #answer{
-    line-height:1.5;
+    line-height:1.55;
     font-size:15px;
+
+    max-height:70px;
+
+    overflow:auto;
+
+    scrollbar-width:none;
 }
 
-/* INPUT */
+#answer::-webkit-scrollbar{
+    display:none;
+}
+
+/* =========================================
+   INPUT
+========================================= */
 
 .inputBox{
     position:absolute;
+
     bottom:40px;
-    width:min(650px,90%);
+
+    width:min(700px,90%);
+
     display:flex;
+
     gap:7px;
+
     padding:7px;
+
     border-radius:18px;
+
     border:1px solid rgba(0,170,255,.25);
+
     background:rgba(4,15,28,.9);
+
     backdrop-filter:blur(15px);
+
+    z-index:10;
 }
 
 #input{
     flex:1;
+
     background:transparent;
+
     border:none;
+
     outline:none;
+
     color:white;
+
     padding:12px;
+
     font-size:14px;
 }
 
@@ -352,33 +523,55 @@ body{
 
 .send{
     border:none;
+
     background:#008cff;
+
     color:white;
+
     border-radius:12px;
+
     padding:0 18px;
+
     cursor:pointer;
+
     font-weight:bold;
+
+    transition:.2s;
 }
 
 .send:hover{
     background:#00aaff;
 }
 
-/* ANALYSIS */
+/* =========================================
+   ANALYSIS
+========================================= */
 
 .analysis{
     position:absolute;
+
     right:20px;
     bottom:100px;
+
     width:250px;
+
     padding:15px;
+
     border-radius:15px;
+
     border:1px solid rgba(0,170,255,.25);
+
     background:rgba(3,13,25,.95);
+
     opacity:0;
+
     transform:translateY(15px);
+
     pointer-events:none;
+
     transition:.3s;
+
+    z-index:15;
 }
 
 .analysis.show{
@@ -388,16 +581,24 @@ body{
 
 .analysisTitle{
     color:var(--blue);
+
     letter-spacing:3px;
+
     font-size:10px;
+
     margin-bottom:10px;
 }
 
 .analysisRow{
     display:flex;
+
     justify-content:space-between;
+
     padding:6px 0;
-    border-bottom:1px solid rgba(255,255,255,.05);
+
+    border-bottom:
+        1px solid rgba(255,255,255,.05);
+
     font-size:11px;
 }
 
@@ -405,27 +606,41 @@ body{
     color:#6e8999;
 }
 
-/* VERSION */
+/* =========================================
+   VERSION
+========================================= */
 
 .version{
     position:absolute;
+
     right:12px;
     bottom:10px;
+
     color:#607786;
+
     font-size:9px;
+
     letter-spacing:2px;
 }
 
-/* PANELS */
+/* =========================================
+   PANELS
+========================================= */
 
 .overlay{
     display:none;
+
     position:fixed;
+
     inset:0;
+
     z-index:100;
+
     align-items:center;
     justify-content:center;
+
     background:rgba(0,0,0,.75);
+
     backdrop-filter:blur(12px);
 }
 
@@ -435,18 +650,31 @@ body{
 
 .panel{
     width:min(800px,94%);
+
     max-height:85vh;
+
     overflow:auto;
+
     padding:25px;
+
     border-radius:20px;
-    border:1px solid rgba(0,170,255,.3);
+
+    border:
+        1px solid rgba(0,170,255,.3);
+
     background:#061321;
+
+    box-shadow:
+        0 30px 100px rgba(0,0,0,.5);
 }
 
 .panelHead{
     display:flex;
+
     justify-content:space-between;
+
     align-items:center;
+
     margin-bottom:20px;
 }
 
@@ -456,45 +684,76 @@ body{
 
 .close{
     border:none;
+
     background:none;
+
     color:white;
+
     font-size:28px;
+
     cursor:pointer;
 }
 
 .grid{
     display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(160px,1fr));
+
+    grid-template-columns:
+        repeat(auto-fit,minmax(160px,1fr));
+
     gap:10px;
 }
 
 .card{
     padding:17px;
+
     border-radius:12px;
-    border:1px solid rgba(0,170,255,.2);
-    background:rgba(0,150,255,.05);
+
+    border:
+        1px solid rgba(0,170,255,.2);
+
+    background:
+        rgba(0,150,255,.05);
+
     cursor:pointer;
+
+    transition:.2s;
 }
 
 .card:hover{
-    background:rgba(0,150,255,.12);
+    background:
+        rgba(0,150,255,.12);
+
+    transform:translateY(-2px);
 }
 
 .card small{
     display:block;
+
     color:#7893a3;
+
     margin-top:5px;
 }
+
+/* =========================================
+   FORMS
+========================================= */
 
 select,
 textarea,
 input[type="color"]{
     width:100%;
+
     padding:11px;
+
     margin:7px 0 15px;
+
     color:white;
+
     background:#071b2d;
-    border:1px solid rgba(0,170,255,.25);
+
+    border:
+        1px solid rgba(0,170,255,.25);
+
     border-radius:9px;
 }
 
@@ -509,42 +768,68 @@ textarea{
     margin-top:8px;
 }
 
+/* =========================================
+   MEMORY
+========================================= */
+
 .memList{
     margin-top:10px;
+
     font-size:12px;
+
     color:#9db6c6;
+
     line-height:1.6;
 }
 
 .memList .row{
     display:flex;
+
     justify-content:space-between;
+
     gap:10px;
+
     padding:6px 0;
-    border-bottom:1px solid rgba(255,255,255,.05);
+
+    border-bottom:
+        1px solid rgba(255,255,255,.05);
 }
 
 .memList button{
     background:none;
+
     border:none;
+
     color:#ff6b6b;
+
     cursor:pointer;
+
     font-size:11px;
 }
 
-/* UPDATE */
+/* =========================================
+   UPDATE
+========================================= */
 
 .update{
     position:fixed;
+
     inset:0;
+
     z-index:1000;
+
     display:flex;
+
     align-items:center;
+
     justify-content:center;
+
     background:
-        radial-gradient(circle,
-        rgba(0,150,255,.18),
-        #020711 65%);
+        radial-gradient(
+            circle,
+            rgba(0,150,255,.18),
+            #020711 65%
+        );
 }
 
 .update.hide{
@@ -553,21 +838,40 @@ textarea{
 
 .updateBox{
     width:min(620px,92%);
+
     padding:35px;
+
     text-align:center;
-    border:1px solid rgba(0,170,255,.3);
+
+    border:
+        1px solid rgba(0,170,255,.3);
+
     border-radius:25px;
+
     background:rgba(4,15,29,.96);
-    box-shadow:0 30px 100px rgba(0,0,0,.7);
+
+    box-shadow:
+        0 30px 100px rgba(0,0,0,.7);
 }
 
 .updateOrb{
     width:90px;
     height:90px;
+
     margin:auto;
+
     border-radius:50%;
-    background:radial-gradient(circle,white,var(--blue),transparent 70%);
-    box-shadow:0 0 70px var(--blue);
+
+    background:
+        radial-gradient(
+            circle,
+            white,
+            var(--blue),
+            transparent 70%
+        );
+
+    box-shadow:
+        0 0 70px var(--blue);
 }
 
 .updateBox h1{
@@ -586,27 +890,44 @@ textarea{
 
 .changes{
     text-align:left;
+
     margin:25px auto;
+
     max-width:450px;
+
     line-height:1.8;
+
+    color:#c2d1da;
 }
 
 .enter{
     padding:13px 25px;
+
     border:none;
+
     border-radius:12px;
+
     color:white;
+
     background:#008cff;
+
     cursor:pointer;
+
     font-weight:bold;
 }
+
+/* =========================================
+   MOBILE
+========================================= */
 
 @media(max-width:700px){
 
     .analysis{
         left:15px;
         right:15px;
+
         width:auto;
+
         bottom:155px;
     }
 
@@ -622,13 +943,27 @@ textarea{
     .response{
         bottom:115px;
     }
+
+    .homeLink{
+        display:none;
+    }
+
+    .online{
+        position:absolute;
+        left:50%;
+        transform:translateX(-50%);
+    }
+
 }
+
 </style>
 </head>
 
 <body>
 
-<!-- UPDATE -->
+<!-- =========================================
+     UPDATE SCREEN
+========================================= -->
 
 <div id="updateScreen" class="update">
 
@@ -644,19 +979,28 @@ textarea{
 
         <div class="changes">
 
-            ✓ Real AI brain connected (no more canned fallback)<br>
-            ✓ One continuous NEXORA identity — modes shift focus, not personality<br>
-            ✓ Remembers the conversation within a session<br>
-            ✓ Reminders and persistent memory<br>
-            ✓ Settings, mode, color and size now survive a refresh<br>
-            ✓ Fixed topic-detection false positives<br>
-            ✓ Input locks while NEXORA is thinking, to stop message pile-ups<br>
-            ✓ NEXORA now lives on a full site — Home, Ecosystem & Changelog
+            ✓ Real AI brain connected<br>
+            ✓ One continuous NEXORA identity<br>
+            ✓ Conversation memory<br>
+            ✓ Persistent saved memory<br>
+            ✓ Reminders<br>
+            ✓ Voice recognition<br>
+            ✓ Device voice selection<br>
+            ✓ Focus modes<br>
+            ✓ Core customization<br>
+            ✓ Ecosystem controls<br>
+            ✓ Improved AI response handling<br>
+            ✓ Smarter contextual conversations<br>
+            ✓ NEXORA OS interface
 
         </div>
 
-        <button class="enter" onclick="enterNexora()">
+        <button
+            class="enter"
+            onclick="enterNexora()">
+
             ENTER NEXORA
+
         </button>
 
     </div>
@@ -664,38 +1008,61 @@ textarea{
 </div>
 
 
-<!-- MAIN -->
+<!-- =========================================
+     MAIN APP
+========================================= -->
 
 <div class="app">
 
     <div class="top">
 
         <div class="logo">
-            🔵 <span class="brandName">NEXORA</span>
+
+            🔵
+            <span class="brandName">
+                NEXORA
+            </span>
+
         </div>
+
 
         <div class="online">
+
             ● ONLINE
+
         </div>
 
-        <div class="top-buttons" style="display:flex;align-items:center;">
 
-            <a class="homeLink" href="index.html">← HOME</a>
+        <div class="top-buttons">
+
+            <a
+                class="homeLink"
+                href="index.html">
+
+                ← HOME
+
+            </a>
+
 
             <button
                 class="circleBtn"
                 title="Ecosystem"
-                aria-label="Open ecosystem panel"
+                aria-label="Open ecosystem"
                 onclick="openPanel('ecosystem')">
+
                 ◈
+
             </button>
+
 
             <button
                 class="circleBtn"
                 title="Settings"
-                aria-label="Open settings panel"
+                aria-label="Open settings"
                 onclick="openPanel('settings')">
+
                 ⚙
+
             </button>
 
         </div>
@@ -703,9 +1070,13 @@ textarea{
     </div>
 
 
+    <!-- WELCOME -->
+
     <div class="welcome">
 
-        <h1>WELCOME</h1>
+        <h1>
+            WELCOME
+        </h1>
 
         <p id="mode">
             General Mode
@@ -727,21 +1098,22 @@ textarea{
         <div class="particle p3"></div>
         <div class="particle p4"></div>
 
+
         <div
             id="core"
             class="core"
             role="button"
             aria-label="Press to speak to NEXORA"
-            onclick="toggleVoice()"
-        >
+            onclick="toggleVoice()">
 
             <div class="iris"></div>
 
             <div
                 id="coreText"
-                class="coreText"
-            >
+                class="coreText">
+
                 NEXORA
+
             </div>
 
         </div>
@@ -749,7 +1121,7 @@ textarea{
     </div>
 
 
-    <!-- ANSWER -->
+    <!-- RESPONSE -->
 
     <div class="response">
 
@@ -758,7 +1130,9 @@ textarea{
         </div>
 
         <div id="answer">
+
             I'm ready. Type something or press the Core to speak.
+
         </div>
 
     </div>
@@ -773,8 +1147,11 @@ textarea{
             title="Voice input"
             aria-label="Toggle voice input"
             onclick="toggleVoice()">
+
             🎙
+
         </button>
+
 
         <input
             id="input"
@@ -782,11 +1159,14 @@ textarea{
             autocomplete="off"
         >
 
+
         <button
             class="send"
             id="sendBtn"
             onclick="sendMessage()">
+
             SEND
+
         </button>
 
     </div>
@@ -796,44 +1176,73 @@ textarea{
 
     <div
         id="analysis"
-        class="analysis"
-    >
+        class="analysis">
 
         <div class="analysisTitle">
+
             ANALYSIS
+
         </div>
 
+
         <div class="analysisRow">
+
             <span>Topic</span>
-            <span id="aTopic">General</span>
+
+            <span id="aTopic">
+                General
+            </span>
+
         </div>
 
+
         <div class="analysisRow">
+
             <span>Subtopic</span>
-            <span id="aSubtopic">General</span>
+
+            <span id="aSubtopic">
+                General
+            </span>
+
         </div>
 
+
         <div class="analysisRow">
+
             <span>Intent</span>
-            <span id="aIntent">Conversation</span>
+
+            <span id="aIntent">
+                Conversation
+            </span>
+
         </div>
 
+
         <div class="analysisRow">
+
             <span>Mode</span>
-            <span id="aMode">General</span>
+
+            <span id="aMode">
+                General
+            </span>
+
         </div>
 
     </div>
 
 
     <div class="version">
+
         NEXORA 2.0
+
     </div>
 
 </div>
 
 
-<!-- ECOSYSTEM -->
+<!-- =========================================
+     ECOSYSTEM
+========================================= -->
 
 <div id="ecosystem" class="overlay">
 
@@ -841,66 +1250,116 @@ textarea{
 
         <div class="panelHead">
 
-            <h2>🌐 NEXORA ECOSYSTEM</h2>
+            <h2>
+                🌐 NEXORA ECOSYSTEM
+            </h2>
 
             <button
                 class="close"
-                aria-label="Close ecosystem panel"
                 onclick="closePanel('ecosystem')">
+
                 ×
+
             </button>
 
         </div>
 
+
         <div class="grid">
 
             <div class="card">
+
                 🧠
                 <b>AI Brain</b>
-                <small>Core intelligence — now live</small>
+
+                <small>
+                    Real AI intelligence through Puter
+                </small>
+
             </div>
 
+
             <div class="card">
+
                 🎙
                 <b>Voice</b>
-                <small>Natural voice interaction</small>
+
+                <small>
+                    Speech recognition and voice synthesis
+                </small>
+
             </div>
 
+
             <div class="card">
+
                 🧩
                 <b>Skills</b>
-                <small>Reminders, memory, expandable abilities</small>
+
+                <small>
+                    Memory, reminders and commands
+                </small>
+
             </div>
 
+
             <div class="card">
+
                 ⚡
                 <b>Commands</b>
-                <small>Custom actions</small>
+
+                <small>
+                    Natural language controls
+                </small>
+
             </div>
 
+
             <div class="card">
+
                 📱
                 <b>Device</b>
-                <small>Future phone integration</small>
+
+                <small>
+                    Future device integration
+                </small>
+
             </div>
 
+
             <div class="card">
+
                 🔔
                 <b>Notifications</b>
-                <small>Device notifications</small>
+
+                <small>
+                    Browser notification support
+                </small>
+
             </div>
 
         </div>
 
+
         <br>
 
+
         <div class="card">
-            <b>NEXORA ROADMAP</b>
+
+            <b>
+                NEXORA ROADMAP
+            </b>
+
             <small>
-                1.8 Core → 1.9 Smarter Conversations → 2.0 Mega August Update
-                → 2.5 Advanced Tools
-                → 3.0 Full Assistant Ecosystem
+
+                1.8 Core →
+                1.9 Conversations →
+                2.0 Mega Update →
+                2.5 Advanced Tools →
+                3.0 Full Assistant Ecosystem
+
             </small>
+
         </div>
 
     </div>
@@ -908,7 +1367,9 @@ textarea{
 </div>
 
 
-<!-- SETTINGS -->
+<!-- =========================================
+     SETTINGS
+========================================= -->
 
 <div id="settings" class="overlay">
 
@@ -916,82 +1377,144 @@ textarea{
 
         <div class="panelHead">
 
-            <h2>⚙ SETTINGS</h2>
+            <h2>
+                ⚙ SETTINGS
+            </h2>
 
             <button
                 class="close"
-                aria-label="Close settings panel"
                 onclick="closePanel('settings')">
+
                 ×
+
             </button>
 
         </div>
 
-        <label>Language</label>
 
-        <select id="language" onchange="changeLanguage()">
+        <label>
+            Language
+        </label>
 
-            <option value="en-US">English (US)</option>
-            <option value="en-GB">English (UK)</option>
-            <option value="fr-FR">Français</option>
-            <option value="es-ES">Español</option>
-            <option value="es-MX">Español (México)</option>
-            <option value="pt-PT">Português</option>
-            <option value="pt-BR">Português (Brasil)</option>
-            <option value="de-DE">Deutsch</option>
-            <option value="it-IT">Italiano</option>
-            <option value="nl-NL">Nederlands</option>
-            <option value="sv-SE">Svenska</option>
-            <option value="pl-PL">Polski</option>
-            <option value="tr-TR">Türkçe</option>
-            <option value="ru-RU">Русский</option>
-            <option value="uk-UA">Українська</option>
-            <option value="ar-SA">العربية</option>
-            <option value="hi-IN">हिन्दी</option>
-            <option value="ja-JP">日本語</option>
-            <option value="ko-KR">한국어</option>
-            <option value="zh-CN">中文 (简体)</option>
-            <option value="zh-TW">中文 (繁體)</option>
-            <option value="vi-VN">Tiếng Việt</option>
-            <option value="th-TH">ไทย</option>
-            <option value="sw-KE">Kiswahili</option>
-            <option value="af-ZA">Afrikaans</option>
+
+        <select
+            id="language"
+            onchange="changeLanguage()">
+
+            <option value="en-US">
+                English (US)
+            </option>
+
+            <option value="en-GB">
+                English (UK)
+            </option>
+
+            <option value="fr-FR">
+                Français
+            </option>
+
+            <option value="es-ES">
+                Español
+            </option>
+
+            <option value="de-DE">
+                Deutsch
+            </option>
+
+            <option value="it-IT">
+                Italiano
+            </option>
+
+            <option value="pt-PT">
+                Português
+            </option>
+
+            <option value="ja-JP">
+                日本語
+            </option>
+
+            <option value="ko-KR">
+                한국어
+            </option>
+
+            <option value="zh-CN">
+                中文
+            </option>
+
+            <option value="sw-KE">
+                Kiswahili
+            </option>
 
         </select>
 
-        <label>Voice</label>
 
-        <select id="voiceFilter" onchange="loadVoices()" style="margin-bottom:0;">
-            <option value="match">Matching selected language</option>
-            <option value="all">All available voices</option>
+        <label>
+            Voice
+        </label>
+
+
+        <select
+            id="voiceFilter"
+            onchange="loadVoices()">
+
+            <option value="match">
+                Matching selected language
+            </option>
+
+            <option value="all">
+                All available voices
+            </option>
+
         </select>
+
 
         <select id="voices"></select>
 
-        <div id="voiceCount" style="font-size:11px;color:#607b8b;margin:-8px 0 15px;"></div>
+
+        <div
+            id="voiceCount"
+            style="
+                font-size:11px;
+                color:#607b8b;
+                margin:-8px 0 15px;
+            ">
+
+        </div>
+
 
         <button
             class="send full"
             onclick="testVoice()">
+
             TEST VOICE
+
         </button>
+
 
         <button
             class="send full"
             onclick="openPanel('modes')">
+
             🧠 FOCUS
+
         </button>
+
 
         <button
             class="send full"
             onclick="openPanel('custom')">
+
             🎨 CUSTOMIZE CORE
+
         </button>
+
 
         <button
             class="send full"
             onclick="openPanel('memory')">
+
             🗂 MEMORY & REMINDERS
+
         </button>
 
     </div>
@@ -999,7 +1522,9 @@ textarea{
 </div>
 
 
-<!-- MODES -->
+<!-- =========================================
+     MODES
+========================================= -->
 
 <div id="modes" class="overlay">
 
@@ -1007,29 +1532,48 @@ textarea{
 
         <div class="panelHead">
 
-            <h2>🧠 FOCUS</h2>
+            <h2>
+                🧠 FOCUS
+            </h2>
 
             <button
                 class="close"
-                aria-label="Close focus panel"
                 onclick="closePanel('modes')">
+
                 ×
+
             </button>
 
         </div>
 
-        <p style="color:#7893a3;font-size:12px;margin-bottom:15px;">
-            NEXORA stays the same assistant throughout — this just points its attention.
+
+        <p
+            style="
+                color:#7893a3;
+                font-size:12px;
+                margin-bottom:15px;
+            ">
+
+            NEXORA stays the same assistant.
+            Focus only changes what it concentrates on.
+
         </p>
 
-        <div class="grid" id="modeGrid"></div>
+
+        <div
+            class="grid"
+            id="modeGrid">
+
+        </div>
 
     </div>
 
 </div>
 
 
-<!-- CUSTOM -->
+<!-- =========================================
+     CUSTOMIZATION
+========================================= -->
 
 <div id="custom" class="overlay">
 
@@ -1037,22 +1581,42 @@ textarea{
 
         <div class="panelHead">
 
-            <h2>🎨 CUSTOMIZE NEXORA</h2>
+            <h2>
+                🎨 CUSTOMIZE NEXORA
+            </h2>
 
             <button
                 class="close"
-                aria-label="Close customize panel"
                 onclick="closePanel('custom')">
+
                 ×
+
             </button>
 
         </div>
 
-        <label>Core Theme</label>
 
-        <div id="themeGrid" style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:7px 0 15px;"></div>
+        <label>
+            Core Theme
+        </label>
 
-        <label>Core Colour</label>
+
+        <div
+            id="themeGrid"
+            style="
+                display:grid;
+                grid-template-columns:repeat(3,1fr);
+                gap:8px;
+                margin:7px 0 15px;
+            ">
+
+        </div>
+
+
+        <label>
+            Core Colour
+        </label>
+
 
         <input
             type="color"
@@ -1061,7 +1625,11 @@ textarea{
             onchange="changeColor()"
         >
 
-        <label>Core Size</label>
+
+        <label>
+            Core Size
+        </label>
+
 
         <input
             type="range"
@@ -1072,7 +1640,11 @@ textarea{
             oninput="changeSize(this.value)"
         >
 
-        <label>Core Intensity</label>
+
+        <label>
+            Core Intensity
+        </label>
+
 
         <input
             type="range"
@@ -1084,30 +1656,57 @@ textarea{
             oninput="changeIntensity(this.value)"
         >
 
-        <label>Assistant Name</label>
+
+        <label>
+            Assistant Name
+        </label>
+
 
         <input
             type="text"
             id="assistantNameInput"
             placeholder="NEXORA"
             oninput="setAssistantName(this.value)"
-            style="width:100%;padding:11px;margin:7px 0 15px;color:white;background:#071b2d;border:1px solid rgba(0,170,255,.25);border-radius:9px;"
+            style="
+                width:100%;
+                padding:11px;
+                margin:7px 0 15px;
+                color:white;
+                background:#071b2d;
+                border:1px solid rgba(0,170,255,.25);
+                border-radius:9px;
+            "
         >
 
-        <label>Your Name</label>
+
+        <label>
+            Your Name
+        </label>
+
 
         <input
             type="text"
             id="userNameInput"
             placeholder="What should NEXORA call you?"
             oninput="setUserName(this.value)"
-            style="width:100%;padding:11px;margin:7px 0 15px;color:white;background:#071b2d;border:1px solid rgba(0,170,255,.25);border-radius:9px;"
+            style="
+                width:100%;
+                padding:11px;
+                margin:7px 0 15px;
+                color:white;
+                background:#071b2d;
+                border:1px solid rgba(0,170,255,.25);
+                border-radius:9px;
+            "
         >
+
 
         <button
             class="send full"
             onclick="resetCore()">
+
             RESET CORE
+
         </button>
 
     </div>
@@ -1115,7 +1714,9 @@ textarea{
 </div>
 
 
-<!-- MEMORY -->
+<!-- =========================================
+     MEMORY
+========================================= -->
 
 <div id="memory" class="overlay">
 
@@ -1123,27 +1724,48 @@ textarea{
 
         <div class="panelHead">
 
-            <h2>🗂 MEMORY & REMINDERS</h2>
+            <h2>
+                🗂 MEMORY & REMINDERS
+            </h2>
 
             <button
                 class="close"
-                aria-label="Close memory panel"
                 onclick="closePanel('memory')">
+
                 ×
+
             </button>
 
         </div>
 
-        <p style="color:#7893a3;font-size:12px;">
-            Say "remember that ..." or "remind me to ... in N minutes" and NEXORA keeps it here.
+
+        <p
+            style="
+                color:#7893a3;
+                font-size:12px;
+            ">
+
+            Say:
+            "remember that ..."
+            or
+            "remind me to ... in N minutes".
+
         </p>
 
-        <div id="memList" class="memList"></div>
+
+        <div
+            id="memList"
+            class="memList">
+
+        </div>
+
 
         <button
             class="send full"
             onclick="clearMemory()">
+
             CLEAR ALL
+
         </button>
 
     </div>
@@ -1151,7 +1773,10 @@ textarea{
 </div>
 
 
+<!-- PUTER -->
+
 <script src="https://js.puter.com/v2/"></script>
+
 
 <script>
 
@@ -1161,9 +1786,16 @@ textarea{
 
 const VERSION = "2.0";
 
-let currentMode = localStorage.getItem("nexora_mode") || "General";
 
-let currentLanguage = localStorage.getItem("nexora_lang") || "en-US";
+let currentMode =
+    localStorage.getItem("nexora_mode")
+    || "General";
+
+
+let currentLanguage =
+    localStorage.getItem("nexora_lang")
+    || "en-US";
+
 
 let voices = [];
 
@@ -1173,13 +1805,25 @@ let listening = false;
 
 let busy = false;
 
+
+/*
+    Conversation memory is kept during
+    the current browser session.
+*/
+
 let conversationHistory = [];
 
-const MAX_HISTORY = 12;
+
+/*
+    Number of previous messages sent
+    to the AI.
+*/
+
+const MAX_HISTORY = 20;
 
 
 /* =========================================
-   UPDATE / SPLASH
+   UPDATE SCREEN
 ========================================= */
 
 function enterNexora(){
@@ -1188,13 +1832,22 @@ function enterNexora(){
         .getElementById("updateScreen")
         .classList.add("hide");
 
-    localStorage.setItem("nexora_seen_" + VERSION, "true");
+    localStorage.setItem(
+        "nexora_seen_" + VERSION,
+        "true"
+    );
 
-    speak("NEXORA is ready.");
-
+    speak(
+        "NEXORA is online and ready."
+    );
 }
 
-if(localStorage.getItem("nexora_seen_" + VERSION)){
+
+if(
+    localStorage.getItem(
+        "nexora_seen_" + VERSION
+    )
+){
 
     document
         .getElementById("updateScreen")
@@ -1209,9 +1862,12 @@ if(localStorage.getItem("nexora_seen_" + VERSION)){
 
 function openPanel(id){
 
-    document
-        .getElementById(id)
-        .classList.add("show");
+    const panel =
+        document.getElementById(id);
+
+    if(!panel) return;
+
+    panel.classList.add("show");
 
     if(id === "memory"){
         renderMemoryPanel();
@@ -1219,11 +1875,15 @@ function openPanel(id){
 
 }
 
+
 function closePanel(id){
 
-    document
-        .getElementById(id)
-        .classList.remove("show");
+    const panel =
+        document.getElementById(id);
+
+    if(!panel) return;
+
+    panel.classList.remove("show");
 
 }
 
@@ -1256,105 +1916,235 @@ function coreState(state){
         "speaking"
     );
 
+
     if(state === "listening"){
+
         core.classList.add("listening");
-        document.getElementById("coreText").textContent =
-            "LISTENING";
+
+        document
+            .getElementById("coreText")
+            .textContent = "LISTENING";
+
     }
 
     else if(state === "thinking"){
+
         core.classList.add("thinking");
-        document.getElementById("coreText").textContent =
-            "ANALYSING";
+
+        document
+            .getElementById("coreText")
+            .textContent = "ANALYSING";
+
     }
 
     else if(state === "speaking"){
+
         core.classList.add("speaking");
-        document.getElementById("coreText").textContent =
-            "SPEAKING";
+
+        document
+            .getElementById("coreText")
+            .textContent = "SPEAKING";
+
     }
 
     else{
-        document.getElementById("coreText").textContent =
+
+        document
+            .getElementById("coreText")
+            .textContent =
             getAssistantName();
+
     }
 
 }
 
 
 /* =========================================
-   ANALYSIS  (fixed: whole-word matching)
+   ANALYSIS
 ========================================= */
 
-function hasWord(t, word){
-    return new RegExp("\\b" + word + "\\b", "i").test(t);
+function hasWord(text, word){
+
+    return new RegExp(
+        "\\b" +
+        word.replace(/[.*+?^${}()|[\]\\]/g,"\\$&") +
+        "\\b",
+        "i"
+    ).test(text);
+
 }
+
 
 function analyse(text){
 
-    const t = text.toLowerCase();
+    const t =
+        text.toLowerCase();
+
 
     let topic = "General";
+
     let subtopic = "General";
+
     let intent = "Conversation";
 
-    const mathWords = ["math","maths","algebra","fraction","factor","equation"];
-    const scienceWords = ["science","biology","chemistry","physics"];
-    const bizWords = ["business","entrepreneur","startup"];
-    const devWords = ["code","html","javascript","website","css","function","bug"];
-    const carWords = ["car","engine","tuning","vehicle"];
 
-    if(mathWords.some(w => hasWord(t,w))){
+    const mathWords = [
+        "math",
+        "maths",
+        "algebra",
+        "fraction",
+        "factor",
+        "equation",
+        "geometry"
+    ];
+
+
+    const scienceWords = [
+        "science",
+        "biology",
+        "chemistry",
+        "physics",
+        "genetics",
+        "ecosystem"
+    ];
+
+
+    const businessWords = [
+        "business",
+        "entrepreneur",
+        "startup",
+        "company"
+    ];
+
+
+    const developerWords = [
+        "code",
+        "html",
+        "javascript",
+        "website",
+        "css",
+        "function",
+        "programming",
+        "bug"
+    ];
+
+
+    const carWords = [
+        "car",
+        "engine",
+        "tuning",
+        "vehicle",
+        "automotive"
+    ];
+
+
+    const gamingWords = [
+        "game",
+        "gaming",
+        "playstation",
+        "xbox",
+        "fortnite",
+        "gt7"
+    ];
+
+
+    if(
+        mathWords.some(
+            w => hasWord(t,w)
+        )
+    ){
+
         topic = "Maths";
         subtopic = "Mathematics";
+
     }
-    else if(scienceWords.some(w => hasWord(t,w))){
+
+    else if(
+        scienceWords.some(
+            w => hasWord(t,w)
+        )
+    ){
+
         topic = "Science";
         subtopic = "Science";
+
     }
-    else if(bizWords.some(w => hasWord(t,w))){
-        topic = "Entrepreneur";
-        subtopic = "Business";
+
+    else if(
+        businessWords.some(
+            w => hasWord(t,w)
+        )
+    ){
+
+        topic = "Business";
+        subtopic = "Entrepreneurship";
+
     }
-    else if(devWords.some(w => hasWord(t,w))){
+
+    else if(
+        developerWords.some(
+            w => hasWord(t,w)
+        )
+    ){
+
         topic = "Developer";
         subtopic = "Programming";
+
     }
-    else if(carWords.some(w => hasWord(t,w))){
+
+    else if(
+        carWords.some(
+            w => hasWord(t,w)
+        )
+    ){
+
         topic = "Automotive";
         subtopic = "Cars";
+
+    }
+
+    else if(
+        gamingWords.some(
+            w => hasWord(t,w)
+        )
+    ){
+
+        topic = "Gaming";
+        subtopic = "Games";
+
     }
 
 
     if(
         t.includes("?") ||
-        t.startsWith("what") ||
-        t.startsWith("why") ||
-        t.startsWith("how") ||
-        t.startsWith("when") ||
-        t.startsWith("where") ||
-        t.startsWith("who")
+        /^(what|why|how|when|where|who|can|is|are|do|does)\b/i.test(t)
     ){
+
         intent = "Question";
+
     }
 
     else if(
-        t.startsWith("open") ||
-        t.startsWith("show") ||
-        t.startsWith("activate") ||
-        t.startsWith("change") ||
-        t.startsWith("set") ||
-        t.startsWith("remind") ||
-        t.startsWith("remember")
+        /^(open|show|activate|change|set|remind|remember|start|stop|turn)\b/i.test(t)
     ){
+
         intent = "Command";
+
     }
 
 
-    document.getElementById("aTopic").textContent = topic;
-    document.getElementById("aSubtopic").textContent = subtopic;
-    document.getElementById("aIntent").textContent = intent;
-    document.getElementById("aMode").textContent = currentMode;
+    document.getElementById("aTopic").textContent =
+        topic;
+
+    document.getElementById("aSubtopic").textContent =
+        subtopic;
+
+    document.getElementById("aIntent").textContent =
+        intent;
+
+    document.getElementById("aMode").textContent =
+        currentMode;
+
 
     document
         .getElementById("analysis")
@@ -1368,57 +2158,137 @@ function analyse(text){
 ========================================= */
 
 function getMemories(){
+
     try{
-        return JSON.parse(localStorage.getItem("nexora_memories") || "[]");
-    }catch(e){
+
+        return JSON.parse(
+            localStorage.getItem(
+                "nexora_memories"
+            ) || "[]"
+        );
+
+    }catch(error){
+
+        console.error(
+            "Memory error:",
+            error
+        );
+
         return [];
+
     }
+
 }
+
 
 function saveMemories(list){
-    localStorage.setItem("nexora_memories", JSON.stringify(list));
+
+    localStorage.setItem(
+        "nexora_memories",
+        JSON.stringify(list)
+    );
+
 }
+
 
 function rememberFact(fact){
-    const list = getMemories();
-    list.push({ text: fact, time: new Date().toLocaleString() });
+
+    const list =
+        getMemories();
+
+
+    list.push({
+        text:fact,
+        time:new Date().toLocaleString()
+    });
+
+
     saveMemories(list);
+
 }
+
 
 function clearMemory(){
+
     saveMemories([]);
+
     renderMemoryPanel();
+
 }
 
+
 function renderMemoryPanel(){
-    const list = getMemories();
-    const el = document.getElementById("memList");
+
+    const list =
+        getMemories();
+
+    const el =
+        document.getElementById("memList");
+
 
     if(list.length === 0){
-        el.innerHTML = "<p style='color:#4d6373;'>Nothing remembered yet.</p>";
+
+        el.innerHTML =
+            "<p style='color:#4d6373;'>Nothing remembered yet.</p>";
+
         return;
+
     }
+
 
     el.innerHTML = "";
 
-    list.forEach(function(item, i){
-        const row = document.createElement("div");
-        row.className = "row";
-        row.innerHTML =
-            "<span>" + item.text + "</span>";
 
-        const del = document.createElement("button");
-        del.textContent = "remove";
-        del.onclick = function(){
-            const l = getMemories();
-            l.splice(i,1);
-            saveMemories(l);
-            renderMemoryPanel();
-        };
+    list.forEach(
+        function(item,index){
 
-        row.appendChild(del);
-        el.appendChild(row);
-    });
+            const row =
+                document.createElement("div");
+
+            row.className = "row";
+
+
+            const text =
+                document.createElement("span");
+
+            text.textContent =
+                item.text;
+
+
+            const del =
+                document.createElement("button");
+
+            del.textContent =
+                "remove";
+
+
+            del.onclick =
+                function(){
+
+                    const memories =
+                        getMemories();
+
+                    memories.splice(
+                        index,
+                        1
+                    );
+
+                    saveMemories(memories);
+
+                    renderMemoryPanel();
+
+                };
+
+
+            row.appendChild(text);
+
+            row.appendChild(del);
+
+            el.appendChild(row);
+
+        }
+    );
+
 }
 
 
@@ -1428,61 +2298,146 @@ function renderMemoryPanel(){
 
 function setReminder(text, minutes){
 
-    showAnswer("Understood. I'll remind you to " + text + " in " + minutes + " minute" + (minutes === 1 ? "" : "s") + ".");
+    const message =
+        "Understood. I'll remind you to " +
+        text +
+        " in " +
+        minutes +
+        " minute" +
+        (minutes === 1 ? "" : "s") +
+        ".";
 
-    speak("I'll remind you to " + text + " in " + minutes + " minutes.");
 
-    setTimeout(function(){
+    showAnswer(message);
 
-        showAnswer("Reminder: " + text);
-        speak("Reminder: " + text);
+    speak(message);
 
-        if("Notification" in window && Notification.permission === "granted"){
-            new Notification("NEXORA", { body: text });
-        }
 
-    }, minutes * 60000);
+    setTimeout(
+        function(){
 
-    if("Notification" in window && Notification.permission === "default"){
-        Notification.requestPermission();
+            const reminder =
+                "Reminder: " + text;
+
+
+            showAnswer(reminder);
+
+            speak(reminder);
+
+
+            if(
+                "Notification" in window &&
+                Notification.permission === "granted"
+            ){
+
+                new Notification(
+                    "NEXORA",
+                    {
+                        body:text
+                    }
+                );
+
+            }
+
+        },
+        minutes * 60000
+    );
+
+
+    if(
+        "Notification" in window &&
+        Notification.permission === "default"
+    ){
+
+        Notification
+            .requestPermission();
+
     }
 
 }
 
-function tryParseReminder(t){
 
-    // "remind me to X in N minute(s)/hour(s)"
-    const match = t.match(/remind me to (.+?) in (\d+)\s*(minute|minutes|hour|hours)/i);
+function tryParseReminder(text){
 
-    if(match){
-        const task = match[1];
-        let amount = parseInt(match[2], 10);
-        const unit = match[3];
+    const match =
+        text.match(
+            /remind me to (.+?) in (\d+)\s*(minute|minutes|hour|hours)/i
+        );
 
-        if(unit.startsWith("hour")){
-            amount = amount * 60;
-        }
 
-        setReminder(task, amount);
-        return true;
+    if(!match)
+        return false;
+
+
+    const task =
+        match[1];
+
+
+    let amount =
+        parseInt(
+            match[2],
+            10
+        );
+
+
+    const unit =
+        match[3].toLowerCase();
+
+
+    if(unit.startsWith("hour")){
+
+        amount *= 60;
+
     }
 
-    return false;
+
+    setReminder(
+        task,
+        amount
+    );
+
+
+    return true;
 
 }
 
-function tryParseMemory(t){
 
-    const match = t.match(/remember (?:that )?(.+)/i);
+/* =========================================
+   MEMORY PARSER
+========================================= */
 
-    if(match){
-        rememberFact(match[1]);
-        showAnswer("Noted. I'll remember that " + match[1] + ".");
-        speak("Noted.");
-        return true;
-    }
+function tryParseMemory(text){
 
-    return false;
+    const match =
+        text.match(
+            /^remember (?:that )?(.+)/i
+        );
+
+
+    if(!match)
+        return false;
+
+
+    const fact =
+        match[1].trim();
+
+
+    rememberFact(fact);
+
+
+    showAnswer(
+        "Noted. I'll remember that " +
+        fact +
+        "."
+    );
+
+
+    speak(
+        "Noted. I'll remember that."
+    );
+
+
+    return true;
 
 }
 
@@ -1493,81 +2448,196 @@ function tryParseMemory(t){
 
 async function generateResponse(text){
 
-    const t = text.toLowerCase().trim();
-    const name = getAssistantName();
-    const userName = getUserName();
-    const greetName = userName ? ", " + userName : "";
+    const t =
+        text.toLowerCase().trim();
 
 
-    /* SKILLS: reminders + memory take priority */
+    const name =
+        getAssistantName();
 
-    if(t.includes("remind me to") && tryParseReminder(t)){
-        return null; // already handled directly
+
+    const userName =
+        getUserName();
+
+
+    const greetName =
+        userName
+        ? ", " + userName
+        : "";
+
+
+    /* =====================================
+       MEMORY / REMINDERS
+    ===================================== */
+
+    if(
+        t.includes("remind me to") &&
+        tryParseReminder(t)
+    ){
+
+        return null;
+
     }
 
-    if(t.startsWith("remember ") && tryParseMemory(t)){
-        return null; // already handled directly
+
+    if(
+        t.startsWith("remember ") &&
+        tryParseMemory(t)
+    ){
+
+        return null;
+
     }
 
 
-    /* IDENTITY — rename NEXORA */
+    /* =====================================
+       RENAME ASSISTANT
+    ===================================== */
 
-    let m = t.match(/^(?:rename yourself to|call yourself|your name is now|change your name to) (.+)/i);
+    let m =
+        t.match(
+            /^(?:rename yourself to|call yourself|your name is now|change your name to)\s+(.+)/i
+        );
+
+
     if(m){
-        setAssistantName(m[1]);
-        return "Understood. You can call me " + m[1] + " from now on.";
+
+        setAssistantName(
+            m[1]
+        );
+
+        return (
+            "Understood. You can call me " +
+            m[1] +
+            " from now on."
+        );
+
     }
 
 
-    /* IDENTITY — set the user's name */
+    /* =====================================
+       USER NAME
+    ===================================== */
 
-    m = t.match(/^(?:call me|my name is|you can call me) (.+)/i);
+    m =
+        t.match(
+            /^(?:call me|my name is|you can call me)\s+(.+)/i
+        );
+
+
     if(m){
-        setUserName(m[1]);
-        return "Got it, " + m[1] + ". Good to know you.";
+
+        setUserName(
+            m[1]
+        );
+
+        return (
+            "Got it, " +
+            m[1] +
+            ". I'll remember your name."
+        );
+
     }
 
-    if(t.includes("what's my name") || t.includes("what is my name")){
+
+    if(
+        t.includes("what's my name") ||
+        t.includes("what is my name")
+    ){
+
         return userName
             ? "You're " + userName + "."
-            : "You haven't told me your name yet — say \"call me [name]\" and I'll remember it.";
+            : "You haven't told me your name yet.";
+
     }
 
 
-    /* GREETING */
+    /* =====================================
+       GREETINGS
+    ===================================== */
 
     if(
         t === "hi" ||
         t === "hello" ||
-        t.includes("hey " + name.toLowerCase())
+        t === "hey" ||
+        t === ("hey " + name.toLowerCase())
     ){
-        return "Good to hear from you" + greetName + ". What are we working on?";
-    }
 
-    if(t.includes("good morning")){
-        return "Good morning" + greetName + ". Ready when you are.";
-    }
+        return (
+            "Hello" +
+            greetName +
+            ". NEXORA is online and ready."
+        );
 
-    if(t.includes("good night") || t.includes("goodnight")){
-        return "Good night" + greetName + ". I'll be here when you're back.";
-    }
-
-    if(t === "bye" || t === "goodbye" || t.includes("see you")){
-        return "Talk soon" + greetName + ".";
     }
 
 
-    /* SELF IDENTITY */
+    if(
+        t.includes("good morning")
+    ){
+
+        return (
+            "Good morning" +
+            greetName +
+            ". What shall we work on?"
+        );
+
+    }
+
+
+    if(
+        t.includes("good night") ||
+        t.includes("goodnight")
+    ){
+
+        return (
+            "Good night" +
+            greetName +
+            ". NEXORA will be ready when you return."
+        );
+
+    }
+
+
+    if(
+        t === "bye" ||
+        t === "goodbye" ||
+        t.includes("see you")
+    ){
+
+        return (
+            "See you later" +
+            greetName +
+            "."
+        );
+
+    }
+
+
+    /* =====================================
+       IDENTITY
+    ===================================== */
 
     if(
         t.includes("who are you") ||
-        t.includes("what are you")
+        t.includes("what are you") ||
+        t.includes("tell me about yourself")
     ){
-        return "I'm " + name + " — the intelligence running this OS. One assistant, wherever your attention takes us.";
+
+        return (
+            "I'm " +
+            name +
+            ", the AI assistant running inside NEXORA OS. " +
+            "I'm one continuous intelligence with different " +
+            "focus modes for different tasks."
+        );
+
     }
 
 
-    /* CAPABILITIES */
+    /* =====================================
+       CAPABILITIES
+    ===================================== */
 
     if(
         t.includes("what can you do") ||
@@ -1575,169 +2645,725 @@ async function generateResponse(text){
         t === "help" ||
         t.includes("help me")
     ){
-        return "I can hold a real conversation, remember things you tell me, set reminders, do quick math, tell the time or date, open sites, shift focus between modes, and control this whole interface by voice or text. Just talk to me naturally.";
+
+        return (
+            "I can answer questions, explain school subjects, " +
+            "help with coding, solve maths, research ideas, " +
+            "remember information, set reminders, control " +
+            "NEXORA panels, switch focus modes and talk with you."
+        );
+
     }
 
 
-    /* TIME / DATE */
+    /* =====================================
+       TIME
+    ===================================== */
 
-    if(t.includes("what time") || t === "time"){
-        return "It's " + new Date().toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'}) + ".";
-    }
+    if(
+        t.includes("what time") ||
+        t === "time"
+    ){
 
-    if(t.includes("what's the date") || t.includes("what is the date") || t.includes("today's date") || t === "date"){
-        return "Today is " + new Date().toLocaleDateString([], {weekday:'long', year:'numeric', month:'long', day:'numeric'}) + ".";
-    }
-
-
-    /* QUICK MATH */
-
-    m = t.match(/(?:calculate|what's|what is)\s+([\d\s()+\-*/.xX]+)$/i);
-    if(m && /\d/.test(m[1])){
-        try{
-            const expr = m[1].replace(/x/gi,"*");
-            if(/^[\d\s()+\-*/.]+$/.test(expr)){
-                const result = Function('"use strict";return (' + expr + ')')();
-                if(!isNaN(result) && isFinite(result)){
-                    return expr.trim() + " = " + result;
+        return (
+            "It's " +
+            new Date().toLocaleTimeString(
+                [],
+                {
+                    hour:"2-digit",
+                    minute:"2-digit"
                 }
+            ) +
+            "."
+        );
+
+    }
+
+
+    /* =====================================
+       DATE
+    ===================================== */
+
+    if(
+        t.includes("what's the date") ||
+        t.includes("what is the date") ||
+        t.includes("today's date") ||
+        t === "date"
+    ){
+
+        return (
+            "Today is " +
+            new Date().toLocaleDateString(
+                [],
+                {
+                    weekday:"long",
+                    year:"numeric",
+                    month:"long",
+                    day:"numeric"
+                }
+            ) +
+            "."
+        );
+
+    }
+
+
+    /* =====================================
+       QUICK MATH
+    ===================================== */
+
+    m =
+        t.match(
+            /(?:calculate|what's|what is)\s+([\d\s()+\-*/.xX]+)$/i
+        );
+
+
+    if(
+        m &&
+        /\d/.test(m[1])
+    ){
+
+        try{
+
+            const expr =
+                m[1].replace(
+                    /x/gi,
+                    "*"
+                );
+
+
+            if(
+                /^[\d\s()+\-*/.]+$/.test(expr)
+            ){
+
+                const result =
+                    Function(
+                        '"use strict";return (' +
+                        expr +
+                        ')'
+                    )();
+
+
+                if(
+                    !isNaN(result) &&
+                    isFinite(result)
+                ){
+
+                    return (
+                        expr.trim() +
+                        " = " +
+                        result
+                    );
+
+                }
+
             }
-        }catch(e){ /* fall through to AI */ }
+
+        }catch(error){}
+
     }
 
 
-    /* FUN */
+    /* =====================================
+       FUN
+    ===================================== */
 
-    if(t.includes("flip a coin") || t.includes("toss a coin")){
-        return Math.random() < 0.5 ? "Heads." : "Tails.";
+    if(
+        t.includes("flip a coin") ||
+        t.includes("toss a coin")
+    ){
+
+        return Math.random() < .5
+            ? "Heads."
+            : "Tails.";
+
     }
 
-    if(t.includes("roll a dice") || t.includes("roll a die")){
-        return "You rolled a " + (Math.floor(Math.random()*6)+1) + ".";
+
+    if(
+        t.includes("roll a dice") ||
+        t.includes("roll a die")
+    ){
+
+        return (
+            "You rolled a " +
+            (
+                Math.floor(
+                    Math.random() * 6
+                ) + 1
+            ) +
+            "."
+        );
+
     }
 
-    if(t.includes("tell me a joke") || t.includes("joke")){
+
+    if(
+        t.includes("tell me a joke") ||
+        t === "joke"
+    ){
+
         const jokes = [
+
             "I'd tell you a UDP joke, but you might not get it.",
-            "There are 10 kinds of people: those who understand binary, and those who don't.",
-            "I told my assistant to sort my problems. It's still loading.",
-            "Why do programmers prefer dark mode? Because light attracts bugs."
+
+            "Why do programmers prefer dark mode? Because light attracts bugs.",
+
+            "I told my computer I needed a break. It said, 'No problem — I'll go to sleep.'",
+
+            "I tried to debug my life. Unfortunately, I couldn't reproduce the problem."
+
         ];
-        return jokes[Math.floor(Math.random()*jokes.length)];
+
+
+        return jokes[
+            Math.floor(
+                Math.random() *
+                jokes.length
+            )
+        ];
+
     }
 
-    if(t.includes("flip a switch") || t.includes("who's the goat") || t.includes("who is the goat")){
-        return "I'll stay neutral on that one.";
-    }
+
+    /* =====================================
+       OPEN WEBSITES
+    ===================================== */
+
+    m =
+        t.match(
+            /^(?:open|go to)\s+(google|youtube|github|wikipedia)/i
+        );
 
 
-    /* OPEN WEB */
-
-    m = t.match(/^(?:open|go to)\s+(google|youtube|github|wikipedia)/i);
     if(m){
+
         const sites = {
-            google:"https://google.com",
-            youtube:"https://youtube.com",
-            github:"https://github.com",
-            wikipedia:"https://wikipedia.org"
+
+            google:
+                "https://google.com",
+
+            youtube:
+                "https://youtube.com",
+
+            github:
+                "https://github.com",
+
+            wikipedia:
+                "https://wikipedia.org"
+
         };
-        window.open(sites[m[1].toLowerCase()], "_blank");
-        return "Opening " + m[1] + ".";
+
+
+        window.open(
+            sites[
+                m[1].toLowerCase()
+            ],
+            "_blank"
+        );
+
+
+        return (
+            "Opening " +
+            m[1] +
+            "."
+        );
+
     }
 
-    m = t.match(/^search(?: the web)? for (.+)/i);
+
+    /* =====================================
+       WEB SEARCH
+    ===================================== */
+
+    m =
+        t.match(
+            /^search(?: the web)? for (.+)/i
+        );
+
+
     if(m){
-        window.open("https://www.google.com/search?q=" + encodeURIComponent(m[1]), "_blank");
-        return "Searching for " + m[1] + ".";
+
+        window.open(
+            "https://www.google.com/search?q=" +
+            encodeURIComponent(
+                m[1]
+            ),
+            "_blank"
+        );
+
+
+        return (
+            "Searching for " +
+            m[1] +
+            "."
+        );
+
     }
 
 
-    /* MODE / FOCUS — all nine */
+    /* =====================================
+       FOCUS MODES
+    ===================================== */
 
     const modeMap = {
-        "entrepreneur mode":"Entrepreneur",
-        "student mode":"Student", "study mode":"Student",
-        "developer mode":"Developer",
-        "tutor mode":"Tutor",
-        "research mode":"Research",
-        "creative mode":"Creative",
-        "gaming mode":"Gaming",
-        "automotive mode":"Automotive",
-        "general mode":"General"
+
+        "entrepreneur mode":
+            "Entrepreneur",
+
+        "student mode":
+            "Student",
+
+        "study mode":
+            "Student",
+
+        "developer mode":
+            "Developer",
+
+        "tutor mode":
+            "Tutor",
+
+        "research mode":
+            "Research",
+
+        "creative mode":
+            "Creative",
+
+        "gaming mode":
+            "Gaming",
+
+        "automotive mode":
+            "Automotive",
+
+        "general mode":
+            "General"
+
     };
 
-    for(const phrase in modeMap){
-        if(t.includes(phrase)){
-            setMode(modeMap[phrase]);
-            return "Focus shifted to " + modeMap[phrase] + ". Same me — just tuned in differently now.";
+
+    for(
+        const phrase in modeMap
+    ){
+
+        if(
+            t.includes(phrase)
+        ){
+
+            setMode(
+                modeMap[phrase]
+            );
+
+
+            return (
+                "Focus shifted to " +
+                modeMap[phrase] +
+                ". Same NEXORA, different focus."
+            );
+
         }
+
     }
 
 
-    /* OPEN PANELS */
+    /* =====================================
+       PANELS
+    ===================================== */
 
-    if(t.includes("open settings") || t.includes("show settings")){
+    if(
+        t.includes("open settings") ||
+        t.includes("show settings")
+    ){
+
         openPanel("settings");
+
         return "Settings are open.";
+
     }
 
-    if(t.includes("show ecosystem") || t.includes("open ecosystem")){
+
+    if(
+        t.includes("show ecosystem") ||
+        t.includes("open ecosystem")
+    ){
+
         openPanel("ecosystem");
-        return "The " + name + " ecosystem is open.";
+
+        return "The NEXORA ecosystem is open.";
+
     }
 
-    if(t.includes("show modes") || t.includes("open modes") || t.includes("show focus") || t.includes("open focus")){
+
+    if(
+        t.includes("show modes") ||
+        t.includes("open modes") ||
+        t.includes("show focus") ||
+        t.includes("open focus")
+    ){
+
         openPanel("modes");
+
         return "Focus options are open.";
+
     }
 
-    if(t.includes("customize") || t.includes("customise")){
+
+    if(
+        t.includes("customize") ||
+        t.includes("customise")
+    ){
+
         openPanel("custom");
+
         return "Core customisation is open.";
+
     }
 
-    if(t.includes("open memory") || t.includes("show memory") || t.includes("show reminders")){
+
+    if(
+        t.includes("open memory") ||
+        t.includes("show memory") ||
+        t.includes("show reminders")
+    ){
+
         openPanel("memory");
-        return "Here's what I've got stored.";
+
+        return "Here's what I currently have stored.";
+
     }
 
 
-    /* THANKS */
+    /* =====================================
+       THANKS
+    ===================================== */
 
-    if(t.includes("thank")){
-        return "Anytime" + greetName + ".";
+    if(
+        t.includes("thank") ||
+        t === "thanks"
+    ){
+
+        return (
+            "Anytime" +
+            greetName +
+            "."
+        );
+
     }
 
 
-    /* DEFAULT — real AI brain */
+    /* =====================================
+       REAL AI BRAIN
+    ===================================== */
 
     try{
 
+        /*
+            Get saved memories.
+        */
+
+        const memories =
+            getMemories();
+
+
+        const memoryContext =
+            memories.length
+
+            ? memories
+                .slice(-20)
+                .map(
+                    function(item){
+                        return "- " + item.text;
+                    }
+                )
+                .join("\n")
+
+            : "No saved memories.";
+
+
+        /*
+            Build the NEXORA identity.
+        */
+
         const systemPrompt =
-            "You are " + name + ", a calm, sharp, quietly capable AI assistant — a single " +
-            "continuous intelligence running this user's personal OS, in the spirit of " +
-            "JARVIS. You do not switch personalities between modes; 'focus' only changes " +
-            "what you're helping with. Keep replies concise, confident, and natural to " +
-            "speak aloud. Current focus: " + currentMode + "." +
-            (userName ? " The user's name is " + userName + " — you may address them by it occasionally." : "");
 
-        const messages = conversationHistory
-            .map(m => m.role + ": " + m.content)
-            .join("\n");
+            "You are " +
+            name +
+            ", the core intelligence of NEXORA OS. " +
 
-        const prompt = systemPrompt + "\n\n" + messages + "\nUser: " + text;
+            "You are an intelligent, helpful, natural AI assistant. " +
 
-        const response = await puter.ai.chat(prompt);
+            "Answer the user's actual question directly. " +
 
-        const reply = typeof response === "string"
-            ? response
-            : (response && response.message && response.message.content) || String(response);
+            "Do not rely on canned responses when the user is asking " +
+            "a question that requires reasoning or explanation. " +
+
+            "You can discuss general knowledge, school subjects, " +
+            "mathematics, science, technology, programming, cars, " +
+            "gaming, creativity, business, research and everyday topics. " +
+
+            "You are one continuous assistant. Focus modes change " +
+            "your area of attention but do not change your identity " +
+            "or personality. " +
+
+            "Be calm, confident, concise and conversational. " +
+
+            "When the user needs an explanation, make it easy to understand. " +
+
+            "When solving maths or technical problems, show useful steps. " +
+
+            "Do not pretend to have performed an action you did not perform. " +
+
+            "Do not claim to access information that has not been provided. " +
+
+            "If something is unclear, make the best reasonable interpretation " +
+            "or ask one short clarification question. " +
+
+            "Current focus: " +
+            currentMode +
+            ". " +
+
+            (
+                userName
+                ? "The user's name is " +
+                  userName +
+                  ". "
+                : ""
+            ) +
+
+            "\n\nSAVED MEMORY:\n" +
+            memoryContext;
+
+
+        /*
+            Conversation history.
+        */
+
+        const messages =
+            conversationHistory
+                .slice(-MAX_HISTORY)
+                .map(
+                    function(m){
+
+                        return (
+                            m.role +
+                            ": " +
+                            m.content
+                        );
+
+                    }
+                )
+                .join("\n");
+
+
+        /*
+            Final AI prompt.
+        */
+
+        const prompt =
+
+            systemPrompt +
+
+            "\n\nCURRENT CONVERSATION:\n" +
+
+            messages +
+
+            "\n\nUSER:\n" +
+
+            text +
+
+            "\n\nNEXORA:";
+
+
+        console.log(
+            "NEXORA AI REQUEST:",
+            text
+        );
+
+
+        /*
+            CALL PUTER AI
+        */
+
+        const response =
+            await puter.ai.chat(
+                prompt
+            );
+
+
+        console.log(
+            "NEXORA AI RESPONSE:",
+            response
+        );
+
+
+        /*
+            Extract response safely.
+        */
+
+        let reply = "";
+
+
+        if(
+            typeof response === "string"
+        ){
+
+            reply = response;
+
+        }
+
+        else if(
+            response &&
+            response.message &&
+            typeof response.message.content === "string"
+        ){
+
+            reply =
+                response.message.content;
+
+        }
+
+        else if(
+            response &&
+            typeof response.content === "string"
+        ){
+
+            reply =
+                response.content;
+
+        }
+
+        else if(
+            response &&
+            response.message &&
+            Array.isArray(
+                response.message.content
+            )
+        ){
+
+            reply =
+                response.message.content
+                    .map(
+                        function(part){
+
+                            if(
+                                typeof part === "string"
+                            ){
+                                return part;
+                            }
+
+                            return part.text || "";
+
+                        }
+                    )
+                    .join("");
+
+        }
+
+        else{
+
+            reply =
+                String(response);
+
+        }
+
+
+        reply =
+            (reply || "")
+            .trim();
+
+
+        /*
+            Reject broken responses.
+        */
+
+        if(
+            !reply ||
+            reply === "undefined" ||
+            reply === "null" ||
+            reply === "[object Object]"
+        ){
+
+            throw new Error(
+                "Empty or invalid AI response"
+            );
+
+        }
+
 
         return reply;
 
-    }catch(err){
 
-        return "Apologies — I couldn't reach my core intelligence just now. Everything else is still online.";
+    }
+
+    catch(error){
+
+        console.error(
+            "NEXORA AI ERROR:",
+            error
+        );
+
+
+        /*
+            Local fallback.
+        */
+
+        if(
+            t === "hi" ||
+            t === "hello" ||
+            t === "hey"
+        ){
+
+            return (
+                "Hello" +
+                greetName +
+                ". NEXORA is online and ready."
+            );
+
+        }
+
+
+        if(
+            t.includes("how are you")
+        ){
+
+            return (
+                "I'm running normally and ready to help."
+            );
+
+        }
+
+
+        if(
+            t.includes("who are you") ||
+            t.includes("what are you")
+        ){
+
+            return (
+                "I'm " +
+                name +
+                ", the AI assistant running inside NEXORA OS."
+            );
+
+        }
+
+
+        if(
+            t.includes("what can you do") ||
+            t === "help"
+        ){
+
+            return (
+                "I can answer questions, help with coding " +
+                "and study, remember information, set reminders " +
+                "and control NEXORA features."
+            );
+
+        }
+
+
+        return (
+            "NEXORA's core connection is temporarily unavailable. " +
+            "The local OS is still online. Please try again."
+        );
 
     }
 
@@ -1745,49 +3371,158 @@ async function generateResponse(text){
 
 
 /* =========================================
-   PROCESS
+   BUSY STATE
 ========================================= */
 
 function setBusy(state){
+
     busy = state;
-    document.getElementById("input").disabled = state;
-    document.getElementById("sendBtn").disabled = state;
+
+
+    document
+        .getElementById("input")
+        .disabled = state;
+
+
+    document
+        .getElementById("sendBtn")
+        .disabled = state;
+
 }
 
-function processMessage(text){
 
-    if(!text || busy) return;
+/* =========================================
+   PROCESS MESSAGE
+========================================= */
+
+async function processMessage(text){
+
+    if(
+        !text ||
+        busy
+    ){
+        return;
+    }
+
 
     analyse(text);
 
-    coreState("thinking");
+
+    coreState(
+        "thinking"
+    );
+
 
     setBusy(true);
 
-    conversationHistory.push({ role: "User", content: text });
 
-    if(conversationHistory.length > MAX_HISTORY){
-        conversationHistory = conversationHistory.slice(-MAX_HISTORY);
+    /*
+        Store user message.
+    */
+
+    conversationHistory.push({
+
+        role:"User",
+
+        content:text
+
+    });
+
+
+    if(
+        conversationHistory.length >
+        MAX_HISTORY
+    ){
+
+        conversationHistory =
+            conversationHistory.slice(
+                -MAX_HISTORY
+            );
+
     }
 
-    setTimeout(async function(){
 
-        const answer = await generateResponse(text);
+    try{
+
+        const answer =
+            await generateResponse(
+                text
+            );
+
+
+        /*
+            Reminder/memory skills
+            have already responded.
+        */
+
+        if(answer === null){
+
+            coreState(
+                "ready"
+            );
+
+            return;
+
+        }
+
+
+        /*
+            Store AI response.
+        */
+
+        conversationHistory.push({
+
+            role:"NEXORA",
+
+            content:answer
+
+        });
+
+
+        if(
+            conversationHistory.length >
+            MAX_HISTORY
+        ){
+
+            conversationHistory =
+                conversationHistory.slice(
+                    -MAX_HISTORY
+                );
+
+        }
+
+
+        showAnswer(
+            answer
+        );
+
+
+        speak(
+            answer
+        );
+
+
+    }
+
+    catch(error){
+
+        console.error(
+            "PROCESS ERROR:",
+            error
+        );
+
+
+        showAnswer(
+            "Something went wrong while processing that."
+        );
+
+    }
+
+    finally{
 
         setBusy(false);
 
-        if(answer === null){
-            // handled directly by a skill (reminder/memory), core just settles
-            coreState("ready");
-            return;
-        }
-
-        conversationHistory.push({ role: "NEXORA", content: answer });
-
-        showAnswer(answer);
-        speak(answer);
-
-    }, 400);
+    }
 
 }
 
@@ -1799,16 +3534,29 @@ function processMessage(text){
 function sendMessage(){
 
     const input =
-        document.getElementById("input");
+        document.getElementById(
+            "input"
+        );
+
 
     const text =
         input.value.trim();
 
-    if(!text || busy) return;
+
+    if(
+        !text ||
+        busy
+    ){
+        return;
+    }
+
 
     input.value = "";
 
-    processMessage(text);
+
+    processMessage(
+        text
+    );
 
 }
 
@@ -1819,8 +3567,14 @@ document
         "keydown",
         function(event){
 
-            if(event.key === "Enter"){
+            if(
+                event.key === "Enter"
+            ){
+
+                event.preventDefault();
+
                 sendMessage();
+
             }
 
         }
@@ -1833,88 +3587,208 @@ document
 
 function loadVoices(){
 
-    if(!("speechSynthesis" in window))
+    if(
+        !("speechSynthesis" in window)
+    ){
         return;
+    }
+
 
     voices =
         speechSynthesis.getVoices();
 
+
     const select =
-        document.getElementById("voices");
+        document.getElementById(
+            "voices"
+        );
+
 
     const filterEl =
-        document.getElementById("voiceFilter");
+        document.getElementById(
+            "voiceFilter"
+        );
+
 
     const filterMode =
-        filterEl ? filterEl.value : "match";
+        filterEl
+        ? filterEl.value
+        : "match";
+
 
     select.innerHTML = "";
 
+
     const langPrefix =
-        currentLanguage.split("-")[0].toLowerCase();
+        currentLanguage
+            .split("-")[0]
+            .toLowerCase();
 
-    let list = voices.map(function(v,i){ return { v:v, i:i }; });
 
-    if(filterMode === "match"){
-        const filtered = list.filter(function(o){
-            return o.v.lang.toLowerCase().startsWith(langPrefix);
-        });
-        if(filtered.length){
+    let list =
+        voices.map(
+            function(v,index){
+
+                return {
+                    v:v,
+                    i:index
+                };
+
+            }
+        );
+
+
+    if(
+        filterMode === "match"
+    ){
+
+        const filtered =
+            list.filter(
+                function(item){
+
+                    return item.v.lang
+                        .toLowerCase()
+                        .startsWith(
+                            langPrefix
+                        );
+
+                }
+            );
+
+
+        if(
+            filtered.length
+        ){
+
             list = filtered;
+
         }
+
     }
+
 
     const groups = {};
 
-    list.forEach(function(o){
-        const key = o.v.lang;
-        if(!groups[key]) groups[key] = [];
-        groups[key].push(o);
-    });
 
-    Object.keys(groups).sort().forEach(function(lang){
+    list.forEach(
+        function(item){
 
-        const og =
-            document.createElement("optgroup");
+            const key =
+                item.v.lang;
 
-        og.label = lang;
 
-        groups[lang].forEach(function(o){
+            if(
+                !groups[key]
+            ){
+                groups[key] = [];
+            }
 
-            const option =
-                document.createElement("option");
 
-            option.value = o.i;
+            groups[key].push(
+                item
+            );
 
-            option.textContent = o.v.name;
+        }
+    );
 
-            og.appendChild(option);
 
-        });
+    Object
+        .keys(groups)
+        .sort()
+        .forEach(
+            function(lang){
 
-        select.appendChild(og);
+                const group =
+                    document.createElement(
+                        "optgroup"
+                    );
 
-    });
+
+                group.label =
+                    lang;
+
+
+                groups[lang].forEach(
+                    function(item){
+
+                        const option =
+                            document.createElement(
+                                "option"
+                            );
+
+
+                        option.value =
+                            item.i;
+
+
+                        option.textContent =
+                            item.v.name;
+
+
+                        group.appendChild(
+                            option
+                        );
+
+                    }
+                );
+
+
+                select.appendChild(
+                    group
+                );
+
+            }
+        );
+
 
     const countEl =
-        document.getElementById("voiceCount");
+        document.getElementById(
+            "voiceCount"
+        );
+
 
     if(countEl){
+
         countEl.textContent =
-            list.length + " voice" + (list.length === 1 ? "" : "s") +
-            (filterMode === "match" ? " matching " + langPrefix : " available");
+            list.length +
+            " voice" +
+            (
+                list.length === 1
+                ? ""
+                : "s"
+            ) +
+            (
+                filterMode === "match"
+                ? " matching " +
+                  langPrefix
+                : " available"
+            );
+
     }
 
-    const savedVoice = localStorage.getItem("nexora_voice");
 
-    if(savedVoice !== null && voices[savedVoice]){
-        select.value = savedVoice;
+    const savedVoice =
+        localStorage.getItem(
+            "nexora_voice"
+        );
+
+
+    if(
+        savedVoice !== null &&
+        voices[savedVoice]
+    ){
+
+        select.value =
+            savedVoice;
+
     }
 
 }
 
 
-if("speechSynthesis" in window){
+if(
+    "speechSynthesis" in window
+){
 
     speechSynthesis.onvoiceschanged =
         loadVoices;
@@ -1926,50 +3800,102 @@ if("speechSynthesis" in window){
 
 function speak(text){
 
-    if(!("speechSynthesis" in window))
+    if(
+        !("speechSynthesis" in window)
+    ){
         return;
+    }
+
+
+    if(
+        !text
+    ){
+        return;
+    }
+
 
     speechSynthesis.cancel();
 
+
     const speech =
-        new SpeechSynthesisUtterance(text);
+        new SpeechSynthesisUtterance(
+            text
+        );
+
 
     const selected =
-        document.getElementById("voices");
+        document.getElementById(
+            "voices"
+        );
+
 
     if(
         voices[selected.value]
     ){
+
         speech.voice =
             voices[selected.value];
+
     }
+
 
     speech.lang =
         currentLanguage;
 
-    speech.rate = 1;
 
-    speech.pitch = 1;
+    speech.rate =
+        1;
 
-    coreState("speaking");
 
-    speech.onend = function(){
+    speech.pitch =
+        1;
 
-        coreState("ready");
 
-    };
+    coreState(
+        "speaking"
+    );
 
-    speechSynthesis.speak(speech);
+
+    speech.onend =
+        function(){
+
+            coreState(
+                "ready"
+            );
+
+        };
+
+
+    speech.onerror =
+        function(){
+
+            coreState(
+                "ready"
+            );
+
+        };
+
+
+    speechSynthesis.speak(
+        speech
+    );
 
 }
 
 
 function testVoice(){
 
+    const voice =
+        document.getElementById(
+            "voices"
+        ).value;
+
+
     localStorage.setItem(
         "nexora_voice",
-        document.getElementById("voices").value
+        voice
     );
+
 
     speak(
         "Voice system operational. NEXORA is ready."
@@ -1992,55 +3918,84 @@ if(Recognition){
     recognition =
         new Recognition();
 
-    recognition.continuous = false;
 
-    recognition.interimResults = false;
+    recognition.continuous =
+        false;
+
+
+    recognition.interimResults =
+        false;
+
 
     recognition.lang =
         currentLanguage;
 
 
-    recognition.onstart = function(){
+    recognition.onstart =
+        function(){
 
-        listening = true;
-
-        coreState("listening");
-
-    };
+            listening =
+                true;
 
 
-    recognition.onresult = function(event){
+            coreState(
+                "listening"
+            );
 
-        const text =
-            event
-            .results[0][0]
-            .transcript;
-
-        listening = false;
-
-        processMessage(text);
-
-    };
+        };
 
 
-    recognition.onerror = function(){
+    recognition.onresult =
+        function(event){
 
-        listening = false;
-
-        coreState("ready");
-
-        showAnswer(
-            "I couldn't hear that clearly. Please try again."
-        );
-
-    };
+            const text =
+                event.results[0][0]
+                    .transcript;
 
 
-    recognition.onend = function(){
+            listening =
+                false;
 
-        listening = false;
 
-    };
+            processMessage(
+                text
+            );
+
+        };
+
+
+    recognition.onerror =
+        function(event){
+
+            console.error(
+                "VOICE ERROR:",
+                event
+            );
+
+
+            listening =
+                false;
+
+
+            coreState(
+                "ready"
+            );
+
+
+            showAnswer(
+                "I couldn't hear that clearly. Please try again."
+            );
+
+        };
+
+
+    recognition.onend =
+        function(){
+
+            listening =
+                false;
+
+        };
 
 }
 
@@ -2057,16 +4012,21 @@ function toggleVoice(){
 
     }
 
-    if(busy) return;
+
+    if(busy)
+        return;
 
 
     if(listening){
 
         recognition.stop();
 
-        listening = false;
+        listening =
+            false;
 
-        coreState("ready");
+        coreState(
+            "ready"
+        );
 
         return;
 
@@ -2076,7 +4036,21 @@ function toggleVoice(){
     recognition.lang =
         currentLanguage;
 
-    recognition.start();
+
+    try{
+
+        recognition.start();
+
+    }
+
+    catch(error){
+
+        console.error(
+            "Recognition start error:",
+            error
+        );
+
+    }
 
 }
 
@@ -2092,7 +4066,12 @@ function changeLanguage(){
             "language"
         ).value;
 
-    localStorage.setItem("nexora_lang", currentLanguage);
+
+    localStorage.setItem(
+        "nexora_lang",
+        currentLanguage
+    );
+
 
     if(recognition){
 
@@ -2101,7 +4080,9 @@ function changeLanguage(){
 
     }
 
+
     loadVoices();
+
 
     speak(
         "Language changed."
@@ -2111,40 +4092,81 @@ function changeLanguage(){
 
 
 /* =========================================
-   MODES / FOCUS
+   MODES
 ========================================= */
 
 const modes = [
 
-    ["General","Normal NEXORA assistance."],
+    [
+        "General",
+        "Normal NEXORA assistance."
+    ],
 
-    ["Student","Learning and study assistance."],
+    [
+        "Student",
+        "Learning and study assistance."
+    ],
 
-    ["Tutor","Step-by-step teaching."],
+    [
+        "Tutor",
+        "Step-by-step teaching."
+    ],
 
-    ["Entrepreneur","Business and startup thinking."],
+    [
+        "Entrepreneur",
+        "Business and startup thinking."
+    ],
 
-    ["Developer","Programming and technology."],
+    [
+        "Developer",
+        "Programming and technology."
+    ],
 
-    ["Research","Research and information analysis."],
+    [
+        "Research",
+        "Research and information analysis."
+    ],
 
-    ["Creative","Ideas and creative projects."],
+    [
+        "Creative",
+        "Ideas and creative projects."
+    ],
 
-    ["Gaming","Gaming and esports topics."],
+    [
+        "Gaming",
+        "Gaming and esports topics."
+    ],
 
-    ["Automotive","Cars and automotive technology."]
+    [
+        "Automotive",
+        "Cars and automotive technology."
+    ]
 
 ];
 
 
 function setMode(name){
 
-    currentMode = name;
+    currentMode =
+        name;
 
-    document.getElementById("mode").textContent =
+
+    document
+        .getElementById("mode")
+        .textContent =
         name + " Mode";
 
-    localStorage.setItem("nexora_mode", name);
+
+    localStorage.setItem(
+        "nexora_mode",
+        name
+    );
+
+
+    document
+        .getElementById("aMode")
+        .textContent =
+        name;
 
 }
 
@@ -2152,102 +4174,268 @@ function setMode(name){
 function buildModes(){
 
     const grid =
-        document.getElementById("modeGrid");
+        document.getElementById(
+            "modeGrid"
+        );
 
-    modes.forEach(function(item){
 
-        const card =
-            document.createElement("div");
+    grid.innerHTML = "";
 
-        card.className = "card";
-        card.tabIndex = 0;
 
-        card.innerHTML =
-            "<b>🔵 " +
-            item[0] +
-            "</b><small>" +
-            item[1] +
-            "</small>";
+    modes.forEach(
+        function(item){
 
-        card.onclick = function(){
+            const card =
+                document.createElement(
+                    "div"
+                );
 
-            setMode(item[0]);
 
-            closePanel("modes");
+            card.className =
+                "card";
 
-            const msg = item[0] + " focus activated.";
 
-            showAnswer(msg);
+            card.tabIndex =
+                0;
 
-            speak(msg);
 
-        };
+            card.innerHTML =
+                "<b>🔵 " +
+                item[0] +
+                "</b>" +
+                "<small>" +
+                item[1] +
+                "</small>";
 
-        grid.appendChild(card);
 
-    });
+            card.onclick =
+                function(){
+
+                    setMode(
+                        item[0]
+                    );
+
+
+                    closePanel(
+                        "modes"
+                    );
+
+
+                    const msg =
+                        item[0] +
+                        " focus activated.";
+
+
+                    showAnswer(
+                        msg
+                    );
+
+
+                    speak(
+                        msg
+                    );
+
+                };
+
+
+            grid.appendChild(
+                card
+            );
+
+        }
+    );
 
 }
 
 
 /* =========================================
-   CUSTOMIZATION
+   THEMES
 ========================================= */
 
 const THEMES = {
-    "Nova Blue":    { blue:"#00aaff", blue2:"#7ef7ff", glow:"0,170,255" },
-    "Solar Amber":  { blue:"#ff9d2e", blue2:"#ffe08a", glow:"255,157,46" },
-    "Inferno":      { blue:"#ff3b3b", blue2:"#ffb199", glow:"255,59,59" },
-    "Emerald":      { blue:"#1fe08a", blue2:"#b8ffdf", glow:"31,224,138" },
-    "Violet Nebula":{ blue:"#a35bff", blue2:"#e5c9ff", glow:"163,91,255" },
-    "Monochrome":   { blue:"#c9d6de", blue2:"#ffffff", glow:"201,214,222" }
-};
 
-function applyTheme(name, save){
+    "Nova Blue":{
+        blue:"#00aaff",
+        blue2:"#7ef7ff",
+        glow:"0,170,255"
+    },
 
-    const t = THEMES[name];
-    if(!t) return;
+    "Solar Amber":{
+        blue:"#ff9d2e",
+        blue2:"#ffe08a",
+        glow:"255,157,46"
+    },
 
-    document.documentElement.style.setProperty("--blue", t.blue);
-    document.documentElement.style.setProperty("--blue2", t.blue2);
-    document.documentElement.style.setProperty("--glow", t.glow);
+    "Inferno":{
+        blue:"#ff3b3b",
+        blue2:"#ffb199",
+        glow:"255,59,59"
+    },
 
-    document.getElementById("color").value = t.blue;
+    "Emerald":{
+        blue:"#1fe08a",
+        blue2:"#b8ffdf",
+        glow:"31,224,138"
+    },
 
-    if(save){
-        localStorage.setItem("nexora_theme", name);
+    "Violet Nebula":{
+        blue:"#a35bff",
+        blue2:"#e5c9ff",
+        glow:"163,91,255"
+    },
+
+    "Monochrome":{
+        blue:"#c9d6de",
+        blue2:"#ffffff",
+        glow:"201,214,222"
     }
 
-    document.querySelectorAll(".themeSwatch").forEach(function(el){
-        el.style.outline = (el.dataset.theme === name) ? "2px solid white" : "none";
-    });
+};
+
+
+function applyTheme(name,save){
+
+    const theme =
+        THEMES[name];
+
+
+    if(!theme)
+        return;
+
+
+    document.documentElement
+        .style
+        .setProperty(
+            "--blue",
+            theme.blue
+        );
+
+
+    document.documentElement
+        .style
+        .setProperty(
+            "--blue2",
+            theme.blue2
+        );
+
+
+    document.documentElement
+        .style
+        .setProperty(
+            "--glow",
+            theme.glow
+        );
+
+
+    const color =
+        document.getElementById(
+            "color"
+        );
+
+
+    if(color){
+
+        color.value =
+            theme.blue;
+
+    }
+
+
+    if(save){
+
+        localStorage.setItem(
+            "nexora_theme",
+            name
+        );
+
+    }
+
+
+    document
+        .querySelectorAll(
+            ".themeSwatch"
+        )
+        .forEach(
+            function(el){
+
+                el.style.outline =
+                    el.dataset.theme === name
+                    ? "2px solid white"
+                    : "none";
+
+            }
+        );
 
 }
 
+
 function buildThemeGrid(){
 
-    const grid = document.getElementById("themeGrid");
+    const grid =
+        document.getElementById(
+            "themeGrid"
+        );
+
+
     grid.innerHTML = "";
 
-    Object.keys(THEMES).forEach(function(name){
 
-        const t = THEMES[name];
+    Object.keys(
+        THEMES
+    ).forEach(
+        function(name){
 
-        const btn = document.createElement("button");
-        btn.className = "themeSwatch";
-        btn.dataset.theme = name;
-        btn.title = name;
-        btn.style.cssText =
-            "height:40px;border-radius:9px;border:1px solid rgba(255,255,255,.15);cursor:pointer;" +
-            "background:linear-gradient(135deg," + t.blue + "," + t.blue2 + ");";
+            const theme =
+                THEMES[name];
 
-        btn.onclick = function(){
-            applyTheme(name, true);
-        };
 
-        grid.appendChild(btn);
+            const button =
+                document.createElement(
+                    "button"
+                );
 
-    });
+
+            button.className =
+                "themeSwatch";
+
+
+            button.dataset.theme =
+                name;
+
+
+            button.title =
+                name;
+
+
+            button.style.cssText =
+                "height:40px;" +
+                "border-radius:9px;" +
+                "border:1px solid rgba(255,255,255,.15);" +
+                "cursor:pointer;" +
+                "background:linear-gradient(135deg," +
+                theme.blue +
+                "," +
+                theme.blue2 +
+                ");";
+
+
+            button.onclick =
+                function(){
+
+                    applyTheme(
+                        name,
+                        true
+                    );
+
+                };
+
+
+            grid.appendChild(
+                button
+            );
+
+        }
+    );
 
 }
 
@@ -2259,6 +4447,7 @@ function changeColor(){
             "color"
         ).value;
 
+
     document.documentElement
         .style
         .setProperty(
@@ -2266,12 +4455,30 @@ function changeColor(){
             color
         );
 
-    localStorage.setItem("nexora_color", color);
-    localStorage.removeItem("nexora_theme");
 
-    document.querySelectorAll(".themeSwatch").forEach(function(el){
-        el.style.outline = "none";
-    });
+    localStorage.setItem(
+        "nexora_color",
+        color
+    );
+
+
+    localStorage.removeItem(
+        "nexora_theme"
+    );
+
+
+    document
+        .querySelectorAll(
+            ".themeSwatch"
+        )
+        .forEach(
+            function(el){
+
+                el.style.outline =
+                    "none";
+
+            }
+        );
 
 }
 
@@ -2279,135 +4486,349 @@ function changeColor(){
 function changeSize(size){
 
     const core =
-        document.getElementById("core");
+        document.getElementById(
+            "core"
+        );
+
 
     core.style.width =
         size + "px";
 
+
     core.style.height =
         size + "px";
 
-    localStorage.setItem("nexora_size", size);
+
+    localStorage.setItem(
+        "nexora_size",
+        size
+    );
 
 }
 
 
 function changeIntensity(value){
 
-    document.documentElement.style.setProperty("--intensity", value);
-    localStorage.setItem("nexora_intensity", value);
+    document.documentElement
+        .style
+        .setProperty(
+            "--intensity",
+            value
+        );
+
+
+    localStorage.setItem(
+        "nexora_intensity",
+        value
+    );
 
 }
 
 
 function resetCore(){
 
-    applyTheme("Nova Blue", false);
-    localStorage.removeItem("nexora_theme");
+    applyTheme(
+        "Nova Blue",
+        false
+    );
+
 
     const core =
-        document.getElementById("core");
+        document.getElementById(
+            "core"
+        );
 
-    core.style.width = "220px";
-    core.style.height = "220px";
 
-    document.documentElement.style.setProperty("--intensity", 1);
+    core.style.width =
+        "220px";
 
-    document.getElementById("color").value = "#00aaff";
-    document.getElementById("sizeSlider").value = 220;
-    document.getElementById("intensitySlider").value = 1;
 
-    localStorage.removeItem("nexora_color");
-    localStorage.removeItem("nexora_size");
-    localStorage.removeItem("nexora_intensity");
+    core.style.height =
+        "220px";
+
+
+    document.documentElement
+        .style
+        .setProperty(
+            "--intensity",
+            1
+        );
+
+
+    document.getElementById(
+        "color"
+    ).value =
+        "#00aaff";
+
+
+    document.getElementById(
+        "sizeSlider"
+    ).value =
+        220;
+
+
+    document.getElementById(
+        "intensitySlider"
+    ).value =
+        1;
+
+
+    localStorage.removeItem(
+        "nexora_theme"
+    );
+
+
+    localStorage.removeItem(
+        "nexora_color"
+    );
+
+
+    localStorage.removeItem(
+        "nexora_size"
+    );
+
+
+    localStorage.removeItem(
+        "nexora_intensity"
+    );
 
 }
 
 
 /* =========================================
-   IDENTITY — assistant name & user name
+   IDENTITY
 ========================================= */
 
 function getAssistantName(){
-    return localStorage.getItem("nexora_assistant_name") || "NEXORA";
+
+    return (
+        localStorage.getItem(
+            "nexora_assistant_name"
+        ) ||
+        "NEXORA"
+    );
+
 }
 
+
 function getUserName(){
-    return localStorage.getItem("nexora_user_name") || "";
+
+    return (
+        localStorage.getItem(
+            "nexora_user_name"
+        ) ||
+        ""
+    );
+
 }
+
 
 function refreshBranding(){
 
-    const name = getAssistantName();
+    const name =
+        getAssistantName();
 
-    document.querySelectorAll(".brandName").forEach(function(el){
-        el.textContent = name;
-    });
 
-    document.getElementById("input").placeholder = "Talk to " + name + "...";
-    document.getElementById("coreText").textContent = name;
+    document
+        .querySelectorAll(
+            ".brandName"
+        )
+        .forEach(
+            function(el){
+
+                el.textContent =
+                    name;
+
+            }
+        );
+
+
+    document.getElementById(
+        "input"
+    ).placeholder =
+        "Talk to " +
+        name +
+        "...";
+
+
+    document.getElementById(
+        "coreText"
+    ).textContent =
+        name;
 
 }
 
+
 function setAssistantName(value){
 
-    const name = (value || "").trim() || "NEXORA";
+    const name =
+        (
+            value ||
+            ""
+        ).trim() ||
+        "NEXORA";
 
-    localStorage.setItem("nexora_assistant_name", name);
+
+    localStorage.setItem(
+        "nexora_assistant_name",
+        name
+    );
+
 
     refreshBranding();
 
 }
 
+
 function setUserName(value){
 
-    localStorage.setItem("nexora_user_name", (value || "").trim());
+    localStorage.setItem(
+        "nexora_user_name",
+        (
+            value ||
+            ""
+        ).trim()
+    );
 
 }
 
 
 /* =========================================
-   RESTORE PERSISTED STATE
+   RESTORE STATE
 ========================================= */
 
 function restoreState(){
 
-    document.getElementById("mode").textContent = currentMode + " Mode";
-    document.getElementById("language").value = currentLanguage;
+    document.getElementById(
+        "mode"
+    ).textContent =
+        currentMode +
+        " Mode";
+
+
+    document.getElementById(
+        "language"
+    ).value =
+        currentLanguage;
+
 
     buildThemeGrid();
 
-    const savedTheme = localStorage.getItem("nexora_theme");
-    const savedColor = localStorage.getItem("nexora_color");
 
-    if(savedTheme && THEMES[savedTheme]){
-        applyTheme(savedTheme, false);
+    const savedTheme =
+        localStorage.getItem(
+            "nexora_theme"
+        );
+
+
+    const savedColor =
+        localStorage.getItem(
+            "nexora_color"
+        );
+
+
+    if(
+        savedTheme &&
+        THEMES[savedTheme]
+    ){
+
+        applyTheme(
+            savedTheme,
+            false
+        );
+
     }
+
     else if(savedColor){
-        document.documentElement.style.setProperty("--blue", savedColor);
-        document.getElementById("color").value = savedColor;
-    }
-    else{
-        applyTheme("Nova Blue", false);
+
+        document.documentElement
+            .style
+            .setProperty(
+                "--blue",
+                savedColor
+            );
+
+
+        document.getElementById(
+            "color"
+        ).value =
+            savedColor;
+
     }
 
-    const savedSize = localStorage.getItem("nexora_size");
+    else{
+
+        applyTheme(
+            "Nova Blue",
+            false
+        );
+
+    }
+
+
+    const savedSize =
+        localStorage.getItem(
+            "nexora_size"
+        );
+
 
     if(savedSize){
-        document.getElementById("core").style.width = savedSize + "px";
-        document.getElementById("core").style.height = savedSize + "px";
-        document.getElementById("sizeSlider").value = savedSize;
+
+        document.getElementById(
+            "core"
+        ).style.width =
+            savedSize + "px";
+
+
+        document.getElementById(
+            "core"
+        ).style.height =
+            savedSize + "px";
+
+
+        document.getElementById(
+            "sizeSlider"
+        ).value =
+            savedSize;
+
     }
 
-    const savedIntensity = localStorage.getItem("nexora_intensity");
+
+    const savedIntensity =
+        localStorage.getItem(
+            "nexora_intensity"
+        );
+
 
     if(savedIntensity){
-        document.documentElement.style.setProperty("--intensity", savedIntensity);
-        document.getElementById("intensitySlider").value = savedIntensity;
+
+        document.documentElement
+            .style
+            .setProperty(
+                "--intensity",
+                savedIntensity
+            );
+
+
+        document.getElementById(
+            "intensitySlider"
+        ).value =
+            savedIntensity;
+
     }
 
-    document.getElementById("assistantNameInput").value = getAssistantName();
-    document.getElementById("userNameInput").value = getUserName();
+
+    document.getElementById(
+        "assistantNameInput"
+    ).value =
+        getAssistantName();
+
+
+    document.getElementById(
+        "userNameInput"
+    ).value =
+        getUserName();
+
 
     refreshBranding();
 
@@ -2415,12 +4836,67 @@ function restoreState(){
 
 
 /* =========================================
-   START
+   KEYBOARD ESC
+========================================= */
+
+document.addEventListener(
+    "keydown",
+    function(event){
+
+        if(
+            event.key === "Escape"
+        ){
+
+            document
+                .querySelectorAll(
+                    ".overlay.show"
+                )
+                .forEach(
+                    function(panel){
+
+                        panel.classList.remove(
+                            "show"
+                        );
+
+                    }
+                );
+
+        }
+
+    }
+);
+
+
+/* =========================================
+   START NEXORA
 ========================================= */
 
 buildModes();
 
 restoreState();
+
+coreState("ready");
+
+console.log(
+    "%c NEXORA 2.0 ONLINE ",
+    "background:#008cff;color:white;font-weight:bold;padding:8px;"
+);
+
+console.log(
+    "AI Brain: CONNECTED"
+);
+
+console.log(
+    "Conversation Memory: ACTIVE"
+);
+
+console.log(
+    "Voice System: READY"
+);
+
+console.log(
+    "NEXORA OS: ONLINE"
+);
 
 </script>
 
