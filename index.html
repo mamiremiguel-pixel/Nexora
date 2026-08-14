@@ -4,9 +4,21 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <meta name="theme-color" content="#020711">
-<title>NEXORA 1.9</title>
+<title>NEXORA 2.0 — App</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
 
 <style>
+body{ font-family:Segoe UI,Arial,sans-serif; }
+.logo, .coreText, .welcome h1, h1, h2{ font-family:'Chakra Petch',sans-serif; }
+.analysisTitle, .analysisRow, .version, #aTopic, #aSubtopic, #aIntent, #aMode{ font-family:'IBM Plex Mono',monospace; }
+.homeLink{
+    font-size:11px;
+    color:#7391a5;
+    letter-spacing:1px;
+    margin-right:14px;
+    font-family:'IBM Plex Mono',monospace;
+}
+.homeLink:hover{ color:white; }
 *{
     box-sizing:border-box;
     margin:0;
@@ -15,7 +27,10 @@
 
 :root{
     --blue:#00aaff;
+    --blue2:#7ef7ff;
+    --glow:0,170,255;
     --bg:#020711;
+    --intensity:1;
 }
 
 body{
@@ -126,6 +141,15 @@ body{
 
 /* CORE */
 
+.coreStage{
+    width:260px;
+    height:260px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    position:relative;
+}
+
 .core{
     width:220px;
     height:220px;
@@ -135,41 +159,78 @@ body{
     justify-content:center;
     position:relative;
     cursor:pointer;
+    z-index:4;
 
     background:
         radial-gradient(circle,
         white 0%,
-        var(--blue) 5%,
-        rgba(0,170,255,.55) 20%,
-        rgba(0,120,255,.15) 50%,
-        transparent 72%);
+        var(--blue2) 4%,
+        var(--blue) 18%,
+        rgba(var(--glow),.45) 38%,
+        rgba(var(--glow),.12) 55%,
+        transparent 74%);
 
     box-shadow:
-        0 0 45px var(--blue),
-        0 0 110px rgba(0,150,255,.25);
+        0 0 calc(45px * var(--intensity)) var(--blue),
+        0 0 calc(110px * var(--intensity)) rgba(var(--glow),.25);
 
     animation:pulse 3s infinite;
-    transition:.3s;
+    transition:box-shadow .4s, background .4s;
 }
 
-.core:before{
-    content:"";
+/* concentric rings */
+
+.ring{
     position:absolute;
-    width:145%;
-    height:145%;
-    border:1px solid rgba(0,170,255,.5);
     border-radius:50%;
-    animation:rotate 10s linear infinite;
+    border:1px solid rgba(var(--glow),.35);
+    pointer-events:none;
 }
 
-.core:after{
-    content:"";
+.ring.r1{ inset:-8%; animation:rotate 9s linear infinite; }
+.ring.r2{ inset:-22%; border-style:dashed; opacity:.5; animation:rotateReverse 16s linear infinite; }
+.ring.r3{ inset:-38%; border-color:rgba(var(--glow),.15); animation:rotate 26s linear infinite; }
+
+/* orbiting particles */
+
+.particle{
     position:absolute;
-    width:175%;
-    height:175%;
-    border:1px solid rgba(0,170,255,.15);
+    width:5px;
+    height:5px;
     border-radius:50%;
-    animation:rotateReverse 15s linear infinite;
+    background:var(--blue2);
+    box-shadow:0 0 8px var(--blue2);
+    top:50%;
+    left:50%;
+    transform-origin:0 0;
+}
+
+.particle.p1{ animation:orbit 6s linear infinite; --r:150px; }
+.particle.p2{ animation:orbit 9s linear infinite reverse; --r:170px; animation-delay:-2s; }
+.particle.p3{ animation:orbit 12s linear infinite; --r:130px; animation-delay:-5s; }
+.particle.p4{ animation:orbit 7.5s linear infinite reverse; --r:185px; animation-delay:-1s; }
+
+@keyframes orbit{
+    from{ transform:rotate(0deg) translateX(var(--r)) rotate(0deg); }
+    to{ transform:rotate(360deg) translateX(var(--r)) rotate(-360deg); }
+}
+
+/* inner iris texture */
+
+.iris{
+    position:absolute;
+    inset:22%;
+    border-radius:50%;
+    background:
+        repeating-conic-gradient(
+            from 0deg,
+            rgba(255,255,255,.10) 0deg 2deg,
+            transparent 2deg 12deg
+        );
+    opacity:.5;
+    animation:rotate 40s linear infinite;
+    z-index:1;
+    pointer-events:none;
 }
 
 .coreText{
@@ -219,7 +280,7 @@ body{
     }
     to{
         box-shadow:0 0 90px var(--blue),
-                   0 0 160px rgba(0,150,255,.4);
+                   0 0 160px rgba(var(--glow),.4);
     }
 }
 
@@ -577,9 +638,9 @@ textarea{
 
         <h1>NEXORA</h1>
 
-        <h2>UPDATE 1.9</h2>
+        <h2>UPDATE 2.0</h2>
 
-        <p>SMARTER CONVERSATIONS</p>
+        <p>THE MEGA AUGUST UPDATE</p>
 
         <div class="changes">
 
@@ -589,7 +650,8 @@ textarea{
             ✓ Reminders and persistent memory<br>
             ✓ Settings, mode, color and size now survive a refresh<br>
             ✓ Fixed topic-detection false positives<br>
-            ✓ Input locks while NEXORA is thinking, to stop message pile-ups
+            ✓ Input locks while NEXORA is thinking, to stop message pile-ups<br>
+            ✓ NEXORA now lives on a full site — Home, Ecosystem & Changelog
 
         </div>
 
@@ -609,14 +671,16 @@ textarea{
     <div class="top">
 
         <div class="logo">
-            🔵 NEXORA
+            🔵 <span class="brandName">NEXORA</span>
         </div>
 
         <div class="online">
             ● ONLINE
         </div>
 
-        <div class="top-buttons">
+        <div class="top-buttons" style="display:flex;align-items:center;">
+
+            <a class="homeLink" href="index.html">← HOME</a>
 
             <button
                 class="circleBtn"
@@ -652,19 +716,34 @@ textarea{
 
     <!-- CORE -->
 
-    <div
-        id="core"
-        class="core"
-        role="button"
-        aria-label="Press to speak to NEXORA"
-        onclick="toggleVoice()"
-    >
+    <div class="coreStage">
+
+        <div class="ring r3"></div>
+        <div class="ring r2"></div>
+        <div class="ring r1"></div>
+
+        <div class="particle p1"></div>
+        <div class="particle p2"></div>
+        <div class="particle p3"></div>
+        <div class="particle p4"></div>
 
         <div
-            id="coreText"
-            class="coreText"
+            id="core"
+            class="core"
+            role="button"
+            aria-label="Press to speak to NEXORA"
+            onclick="toggleVoice()"
         >
-            NEXORA
+
+            <div class="iris"></div>
+
+            <div
+                id="coreText"
+                class="coreText"
+            >
+                NEXORA
+            </div>
+
         </div>
 
     </div>
@@ -674,7 +753,7 @@ textarea{
 
     <div class="response">
 
-        <div class="responseTitle">
+        <div class="responseTitle brandName">
             NEXORA
         </div>
 
@@ -748,7 +827,7 @@ textarea{
 
 
     <div class="version">
-        NEXORA 1.9
+        NEXORA 2.0
     </div>
 
 </div>
@@ -818,8 +897,7 @@ textarea{
         <div class="card">
             <b>NEXORA ROADMAP</b>
             <small>
-                1.8 Core → 1.9 Smarter Conversations
-                → 2.0 Advanced AI
+                1.8 Core → 1.9 Smarter Conversations → 2.0 Mega August Update
                 → 2.5 Advanced Tools
                 → 3.0 Full Assistant Ecosystem
             </small>
@@ -853,18 +931,44 @@ textarea{
 
         <select id="language" onchange="changeLanguage()">
 
-            <option value="en-US">English</option>
+            <option value="en-US">English (US)</option>
+            <option value="en-GB">English (UK)</option>
             <option value="fr-FR">Français</option>
             <option value="es-ES">Español</option>
+            <option value="es-MX">Español (México)</option>
             <option value="pt-PT">Português</option>
+            <option value="pt-BR">Português (Brasil)</option>
             <option value="de-DE">Deutsch</option>
             <option value="it-IT">Italiano</option>
+            <option value="nl-NL">Nederlands</option>
+            <option value="sv-SE">Svenska</option>
+            <option value="pl-PL">Polski</option>
+            <option value="tr-TR">Türkçe</option>
+            <option value="ru-RU">Русский</option>
+            <option value="uk-UA">Українська</option>
+            <option value="ar-SA">العربية</option>
+            <option value="hi-IN">हिन्दी</option>
+            <option value="ja-JP">日本語</option>
+            <option value="ko-KR">한국어</option>
+            <option value="zh-CN">中文 (简体)</option>
+            <option value="zh-TW">中文 (繁體)</option>
+            <option value="vi-VN">Tiếng Việt</option>
+            <option value="th-TH">ไทย</option>
+            <option value="sw-KE">Kiswahili</option>
+            <option value="af-ZA">Afrikaans</option>
 
         </select>
 
         <label>Voice</label>
 
+        <select id="voiceFilter" onchange="loadVoices()" style="margin-bottom:0;">
+            <option value="match">Matching selected language</option>
+            <option value="all">All available voices</option>
+        </select>
+
         <select id="voices"></select>
+
+        <div id="voiceCount" style="font-size:11px;color:#607b8b;margin:-8px 0 15px;"></div>
 
         <button
             class="send full"
@@ -944,6 +1048,10 @@ textarea{
 
         </div>
 
+        <label>Core Theme</label>
+
+        <div id="themeGrid" style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:7px 0 15px;"></div>
+
         <label>Core Colour</label>
 
         <input
@@ -962,6 +1070,38 @@ textarea{
             max="300"
             value="220"
             oninput="changeSize(this.value)"
+        >
+
+        <label>Core Intensity</label>
+
+        <input
+            type="range"
+            id="intensitySlider"
+            min="0.5"
+            max="2"
+            step="0.1"
+            value="1"
+            oninput="changeIntensity(this.value)"
+        >
+
+        <label>Assistant Name</label>
+
+        <input
+            type="text"
+            id="assistantNameInput"
+            placeholder="NEXORA"
+            oninput="setAssistantName(this.value)"
+            style="width:100%;padding:11px;margin:7px 0 15px;color:white;background:#071b2d;border:1px solid rgba(0,170,255,.25);border-radius:9px;"
+        >
+
+        <label>Your Name</label>
+
+        <input
+            type="text"
+            id="userNameInput"
+            placeholder="What should NEXORA call you?"
+            oninput="setUserName(this.value)"
+            style="width:100%;padding:11px;margin:7px 0 15px;color:white;background:#071b2d;border:1px solid rgba(0,170,255,.25);border-radius:9px;"
         >
 
         <button
@@ -1019,7 +1159,7 @@ textarea{
    NEXORA ENGINE
 ========================================= */
 
-const VERSION = "1.9";
+const VERSION = "2.0";
 
 let currentMode = localStorage.getItem("nexora_mode") || "General";
 
@@ -1136,7 +1276,7 @@ function coreState(state){
 
     else{
         document.getElementById("coreText").textContent =
-            "NEXORA";
+            getAssistantName();
     }
 
 }
@@ -1354,6 +1494,9 @@ function tryParseMemory(t){
 async function generateResponse(text){
 
     const t = text.toLowerCase().trim();
+    const name = getAssistantName();
+    const userName = getUserName();
+    const greetName = userName ? ", " + userName : "";
 
 
     /* SKILLS: reminders + memory take priority */
@@ -1367,24 +1510,60 @@ async function generateResponse(text){
     }
 
 
+    /* IDENTITY — rename NEXORA */
+
+    let m = t.match(/^(?:rename yourself to|call yourself|your name is now|change your name to) (.+)/i);
+    if(m){
+        setAssistantName(m[1]);
+        return "Understood. You can call me " + m[1] + " from now on.";
+    }
+
+
+    /* IDENTITY — set the user's name */
+
+    m = t.match(/^(?:call me|my name is|you can call me) (.+)/i);
+    if(m){
+        setUserName(m[1]);
+        return "Got it, " + m[1] + ". Good to know you.";
+    }
+
+    if(t.includes("what's my name") || t.includes("what is my name")){
+        return userName
+            ? "You're " + userName + "."
+            : "You haven't told me your name yet — say \"call me [name]\" and I'll remember it.";
+    }
+
+
     /* GREETING */
 
     if(
         t === "hi" ||
         t === "hello" ||
-        t.includes("hey nexora")
+        t.includes("hey " + name.toLowerCase())
     ){
-        return "Good to hear from you. What are we working on?";
+        return "Good to hear from you" + greetName + ". What are we working on?";
+    }
+
+    if(t.includes("good morning")){
+        return "Good morning" + greetName + ". Ready when you are.";
+    }
+
+    if(t.includes("good night") || t.includes("goodnight")){
+        return "Good night" + greetName + ". I'll be here when you're back.";
+    }
+
+    if(t === "bye" || t === "goodbye" || t.includes("see you")){
+        return "Talk soon" + greetName + ".";
     }
 
 
-    /* IDENTITY */
+    /* SELF IDENTITY */
 
     if(
         t.includes("who are you") ||
         t.includes("what are you")
     ){
-        return "I'm NEXORA — the intelligence running this OS. One assistant, wherever your attention takes us.";
+        return "I'm " + name + " — the intelligence running this OS. One assistant, wherever your attention takes us.";
     }
 
 
@@ -1392,27 +1571,106 @@ async function generateResponse(text){
 
     if(
         t.includes("what can you do") ||
-        t.includes("what are your features")
+        t.includes("what are your features") ||
+        t === "help" ||
+        t.includes("help me")
     ){
-        return "I can hold a real conversation, remember things you tell me, set reminders, analyse what you're asking, shift focus between General, Student, Developer and more, and control this interface by voice or text.";
+        return "I can hold a real conversation, remember things you tell me, set reminders, do quick math, tell the time or date, open sites, shift focus between modes, and control this whole interface by voice or text. Just talk to me naturally.";
     }
 
 
-    /* MODE / FOCUS */
+    /* TIME / DATE */
 
-    if(t.includes("entrepreneur mode")){
-        setMode("Entrepreneur");
-        return "Focus shifted to Entrepreneur. Same me — just tuned in on ideas, product and strategy now.";
+    if(t.includes("what time") || t === "time"){
+        return "It's " + new Date().toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'}) + ".";
     }
 
-    if(t.includes("student mode") || t.includes("study mode")){
-        setMode("Student");
-        return "Focus shifted to Student. Let's get you through this.";
+    if(t.includes("what's the date") || t.includes("what is the date") || t.includes("today's date") || t === "date"){
+        return "Today is " + new Date().toLocaleDateString([], {weekday:'long', year:'numeric', month:'long', day:'numeric'}) + ".";
     }
 
-    if(t.includes("developer mode")){
-        setMode("Developer");
-        return "Focus shifted to Developer. Tell me what you're building.";
+
+    /* QUICK MATH */
+
+    m = t.match(/(?:calculate|what's|what is)\s+([\d\s()+\-*/.xX]+)$/i);
+    if(m && /\d/.test(m[1])){
+        try{
+            const expr = m[1].replace(/x/gi,"*");
+            if(/^[\d\s()+\-*/.]+$/.test(expr)){
+                const result = Function('"use strict";return (' + expr + ')')();
+                if(!isNaN(result) && isFinite(result)){
+                    return expr.trim() + " = " + result;
+                }
+            }
+        }catch(e){ /* fall through to AI */ }
+    }
+
+
+    /* FUN */
+
+    if(t.includes("flip a coin") || t.includes("toss a coin")){
+        return Math.random() < 0.5 ? "Heads." : "Tails.";
+    }
+
+    if(t.includes("roll a dice") || t.includes("roll a die")){
+        return "You rolled a " + (Math.floor(Math.random()*6)+1) + ".";
+    }
+
+    if(t.includes("tell me a joke") || t.includes("joke")){
+        const jokes = [
+            "I'd tell you a UDP joke, but you might not get it.",
+            "There are 10 kinds of people: those who understand binary, and those who don't.",
+            "I told my assistant to sort my problems. It's still loading.",
+            "Why do programmers prefer dark mode? Because light attracts bugs."
+        ];
+        return jokes[Math.floor(Math.random()*jokes.length)];
+    }
+
+    if(t.includes("flip a switch") || t.includes("who's the goat") || t.includes("who is the goat")){
+        return "I'll stay neutral on that one.";
+    }
+
+
+    /* OPEN WEB */
+
+    m = t.match(/^(?:open|go to)\s+(google|youtube|github|wikipedia)/i);
+    if(m){
+        const sites = {
+            google:"https://google.com",
+            youtube:"https://youtube.com",
+            github:"https://github.com",
+            wikipedia:"https://wikipedia.org"
+        };
+        window.open(sites[m[1].toLowerCase()], "_blank");
+        return "Opening " + m[1] + ".";
+    }
+
+    m = t.match(/^search(?: the web)? for (.+)/i);
+    if(m){
+        window.open("https://www.google.com/search?q=" + encodeURIComponent(m[1]), "_blank");
+        return "Searching for " + m[1] + ".";
+    }
+
+
+    /* MODE / FOCUS — all nine */
+
+    const modeMap = {
+        "entrepreneur mode":"Entrepreneur",
+        "student mode":"Student", "study mode":"Student",
+        "developer mode":"Developer",
+        "tutor mode":"Tutor",
+        "research mode":"Research",
+        "creative mode":"Creative",
+        "gaming mode":"Gaming",
+        "automotive mode":"Automotive",
+        "general mode":"General"
+    };
+
+    for(const phrase in modeMap){
+        if(t.includes(phrase)){
+            setMode(modeMap[phrase]);
+            return "Focus shifted to " + modeMap[phrase] + ". Same me — just tuned in differently now.";
+        }
     }
 
 
@@ -1425,7 +1683,7 @@ async function generateResponse(text){
 
     if(t.includes("show ecosystem") || t.includes("open ecosystem")){
         openPanel("ecosystem");
-        return "The NEXORA ecosystem is open.";
+        return "The " + name + " ecosystem is open.";
     }
 
     if(t.includes("show modes") || t.includes("open modes") || t.includes("show focus") || t.includes("open focus")){
@@ -1444,17 +1702,10 @@ async function generateResponse(text){
     }
 
 
-    /* HELP */
-
-    if(t === "help" || t.includes("help me")){
-        return "Ask me questions, tell me to remember something, ask for a reminder, shift focus, open settings, customise the Core, or just talk naturally — I'll take it from there.";
-    }
-
-
     /* THANKS */
 
     if(t.includes("thank")){
-        return "Anytime.";
+        return "Anytime" + greetName + ".";
     }
 
 
@@ -1463,11 +1714,12 @@ async function generateResponse(text){
     try{
 
         const systemPrompt =
-            "You are NEXORA, a calm, sharp, quietly capable AI assistant — a single " +
+            "You are " + name + ", a calm, sharp, quietly capable AI assistant — a single " +
             "continuous intelligence running this user's personal OS, in the spirit of " +
             "JARVIS. You do not switch personalities between modes; 'focus' only changes " +
             "what you're helping with. Keep replies concise, confident, and natural to " +
-            "speak aloud. Current focus: " + currentMode + ".";
+            "speak aloud. Current focus: " + currentMode + "." +
+            (userName ? " The user's name is " + userName + " — you may address them by it occasionally." : "");
 
         const messages = conversationHistory
             .map(m => m.role + ": " + m.content)
@@ -1590,23 +1842,68 @@ function loadVoices(){
     const select =
         document.getElementById("voices");
 
+    const filterEl =
+        document.getElementById("voiceFilter");
+
+    const filterMode =
+        filterEl ? filterEl.value : "match";
+
     select.innerHTML = "";
 
-    voices.forEach(function(voice,index){
+    const langPrefix =
+        currentLanguage.split("-")[0].toLowerCase();
 
-        const option =
-            document.createElement("option");
+    let list = voices.map(function(v,i){ return { v:v, i:i }; });
 
-        option.value = index;
+    if(filterMode === "match"){
+        const filtered = list.filter(function(o){
+            return o.v.lang.toLowerCase().startsWith(langPrefix);
+        });
+        if(filtered.length){
+            list = filtered;
+        }
+    }
 
-        option.textContent =
-            voice.name +
-            " — " +
-            voice.lang;
+    const groups = {};
 
-        select.appendChild(option);
+    list.forEach(function(o){
+        const key = o.v.lang;
+        if(!groups[key]) groups[key] = [];
+        groups[key].push(o);
+    });
+
+    Object.keys(groups).sort().forEach(function(lang){
+
+        const og =
+            document.createElement("optgroup");
+
+        og.label = lang;
+
+        groups[lang].forEach(function(o){
+
+            const option =
+                document.createElement("option");
+
+            option.value = o.i;
+
+            option.textContent = o.v.name;
+
+            og.appendChild(option);
+
+        });
+
+        select.appendChild(og);
 
     });
+
+    const countEl =
+        document.getElementById("voiceCount");
+
+    if(countEl){
+        countEl.textContent =
+            list.length + " voice" + (list.length === 1 ? "" : "s") +
+            (filterMode === "match" ? " matching " + langPrefix : " available");
+    }
 
     const savedVoice = localStorage.getItem("nexora_voice");
 
@@ -1804,6 +2101,8 @@ function changeLanguage(){
 
     }
 
+    loadVoices();
+
     speak(
         "Language changed."
     );
@@ -1895,6 +2194,64 @@ function buildModes(){
    CUSTOMIZATION
 ========================================= */
 
+const THEMES = {
+    "Nova Blue":    { blue:"#00aaff", blue2:"#7ef7ff", glow:"0,170,255" },
+    "Solar Amber":  { blue:"#ff9d2e", blue2:"#ffe08a", glow:"255,157,46" },
+    "Inferno":      { blue:"#ff3b3b", blue2:"#ffb199", glow:"255,59,59" },
+    "Emerald":      { blue:"#1fe08a", blue2:"#b8ffdf", glow:"31,224,138" },
+    "Violet Nebula":{ blue:"#a35bff", blue2:"#e5c9ff", glow:"163,91,255" },
+    "Monochrome":   { blue:"#c9d6de", blue2:"#ffffff", glow:"201,214,222" }
+};
+
+function applyTheme(name, save){
+
+    const t = THEMES[name];
+    if(!t) return;
+
+    document.documentElement.style.setProperty("--blue", t.blue);
+    document.documentElement.style.setProperty("--blue2", t.blue2);
+    document.documentElement.style.setProperty("--glow", t.glow);
+
+    document.getElementById("color").value = t.blue;
+
+    if(save){
+        localStorage.setItem("nexora_theme", name);
+    }
+
+    document.querySelectorAll(".themeSwatch").forEach(function(el){
+        el.style.outline = (el.dataset.theme === name) ? "2px solid white" : "none";
+    });
+
+}
+
+function buildThemeGrid(){
+
+    const grid = document.getElementById("themeGrid");
+    grid.innerHTML = "";
+
+    Object.keys(THEMES).forEach(function(name){
+
+        const t = THEMES[name];
+
+        const btn = document.createElement("button");
+        btn.className = "themeSwatch";
+        btn.dataset.theme = name;
+        btn.title = name;
+        btn.style.cssText =
+            "height:40px;border-radius:9px;border:1px solid rgba(255,255,255,.15);cursor:pointer;" +
+            "background:linear-gradient(135deg," + t.blue + "," + t.blue2 + ");";
+
+        btn.onclick = function(){
+            applyTheme(name, true);
+        };
+
+        grid.appendChild(btn);
+
+    });
+
+}
+
+
 function changeColor(){
 
     const color =
@@ -1910,6 +2267,11 @@ function changeColor(){
         );
 
     localStorage.setItem("nexora_color", color);
+    localStorage.removeItem("nexora_theme");
+
+    document.querySelectorAll(".themeSwatch").forEach(function(el){
+        el.style.outline = "none";
+    });
 
 }
 
@@ -1930,27 +2292,76 @@ function changeSize(size){
 }
 
 
+function changeIntensity(value){
+
+    document.documentElement.style.setProperty("--intensity", value);
+    localStorage.setItem("nexora_intensity", value);
+
+}
+
+
 function resetCore(){
 
-    document.documentElement
-        .style
-        .setProperty(
-            "--blue",
-            "#00aaff"
-        );
+    applyTheme("Nova Blue", false);
+    localStorage.removeItem("nexora_theme");
 
     const core =
         document.getElementById("core");
 
     core.style.width = "220px";
-
     core.style.height = "220px";
+
+    document.documentElement.style.setProperty("--intensity", 1);
 
     document.getElementById("color").value = "#00aaff";
     document.getElementById("sizeSlider").value = 220;
+    document.getElementById("intensitySlider").value = 1;
 
     localStorage.removeItem("nexora_color");
     localStorage.removeItem("nexora_size");
+    localStorage.removeItem("nexora_intensity");
+
+}
+
+
+/* =========================================
+   IDENTITY — assistant name & user name
+========================================= */
+
+function getAssistantName(){
+    return localStorage.getItem("nexora_assistant_name") || "NEXORA";
+}
+
+function getUserName(){
+    return localStorage.getItem("nexora_user_name") || "";
+}
+
+function refreshBranding(){
+
+    const name = getAssistantName();
+
+    document.querySelectorAll(".brandName").forEach(function(el){
+        el.textContent = name;
+    });
+
+    document.getElementById("input").placeholder = "Talk to " + name + "...";
+    document.getElementById("coreText").textContent = name;
+
+}
+
+function setAssistantName(value){
+
+    const name = (value || "").trim() || "NEXORA";
+
+    localStorage.setItem("nexora_assistant_name", name);
+
+    refreshBranding();
+
+}
+
+function setUserName(value){
+
+    localStorage.setItem("nexora_user_name", (value || "").trim());
 
 }
 
@@ -1964,11 +2375,20 @@ function restoreState(){
     document.getElementById("mode").textContent = currentMode + " Mode";
     document.getElementById("language").value = currentLanguage;
 
+    buildThemeGrid();
+
+    const savedTheme = localStorage.getItem("nexora_theme");
     const savedColor = localStorage.getItem("nexora_color");
 
-    if(savedColor){
+    if(savedTheme && THEMES[savedTheme]){
+        applyTheme(savedTheme, false);
+    }
+    else if(savedColor){
         document.documentElement.style.setProperty("--blue", savedColor);
         document.getElementById("color").value = savedColor;
+    }
+    else{
+        applyTheme("Nova Blue", false);
     }
 
     const savedSize = localStorage.getItem("nexora_size");
@@ -1978,6 +2398,18 @@ function restoreState(){
         document.getElementById("core").style.height = savedSize + "px";
         document.getElementById("sizeSlider").value = savedSize;
     }
+
+    const savedIntensity = localStorage.getItem("nexora_intensity");
+
+    if(savedIntensity){
+        document.documentElement.style.setProperty("--intensity", savedIntensity);
+        document.getElementById("intensitySlider").value = savedIntensity;
+    }
+
+    document.getElementById("assistantNameInput").value = getAssistantName();
+    document.getElementById("userNameInput").value = getUserName();
+
+    refreshBranding();
 
 }
 
