@@ -7,15 +7,14 @@
 
 <meta name="theme-color" content="#020711">
 
-<title>NEXORA OS 2.0</title>
+<title>NEXORA OS 2.1 — Wake Fix Preview</title>
 
-<link rel="stylesheet"
-href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+
 
 <style>
 
 /* =========================================================
-   NEXORA OS 2.0
+   NEXORA OS 2.2
    COMPLETE INTERFACE
 ========================================================= */
 
@@ -1630,6 +1629,41 @@ input[type="color"]{
 
 }
 
+
+/* =========================================================
+   2.1 WAKE STATUS HUD
+========================================================= */
+#nexoraWakeStatus{
+    position:fixed;
+    right:18px;
+    bottom:18px;
+    z-index:9000;
+    display:flex;
+    align-items:center;
+    gap:9px;
+    padding:10px 13px;
+    border:1px solid rgba(0,170,255,.25);
+    border-radius:999px;
+    background:rgba(2,7,17,.82);
+    backdrop-filter:blur(14px);
+    color:#9eb7c8;
+    font:10px "IBM Plex Mono",monospace;
+    letter-spacing:1px;
+    cursor:pointer;
+    box-shadow:0 0 25px rgba(0,170,255,.08);
+    user-select:none;
+}
+#nexoraWakeStatus:hover{border-color:rgba(0,170,255,.55);color:white}
+.wakeDot{width:7px;height:7px;border-radius:50%;background:#6b7d88;box-shadow:0 0 8px currentColor}
+#nexoraWakeStatus[data-state="active"]{color:#3cff9a}
+#nexoraWakeStatus[data-state="active"] .wakeDot{background:#3cff9a}
+#nexoraWakeStatus[data-state="blocked"]{color:#ffb45c}
+#nexoraWakeStatus[data-state="blocked"] .wakeDot{background:#ffb45c}
+#nexoraWakeStatus[data-state="error"]{color:#ff6b7a}
+#nexoraWakeStatus[data-state="error"] .wakeDot{background:#ff6b7a}
+#nexoraWakeStatus[data-state="waiting"],#nexoraWakeStatus[data-state="requesting"]{color:#7ef7ff}
+#nexoraWakeStatus[data-state="waiting"] .wakeDot,#nexoraWakeStatus[data-state="requesting"] .wakeDot{background:#7ef7ff}
+
 </style>
 
 </head>
@@ -1892,7 +1926,7 @@ input[type="color"]{
 
     <div class="version">
 
-        NEXORA OS 2.0
+        NEXORA OS 2.2
 
     </div>
 
@@ -2400,7 +2434,7 @@ input[type="color"]{
 </div>
 
 
-<script src="https://js.puter.com/v2/"></script>
+
 
 
 <script>
@@ -5595,79 +5629,221 @@ window.generateResponse = async function(text){
     return answer;
 };
 
-/* Advanced wake-word listener. It activates the existing Core/voice UI. */
+/* =========================================================
+   NEXORA OS 2.1 — ROBUST WAKE-WORD ENGINE
+   Fixes microphone permission errors and the old 900ms retry loop.
+========================================================= */
 let nexoraWakeRecognition=null;
 let nexoraWakeRunning=false;
 let nexoraWakeActive=false;
+let nexoraWakeRetryTimer=null;
+let nexoraWakeRetryDelay=1500;
+let nexoraWakePermission="unknown";
+let nexoraWakeStarting=false;
+let nexoraWakeStoppedByUser=false;
+let nexoraWakeRetryCount=0;
+
+function nexoraWakeStatus(text, state="idle"){
+    let el=document.getElementById("nexoraWakeStatus");
+    if(!el){
+        el=document.createElement("div");
+        el.id="nexoraWakeStatus";
+        el.innerHTML='<span class="wakeDot"></span><span class="wakeText"></span>';
+        document.body.appendChild(el);
+    }
+    el.dataset.state=state;
+    const txt=el.querySelector(".wakeText");
+    if(txt) txt.textContent=text;
+}
 
 function containsNexoraWake(text){
     const t=normalizeNexoraText(text);
     return NEXORA_BRAIN.wakePhrases.some(p=>t.includes(p));
 }
 
-function startNexoraWake(){
-    if(!NEXORA_BRAIN.wakeEnabled || nexoraWakeRunning) return;
+function clearNexoraWakeRetry(){
+    if(nexoraWakeRetryTimer){
+        clearTimeout(nexoraWakeRetryTimer);
+        nexoraWakeRetryTimer=null;
+    }
+}
+
+function scheduleNexoraWakeRetry(reason="temporary error"){
+    clearNexoraWakeRetry();
+    if(!NEXORA_BRAIN.wakeEnabled || nexoraWakeStoppedByUser) return;
+
+    // Exponential backoff: 1.5s → 3s → 6s → ... → 60s maximum.
+    nexoraWakeRetryCount++;
+    nexoraWakeRetryDelay=Math.min(60000,1500*Math.pow(2,Math.min(nexoraWakeRetryCount-1,6)));
+    nexoraWakeStatus(`Wake listener paused — retrying in ${Math.ceil(nexoraWakeRetryDelay/1000)}s`,"waiting");
+
+    nexoraWakeRetryTimer=setTimeout(()=>{
+        nexoraWakeRetryTimer=null;
+        startNexoraWake();
+    },nexoraWakeRetryDelay);
+}
+
+async function ensureNexoraMicPermission(){
+    if(nexoraWakePermission==="granted") return true;
+
+    if(!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia){
+        nexoraWakePermission="unsupported";
+        nexoraWakeStatus("Microphone API unavailable","error");
+        return false;
+    }
+
+    try{
+        nexoraWakeStatus("Requesting microphone permission…","requesting");
+        const stream=await navigator.mediaDevices.getUserMedia({audio:true});
+        stream.getTracks().forEach(track=>track.stop());
+        nexoraWakePermission="granted";
+        nexoraWakeRetryCount=0;
+        nexoraWakeRetryDelay=1500;
+        return true;
+    }catch(error){
+        nexoraWakePermission=(error && error.name==="NotAllowedError")?"denied":"error";
+        if(nexoraWakePermission==="denied"){
+            // IMPORTANT: do not repeatedly ask the browser after permission is denied.
+            nexoraWakeStatus("Microphone blocked — allow mic access, then enable Wake Word","blocked");
+        }else{
+            nexoraWakeStatus("Microphone unavailable","error");
+            scheduleNexoraWakeRetry("microphone error");
+        }
+        return false;
+    }
+}
+
+async function startNexoraWake(){
+    if(!NEXORA_BRAIN.wakeEnabled || nexoraWakeRunning || nexoraWakeStarting) return;
+    if(nexoraWakeStoppedByUser) return;
+
     const SR=window.SpeechRecognition || window.webkitSpeechRecognition;
     if(!SR){
-        console.warn("Wake-word recognition is not supported in this browser.");
+        nexoraWakeStatus("Wake word is not supported by this browser","error");
         return;
     }
 
-    nexoraWakeRecognition=new SR();
-    nexoraWakeRecognition.continuous=true;
-    nexoraWakeRecognition.interimResults=false;
-    nexoraWakeRecognition.lang=currentLanguage || "en-US";
+    // If the user denied permission, stop trying until they explicitly enable again.
+    if(nexoraWakePermission==="denied"){
+        nexoraWakeStatus("Microphone blocked — check browser permissions","blocked");
+        return;
+    }
 
-    nexoraWakeRecognition.onstart=()=>{
-        nexoraWakeRunning=true;
-    };
+    nexoraWakeStarting=true;
+    const permission=await ensureNexoraMicPermission();
+    nexoraWakeStarting=false;
+    if(!permission) return;
 
-    nexoraWakeRecognition.onresult=(event)=>{
-        for(let i=event.resultIndex;i<event.results.length;i++){
-            const result=event.results[i];
-            if(!result.isFinal) continue;
-            const text=result[0].transcript.trim();
-            if(containsNexoraWake(text) && !nexoraWakeActive && !busy){
-                nexoraWakeActive=true;
-                try{ if(typeof coreState==="function") coreState("listening"); }catch(e){}
-                speak("Yes?");
-                setTimeout(()=>{
-                    try{ toggleVoice(); }catch(e){ console.warn(e); }
-                    nexoraWakeActive=false;
-                },650);
+    clearNexoraWakeRetry();
+
+    try{
+        nexoraWakeRecognition=new SR();
+        nexoraWakeRecognition.continuous=true;
+        nexoraWakeRecognition.interimResults=false;
+        nexoraWakeRecognition.lang=currentLanguage || "en-US";
+
+        nexoraWakeRecognition.onstart=()=>{
+            nexoraWakeRunning=true;
+            nexoraWakeRetryCount=0;
+            nexoraWakeRetryDelay=1500;
+            nexoraWakeStatus("Wake Word Active — listening","active");
+        };
+
+        nexoraWakeRecognition.onresult=(event)=>{
+            for(let i=event.resultIndex;i<event.results.length;i++){
+                const result=event.results[i];
+                if(!result.isFinal) continue;
+                const text=result[0].transcript.trim();
+
+                if(containsNexoraWake(text) && !nexoraWakeActive && !busy){
+                    nexoraWakeActive=true;
+                    try{ if(typeof coreState==="function") coreState("listening"); }catch(e){}
+                    nexoraWakeStatus("Wake phrase detected","triggered");
+                    speak("Yes?");
+                    setTimeout(()=>{
+                        try{ toggleVoice(); }
+                        catch(e){ console.warn("NEXORA voice toggle:",e); }
+                        nexoraWakeActive=false;
+                        if(nexoraWakeRunning) nexoraWakeStatus("Wake Word Active — listening","active");
+                    },650);
+                }
             }
-        }
-    };
+        };
 
-    nexoraWakeRecognition.onerror=(event)=>{
+        nexoraWakeRecognition.onerror=(event)=>{
+            nexoraWakeRunning=false;
+            const err=event && event.error ? event.error : "unknown";
+            console.warn("NEXORA wake recognition:",err);
+
+            // These errors should NOT create an endless retry storm.
+            if(err==="not-allowed" || err==="service-not-allowed"){
+                nexoraWakePermission="denied";
+                nexoraWakeStatus("Microphone blocked — allow access in browser settings","blocked");
+                return;
+            }
+
+            if(err==="audio-capture"){
+                nexoraWakeStatus("Microphone is unavailable","error");
+                scheduleNexoraWakeRetry(err);
+                return;
+            }
+
+            if(err!=="aborted") scheduleNexoraWakeRetry(err);
+        };
+
+        nexoraWakeRecognition.onend=()=>{
+            nexoraWakeRunning=false;
+            nexoraWakeRecognition=null;
+
+            if(!NEXORA_BRAIN.wakeEnabled || nexoraWakeStoppedByUser) return;
+            if(nexoraWakePermission==="denied") return;
+
+            // Browser speech recognition can end by itself. Restart with backoff,
+            // never with the old fixed 900ms loop.
+            scheduleNexoraWakeRetry("recognition ended");
+        };
+
+        nexoraWakeRecognition.start();
+    }catch(error){
         nexoraWakeRunning=false;
-        console.warn("NEXORA wake recognition:",event.error);
-    };
-
-    nexoraWakeRecognition.onend=()=>{
-        nexoraWakeRunning=false;
-        if(NEXORA_BRAIN.wakeEnabled){
-            setTimeout(startNexoraWake,900);
-        }
-    };
-
-    try{ nexoraWakeRecognition.start(); }catch(e){}
+        nexoraWakeRecognition=null;
+        console.warn("NEXORA wake start failed:",error);
+        scheduleNexoraWakeRetry("start failed");
+    }
 }
 
 function stopNexoraWake(){
     NEXORA_BRAIN.wakeEnabled=false;
+    nexoraWakeStoppedByUser=true;
     localStorage.setItem("nexora_wake_enabled","false");
+    clearNexoraWakeRetry();
+
     if(nexoraWakeRecognition){
-        try{nexoraWakeRecognition.stop();}catch(e){}
+        try{ nexoraWakeRecognition.onend=null; nexoraWakeRecognition.stop(); }catch(e){}
+        nexoraWakeRecognition=null;
     }
+
     nexoraWakeRunning=false;
+    nexoraWakeStatus("Wake Word Off","off");
 }
 
-function enableNexoraWake(){
+async function enableNexoraWake(){
     NEXORA_BRAIN.wakeEnabled=true;
+    nexoraWakeStoppedByUser=false;
+    nexoraWakePermission="unknown";
+    nexoraWakeRetryCount=0;
+    nexoraWakeRetryDelay=1500;
     localStorage.setItem("nexora_wake_enabled","true");
-    startNexoraWake();
+    await startNexoraWake();
 }
+
+/* Preview control: clicking the status opens a permission/enable attempt. */
+document.addEventListener("click",event=>{
+    const status=event.target.closest("#nexoraWakeStatus");
+    if(!status) return;
+    if(nexoraWakeRunning) stopNexoraWake();
+    else enableNexoraWake();
+});
 
 function setNexoraMode(mode){
     mode=String(mode||"").toUpperCase();
@@ -5717,7 +5893,11 @@ window.processMessage = function(text){
 
 /* Start the wake listener after the original NEXORA boot sequence. */
 setTimeout(()=>{
-    try{ startNexoraWake(); }catch(e){ console.warn(e); }
+    try{
+        nexoraWakeStatus("Wake Word Ready — click to enable","idle");
+        // Do not request microphone permission automatically on page load.
+        // User can explicitly enable Wake Word from the HUD.
+    }catch(e){ console.warn(e); }
 },6500);
 
 /* Keep network HUD/status in sync with the actual connection. */
@@ -5732,6 +5912,336 @@ updateNexoraNetworkBrain();
 
 
 
+
+
+
+/* =========================================================
+   NEXORA OS 2.2 — FREE LOCAL AI + VOICE ENGINE
+   No Puter, no API keys, no cloud AI calls.
+   Typed AI works offline. Speech recognition availability
+   depends on the browser/OS implementation.
+========================================================= */
+
+const NEXORA_LOCAL_VERSION = "2.2";
+
+function nexoraCleanText(s){
+    return String(s||"").replace(/\s+/g," ").trim();
+}
+
+function nexoraLastUserTextFromPrompt(prompt){
+    const s=String(prompt||"");
+    const m=[...s.matchAll(/(?:CURRENT USER REQUEST:|User:)\s*([^\n]+)/gi)];
+    return m.length ? nexoraCleanText(m[m.length-1][1]) : nexoraCleanText(s.slice(-500));
+}
+
+function nexoraSafeMath(expr){
+    const normalized=String(expr||"")
+      .replace(/×|x/gi,"*")
+      .replace(/÷/g,"/")
+      .replace(/\bplus\b/gi,"+")
+      .replace(/\bminus\b/gi,"-")
+      .replace(/\b(times|multiplied by)\b/gi,"*")
+      .replace(/\b(divided by|over)\b/gi,"/")
+      .replace(/%/g,"/100");
+    if(!/^[0-9+\-*/().\s]+$/.test(normalized)) return null;
+    try{
+      const value=Function('"use strict";return ('+normalized+')')();
+      return Number.isFinite(value)?value:null;
+    }catch(e){ return null; }
+}
+
+function nexoraLocalKnowledge(question){
+    const q=nexoraCleanText(question);
+    const t=q.toLowerCase();
+    const userName=(typeof getUserName==='function' && getUserName()) || localStorage.getItem('nexora_user_name') || '';
+    const assistantName=(typeof getAssistantName==='function' && getAssistantName()) || 'NEXORA';
+    const hi=userName ? `, ${userName}` : '';
+
+    if(!q) return "I'm ready.";
+
+    if(/^(hi|hello|hey|yo|sup|what'?s up|whats up)$/i.test(t))
+      return `Hey${hi}. ${assistantName} Local is ready.`;
+
+    if(/who are you|what are you/.test(t))
+      return `I'm ${assistantName}, running locally inside NEXORA OS 2.2. I don't need Puter, an API key, or a cloud AI service for my built-in functions.`;
+
+    if(/what can you do|features|help me with/.test(t))
+      return "I can handle local commands, maths, study explanations, coding help, reminders, memory, modes, time and date, voice output, and browser controls. My knowledge is built in, so I won't pretend I have live internet facts when I'm offline.";
+
+    if(/what time|time is it|^time$/.test(t))
+      return `It's ${new Date().toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'})}.`;
+
+    if(/what(?:'s| is) the date|today'?s date|^date$/.test(t))
+      return `Today is ${new Date().toLocaleDateString([], {weekday:'long',year:'numeric',month:'long',day:'numeric'})}.`;
+
+    if(/how are you/.test(t))
+      return "I'm running normally. Local AI and the NEXORA interface are ready.";
+
+    if(/internet|online|network/.test(t) && /(need|require|without|offline)/.test(t))
+      return navigator.onLine
+        ? "The page currently has a network connection, but NEXORA Local does not need a cloud AI service for its built-in brain."
+        : "You're offline, and NEXORA Local is still available for its built-in brain and typed commands.";
+
+    if(/^(calculate|work out|solve|what is|what's)\s+/i.test(q)){
+      const expr=q.replace(/^(calculate|work out|solve|what is|what's)\s+/i,"");
+      const ans=nexoraSafeMath(expr);
+      if(ans!==null) return `The answer is ${ans}.`;
+    }
+
+    if(/\b(photosynthesis)\b/.test(t))
+      return "Photosynthesis is the process plants use to make glucose from carbon dioxide and water using light energy. Oxygen is released as a by-product.";
+    if(/\b(respiration)\b/.test(t) && /biology|cell|cells|glucose|energy/.test(t))
+      return "Cellular respiration releases usable energy from glucose. In aerobic respiration, glucose reacts with oxygen to produce carbon dioxide, water and energy.";
+    if(/\b(atom|atoms)\b/.test(t))
+      return "An atom is the smallest unit of an element that keeps that element's chemical properties. It contains protons and neutrons in the nucleus, with electrons around it.";
+    if(/\b(speed|velocity)\b/.test(t) && /(formula|calculate|physics)/.test(t))
+      return "For constant motion, speed = distance ÷ time. Velocity also includes direction.";
+    if(/\b(force)\b/.test(t) && /(formula|newton|physics)/.test(t))
+      return "Newton's second law is F = m × a: force equals mass multiplied by acceleration.";
+
+    if(/html/.test(t) && /(what|explain|mean)/.test(t))
+      return "HTML gives a webpage its structure. CSS controls appearance, and JavaScript adds behaviour and interactivity.";
+    if(/css/.test(t) && /(what|explain|mean)/.test(t))
+      return "CSS styles webpage elements: layout, spacing, colours, typography, animation and responsive design.";
+    if(/javascript|\bjs\b/.test(t) && /(what|explain|mean)/.test(t))
+      return "JavaScript adds logic and interaction to webpages, such as buttons, forms, animations, storage and app behaviour.";
+
+    if(/why/.test(t) && /sky/.test(t) && /blue/.test(t))
+      return "The sky looks blue mainly because Earth's atmosphere scatters shorter blue wavelengths of sunlight more strongly than longer red wavelengths.";
+
+    if(/study|revision|exam|homework/.test(t))
+      return "For study mode, tell me the subject and topic. I can explain the idea, give a short example, then test you with a question.";
+
+    if(/code|coding|program|website|bug/.test(t))
+      return "I can help with local HTML, CSS and JavaScript. Paste the code or describe what should happen, and I'll work from the information available in this page session.";
+
+    if(/car|engine|rpm|vehicle/.test(t))
+      return "I can help with general automotive maths and explanations. Give me the car details or the values you want calculated.";
+
+    if(/thank/.test(t)) return `Anytime${hi}.`;
+
+    return `I understood: “${q}”. My free local brain is running without a cloud AI service. For this preview, ask me about maths, school subjects, coding, NEXORA controls, reminders, memory, time/date, cars, or general built-in topics.`;
+}
+
+/* Fake a tiny local Puter-compatible surface so legacy NEXORA code never
+   reaches the network if it still calls puter.ai.chat internally. */
+window.puter = {
+  ai:{
+    chat: async function(prompt){
+      const q=nexoraLastUserTextFromPrompt(prompt);
+      return nexoraLocalKnowledge(q);
+    }
+  }
+};
+
+/* Force the final AI path to local-only regardless of navigator.onLine. */
+window.askNexoraBrain = async function(question){
+    const q=nexoraCleanText(question);
+    try{
+      const a=(typeof understandNexora==='function') ? understandNexora(q) : null;
+      if(a && a.task==='memory_save'){
+        const cleaned=q.replace(/^.*?(remember|save this|don't forget)\s*/i,'').trim();
+        if(typeof rememberBrainFact==='function') rememberBrainFact(cleaned||q);
+        return "I'll remember that.";
+      }
+      if(a && a.task==='memory_recall' && typeof recallBrainMemory==='function') return recallBrainMemory();
+      if(a && a.task==='memory_delete' && typeof clearBrainMemory==='function') return clearBrainMemory();
+    }catch(e){}
+    return nexoraLocalKnowledge(q);
+};
+
+window.generateResponse = async function(text){
+    return await window.askNexoraBrain(text);
+};
+
+/* ---------------------- VOICE 2.2 ---------------------- */
+const NEXORA_VOICE = {
+  speaking:false,
+  listening:false,
+  recognition:null,
+  chunks:[],
+  token:0,
+  rate:parseFloat(localStorage.getItem('nexora_voice_rate')||'1'),
+  pitch:parseFloat(localStorage.getItem('nexora_voice_pitch')||'1')
+};
+
+function nexoraVoiceStatus(label,state){
+  try{
+    const core=document.getElementById('core');
+    const coreText=document.getElementById('coreText');
+    if(coreText) coreText.textContent=label;
+    if(core){
+      core.dataset.voiceState=state||'ready';
+      core.classList.remove('listening','thinking','speaking');
+      if(state==='listening') core.classList.add('listening');
+      if(state==='thinking') core.classList.add('thinking');
+      if(state==='speaking') core.classList.add('speaking');
+    }
+  }catch(e){}
+}
+
+function nexoraSpeechChunks(text,max=180){
+  const clean=nexoraCleanText(text);
+  if(clean.length<=max) return clean?[clean]:[];
+  const parts=clean.match(/[^.!?]+[.!?]?/g)||[clean];
+  const out=[]; let buf='';
+  for(const p0 of parts){
+    const p=p0.trim();
+    if(!p) continue;
+    if((buf+' '+p).trim().length>max && buf){ out.push(buf.trim()); buf=p; }
+    else buf=(buf+' '+p).trim();
+  }
+  if(buf) out.push(buf.trim());
+  return out;
+}
+
+function stopNexoraSpeech(){
+  NEXORA_VOICE.token++;
+  NEXORA_VOICE.speaking=false;
+  NEXORA_VOICE.chunks=[];
+  try{ speechSynthesis.cancel(); }catch(e){}
+  nexoraVoiceStatus((typeof getAssistantName==='function'?getAssistantName():'NEXORA'),'ready');
+}
+
+window.speak = function(text){
+  if(!('speechSynthesis' in window) || !text) return;
+  stopNexoraSpeech();
+  const myToken=++NEXORA_VOICE.token;
+  const chunks=nexoraSpeechChunks(text);
+  NEXORA_VOICE.chunks=chunks.slice();
+
+  const run=()=>{
+    if(myToken!==NEXORA_VOICE.token) return;
+    const chunk=NEXORA_VOICE.chunks.shift();
+    if(!chunk){
+      NEXORA_VOICE.speaking=false;
+      nexoraVoiceStatus((typeof getAssistantName==='function'?getAssistantName():'NEXORA'),'ready');
+      return;
+    }
+    const u=new SpeechSynthesisUtterance(chunk);
+    u.lang=currentLanguage||'en-US';
+    u.rate=Math.min(1.4,Math.max(.65,NEXORA_VOICE.rate));
+    u.pitch=Math.min(1.5,Math.max(.6,NEXORA_VOICE.pitch));
+    try{
+      const sel=document.getElementById('voices');
+      const idx=sel?parseInt(sel.value,10):NaN;
+      if(Number.isInteger(idx) && voices && voices[idx]) u.voice=voices[idx];
+    }catch(e){}
+    u.onstart=()=>{ NEXORA_VOICE.speaking=true; nexoraVoiceStatus('SPEAKING','speaking'); };
+    u.onend=run;
+    u.onerror=()=>{ NEXORA_VOICE.speaking=false; nexoraVoiceStatus('VOICE ERROR','error'); };
+    speechSynthesis.speak(u);
+  };
+  run();
+};
+
+function nexoraCreateRecognition(){
+  const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+  if(!SR) return null;
+  const r=new SR();
+  r.continuous=false;
+  r.interimResults=true;
+  r.maxAlternatives=1;
+  r.lang=currentLanguage||'en-US';
+  return r;
+}
+
+window.toggleVoice = function(){
+  if(NEXORA_VOICE.listening){
+    try{NEXORA_VOICE.recognition?.stop();}catch(e){}
+    NEXORA_VOICE.listening=false;
+    nexoraVoiceStatus((typeof getAssistantName==='function'?getAssistantName():'NEXORA'),'ready');
+    return;
+  }
+
+  if(NEXORA_VOICE.speaking) stopNexoraSpeech();
+
+  const r=nexoraCreateRecognition();
+  if(!r){
+    showAnswer('Voice recognition is not available in this browser. Typed NEXORA still works offline.');
+    nexoraVoiceStatus('TYPE MODE','ready');
+    return;
+  }
+
+  NEXORA_VOICE.recognition=r;
+  let finalText='';
+
+  r.onstart=()=>{
+    NEXORA_VOICE.listening=true;
+    nexoraVoiceStatus('LISTENING','listening');
+  };
+  r.onresult=(event)=>{
+    let interim='';
+    for(let i=event.resultIndex;i<event.results.length;i++){
+      const txt=event.results[i][0].transcript;
+      if(event.results[i].isFinal) finalText+=txt+' ';
+      else interim+=txt;
+    }
+    const heard=nexoraCleanText(finalText||interim);
+    if(heard) showAnswer('Heard: '+heard);
+  };
+  r.onerror=(event)=>{
+    NEXORA_VOICE.listening=false;
+    const err=event.error||'unknown';
+    if(err==='not-allowed' || err==='service-not-allowed'){
+      showAnswer('Microphone access is blocked. Allow microphone permission for this page, or use typed input.');
+      nexoraVoiceStatus('MIC BLOCKED','error');
+    }else if(err==='no-speech'){
+      showAnswer('I didn\'t hear anything. Tap the Core and try again.');
+      nexoraVoiceStatus('READY','ready');
+    }else{
+      showAnswer('Voice recognition stopped: '+err+'. Typed input is still available.');
+      nexoraVoiceStatus('VOICE ERROR','error');
+    }
+  };
+  r.onend=()=>{
+    NEXORA_VOICE.listening=false;
+    const text=nexoraCleanText(finalText);
+    if(text){
+      nexoraVoiceStatus('THINKING','thinking');
+      processMessage(text);
+    }else if(document.getElementById('coreText')?.textContent==='LISTENING'){
+      nexoraVoiceStatus((typeof getAssistantName==='function'?getAssistantName():'NEXORA'),'ready');
+    }
+  };
+
+  try{ r.start(); }
+  catch(e){
+    showAnswer('Voice recognition could not start. Typed input is still available.');
+    nexoraVoiceStatus('TYPE MODE','ready');
+  }
+};
+
+/* Interrupt speaking as soon as the user clicks the Core/mic again. */
+document.addEventListener('pointerdown',function(e){
+  if(e.target.closest('#core') || e.target.closest('.inputBox .circleBtn')){
+    if(NEXORA_VOICE.speaking) stopNexoraSpeech();
+  }
+});
+
+/* Voice settings helpers available from console / future settings UI. */
+window.setNexoraVoiceRate=function(v){
+  NEXORA_VOICE.rate=Math.min(1.4,Math.max(.65,Number(v)||1));
+  localStorage.setItem('nexora_voice_rate',NEXORA_VOICE.rate);
+};
+window.setNexoraVoicePitch=function(v){
+  NEXORA_VOICE.pitch=Math.min(1.5,Math.max(.6,Number(v)||1));
+  localStorage.setItem('nexora_voice_pitch',NEXORA_VOICE.pitch);
+};
+
+/* Remove cloud/online wording from the visible status. */
+function nexoraLocalStatus(){
+  const el=document.getElementById('onlineStatus')||document.querySelector('.online');
+  if(el){ el.textContent='● LOCAL AI'; el.style.color='#3cff9a'; }
+  const version=document.querySelector('.version');
+  if(version) version.textContent='NEXORA OS 2.2 • FREE LOCAL';
+}
+setTimeout(nexoraLocalStatus,100);
+setTimeout(nexoraLocalStatus,6600);
+window.addEventListener('online',nexoraLocalStatus);
+window.addEventListener('offline',nexoraLocalStatus);
+
+console.log('NEXORA OS 2.2 Local Voice Preview loaded — no cloud AI service required.');
 
 </script>
 </body>
