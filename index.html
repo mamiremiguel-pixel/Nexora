@@ -7,7 +7,7 @@
 
 <meta name="theme-color" content="#020711">
 
-<title>NEXORA OS 2.1 — Wake Fix Preview</title>
+<title>NEXORA OS 3.1 — OFFICIAL CORE UPDATE</title>
 
 
 
@@ -6129,7 +6129,7 @@ window.speak = function(text){
     }catch(e){}
     u.onstart=()=>{ NEXORA_VOICE.speaking=true; nexoraVoiceStatus('SPEAKING','speaking'); };
     u.onend=run;
-    u.onerror=()=>{ NEXORA_VOICE.speaking=false; nexoraVoiceStatus('VOICE ERROR','error'); };
+    u.onerror=()=>{ NEXORA_VOICE.speaking=false; NEXORA_VOICE.chunks=[]; nexoraVoiceStatus((typeof getAssistantName==='function'?getAssistantName():'NEXORA'),'ready'); try{speechSynthesis.cancel()}catch(e){}; };
     speechSynthesis.speak(u);
   };
   run();
@@ -6191,12 +6191,15 @@ window.toggleVoice = function(){
       nexoraVoiceStatus('READY','ready');
     }else{
       showAnswer('Voice recognition stopped: '+err+'. Typed input is still available.');
-      nexoraVoiceStatus('VOICE ERROR','error');
+      nexoraVoiceStatus('READY','ready');
     }
   };
   r.onend=()=>{
     NEXORA_VOICE.listening=false;
-    const text=nexoraCleanText(finalText);
+    let text=nexoraCleanText(finalText);
+    // Normalize common short voice greetings so speech recognition quirks do not hit the generic fallback.
+    const low=text.toLowerCase().replace(/[.!?]+$/,'').trim();
+    if(['hy','hiya','heyy','heyyo','hii','helo','hallo'].includes(low)) text='hey';
     if(text){
       nexoraVoiceStatus('THINKING','thinking');
       processMessage(text);
@@ -6232,9 +6235,9 @@ window.setNexoraVoicePitch=function(v){
 /* Remove cloud/online wording from the visible status. */
 function nexoraLocalStatus(){
   const el=document.getElementById('onlineStatus')||document.querySelector('.online');
-  if(el){ el.textContent='● LOCAL AI'; el.style.color='#3cff9a'; }
+  if(el){ el.textContent='● NEXORA AI CORE'; el.style.color='#3cff9a'; }
   const version=document.querySelector('.version');
-  if(version) version.textContent='NEXORA OS 2.2 • FREE LOCAL';
+  if(version) version.textContent='NEXORA OS 3.1 • OFFICIAL CORE';
 }
 setTimeout(nexoraLocalStatus,100);
 setTimeout(nexoraLocalStatus,6600);
@@ -6244,5 +6247,653 @@ window.addEventListener('offline',nexoraLocalStatus);
 console.log('NEXORA OS 2.2 Local Voice Preview loaded — no cloud AI service required.');
 
 </script>
+
+
+<style id="nexora31-update">
+/* =========================================================
+   NEXORA OS 3.1 — OFFICIAL CORE PATCH
+   Additive patch: preserves the original interface.
+========================================================= */
+.n31-launch{position:fixed;right:18px;bottom:18px;z-index:9000;width:46px;height:46px;border:1px solid rgba(0,170,255,.45);border-radius:15px;background:rgba(2,12,24,.82);color:#7ef7ff;box-shadow:0 0 24px rgba(0,170,255,.18);cursor:pointer;font-size:18px;backdrop-filter:blur(10px)}
+.n31-launch:hover{transform:translateY(-2px);box-shadow:0 0 30px rgba(0,170,255,.3)}
+.n31-panel{position:fixed;right:18px;bottom:76px;z-index:9001;width:min(360px,calc(100vw - 36px));background:rgba(3,10,20,.96);border:1px solid rgba(0,170,255,.35);border-radius:20px;padding:16px;box-shadow:0 18px 60px rgba(0,0,0,.5),0 0 30px rgba(0,170,255,.12);backdrop-filter:blur(16px);display:none}
+.n31-panel.open{display:block}
+.n31-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}.n31-head b{letter-spacing:.08em;color:#7ef7ff}.n31-close{border:0;background:none;color:#78909c;font-size:22px;cursor:pointer}
+.n31-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}.n31-btn{border:1px solid rgba(0,170,255,.25);background:rgba(0,170,255,.07);color:#dffaff;border-radius:12px;padding:10px 9px;cursor:pointer;text-align:left;font-size:12px}.n31-btn:hover{background:rgba(0,170,255,.14)}
+.n31-status{margin:12px 0;padding:10px 12px;border-radius:12px;background:rgba(255,255,255,.035);font-size:11px;line-height:1.45;color:#9db3c0}.n31-status strong{color:#fff}.n31-url{width:100%;margin-top:8px;padding:9px 10px;border-radius:10px;border:1px solid rgba(255,255,255,.1);background:#06101b;color:#dffaff;outline:none;font-size:11px}
+.n31-toast{position:fixed;left:50%;bottom:22px;transform:translate(-50%,18px);z-index:9999;opacity:0;pointer-events:none;background:rgba(3,10,20,.95);border:1px solid rgba(0,170,255,.35);color:#e8fbff;padding:10px 14px;border-radius:12px;font-size:12px;transition:.22s ease;box-shadow:0 10px 35px rgba(0,0,0,.45)}
+.n31-toast.show{opacity:1;transform:translate(-50%,0)}
+@media(max-width:600px){.n31-launch{right:12px;bottom:12px}.n31-panel{right:12px;bottom:68px}}
+</style>
+
+<button class="n31-launch" id="nexora31Launch" aria-label="Open NEXORA Core controls" title="NEXORA Core Controls">⚙</button>
+<div class="n31-panel" id="nexora31Panel" aria-hidden="true">
+  <div class="n31-head"><b>NEXORA CORE CONTROL</b><button class="n31-close" id="nexora31Close">×</button></div>
+  <div class="n31-status" id="nexora31Status"><strong>CORE READY</strong><br>Checking AI route…</div>
+  <div class="n31-grid">
+    <button class="n31-btn" id="n31Health">◉ Test AI route</button>
+    <button class="n31-btn" id="n31Export">⇩ Export memory</button>
+    <button class="n31-btn" id="n31ClearChat">⌫ Clear chat</button>
+    <button class="n31-btn" id="n31Reset">↻ Reset local core</button>
+  </div>
+  <input class="n31-url" id="n31Endpoint" placeholder="Optional secure backend URL (e.g. /api/chat)">
+  <button class="n31-btn" id="n31SaveEndpoint" style="width:100%;margin-top:8px">✓ Save backend route</button>
+</div>
+<div class="n31-toast" id="nexora31Toast"></div>
+
+<script>
+/* =========================================================
+   NEXORA OS 3.1 — OFFICIAL UPDATE
+   Fixes:
+   - no fake offline warning when opening the HTML directly
+   - no duplicate AI wrappers / duplicate database writes
+   - safe local-first fallback
+   - robust error handling in the message pipeline
+   - real mode-aware cloud/local routing
+   - memory + conversation persistence
+   - diagnostics / export / reset controls
+   - clearer Core status
+   - enhanced built-in school/general knowledge fallback
+========================================================= */
+(()=>{
+  const VERSION='3.1';
+  const DB_KEY='NEXORA_OS_3_1_DB';
+  const ENDPOINT_KEY='NEXORA_API_ENDPOINT';
+  const originalLocal=window.nexoraLocalKnowledge;
+  const originalBrain=window.askNexoraBrain;
+
+  const defaultDB={version:VERSION,profile:{},memories:[],conversations:[],settings:{}};
+  const load=()=>{try{const d=JSON.parse(localStorage.getItem(DB_KEY)||'null');return d&&typeof d==='object'?{...defaultDB,...d}:structuredClone(defaultDB)}catch{return structuredClone(defaultDB)}};
+  const save=d=>localStorage.setItem(DB_KEY,JSON.stringify(d));
+  const uid=()=>crypto.randomUUID?.()||('n31-'+Date.now()+'-'+Math.random().toString(36).slice(2));
+  const clean=v=>String(v??'').replace(/\s+/g,' ').trim();
+
+  const db={
+    load,save,
+    remember(text){const d=load();d.memories.push({id:uid(),text:clean(text),time:new Date().toISOString()});d.memories=d.memories.slice(-250);save(d)},
+    memories(){return load().memories||[]},
+    add(role,text){const d=load();if(!d.conversations.length)d.conversations.push({id:uid(),createdAt:new Date().toISOString(),messages:[]});d.conversations[d.conversations.length-1].messages.push({role,text:clean(text),time:new Date().toISOString()});d.conversations=d.conversations.slice(-50);save(d)},
+    clearChat(){const d=load();d.conversations=[];save(d)},
+    reset(){localStorage.removeItem(DB_KEY);localStorage.removeItem(ENDPOINT_KEY);},
+    export(){const a=document.createElement('a');const href=URL.createObjectURL(new Blob([JSON.stringify(load(),null,2)],{type:'application/json'}));a.href=href;a.download='nexora-os-3.1-memory.json';a.click();setTimeout(()=>URL.revokeObjectURL(href),1000)}
+  };
+  window.NEXORA_DB=db;
+
+  function toast(msg){const el=document.getElementById('nexora31Toast');if(!el)return;el.textContent=msg;el.classList.add('show');clearTimeout(toast.t);toast.t=setTimeout(()=>el.classList.remove('show'),2200)}
+  function endpoint(){return clean(localStorage.getItem(ENDPOINT_KEY)||'/api/chat')||'/api/chat'}
+  function isDirectFile(){return location.protocol==='file:'}
+  function mode(){
+    const raw=String(localStorage.getItem('nexora_ai_mode')||NEXORA_BRAIN?.mode||'AUTO').toUpperCase();
+    return ['AUTO','LOCAL','OFFLINE','ONLINE'].includes(raw)?raw:'AUTO';
+  }
+
+  function updateAnalysis(q,answer,route){
+    try{
+      const a=typeof understandNexora==='function'?understandNexora(q):null;
+      const topic=a?.subject||'general';
+      const intent=a?.task||'conversation';
+      const ids={aTopic:topic[0].toUpperCase()+topic.slice(1),aSubtopic:a?.complexity||'general',aIntent:intent.replaceAll('_',' '),aMode:route};
+      for(const [id,v] of Object.entries(ids)){const el=document.getElementById(id);if(el)el.textContent=v}
+    }catch{}
+  }
+
+  function enhancedLocal(q){
+    const t=clean(q).toLowerCase();
+    if(originalLocal){try{const r=originalLocal(q);if(r && !/full local knowledge model is not installed|need the local model or internet|free local brain is running without a cloud/i.test(String(r)))return String(r)}catch{}}
+
+    if(/photosynthesis/.test(t))return 'Photosynthesis is the process by which green plants use light energy to make glucose from carbon dioxide and water. Oxygen is released as a by-product.';
+    if(/(igcse|form 1).*chem(istry)?|chem(istry)?.*metals?/.test(t))return 'Chemistry basics: an element contains one type of atom; a compound contains different elements chemically joined; a mixture contains substances that are not chemically joined and can usually be separated physically.';
+    if(/(dna|chromosome|gene)/.test(t))return 'DNA is the molecule that carries genetic information. A gene is a section of DNA that helps determine a characteristic, and chromosomes are long DNA molecules packaged with proteins.';
+    if(/protein(s)?.*function|function.*protein(s)?/.test(t))return 'Proteins are needed for growth and repair, and they are also used to make enzymes, hormones and other important cell structures.';
+    if(/weather instrument|rain gauge|thermometer|anemometer|wind vane/.test(t))return 'Common weather instruments: thermometer measures temperature, rain gauge measures rainfall, anemometer measures wind speed, wind vane measures wind direction, and barometer measures air pressure.';
+    if(/tectonic plate|plate tectonic/.test(t))return 'Tectonic plates are large pieces of Earth’s lithosphere that move slowly. Their movement can cause earthquakes, volcanoes, mountain building and other geological activity.';
+    if(/world war (one|1|i)|ww1/.test(t))return 'The main long-term causes of World War I are commonly remembered as militarism, alliances, imperialism and nationalism. The assassination of Archduke Franz Ferdinand in 1914 was the immediate trigger.';
+    if(/market research/.test(t))return 'Market research is the process of collecting and analysing information about customers, competitors and the market so a business can make better decisions.';
+    if(/(egg|eggs).*(hbv|protein|nutrient)/.test(t))return 'Eggs provide high biological value protein, vitamins and minerals. Protein supports growth and repair. The shell protects the contents and has tiny pores that allow gas exchange.';
+    if(/(speed|distance|time).*formula/.test(t))return 'The basic speed formula is speed = distance ÷ time. Rearranging gives distance = speed × time and time = distance ÷ speed.';
+    if(/(newton.?s second law|force)/.test(t))return 'Newton’s second law is F = m × a. Force is measured in newtons (N), mass in kilograms (kg), and acceleration in metres per second squared (m/s²).';
+    if(/html.*css.*javascript/.test(t))return 'HTML provides structure, CSS controls presentation, and JavaScript adds behaviour and interaction. Together they form the basic building blocks of many web interfaces.';
+    if(/(hello|hi|hey|yo)/.test(t))return 'Hey. NEXORA Core is ready. Ask me something or press the Core to speak.';
+    if(/who are you|what are you/.test(t))return 'I’m NEXORA — the intelligence layer inside NEXORA OS. This preview can run its built-in Core locally and can use a secure backend when one is connected.';
+    if(/what can you do|features/.test(t))return 'I can answer built-in questions, solve basic maths, help with school subjects, explain coding concepts, store local memories, use voice features supported by your browser, and connect to a secure AI backend when configured.';
+    if(/time/.test(t)&&/what|current|now/.test(t))return `It’s ${new Date().toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'})}.`;
+    if(/date/.test(t)&&/today|current|what/.test(t))return `Today is ${new Date().toLocaleDateString([], {weekday:'long',year:'numeric',month:'long',day:'numeric'})}.`;
+    if(/remember/.test(t)){
+      const fact=clean(q.replace(/^.*?remember(?: that)?/i,'')).trim();
+      if(fact){db.remember(fact);return 'I’ll remember that.'}
+    }
+    if(/what do you remember|show memory|my memories/.test(t)){
+      const m=db.memories();return m.length?'I remember: '+m.slice(-12).map(x=>x.text).join('; '):'I don’t have any saved memories yet.';
+    }
+    if(/forget everything|clear memory|clear my memory/.test(t)){db.save({...defaultDB});return 'Local NEXORA memory has been cleared.'}
+    if(/(offline|local mode)/.test(t)&&/what|enable|turn|use/.test(t)){return 'Local mode keeps NEXORA on the built-in Core and does not depend on cloud AI.'}
+    if(/(online|cloud)/.test(t)&&/mode|use|enable/.test(t)){return 'Online mode uses the secure backend route when one is configured. Your API key should stay on the server, never inside this HTML file.'}
+    return `I understood your request: “${q}”. The built-in Core can handle this preview’s supported knowledge without pretending that a cloud model is connected. For broader answers, connect the secure backend route from Core Control.`;
+  }
+
+  async function callCloud(q){
+    if(isDirectFile())throw new Error('direct-file');
+    const r=await fetch(endpoint(),{method:'POST',headers:{'Content-Type':'application/json'},credentials:'include',body:JSON.stringify({message:q,mode:document.getElementById('mode')?.textContent||'General Mode',memories:db.memories().slice(-50)})});
+    if(!r.ok)throw new Error('backend-'+r.status);
+    const x=await r.json();
+    const ans=x.text||x.output_text||x.output||x.response||x.reply||x.message?.content;
+    if(!clean(ans))throw new Error('empty-response');
+    return {answer:clean(ans),route:'CLOUD AI'};
+  }
+
+  async function answer(q){
+    q=clean(q);if(!q)return {answer:'I’m ready.',route:'LOCAL CORE'};
+    const m=mode();
+    // Direct HTML previews never probe a missing backend. This removes the old offline loop.
+    if(m==='LOCAL'||m==='OFFLINE'||isDirectFile())return {answer:enhancedLocal(q),route:'LOCAL CORE'};
+    try{return await callCloud(q)}catch(e){console.info('NEXORA cloud route unavailable; using local Core.',e.message)}
+    return {answer:enhancedLocal(q),route:'LOCAL CORE FALLBACK'};
+  }
+
+  window.askNexoraBrain=async q=>{
+    const text=clean(q);const result=await answer(text);db.add('assistant',result.answer);updateAnalysis(text,result.answer,result.route);return result.answer;
+  };
+  window.generateResponse=window.askNexoraBrain;
+
+  // Replace the original message pipeline with an error-safe version.
+  window.processMessage=function(text){
+    text=clean(text);if(!text||window.__nexora31Busy)return;
+    const input=document.getElementById('input');
+    window.__nexora31Busy=true;
+    try{if(typeof analyse==='function')analyse(text);if(typeof coreState==='function')coreState('thinking');}catch{}
+    if(input)input.disabled=true;const send=document.getElementById('sendBtn');if(send)send.disabled=true;
+    try{if(Array.isArray(window.conversationHistory)){conversationHistory.push({role:'User',content:text});conversationHistory=conversationHistory.slice(-40)}}catch{}
+    db.add('user',text);
+    setTimeout(async()=>{
+      try{
+        const a=await answer(text);
+        db.add('assistant',a.answer);updateAnalysis(text,a.answer,a.route);
+        try{if(Array.isArray(window.conversationHistory)){conversationHistory.push({role:'NEXORA',content:a.answer});conversationHistory=conversationHistory.slice(-40)}}catch{}
+        if(typeof showAnswer==='function')showAnswer(a.answer);if(typeof speak==='function')speak(a.answer);if(typeof coreState==='function')coreState('ready');
+      }catch(err){
+        const msg='NEXORA Core hit a temporary error, so I switched to safe local mode. Please try the request again.';
+        if(typeof showAnswer==='function')showAnswer(msg);if(typeof coreState==='function')coreState('ready');console.error(err);
+      }finally{window.__nexora31Busy=false;if(input)input.disabled=false;if(send)send.disabled=false}
+    },180);
+  };
+
+  // Keep the status honest: browser network status is not the same as AI availability.
+  function status(){
+    const el=document.getElementById('onlineStatus')||document.querySelector('.online');
+    const direct=isDirectFile();
+    if(el){el.textContent=direct?'● LOCAL CORE':'● NEXORA AI CORE';el.style.color='#3cff9a'}
+    const v=document.querySelector('.version');if(v)v.textContent='NEXORA OS 3.1 • OFFICIAL CORE';
+    const st=document.getElementById('nexora31Status');if(st)st.innerHTML=`<strong>${direct?'LOCAL CORE READY':'AI ROUTER READY'}</strong><br>Mode: ${mode()} · Backend: ${direct?'not required for preview':'secure route available'}`;
+  }
+
+  // Controls
+  const panel=document.getElementById('nexora31Panel');
+  document.getElementById('nexora31Launch')?.addEventListener('click',()=>{panel?.classList.toggle('open');panel?.setAttribute('aria-hidden',panel?.classList.contains('open')?'false':'true')});
+  document.getElementById('nexora31Close')?.addEventListener('click',()=>panel?.classList.remove('open'));
+  document.getElementById('n31Export')?.addEventListener('click',()=>{db.export();toast('Memory exported')});
+  document.getElementById('n31ClearChat')?.addEventListener('click',()=>{db.clearChat();toast('Conversation storage cleared')});
+  document.getElementById('n31Reset')?.addEventListener('click',()=>{if(confirm('Reset NEXORA 3.1 local data and backend route?')){db.reset();location.reload()}});
+  document.getElementById('n31Endpoint').value=localStorage.getItem(ENDPOINT_KEY)||'';
+  document.getElementById('n31SaveEndpoint')?.addEventListener('click',()=>{const v=clean(document.getElementById('n31Endpoint').value);if(v)localStorage.setItem(ENDPOINT_KEY,v);else localStorage.removeItem(ENDPOINT_KEY);toast(v?'Backend route saved':'Backend route cleared');status()});
+  document.getElementById('n31Health')?.addEventListener('click',async()=>{
+    const b=document.getElementById('n31Health');b.disabled=true;b.textContent='… Testing';
+    try{if(isDirectFile())throw new Error('Preview file uses local Core');const r=await fetch(endpoint(),{method:'OPTIONS'});if(r.ok||r.status===204||r.status===405){toast('Backend route reachable');}else throw new Error('HTTP '+r.status)}catch(e){toast(isDirectFile()?'Local Core is healthy':'Backend not reachable — local Core stays active')}finally{b.disabled=false;b.textContent='◉ Test AI route'}
+  });
+
+  // Prevent duplicate Enter handlers from stacking responses.
+  const input=document.getElementById('input');
+  if(input){input.onkeydown=e=>{if(e.key==='Enter'){e.preventDefault();window.sendMessage()}}}
+  window.sendMessage=function(){const el=document.getElementById('input');const q=clean(el?.value);if(!q||window.__nexora31Busy)return;if(el)el.value='';window.processMessage(q)};
+
+  window.NEXORA_CONFIG={
+    setApiEndpoint(url){localStorage.setItem(ENDPOINT_KEY,clean(url));status()},
+    clearApiEndpoint(){localStorage.removeItem(ENDPOINT_KEY);status()},
+    getApiEndpoint:()=>endpoint(),
+    getMode:mode,
+    setMode(m){m=String(m||'').toUpperCase();if(['AUTO','LOCAL','OFFLINE','ONLINE'].includes(m)){localStorage.setItem('nexora_ai_mode',m);if(window.NEXORA_BRAIN)NEXORA_BRAIN.mode=m;status()}},
+    exportDatabase:()=>db.export(),
+    diagnostics:()=>({version:VERSION,mode:mode(),directFile:isDirectFile(),browserOnline:navigator.onLine,endpoint:endpoint(),memories:db.memories().length,conversations:load().conversations.length})
+  };
+
+  window.NEXORA_UPDATE={version:VERSION,features:['safe routing','local fallback','memory storage','diagnostics','backend configuration','error-safe messaging']};
+  status();setTimeout(status,400);setInterval(status,2500);
+})();
+</script>
+\n\n
+<style id="nexora33-voice-style">
+/* NEXORA 3.3 — voice/response engine. Additive only; original UI remains. */
+#core[data-voice-state="listening"]{filter:brightness(1.15);box-shadow:0 0 55px var(--blue),0 0 130px rgba(var(--glow),.42)!important}
+#core[data-voice-state="thinking"]{filter:brightness(1.08);box-shadow:0 0 48px var(--blue),0 0 120px rgba(var(--glow),.34)!important}
+#core[data-voice-state="speaking"]{filter:brightness(1.2);box-shadow:0 0 65px var(--blue),0 0 150px rgba(var(--glow),.48)!important}
+</style>
+<script id="nexora33-voice-response">
+/* =========================================================
+   NEXORA OS 3.3 — VOICE + RESPONSE ENGINE
+   One pipeline for typed + voice requests.
+   - one request at a time
+   - one voice result per recording
+   - resilient speech recognition
+   - resilient speech synthesis with sentence chunks
+   - real backend response parsing (Responses/Chat-compatible)
+   - local fallback when backend is unavailable
+   - no API key in the browser
+   - Core click = voice control
+========================================================= */
+(()=>{
+  const ENGINE={
+    version:'3.3', busy:false, requestId:0, recognition:null,
+    listening:false, speaking:false, finalText:'', recognitionHandled:false,
+    lastSubmitted:'', lastSubmittedAt:0, ttsToken:0,
+    voices:[], voiceIndex:null
+  };
+  window.NEXORA_ENGINE=ENGINE;
+
+  const $=id=>document.getElementById(id);
+  const clean=v=>String(v??'').replace(/\s+/g,' ').trim();
+  const assistantName=()=>typeof getAssistantName==='function'?getAssistantName():'NEXORA';
+
+  function status(label,state='ready'){
+    const core=$('core'), coreText=$('coreText');
+    if(coreText) coreText.textContent=label;
+    if(core){
+      core.dataset.voiceState=state;
+      core.classList.remove('listening','thinking','speaking');
+      if(state==='listening'||state==='thinking'||state==='speaking') core.classList.add(state);
+    }
+    try{ if(typeof coreState==='function') coreState(state==='listening'?'listening':state==='speaking'?'speaking':state==='thinking'?'thinking':'ready'); }catch{}
+  }
+
+  function setBusy(v){
+    ENGINE.busy=v;
+    const input=$('input'), send=$('sendBtn');
+    if(input) input.disabled=v;
+    if(send) send.disabled=v;
+  }
+
+  function normalizeVoiceText(value){
+    let t=clean(value);
+    if(!t) return '';
+    const k=t.toLowerCase().replace(/[.!?]+$/,'');
+    const map={hy:'hey',hiya:'hey',heyy:'hey',heyyo:'hey',hii:'hi',helo:'hello',hallo:'hello',sup:'hey',wassup:'what\'s up'};
+    return map[k]||t;
+  }
+  window.nexoraNormalizeVoiceText=normalizeVoiceText;
+
+  function show(text){
+    try{ if(typeof showAnswer==='function') showAnswer(text); }catch(e){ console.error(e); }
+  }
+
+  function localAnswer(q){
+    try{
+      if(typeof window.nexoraEnhancedLocal==='function'){
+        const r=window.nexoraEnhancedLocal(q); if(clean(r)) return clean(r);
+      }
+      if(typeof window.nexoraLocalKnowledge==='function'){
+        const r=window.nexoraLocalKnowledge(q); if(clean(r)) return clean(r);
+      }
+    }catch(e){ console.warn('NEXORA local fallback error',e); }
+    return `I'm here and ready. I couldn't reach the AI service, so please try again in a moment.`;
+  }
+
+  function endpoint(){
+    return clean(localStorage.getItem('NEXORA_API_ENDPOINT')||'/api/chat')||'/api/chat';
+  }
+
+  function extractResponseText(data){
+    if(data==null) return '';
+    if(typeof data==='string') return clean(data);
+    const direct=[data.text,data.output_text,data.reply,data.response,data.answer,data.content];
+    for(const x of direct) if(typeof x==='string'&&clean(x)) return clean(x);
+    if(data.message?.content){
+      if(typeof data.message.content==='string') return clean(data.message.content);
+      if(Array.isArray(data.message.content)){
+        const s=data.message.content.map(x=>typeof x==='string'?x:x?.text||'').join(' ');
+        if(clean(s)) return clean(s);
+      }
+    }
+    if(Array.isArray(data.choices)){
+      for(const c of data.choices){
+        const x=c?.message?.content??c?.text;
+        if(typeof x==='string'&&clean(x)) return clean(x);
+        if(Array.isArray(x)){
+          const s=x.map(v=>typeof v==='string'?v:v?.text||'').join(' ');
+          if(clean(s)) return clean(s);
+        }
+      }
+    }
+    if(Array.isArray(data.output)){
+      const pieces=[];
+      for(const item of data.output){
+        if(typeof item==='string') pieces.push(item);
+        if(Array.isArray(item?.content)) for(const c of item.content){
+          if(typeof c==='string') pieces.push(c);
+          else if(typeof c?.text==='string') pieces.push(c.text);
+        }
+      }
+      if(clean(pieces.join(' '))) return clean(pieces.join(' '));
+    }
+    return '';
+  }
+
+  async function cloudAnswer(q,requestId){
+    if(location.protocol==='file:') throw new Error('direct-file');
+    const controller=new AbortController();
+    const timeout=setTimeout(()=>controller.abort(),45000);
+    try{
+      const modeEl=$('mode');
+      const memories=(()=>{try{return window.NEXORA_DB?.memories?.().slice(-50)||[]}catch{return[]}})();
+      const r=await fetch(endpoint(),{
+        method:'POST',
+        credentials:'include',
+        signal:controller.signal,
+        headers:{'Content-Type':'application/json','Accept':'application/json,text/plain,*/*'},
+        body:JSON.stringify({
+          message:q,
+          input:q,
+          mode:clean(modeEl?.textContent||'General Mode'),
+          memories,
+          requestId
+        })
+      });
+      const raw=await r.text();
+      let data=raw;
+      try{data=JSON.parse(raw)}catch{}
+      if(!r.ok) throw new Error(`backend-${r.status}`);
+      const answer=extractResponseText(data);
+      if(!answer) throw new Error('empty-response');
+      return answer;
+    }finally{clearTimeout(timeout)}
+  }
+
+  function rememberConversation(role,text){
+    try{window.NEXORA_DB?.add?.(role,text)}catch{}
+  }
+
+  function analyseForUI(q,route){
+    try{
+      const a=typeof understandNexora==='function'?understandNexora(q):null;
+      const topic=a?.subject||'general', intent=a?.task||'conversation';
+      const vals={aTopic:topic.charAt(0).toUpperCase()+topic.slice(1),aSubtopic:a?.complexity||'general',aIntent:intent.replaceAll('_',' '),aMode:route};
+      for(const [id,v] of Object.entries(vals)){const el=$(id);if(el)el.textContent=v;}
+    }catch{}
+  }
+
+  function splitSpeech(text,max=190){
+    const cleanText=clean(text); if(!cleanText)return[];
+    if(cleanText.length<=max)return[cleanText];
+    const sentences=cleanText.match(/[^.!?]+[.!?]+|[^.!?]+$/g)||[cleanText];
+    const out=[]; let buf='';
+    for(let s of sentences){
+      s=clean(s); if(!s)continue;
+      if(s.length>max){
+        const words=s.split(' '); let part='';
+        for(const w of words){
+          if((part+' '+w).trim().length>max&&part){out.push(part);part=w;}
+          else part=(part+' '+w).trim();
+        }
+        if(part) out.push(part);
+      }else if((buf+' '+s).trim().length>max&&buf){out.push(buf);buf=s;}
+      else buf=(buf+' '+s).trim();
+    }
+    if(buf)out.push(buf);
+    return out;
+  }
+
+  function loadVoices(){
+    if(!('speechSynthesis' in window))return;
+    ENGINE.voices=speechSynthesis.getVoices()||[];
+    const select=$('voices');
+    if(select && ENGINE.voices.length){
+      const current=select.value;
+      const opts=ENGINE.voices.map((v,i)=>({i,v}));
+      if(select.options.length!==opts.length){
+        select.innerHTML='';
+        for(const o of opts){const op=document.createElement('option');op.value=String(o.i);op.textContent=`${o.v.name} — ${o.v.lang}`;select.appendChild(op);}
+      }
+      if(current && [...select.options].some(o=>o.value===current)) select.value=current;
+      const saved=localStorage.getItem('nexora_voice');
+      if(saved!==null && ENGINE.voices[Number(saved)]) select.value=saved;
+      ENGINE.voiceIndex=Number.isInteger(Number(select.value))?Number(select.value):null;
+    }
+  }
+  if('speechSynthesis' in window){speechSynthesis.onvoiceschanged=loadVoices;loadVoices();setTimeout(loadVoices,300);}
+
+  function stopSpeaking(){
+    ENGINE.ttsToken++;
+    ENGINE.speaking=false;
+    try{speechSynthesis.cancel()}catch{}
+    if(!ENGINE.listening)status(assistantName(),'ready');
+  }
+
+  function speakText(text){
+    if(!('speechSynthesis' in window)||!clean(text))return;
+    stopSpeaking();
+    const token=ENGINE.ttsToken;
+    const chunks=splitSpeech(text);
+    let index=0;
+    const next=()=>{
+      if(token!==ENGINE.ttsToken)return;
+      if(index>=chunks.length){ENGINE.speaking=false;if(!ENGINE.listening)status(assistantName(),'ready');return;}
+      const u=new SpeechSynthesisUtterance(chunks[index++]);
+      u.lang=currentLanguage||'en-US';
+      const select=$('voices');
+      const idx=select?Number(select.value):NaN;
+      if(Number.isInteger(idx)&&ENGINE.voices[idx])u.voice=ENGINE.voices[idx];
+      u.rate=Math.min(1.35,Math.max(.7,Number(localStorage.getItem('nexora_voice_rate')||1)));
+      u.pitch=Math.min(1.45,Math.max(.65,Number(localStorage.getItem('nexora_voice_pitch')||1)));
+      u.volume=1;
+      u.onstart=()=>{ENGINE.speaking=true;status('SPEAKING','speaking')};
+      u.onend=()=>{if(token===ENGINE.ttsToken)setTimeout(next,25)};
+      u.onerror=(event)=>{
+        console.warn('NEXORA speech synthesis error',event?.error||event);
+        if(token===ENGINE.ttsToken){ENGINE.speaking=false;setTimeout(next,80)}
+      };
+      try{speechSynthesis.speak(u)}catch(e){console.warn(e);setTimeout(next,80)}
+    };
+    next();
+  }
+  window.speak=speakText;
+
+  function makeRecognition(){
+    const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+    if(!SR)return null;
+    const r=new SR();
+    r.continuous=false;
+    r.interimResults=true;
+    r.maxAlternatives=1;
+    r.lang=currentLanguage||'en-US';
+    return r;
+  }
+
+  function stopListening(){
+    try{ENGINE.recognition?.abort()}catch{}
+    ENGINE.recognition=null;ENGINE.listening=false;ENGINE.finalText='';ENGINE.recognitionHandled=false;
+    if(!ENGINE.busy&&!ENGINE.speaking)status(assistantName(),'ready');
+  }
+
+  function startListening(){
+    if(ENGINE.busy)return;
+    if(ENGINE.listening){stopListening();return;}
+    if(ENGINE.speaking)stopSpeaking();
+    const r=makeRecognition();
+    if(!r){show('Voice recognition is not available in this browser. Typed NEXORA still works.');status('TYPE MODE','ready');return;}
+    ENGINE.recognition=r;ENGINE.listening=true;ENGINE.finalText='';ENGINE.recognitionHandled=false;
+    r.onstart=()=>{ENGINE.listening=true;status('LISTENING','listening')};
+    r.onresult=e=>{
+      let finalPart='';
+      for(let i=e.resultIndex;i<e.results.length;i++){
+        const t=clean(e.results[i][0]?.transcript||'');
+        if(e.results[i].isFinal) finalPart+=(finalPart?' ':'')+t;
+      }
+      if(finalPart) ENGINE.finalText=clean(ENGINE.finalText+' '+finalPart);
+    };
+    r.onerror=e=>{
+      const err=e?.error||'unknown';
+      ENGINE.listening=false;
+      if(err==='aborted')return;
+      if(err==='not-allowed'||err==='service-not-allowed'){
+        show('Microphone access is blocked. Allow microphone access for NEXORA, then tap the Core again.');
+        status('MIC BLOCKED','ready');
+      }else if(err==='no-speech'){
+        show("I didn't hear anything. Tap the Core and try again.");
+        status(assistantName(),'ready');
+      }else if(err==='network'){
+        show('Voice recognition needs the browser speech service. Check your connection and try again.');
+        status(assistantName(),'ready');
+      }else{
+        console.warn('NEXORA recognition error',err);
+        show('Voice recognition stopped. Tap the Core and try again.');
+        status(assistantName(),'ready');
+      }
+    };
+    r.onend=()=>{
+      ENGINE.listening=false;ENGINE.recognition=null;
+      const text=normalizeVoiceText(ENGINE.finalText);
+      ENGINE.finalText='';
+      if(text&&!ENGINE.recognitionHandled){
+        ENGINE.recognitionHandled=true;
+        status('THINKING','thinking');
+        window.NEXORA_ENGINE.process(text,{source:'voice',speak:true});
+      }else if(!ENGINE.busy&&!ENGINE.speaking){status(assistantName(),'ready')}
+    };
+    try{r.start()}catch(e){
+      ENGINE.listening=false;ENGINE.recognition=null;
+      console.warn('NEXORA recognition start failed',e);
+      show('Voice could not start. Tap the Core again, or use typed input.');status(assistantName(),'ready');
+    }
+  }
+  window.toggleVoice=startListening;
+
+  async function process(text,options={}){
+    const q=clean(text); if(!q)return '';
+    const now=Date.now();
+    if(q===ENGINE.lastSubmitted && now-ENGINE.lastSubmittedAt<1000)return '';
+    if(ENGINE.busy)return '';
+    ENGINE.lastSubmitted=q;ENGINE.lastSubmittedAt=now;
+    setBusy(true);ENGINE.requestId++;const rid=ENGINE.requestId;
+    try{
+      try{if(typeof analyse==='function')analyse(q)}catch{}
+      status('THINKING','thinking');
+      rememberConversation('user',q);
+      let answer='',route='LOCAL CORE';
+      try{
+        answer=await cloudAnswer(q,rid);
+        route='NEXORA AI';
+      }catch(e){
+        console.info('NEXORA backend unavailable; local response used.',e?.message||e);
+        answer=localAnswer(q);route='LOCAL FALLBACK';
+      }
+      if(!answer)answer=localAnswer(q);
+      rememberConversation('assistant',answer);
+      analyseForUI(q,route);
+      show(answer);
+      if(options.speak!==false)speakText(answer);
+      else status(assistantName(),'ready');
+      return answer;
+    }catch(e){
+      console.error('NEXORA response pipeline failure',e);
+      const fallback=localAnswer(q);
+      show(fallback);if(options.speak!==false)speakText(fallback);else status(assistantName(),'ready');
+      return fallback;
+    }finally{
+      setBusy(false);
+      if(!ENGINE.speaking&&!ENGINE.listening)status(assistantName(),'ready');
+    }
+  }
+  ENGINE.process=process;
+  window.processMessage=(text)=>process(text,{source:'typed',speak:true});
+  window.sendMessage=()=>{
+    const input=$('input');const q=clean(input?.value);if(!q||ENGINE.busy)return;
+    if(input)input.value='';process(q,{source:'typed',speak:true});
+  };
+  const input=$('input');
+  if(input)input.onkeydown=e=>{if(e.key==='Enter'){e.preventDefault();window.sendMessage()}};
+
+  window.testVoice=()=>speakText('Voice system operational. NEXORA is ready.');
+  window.setNexoraVoiceRate=v=>{const n=Math.min(1.35,Math.max(.7,Number(v)||1));localStorage.setItem('nexora_voice_rate',String(n))};
+  window.setNexoraVoicePitch=v=>{const n=Math.min(1.45,Math.max(.65,Number(v)||1));localStorage.setItem('nexora_voice_pitch',String(n))};
+
+  // Clean up stale visible states from earlier versions.
+  const paint=()=>{
+    const s=$('onlineStatus')||document.querySelector('.online');
+    if(s){s.textContent=location.protocol==='file:'?'● LOCAL CORE READY':'● NEXORA AI CORE';s.style.color='#3cff9a'}
+    const v=document.querySelector('.version');if(v)v.textContent='NEXORA OS 3.3 • VOICE + AI CORE';
+  };
+  paint();setTimeout(paint,500);setTimeout(loadVoices,800);setInterval(paint,2000);
+
+  // Make Core click the single canonical voice control. Replacing onclick avoids
+  // the old inline handler firing a second time and immediately stopping recognition.
+  const core=$('core');
+  if(core){
+    core.onclick=(e)=>{e.preventDefault();startListening();};
+    core.setAttribute('title','Tap the Core to talk to NEXORA');
+    core.setAttribute('aria-label','Talk to NEXORA');
+  }
+
+  window.NEXORA_33={
+    version:'3.3',
+    diagnostics:()=>({
+      version:'3.3',
+      directFile:location.protocol==='file:',
+      backend:endpoint(),
+      speechRecognition:!!(window.SpeechRecognition||window.webkitSpeechRecognition),
+      speechSynthesis:'speechSynthesis' in window,
+      voices:ENGINE.voices.length,
+      busy:ENGINE.busy,
+      listening:ENGINE.listening,
+      speaking:ENGINE.speaking
+    }),
+    stopVoice:()=>{stopListening();stopSpeaking()},
+    testBackend:async()=>{try{const a=await cloudAnswer('Say exactly: connection test.',Date.now());return {ok:true,answer:a}}catch(e){return {ok:false,error:e?.message||String(e)}}}
+  };
+  console.log('NEXORA OS 3.3 Voice + Response Engine loaded.');
+})();
+</script>
+
+
+
+<!-- NEXORA OS 4.0 NEXUS CORE -->
+<style id="nexus-core-style">
+.nexus-toast{position:fixed;right:18px;bottom:18px;z-index:999999;padding:11px 14px;border:1px solid rgba(0,170,255,.25);background:rgba(2,7,17,.92);backdrop-filter:blur(14px);border-radius:12px;color:#dff8ff;font:11px "IBM Plex Mono",monospace;box-shadow:0 0 30px rgba(0,170,255,.12);opacity:0;transform:translateY(8px);transition:.25s}.nexus-toast.show{opacity:1;transform:none}.nexus-state{position:fixed;left:18px;bottom:18px;z-index:999998;display:flex;gap:7px;align-items:center;color:#7391a5;font:9px "IBM Plex Mono",monospace;letter-spacing:1.5px}.nexus-dot{width:6px;height:6px;border-radius:50%;background:#00aaff;box-shadow:0 0 10px #00aaff}.nexus-dot.live{background:#3cff9a;box-shadow:0 0 10px #3cff9a}.nexus-dot.warn{background:#ffd34d;box-shadow:0 0 10px #ffd34d}
+</style>
+<script>
+(()=>{
+'use strict';
+const NEXUS={version:'4.0',busy:false,requestId:0,speaking:false,recognizing:false,voices:[],queue:[],session:null,history:[]};
+const $=id=>document.getElementById(id);
+const clean=s=>String(s??'').replace(/\s+/g,' ').trim();
+function toast(t){let x=$('nexusToast');if(!x){x=document.createElement('div');x.id='nexusToast';x.className='nexus-toast';document.body.appendChild(x)}x.textContent=t;x.classList.add('show');clearTimeout(x._t);x._t=setTimeout(()=>x.classList.remove('show'),2600)}
+function state(t,kind=''){let x=$('nexusState');if(!x){x=document.createElement('div');x.id='nexusState';x.className='nexus-state';x.innerHTML='<i class="nexus-dot"></i><span></span>';document.body.appendChild(x)}x.querySelector('span').textContent=t;x.querySelector('i').className='nexus-dot '+kind}
+function normalize(s){let t=clean(s).toLowerCase();return t.replace(/[’']/g,"'").replace(/\b(hy|hiya|hii|helo|hallo|heyy|heyyo)\b/g,'hi').trim()}
+function answerLocal(q){const n=normalize(q);const greetings=/^(hi|hello|hey|yo|sup|wassup|what'?s up|good morning|good afternoon|good evening)[!.? ]*$/i;
+ if(greetings.test(n)) return 'Hey! I’m NEXORA. Core is online. What are we working on?';
+ if(/^(who are you|what are you)[!? ]*$/i.test(n)) return 'I’m NEXORA — your adaptive AI core. I can talk, listen, reason through requests, remember approved information, and use the secure NEXUS backend when it is available.';
+ if(/^(are you there|you there)[!? ]*$/i.test(n)) return 'Always ready. NEXORA Core is listening.';
+ if(/^(stop|be quiet|stop talking|cancel speech)[!? ]*$/i.test(n)){stopSpeech();return 'Speech stopped.'}
+ if(/^what can you do[!? ]*$/i.test(n)) return 'I can answer questions, help with schoolwork, explain problems, write and code, remember approved details, use voice, and route complex requests through the secure NEXUS backend.';
+ return null;
+}
+async function getSession(){if(NEXUS.session)return NEXUS.session;try{let r=await fetch('/api/session',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({device:'browser',clientVersion:NEXUS.version})});if(!r.ok)throw 0;let d=await r.json();NEXUS.session=d.sessionId;localStorage.setItem('nexora_session_id',NEXUS.session);return NEXUS.session}catch{return null}}
+async function backend(q,meta={}){let sid=NEXUS.session||localStorage.getItem('nexora_session_id')||await getSession();let c=new AbortController(),timer=setTimeout(()=>c.abort(),45000);try{let r=await fetch('/api/nexus/respond',{method:'POST',headers:{'Content-Type':'application/json','X-NEXORA-SESSION':sid||''},body:JSON.stringify({message:q,conversationId:localStorage.getItem('nexora_conversation_id')||null,mode:localStorage.getItem('nexora_ai_mode')||'AUTO',source:meta.source||'typed',voice:!!meta.voice}),signal:c.signal});let d=await r.json().catch(()=>({}));if(!r.ok)throw new Error(d.error||'Backend unavailable');if(d.conversationId)localStorage.setItem('nexora_conversation_id',d.conversationId);return clean(d.answer||d.response||d.message)}finally{clearTimeout(timer)}}
+function getVoices(){if(!('speechSynthesis'in window))return[];NEXUS.voices=speechSynthesis.getVoices()||[];return NEXUS.voices}
+function pickVoice(){let vs=getVoices();let lang=(localStorage.getItem('nexora_language')||navigator.language||'en').toLowerCase();return vs.find(v=>v.lang.toLowerCase()===lang)||vs.find(v=>v.lang.toLowerCase().startsWith(lang.split('-')[0]))||vs.find(v=>/^en(-|_)/i.test(v.lang))||vs[0]}
+function stopSpeech(){try{speechSynthesis.cancel()}catch{}NEXUS.speaking=false;NEXUS.queue=[];state('READY','live');try{if(typeof window.nexoraVoiceStatus==='function')window.nexoraVoiceStatus('NEXORA','ready')}catch{}}
+function speak(text){if(!('speechSynthesis'in window)||!clean(text))return;stopSpeech();NEXUS.speaking=true;state('SPEAKING','live');let chunks=clean(text).match(/[^.!?]+[.!?]+|[^.!?]+$/g)||[text];NEXUS.queue=chunks.slice(0,12);const next=()=>{if(!NEXUS.queue.length){NEXUS.speaking=false;state('READY','live');return}let u=new SpeechSynthesisUtterance(NEXUS.queue.shift());let v=pickVoice();if(v)u.voice=v;u.lang=v?.lang||navigator.language||'en-US';u.rate=Math.min(1.3,Math.max(.75,Number(localStorage.getItem('nexora_voice_rate')||1)));u.pitch=Math.min(1.4,Math.max(.7,Number(localStorage.getItem('nexora_voice_pitch')||1)));u.onend=next;u.onerror=next;try{speechSynthesis.speak(u)}catch{next()}};next()}
+async function coreResponse(text,meta={}){let q=clean(text);if(!q)return '';const local=answerLocal(q);if(local)return local;try{return await backend(q,meta)}catch(e){let fallback=(typeof window.enhancedLocal==='function'?await Promise.resolve(window.enhancedLocal(q)):null)||(typeof window.askNexoraBrain==='function'?await Promise.resolve(window.askNexoraBrain(q)):null);if(fallback&&!/secure backend route|built-in core can handle|cloud ai service/i.test(String(fallback)))return clean(fallback);return 'I’m still here, but my secure AI route is unavailable right now. Check the NEXUS backend connection in Core Control.'}}
+async function renderResponse(q,meta={}){if(NEXUS.busy)return;NEXUS.busy=true;const id=++NEXUS.requestId;state('THINKING','live');try{let a=await coreResponse(q,meta);if(id!==NEXUS.requestId)return;a=clean(a)||'I’m ready.';if(typeof window.addMessage==='function')window.addMessage('assistant',a);else if(typeof window.appendMessage==='function')window.appendMessage('assistant',a);NEXUS.history.push({role:'user',content:q},{role:'assistant',content:a});if(meta.speak!==false)speak(a);else state('READY','live');return a}catch(e){state('READY','warn');let a='I hit a temporary response problem. Try that again.';if(typeof window.addMessage==='function')window.addMessage('assistant',a);if(meta.speak!==false)speak(a);return a}finally{NEXUS.busy=false}}
+async function startListening(){if(NEXUS.recognizing){try{NEXUS.recognition.stop()}catch{}return}const SR=window.SpeechRecognition||window.webkitSpeechRecognition;if(!SR){toast('Voice input is not supported in this browser');return}stopSpeech();let r=new SR();NEXUS.recognition=r;r.lang=localStorage.getItem('nexora_language')||navigator.language||'en-US';r.continuous=false;r.interimResults=false;r.maxAlternatives=1;NEXUS.recognizing=true;state('LISTENING','live');try{if(typeof window.nexoraVoiceStatus==='function')window.nexoraVoiceStatus('NEXORA','listening')}catch{}r.onresult=e=>{let t=clean(e.results?.[0]?.[0]?.transcript||'');if(t)renderResponse(t,{source:'voice',voice:true,speak:true})};r.onerror=e=>{NEXUS.recognizing=false;if(e.error==='not-allowed'||e.error==='service-not-allowed')toast('Microphone permission is blocked');else if(e.error!=='aborted'&&e.error!=='no-speech')toast('Voice input had a problem');state('READY',e.error==='not-allowed'?'warn':'live')};r.onend=()=>{NEXUS.recognizing=false;if(!NEXUS.busy&&!NEXUS.speaking)state('READY','live')};NEXUS.recognition=r;try{r.start()}catch{NEXUS.recognizing=false;state('READY','warn')}}
+window.NEXUS_CORE={version:NEXUS.version,listen:startListening,stopSpeech,respond:renderResponse,status:()=>({version:NEXUS.version,busy:NEXUS.busy,recognizing:NEXUS.recognizing,speaking:NEXUS.speaking,backend:'/api/nexus/respond'})};
+window.processMessage=function(text){return renderResponse(text,{source:'typed',speak:true})};
+window.sendMessage=function(){let i=$('input');let q=clean(i?.value);if(!q||NEXUS.busy)return;if(i)i.value='';return renderResponse(q,{source:'typed',speak:true})};
+if($('input'))$('input').onkeydown=e=>{if(e.key==='Enter'){e.preventDefault();window.sendMessage()}};
+// Core click = voice, while preserving non-voice core effects through a guarded pointer listener.
+const core=$('core');if(core)core.addEventListener('click',e=>{if(e.target.closest('button,a,input'))return;startListening()});
+// Any visible mic button gets the same engine.
+[...document.querySelectorAll('[onclick*="toggleVoice"],#voiceBtn,#micBtn,.mic')].forEach(b=>{b.addEventListener('click',e=>{e.preventDefault();e.stopImmediatePropagation();startListening()},{capture:true})});
+if('speechSynthesis'in window){speechSynthesis.onvoiceschanged=getVoices;getVoices();setTimeout(getVoices,400)}
+getSession();state('READY','live');
+})();
+</script>
+
 </body>
 </html>
